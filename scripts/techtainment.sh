@@ -11,4 +11,17 @@ VALUE=$(echo "-2.0 * $SUM" | bc -l)
 
 POST_URL="https://www.beeminder.com/api/v1/users/${USERNAME}/goals/techtainment/datapoints.json"
 
-curl -X POST $POST_URL -d auth_token=$AUTH_TOKEN -d daystamp=$DATE -d value=$VALUE -d requestid=$DATE -d comment="Earned via narthur/exercise"
+RESPONSE=$(curl -X POST $POST_URL -d auth_token=$AUTH_TOKEN -d daystamp=$DATE -d value=$VALUE -d requestid=$DATE -d comment="Earned via narthur/exercise")
+
+ERROR=$(echo $RESPONSE | jq '.errors')
+
+if [ "$ERROR" = "Duplicate request" ]; then
+    echo "Ignoring duplicate request"
+    exit 0
+elif [ "$ERROR" = "null" ]; then
+    echo "Success"
+    exit 0
+else
+    echo "Beeminder API Error: " $ERROR
+    exit 1
+fi
