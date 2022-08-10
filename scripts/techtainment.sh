@@ -1,4 +1,6 @@
-export $(grep -v '^#' .env | xargs)
+if [ -f ".env" ]; then
+    export $(grep -v '^#' .env | xargs)
+fi
 
 URL="https://www.beeminder.com/api/v1/users/${USERNAME}/goals/exercise.json?datapoints=true&auth_token=${AUTH_TOKEN}"
 
