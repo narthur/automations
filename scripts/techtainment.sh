@@ -15,7 +15,7 @@ RESPONSE=$(curl -X POST $POST_URL -d auth_token=$AUTH_TOKEN -d daystamp=$DATE -d
 
 ERROR=$(echo $RESPONSE | jq '.errors')
 
-if [ "$ERROR" = "Duplicate request" ]; then
+if [ "$ERROR" = "\"Duplicate request\"" ]; then
     echo "Ignoring duplicate request"
     exit 0
 elif [ "$ERROR" = "null" ]; then
