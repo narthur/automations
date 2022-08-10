@@ -1,5 +1,6 @@
 name: Beeminder Exercise >> Techtainment
 on:
+  push:
   schedule:
     - cron: '0 * * * *' # hourly
 jobs:
