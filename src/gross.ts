@@ -9,26 +9,28 @@ type Project = {
   id: number;
   hours: number;
   total: number;
+  label: string;
 };
 
 async function gross() {
   const date = new Date().toISOString().split("T")[0];
 
-  const projectIds = process.env.GROSS_TOGGL_PROJECTS.split(",").map(Number);
-  const projectRates = process.env.GROSS_TOGGL_RATES.split(",").map(Number);
+  const ids = process.env.GROSS_TOGGL_PROJECTS.split(",").map(Number);
+  const rates = process.env.GROSS_TOGGL_RATES.split(",").map(Number);
+  const labels = process.env.GROSS_TOGGL_LABELS.split(",");
 
-  if (projectIds.length !== projectRates.length) {
-    throw new Error("GROSS_TOGGL_PROJECTS and GROSS_TOGGL_RATES must have the same number of elements");
+  if (ids.length !== rates.length || ids.length !== labels.length) {
+    throw new Error("GROSS_TOGGL_PROJECTS, GROSS_TOGGL_RATES and GROSS_TOGGL_LABELS must have the same length");
   }
 
   const entries = await getTimeEntries({
     filters: {
-      projectIds,
+      projectIds: ids,
       date,
     }
   })
 
-  const projects: Project[] = projectIds.reduce((prev: Project[], id, i) => {
+  const projects: Project[] = ids.reduce((prev: Project[], id, i) => {
     const filtered = entries.filter(e => e.project_id === id);
     const hours = getSum(filtered);
     
@@ -37,7 +39,8 @@ async function gross() {
       {
         id,
         hours,
-        total: hours * projectRates[i],
+        total: hours * rates[i],
+        label: labels[i],
       }
     ]
   }, []);
@@ -45,7 +48,7 @@ async function gross() {
   await Promise.all(projects.map(async (p: Project) => {
     await createDatapoint("gross", {
       value: p.total,
-      comment: `Toggl: ${p.hours}hrs`,
+      comment: `Toggl: ${p.label}: ${p.hours}hrs`,
       daystamp: date,
       requestid: `toggl-${p.id}-${date}`,
     });

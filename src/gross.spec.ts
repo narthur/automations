@@ -57,10 +57,12 @@ const PROJECTS = [
   {
     id: 0,
     rate: 10,
+    label: "Project 0",
   },
   {
     id: 1,
     rate: 20,
+    label: "Project 1",
   },
 ];
 
@@ -71,6 +73,7 @@ describe("gross", () => {
     loadPostData();
     process.env = {
       ...process.env,
+      GROSS_TOGGL_LABELS: PROJECTS.map(p => p.label).join(","),
       GROSS_TOGGL_PROJECTS: PROJECTS.map((p) => p.id).join(","),
       GROSS_TOGGL_RATES: PROJECTS.map((p) => p.rate).join(","),
       TOGGL_API_TOKEN: "the_token",
@@ -133,7 +136,7 @@ describe("gross", () => {
     expect(mockPost).toHaveBeenCalledWith(
       expect.any(String),
       pointContaining({
-        comment: "Toggl: 1hrs",
+        comment: "Toggl: Project 0: 1hrs",
       })
     );
   });
@@ -313,4 +316,18 @@ describe("gross", () => {
 
     await expect(gross()).rejects.toThrowError();
   });
+
+  it('throws if label count does not match project count', async () => {
+    process.env = {
+      ...process.env,
+      GROSS_TOGGL_LABELS: "1",
+      GROSS_TOGGL_PROJECTS: "1,2",
+      GROSS_TOGGL_RATES: "1,2",
+      TOGGL_API_TOKEN: "the_token",
+      USERNAME: "the_username",
+      AUTH_TOKEN: "the_auth_token",
+    };
+
+    await expect(gross()).rejects.toThrowError();
+  })
 });
