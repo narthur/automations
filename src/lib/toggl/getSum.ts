@@ -1,8 +1,6 @@
-import getTimeEntries, {Options, TimeEntry} from "./getTimeEntries";
+import {TimeEntry} from "./getTimeEntries";
 
-export default async function getSum(options: Options = {}): Promise<number> {
-    const entries = await getTimeEntries(options);
-    
+export default function getSum(entries: TimeEntry[]): number {    
     return entries.reduce((sum: number, entry: TimeEntry) => {
         if (entry.duration > 0) {
             return sum + entry.duration / 3600;

@@ -33,5 +33,5 @@ jobs:
           AUTH_TOKEN: ${{ secrets.BM_TOKEN }}
           USERNAME: ${{ secrets.BM_USER }}
           TOGGL_API_TOKEN: ${{ secrets.TOGGL_API_TOKEN }}
-          GROSS_TOGGL_PROJECT: ${{ secrets.GROSS_TOGGL_PROJECT }}
-          GROSS_MULTIPLIER_TOGGL: ${{ secrets.GROSS_MULTIPLIER_TOGGL }}
+          GROSS_TOGGL_PROJECTS: ${{ secrets.GROSS_TOGGL_PROJECTS }}
+          GROSS_TOGGL_RATES: ${{ secrets.GROSS_TOGGL_RATES }}
