@@ -4,7 +4,7 @@ import getSum from "./lib/toggl/getSum";
 
 config();
 
-async function run() {
+async function gross() {
   const date = new Date().toISOString().split("T")[0];
   const sum = await getSum({
     filters: {
@@ -26,8 +26,8 @@ async function run() {
 
 if (!process.env.VITEST_WORKER_ID) {
   console.log("running");
-  void run();
+  void gross();
   console.log("done");
 }
 
-export default run;
+export default gross;

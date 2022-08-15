@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '0 * * * *'
 jobs:
-  run:
+  shell:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -13,3 +13,25 @@ jobs:
         env:
           AUTH_TOKEN: ${{ secrets.BM_TOKEN }}
           USERNAME: ${{ secrets.BM_USER }}
+  node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7
+      - name: Use Node.js 16.15.0
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.15.0
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
+      - name: Run gross
+        run: pnpm ts-node ./src/gross.ts
+        env:
+          AUTH_TOKEN: ${{ secrets.BM_TOKEN }}
+          USERNAME: ${{ secrets.BM_USER }}
+          TOGGL_API_TOKEN: ${{ secrets.TOGGL_API_TOKEN }}
+          GROSS_TOGGL_PROJECT: ${{ secrets.GROSS_TOGGL_PROJECT }}
+          GROSS_MULTIPLIER_TOGGL: ${{ secrets.GROSS_MULTIPLIER_TOGGL }}
