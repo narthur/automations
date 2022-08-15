@@ -7,6 +7,7 @@ jobs:
   shell:
     runs-on: ubuntu-latest
     steps:
+      - run: date
       - uses: actions/checkout@v3
       - run: sudo apt-get update && sudo apt-get install jq
       - run: ./scripts/techtainment.sh
@@ -16,6 +17,7 @@ jobs:
   node:
     runs-on: ubuntu-latest
     steps:
+      - run: date
       - uses: actions/checkout@v2
       - uses: pnpm/action-setup@v2.2.2
         with:
