@@ -1,9 +1,9 @@
 /// <reference types="vitest" />
-import {defineConfig} from 'vite'
+import { defineConfig } from "vite";
 
 export default defineConfig({
-    test: {
-        mockReset: true,
-        root: __dirname
-    }
-})
+  test: {
+    root: __dirname,
+    setupFiles: ["./vitest.setup.ts"],
+  },
+});

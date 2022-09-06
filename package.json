@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "preinstall": "npx only-allow pnpm"
   },
   "repository": {
     "type": "git",

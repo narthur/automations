@@ -10,8 +10,8 @@ type Data = {
 type ServerError = {
   response: {
     status: number;
-  }
-}
+  };
+};
 
 function isServerError(err: unknown): err is ServerError {
   if (typeof err !== "object" || err === null) {
@@ -30,11 +30,11 @@ export default async function createDatapoint(slug: string, data: Data) {
 
   try {
     await axios.post(url, options);
-  } catch (e: unknown) {  
+  } catch (e: unknown) {
     if (isServerError(e) && e.response.status === 422) {
       return;
     }
 
-    throw new Error(`Failed to create datapoint for ${slug}`)
+    throw new Error(`Failed to create datapoint for ${slug}`);
   }
 }

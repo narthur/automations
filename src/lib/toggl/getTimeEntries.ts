@@ -36,13 +36,13 @@ export default async function getTimeEntries(options: Options = {}) {
     "base64"
   );
 
-  const { data } = await axios.get<TimeEntry[]>(url, {
+  const response = await axios.get<TimeEntry[]>(url, {
     headers: {
       Authorization: `Basic ${auth}`,
     },
   });
 
-  return data.filter((entry: TimeEntry): boolean => {
+  return response.data.filter((entry: TimeEntry): boolean => {
     if (
       options.filters?.projectIds?.length &&
       !options.filters.projectIds.includes(entry.project_id)
