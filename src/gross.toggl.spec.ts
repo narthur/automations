@@ -3,25 +3,11 @@ import { describe, it, vi, beforeEach } from "vitest";
 import gross from "./gross";
 import { __loadResponse } from "axios";
 import expectNewPoint from "./lib/test/expectNewPoint";
+import loadTimeEntries from "./lib/test/loadTimeEntries";
 
 vi.mock("axios");
 
-function loadTimeEntries(entries: Record<string, unknown>[]) {
-  __loadResponse({
-    payload: {
-      data: entries.map((e) => {
-        return {
-          project_id: PROJECTS[0].id,
-          duration: 3600,
-          start: "2022-08-10T16:50:07+00:00",
-          ...e,
-        };
-      }),
-    },
-  });
-}
-
-describe("gross otc", () => {
+describe("gross toggl", () => {
   beforeEach(() => {
     vi.setSystemTime("2022-08-10T17:50:07+00:00");
 
