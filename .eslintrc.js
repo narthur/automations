@@ -30,6 +30,13 @@ module.exports = {
       files: ["*.spec.ts", "**/lib/test/**/*.ts"],
       rules: {
         "@typescript-eslint/unbound-method": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+      },
+    },
+    {
+      files: ["*.d.ts"],
+      rules: {
+        "max-lines": "off",
       },
     },
   ],

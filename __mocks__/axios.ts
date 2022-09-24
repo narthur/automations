@@ -18,10 +18,6 @@ let responses = new Array<{
   url: string | RegExp;
 }>();
 
-beforeEach(() => {
-  responses = [];
-});
-
 function factory(method: string) {
   return function handler(url: string) {
     const response = responses.find((r) => {
@@ -59,5 +55,11 @@ const axios = {
     return post(url);
   }),
 };
+
+beforeEach(() => {
+  responses = [];
+  axios.get.mockClear();
+  axios.post.mockClear();
+});
 
 export default axios;

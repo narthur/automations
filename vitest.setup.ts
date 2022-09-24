@@ -20,8 +20,7 @@ export const setEnv = (env: Record<string, string>) => {
     GROSS_TOGGL_PROJECTS: PROJECTS.map((p) => p.id).join(","),
     GROSS_TOGGL_RATES: PROJECTS.map((p) => p.rate).join(","),
     TOGGL_API_TOKEN: "the_token",
-    USERNAME: "the_username",
-    AUTH_TOKEN: "the_auth_token",
+    BM_AUTHS: "narthur:the_auth_token",
     ...env,
   };
 };

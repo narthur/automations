@@ -53,7 +53,7 @@ describe("gross", () => {
     await gross();
 
     const s =
-      "https://www.beeminder.com/api/v1/users/the_username/goals/gross/datapoints.json";
+      "https://www.beeminder.com/api/v1/users/narthur/goals/gross/datapoints.json";
 
     expect(axios.post).toHaveBeenCalledWith(s, expect.anything());
   });
@@ -61,7 +61,7 @@ describe("gross", () => {
   it("uses Beeminder auth token", async () => {
     await gross();
 
-    expectNewPoint({ auth_token: process.env.AUTH_TOKEN });
+    expectNewPoint({ auth_token: "the_auth_token" });
   });
 
   it("ignores duplicate request errors", async () => {

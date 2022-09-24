@@ -2,7 +2,7 @@ import payroll from "./payroll";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import sendEmail from "./lib/sendEmail";
 import axios, { __loadResponse } from "axios";
-import { setEnv } from "../vitest.setup";
+import { PROJECTS, setEnv } from "../vitest.setup";
 import loadTimeEntries from "./lib/test/loadTimeEntries";
 
 vi.mock("./lib/sendEmail");
@@ -11,7 +11,9 @@ vi.mock("axios");
 describe("payroll", () => {
   beforeEach(() => {
     setEnv({
-      PAYROLL_RECIPIENTS: "the_recipient",
+      PAYROLL_TOGGL_RECIPIENTS: "the_recipient",
+      PAYROLL_TOGGL_PROJECTS: PROJECTS.map((p) => p.id).join(","),
+      PAYROLL_GLOBAL_RECIPIENTS: "global_recipient",
     });
 
     __loadResponse({
@@ -31,7 +33,14 @@ describe("payroll", () => {
   it("sends email to recipient", async () => {
     await payroll();
 
-    expect(sendEmail).toBeCalledWith(["the_recipient"], expect.anything());
+    expect(sendEmail).toBeCalledWith(
+      expect.objectContaining({
+        recipients: expect.arrayContaining([
+          "global_recipient",
+          "the_recipient",
+        ]),
+      })
+    );
   });
 
   it("gets time entries", async () => {
@@ -49,8 +58,9 @@ describe("payroll", () => {
     await payroll();
 
     expect(sendEmail).toBeCalledWith(
-      expect.anything(),
-      expect.stringMatching(/Total time: 1/)
+      expect.objectContaining({
+        body: expect.stringMatching(/Total time: 1/),
+      })
     );
   });
 
@@ -64,8 +74,31 @@ describe("payroll", () => {
     await payroll();
 
     expect(sendEmail).toBeCalledWith(
-      expect.anything(),
-      expect.stringMatching(/Total time: 0/)
+      expect.objectContaining({
+        body: expect.stringMatching(/Total time: 0/),
+      })
+    );
+  });
+
+  it("sets email subject", async () => {
+    await payroll();
+
+    expect(sendEmail).toBeCalledWith(
+      expect.objectContaining({
+        subject: expect.stringMatching(/Invoice/),
+      })
+    );
+  });
+
+  it("includes year and month in subject", async () => {
+    vi.setSystemTime(new Date("2021-02-03"));
+
+    await payroll();
+
+    expect(sendEmail).toBeCalledWith(
+      expect.objectContaining({
+        subject: expect.stringMatching(/1\/1\/2021/),
+      })
     );
   });
 });

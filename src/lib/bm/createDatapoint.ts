@@ -1,4 +1,5 @@
 import axios from "axios";
+import getBmToken from "./getBmToken";
 
 type Data = {
   value: number;
@@ -21,10 +22,14 @@ function isServerError(err: unknown): err is ServerError {
   return typeof (err as ServerError).response === "object";
 }
 
-export default async function createDatapoint(slug: string, data: Data) {
-  const url = `https://www.beeminder.com/api/v1/users/${process.env.USERNAME}/goals/gross/datapoints.json`;
+export default async function createDatapoint(
+  user: string,
+  slug: string,
+  data: Data
+) {
+  const url = `https://www.beeminder.com/api/v1/users/${user}/goals/${slug}/datapoints.json`;
   const options = {
-    auth_token: process.env.AUTH_TOKEN,
+    auth_token: getBmToken(user),
     ...data,
   };
 
