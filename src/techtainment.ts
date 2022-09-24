@@ -3,12 +3,18 @@ import getGoal from "./lib/bm/getGoal";
 
 export default async function techtainment() {
   const exercise = await getGoal("narthur", "exercise");
-  const daysum = exercise.datapoints.reduce(
-    (sum, dp: Datapoint) => sum + dp.value,
-    0
-  );
+  const daysums = exercise.datapoints.reduce((acc, datapoint) => {
+    const daystamp = datapoint.daystamp;
+    acc[daystamp] = (acc[daystamp] || 0) + datapoint.value;
+    return acc;
+  }, {} as Record<string, number>);
 
-  await createDatapoint("narthur", "techtainment", {
-    value: -daysum * 2,
+  Object.entries(daysums).forEach(([daystamp, daysum]) => {
+    const value = daysum > 0 ? -2 : 0;
+    void createDatapoint("narthur", "techtainment", {
+      value,
+      daystamp,
+      requestid: `exercise-${daystamp}`,
+    });
   });
 }

@@ -8,10 +8,11 @@ vi.mock("./lib/bm/createDatapoint");
 
 describe("techtainment", () => {
   beforeEach(() => {
+    vi.setSystemTime(new Date("2021-01-01T00:00:00.000Z"));
     vi.mocked(getGoal).mockResolvedValue({
       datapoints: [
         {
-          daystamp: "2021-01-01",
+          daystamp: "20210101",
           value: 1,
         },
       ],
@@ -27,14 +28,24 @@ describe("techtainment", () => {
   it("creates techtainment datapoint", async () => {
     await techtainment();
 
-    expect(createDatapoint).toBeCalledWith("narthur", "techtainment", {
-      value: -2,
-    });
+    expect(createDatapoint).toBeCalledWith(
+      "narthur",
+      "techtainment",
+      expect.objectContaining({
+        value: -2,
+      })
+    );
   });
 
-  it("ignores datapoints for day other than today", async () => {
+  it("sets request id", async () => {
     await techtainment();
 
-    expect(createDatapoint).not.toBeCalled();
+    expect(createDatapoint).toBeCalledWith(
+      "narthur",
+      "techtainment",
+      expect.objectContaining({
+        requestid: expect.stringMatching(/20210101/),
+      })
+    );
   });
 });
