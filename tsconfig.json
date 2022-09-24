@@ -1,5 +1,6 @@
 {
-    "compilerOptions": {
-        "esModuleInterop": true,
-    }
+  "compilerOptions": {
+    "target": "es2017",
+    "esModuleInterop": true
+  }
 }
