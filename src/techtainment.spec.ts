@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import getGoal from "./lib/bm/getGoal";
 import techtainment from "./techtainment";
 import createDatapoint from "./lib/bm/createDatapoint";
+import { Goal } from "./lib/bm/types";
 
 vi.mock("./lib/bm/getGoal");
 vi.mock("./lib/bm/createDatapoint");
@@ -45,6 +46,18 @@ describe("techtainment", () => {
       "techtainment",
       expect.objectContaining({
         requestid: expect.stringMatching(/20210101/),
+      })
+    );
+  });
+
+  it("sets comment", async () => {
+    await techtainment();
+
+    expect(createDatapoint).toBeCalledWith(
+      "narthur",
+      "techtainment",
+      expect.objectContaining({
+        comment: expect.stringMatching(/exercise/),
       })
     );
   });

@@ -9,12 +9,15 @@ export default async function techtainment() {
     return acc;
   }, {} as Record<string, number>);
 
+  console.log(daysums);
+
   Object.entries(daysums).forEach(([daystamp, daysum]) => {
     const value = daysum > 0 ? -2 : 0;
     void createDatapoint("narthur", "techtainment", {
       value,
       daystamp,
       requestid: `exercise-${daystamp}`,
+      comment: `exercise: ${daysum}`,
     });
   });
 }

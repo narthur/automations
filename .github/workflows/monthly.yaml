@@ -1,5 +1,6 @@
 name: Monthly
 schedule:
+  # Be careful about running this more frequently, since it sends payroll
   - cron: "0 0 1 * *" # Run at 00:00 on the first day of every month
 jobs:
   node:
