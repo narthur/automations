@@ -1,7 +1,10 @@
 import axios from "axios";
 import getBmToken from "./getBmToken";
+import { Goal } from "./types";
 
 function isGoal(obj: unknown): obj is Goal {
+  // This is a type guard. It checks if the object is a Goal.
+
   if (typeof obj !== "object" || obj === null) {
     return false;
   }

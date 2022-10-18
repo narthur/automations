@@ -22,6 +22,7 @@ module.exports = {
       {
         max: 100,
         skipBlankLines: true,
+        skipComments: true,
       },
     ],
   },

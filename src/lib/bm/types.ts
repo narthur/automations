@@ -1,6 +1,6 @@
 // https://tsdoc.org/
 
-type Datapoint = {
+export type Datapoint = {
   /**
    * A unique ID, used to identify a datapoint when deleting or editing it.
    */
@@ -37,7 +37,7 @@ type Datapoint = {
   requestid?: string;
 };
 
-type Goal = {
+export type Goal = {
   /**
    * The final part of the URL of the goal, used as an identifier. E.g., if user
    * "alice" has a goal at beeminder.com/alice/weight then the goal's slug is
