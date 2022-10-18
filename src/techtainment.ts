@@ -9,8 +9,6 @@ export default async function techtainment() {
     return acc;
   }, {} as Record<string, number>);
 
-  console.log(daysums);
-
   Object.entries(daysums).forEach(([daystamp, daysum]) => {
     const value = daysum > 0 ? -2 : 0;
     void createDatapoint("narthur", "techtainment", {
@@ -20,4 +18,10 @@ export default async function techtainment() {
       comment: `exercise: ${daysum}`,
     });
   });
+}
+
+if (!process.env.VITEST_WORKER_ID) {
+  console.log("running");
+  void techtainment();
+  console.log("done");
 }
