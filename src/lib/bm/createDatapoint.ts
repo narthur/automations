@@ -40,6 +40,7 @@ export default async function createDatapoint(
       return;
     }
 
+    console.error(e);
     throw new Error(`Failed to create datapoint for ${slug}`);
   }
 }
