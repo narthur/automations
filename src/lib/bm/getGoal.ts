@@ -17,7 +17,7 @@ export default async function getGoal(
   slug: string
 ): Promise<Goal> {
   const t = getBmToken(user);
-  const url = `https://www.beeminder.com/api/v1/users/${user}/goals/${slug}.json?auth_token=${t}`;
+  const url = `https://www.beeminder.com/api/v1/users/${user}/goals/${slug}.json?auth_token=${t}&datapoints=true`;
   const response = await axios.get(url);
 
   if (isGoal(response.data)) {
