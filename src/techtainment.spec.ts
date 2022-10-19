@@ -61,4 +61,50 @@ describe("techtainment", () => {
       })
     );
   });
+
+  it("calculates value accurately", async () => {
+    vi.mocked(getGoal).mockResolvedValue({
+      datapoints: [
+        {
+          daystamp: "20210101",
+          value: 3,
+        },
+      ],
+    } as Goal);
+
+    await techtainment();
+
+    expect(createDatapoint).toBeCalledWith(
+      "narthur",
+      "techtainment",
+      expect.objectContaining({
+        value: -6,
+      })
+    );
+  });
+
+  it("sums day values", async () => {
+    vi.mocked(getGoal).mockResolvedValue({
+      datapoints: [
+        {
+          daystamp: "20210101",
+          value: 1,
+        },
+        {
+          daystamp: "20210101",
+          value: 2,
+        },
+      ],
+    } as Goal);
+
+    await techtainment();
+
+    expect(createDatapoint).toBeCalledWith(
+      "narthur",
+      "techtainment",
+      expect.objectContaining({
+        value: -6,
+      })
+    );
+  });
 });

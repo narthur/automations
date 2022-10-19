@@ -10,9 +10,9 @@ export default async function techtainment() {
   }, {} as Record<string, number>);
 
   Object.entries(daysums).forEach(([daystamp, daysum]) => {
-    const value = daysum > 0 ? -2 : 0;
+    const multiplier = daysum > 0 ? -2 : 0;
     void createDatapoint("narthur", "techtainment", {
-      value,
+      value: daysum * multiplier,
       daystamp,
       requestid: `exercise-${daystamp}`,
       comment: `exercise: ${daysum}`,
