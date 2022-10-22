@@ -9,8 +9,8 @@ jobs:
     steps:
       - name: Post to Beeminder goal "auto"
         run: |
-          curl -X POST https://www.beeminder.com/api/v1/users/${{ secrets.BEEMINDER_USERNAME }}/goals/auto/datapoints.json \
-            -d auth_token=${{ secrets.BEEMINDER_AUTH_TOKEN }} \
+          curl -X POST https://www.beeminder.com/api/v1/users/${{ secrets.BM_USER }}/goals/auto/datapoints.json \
+            -d auth_token=${{ secrets.BM_TOKEN }} \
             -d requestid=${{ github.sha }} \
             -d value=1 \
             -d comment="${{ github.event.head_commit.message }} (${{ github.repository }}:${{ github.sha }})"
