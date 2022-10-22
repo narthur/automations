@@ -1,7 +1,7 @@
 import { config } from "dotenv";
-import createDatapoint from "./lib/bm/createDatapoint";
-import getTimeEntries from "./lib/toggl/getTimeEntries";
-import getSum from "./lib/toggl/getSum";
+import createDatapoint from "../lib/bm/createDatapoint";
+import getTimeEntries from "../lib/toggl/getTimeEntries";
+import getSum from "../lib/toggl/getSum";
 
 config();
 

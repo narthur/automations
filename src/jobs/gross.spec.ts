@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import axios, { __loadResponse } from "axios";
 import gross from "./gross";
-import { setEnv } from "../vitest.setup";
-import expectNewPoint from "./lib/test/expectNewPoint";
+import { setEnv } from "../../vitest.setup";
+import expectNewPoint from "../lib/test/expectNewPoint";
 
 vi.mock("axios");
 

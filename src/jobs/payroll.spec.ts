@@ -1,11 +1,11 @@
 import payroll from "./payroll";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import sendEmail from "./lib/sendEmail";
+import sendEmail from "../lib/sendEmail";
 import axios, { __loadResponse } from "axios";
-import { PROJECTS, setEnv } from "../vitest.setup";
-import loadTimeEntries from "./lib/test/loadTimeEntries";
+import { PROJECTS, setEnv } from "../../vitest.setup";
+import loadTimeEntries from "../lib/test/loadTimeEntries";
 
-vi.mock("./lib/sendEmail");
+vi.mock("../lib/sendEmail");
 vi.mock("axios");
 
 describe("payroll", () => {

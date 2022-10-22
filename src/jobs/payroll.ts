@@ -1,6 +1,6 @@
-import sendEmail from "./lib/sendEmail";
-import getSum from "./lib/toggl/getSum";
-import getTimeEntries from "./lib/toggl/getTimeEntries";
+import sendEmail from "../lib/sendEmail";
+import getSum from "../lib/toggl/getSum";
+import getTimeEntries from "../lib/toggl/getTimeEntries";
 
 function getFirstDayOfPreviousMonth() {
   const date = new Date();

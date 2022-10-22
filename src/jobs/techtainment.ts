@@ -1,5 +1,5 @@
-import createDatapoint from "./lib/bm/createDatapoint";
-import getGoal from "./lib/bm/getGoal";
+import createDatapoint from "../lib/bm/createDatapoint";
+import getGoal from "../lib/bm/getGoal";
 
 // https://stackoverflow.com/a/10639010/937377
 function parse(str: string) {

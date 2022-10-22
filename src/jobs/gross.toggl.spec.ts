@@ -1,9 +1,9 @@
-import { PROJECTS } from "../vitest.setup";
+import { PROJECTS } from "../../vitest.setup";
 import { describe, it, vi, beforeEach } from "vitest";
 import gross from "./gross";
 import { __loadResponse } from "axios";
-import expectNewPoint from "./lib/test/expectNewPoint";
-import loadTimeEntries from "./lib/test/loadTimeEntries";
+import expectNewPoint from "../lib/test/expectNewPoint";
+import loadTimeEntries from "../lib/test/loadTimeEntries";
 
 vi.mock("axios");
 

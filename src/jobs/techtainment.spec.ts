@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import getGoal from "./lib/bm/getGoal";
+import getGoal from "../lib/bm/getGoal";
 import techtainment from "./techtainment";
-import createDatapoint from "./lib/bm/createDatapoint";
-import { Datapoint, Goal } from "./lib/bm/types";
+import createDatapoint from "../lib/bm/createDatapoint";
+import { Datapoint, Goal } from "../lib/bm/types";
 
-vi.mock("./lib/bm/getGoal");
-vi.mock("./lib/bm/createDatapoint");
+vi.mock("../lib/bm/getGoal");
+vi.mock("../lib/bm/createDatapoint");
 
 function loadDatapoints(
   datapoints: Partial<Datapoint>[] = [

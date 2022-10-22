@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Run payroll
-        run: pnpm ts-node ./src/payroll.ts
+        run: pnpm ts-node ./src/jobs/payroll.ts
         env:
           TOGGL_API_TOKEN: ${{ secrets.TOGGL_API_TOKEN }}
           MAILGUN_DOMAIN: ${{ secrets.MAILGUN_DOMAIN }}
