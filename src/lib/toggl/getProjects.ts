@@ -77,7 +77,7 @@ export interface TogglProject {
 }
 
 export default async function getProjects(): Promise<TogglProject[]> {
-  const url = `https://api.track.toggl.com/api/v9/workspaces/${process.env.TOGGL_WORKSPACE_ID}/projects`;
+  const url = `https://api.track.toggl.com/api/v9/me/projects`;
   const auth = Buffer.from(`${process.env.TOGGL_API_TOKEN}:api_token`).toString(
     "base64"
   );

@@ -19,7 +19,7 @@ function getProjectRate(project: TogglProject): number {
 }
 
 async function gross() {
-  const workspaceProjects = await getProjects();
+  const projects = await getProjects();
 
   const weekDates = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
@@ -49,7 +49,7 @@ async function gross() {
       {}
     );
 
-    workspaceProjects.forEach((project: TogglProject) => {
+    projects.forEach((project: TogglProject) => {
       const v =
         getSumOfHours(projectTimeEntries[project.id]) * getProjectRate(project);
       void createBeeminderDatapoint("narthur", "gross", {
