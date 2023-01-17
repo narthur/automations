@@ -23,26 +23,26 @@ jobs:
         run: pnpm ts-node ./src/jobs/techtainment.ts
         env:
           BM_AUTHS: ${{ secrets.BM_AUTHS }}
-  gross:
-    runs-on: ubuntu-latest
-    steps:
-      - run: date
-      - uses: actions/checkout@v2
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7
-      - name: Use Node.js 16.15.0
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.15.0
-          cache: "pnpm"
-      - name: Install dependencies
-        run: pnpm install
-      - name: Run gross
-        run: pnpm ts-node ./src/jobs/gross.ts
-        env:
-          BM_AUTHS: ${{ secrets.BM_AUTHS }}
-          TOGGL_API_TOKEN: ${{ secrets.TOGGL_API_TOKEN }}
-          GROSS_TOGGL_LABELS: ${{ secrets.GROSS_TOGGL_LABELS }}
-          GROSS_TOGGL_PROJECTS: ${{ secrets.GROSS_TOGGL_PROJECTS }}
-          GROSS_TOGGL_RATES: ${{ secrets.GROSS_TOGGL_RATES }}
+  # gross:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - run: date
+  #     - uses: actions/checkout@v2
+  #     - uses: pnpm/action-setup@v2.2.2
+  #       with:
+  #         version: 7
+  #     - name: Use Node.js 16.15.0
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: 16.15.0
+  #         cache: "pnpm"
+  #     - name: Install dependencies
+  #       run: pnpm install
+  #     - name: Run gross
+  #       run: pnpm ts-node ./src/jobs/gross.ts
+  #       env:
+  #         BM_AUTHS: ${{ secrets.BM_AUTHS }}
+  #         TOGGL_API_TOKEN: ${{ secrets.TOGGL_API_TOKEN }}
+  #         GROSS_TOGGL_LABELS: ${{ secrets.GROSS_TOGGL_LABELS }}
+  #         GROSS_TOGGL_PROJECTS: ${{ secrets.GROSS_TOGGL_PROJECTS }}
+  #         GROSS_TOGGL_RATES: ${{ secrets.GROSS_TOGGL_RATES }}
