@@ -1,5 +1,5 @@
-// Source: https://developers.track.toggl.com/docs/api/projects#get-workspaceprojects
-export interface TogglProject {
+// https://developers.track.toggl.com/docs/api/projects#get-workspaceprojects
+export type TogglProject = {
   // Whether the project is active or archived
   active: boolean;
   // Actual hours
@@ -72,7 +72,7 @@ export interface TogglProject {
   wid: number;
   // Workspace ID
   workspace_id: number;
-}
+};
 
 // https://developers.track.toggl.com/docs/api/time_entries
 export type TimeEntry = {
