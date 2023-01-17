@@ -5,6 +5,7 @@ import expectNewPoint from "../lib/test/expectNewPoint";
 import loadTimeEntries from "../lib/test/loadTimeEntries";
 import loadTogglProjects from "../lib/test/loadTogglProjects";
 import { getTimeEntries } from "../lib/toggl";
+import loadTogglTasks from "../lib/test/loadTogglTasks";
 
 vi.mock("axios");
 
@@ -51,15 +52,6 @@ describe("gross toggl", () => {
 
   it("handles hourly projects", async () => {
     loadTogglProjects([{ id: 123, rate: 3 }]);
-    loadTimeEntries([{ project_id: 123, duration: 3600 }]);
-
-    await gross();
-
-    expectNewPoint({ value: 3 });
-  });
-
-  it("handles fixed bids", async () => {
-    loadTogglProjects([{ id: 123, fixed_fee: 30, estimated_hours: 10 }]);
     loadTimeEntries([{ project_id: 123, duration: 3600 }]);
 
     await gross();
@@ -142,5 +134,38 @@ describe("gross toggl", () => {
     await gross();
 
     expectNewPoint({ comment: expect.stringMatching(/1h/) });
+  });
+
+  it("uses task estimate to calculate captured value", async () => {
+    loadTogglProjects([{ id: 123, fixed_fee: 30, estimated_hours: 10 }]);
+    loadTogglTasks([
+      {
+        estimated_seconds: 3600,
+        // tracked_seconds is in milliseconds
+        tracked_seconds: (3600 * 1000) / 2,
+      },
+    ]);
+
+    await gross();
+
+    expectNewPoint({ value: 1.5 });
+  });
+
+  it("maintains a single datapoint for each fixed-fee project", async () => {
+    loadTogglProjects([{ id: 123, fixed_fee: 30, estimated_hours: 10 }]);
+    loadTimeEntries([{ project_id: 123, duration: 3600 }]);
+
+    await gross();
+
+    expectNewPoint({ requestid: "toggl-123-fixed" });
+  });
+
+  it("skips fixed-fee projects without a total estimated hours", async () => {
+    loadTogglProjects([{ id: 123, fixed_fee: 30 }]);
+    loadTimeEntries([{ project_id: 123, duration: 3600 }]);
+
+    await gross();
+
+    expect(axios.post).not.toHaveBeenCalled();
   });
 });
