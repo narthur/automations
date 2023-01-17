@@ -1,4 +1,4 @@
-import { PROJECTS, setEnv } from "../../vitest.setup";
+import { setEnv } from "../../vitest.setup";
 import { describe, it, vi, beforeEach, expect } from "vitest";
 import gross from "./gross";
 import axios, { __loadResponse } from "axios";
@@ -157,5 +157,14 @@ describe("gross toggl", () => {
     await gross();
 
     expect(axios.post).not.toHaveBeenCalled();
+  });
+
+  it("correctly includes number of hours in datapoint comment", async () => {
+    loadTogglProjects([{ id: 123, rate: 3 }]);
+    loadTimeEntries([{ project_id: 123, duration: 3600 }]);
+
+    await gross();
+
+    expectNewPoint({ comment: expect.stringMatching(/1h/) });
   });
 });

@@ -59,7 +59,7 @@ async function gross() {
       if (t === 0) return;
       void createBeeminderDatapoint("narthur", "gross", {
         value: v,
-        comment: `Toggl: ${project.name}: ${v}hrs @ $${r}/hr`,
+        comment: `Toggl: ${project.name}: ${t}hrs @ $${r}/hr`,
         requestid: `toggl-${project.id}-${dateString}`,
         daystamp: dateString.replace(/-/g, ""),
       });
