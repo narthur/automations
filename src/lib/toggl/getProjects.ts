@@ -1,4 +1,5 @@
 import axios from "axios";
+import callToggl, { TogglEndpoint } from "./callToggl";
 
 // Source: https://developers.track.toggl.com/docs/api/projects#get-workspaceprojects
 export interface TogglProject {
@@ -77,23 +78,14 @@ export interface TogglProject {
 }
 
 export default async function getProjects(): Promise<TogglProject[]> {
-  const url = `https://api.track.toggl.com/api/v9/me/projects`;
-  const auth = Buffer.from(`${process.env.TOGGL_API_TOKEN}:api_token`).toString(
-    "base64"
-  );
-
-  const response = await axios
-    .get<TogglProject[]>(url, {
-      headers: {
-        Authorization: `Basic ${auth}`,
-      },
-    })
-    .catch((error) => {
-      console.error("Error fetching projects");
-      console.error("URL:", url);
-      console.error(error);
-      throw error;
-    });
+  const response = await callToggl<TogglProject[]>(
+    TogglEndpoint.Projects
+  ).catch((error) => {
+    console.error("Error fetching projects");
+    console.error("Endpoint:", TogglEndpoint.Projects);
+    console.error(error);
+    throw error;
+  });
 
   return response.data;
 }

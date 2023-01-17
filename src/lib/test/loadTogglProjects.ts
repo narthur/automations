@@ -1,5 +1,7 @@
 import { TogglProject } from "../toggl/getProjects";
 import { __loadResponse } from "axios";
+import callToggl from "../toggl/callToggl";
+import { vi } from "vitest";
 
 export default function loadTogglProjects(
   projects: Array<Partial<TogglProject>>
@@ -29,6 +31,10 @@ export default function loadTogglProjects(
       ...p,
     };
   });
+
+  vi.mocked(callToggl).mockResolvedValue({
+    data,
+  } as any);
 
   __loadResponse({
     url: /\/projects$/,

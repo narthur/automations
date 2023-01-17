@@ -1,4 +1,3 @@
-import { setEnv } from "../../vitest.setup";
 import { describe, it, vi, beforeEach, expect } from "vitest";
 import gross from "./gross";
 import axios, { __loadResponse } from "axios";
@@ -16,28 +15,6 @@ describe("gross toggl", () => {
       method: ["get", "post"],
       payload: { data: [] },
     });
-  });
-
-  it("gets projects using toggl auth token", async () => {
-    setEnv({
-      TOGGL_WORKSPACE_ID: "1",
-      TOGGL_API_TOKEN: "the_toggl_api_token",
-    });
-
-    await gross();
-
-    const expected = Buffer.from(
-      `${process.env.TOGGL_API_TOKEN}:api_token`
-    ).toString("base64");
-
-    expect(axios.get).toHaveBeenCalledWith(
-      expect.stringMatching(/projects/),
-      expect.objectContaining({
-        headers: expect.objectContaining({
-          Authorization: `Basic ${expected}`,
-        }) as unknown,
-      })
-    );
   });
 
   it("includes project name in datapoint comment", async () => {

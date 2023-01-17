@@ -51,19 +51,21 @@ async function gross() {
       {}
     );
 
-    billable.forEach((project: TogglProject) => {
+    const p = billable.map(async (project: TogglProject) => {
       const e = projectTimeEntries[project.id];
       const t = getSumOfHours(e);
       const r = getProjectRate(project);
       const v = t * r;
       if (t === 0) return;
-      void createBeeminderDatapoint("narthur", "gross", {
+      await createBeeminderDatapoint("narthur", "gross", {
         value: v,
         comment: `Toggl: ${project.name}: ${t}hrs @ $${r}/hr`,
         requestid: `toggl-${project.id}-${dateString}`,
         daystamp: dateString.replace(/-/g, ""),
       });
     });
+
+    await Promise.all(p);
   });
 
   await Promise.all(promises);

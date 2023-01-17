@@ -28,10 +28,12 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["*.spec.ts", "**/lib/test/**/*.ts"],
+      files: ["*.spec.ts", "**/lib/test/**/*.ts", "vitest.setup.ts"],
       rules: {
         "@typescript-eslint/unbound-method": "off",
         "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
+        "@typescript-eslint/no-explicit-any": "off",
         "max-lines": [
           "warn",
           {
