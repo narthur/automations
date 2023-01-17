@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { TimeEntry, TogglProject } from "../types/toggl";
+import { TimeEntry, TogglProject, TogglTask } from "../types/toggl";
 
 export function getProjects(options: AxiosRequestConfig = {}) {
   return api<TogglProject[]>("me/projects", options);
@@ -14,7 +14,7 @@ export function getTasks(
   projectId: number,
   options: AxiosRequestConfig = {}
 ) {
-  return api<TimeEntry[]>(
+  return api<TogglTask[]>(
     `workspaces/${workspaceId}/projects/${projectId}/tasks`,
     options
   );

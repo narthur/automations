@@ -96,3 +96,29 @@ export type TimeEntry = {
   wid: number;
   workspace_id: number;
 };
+
+// https://developers.track.toggl.com/docs/api/tasks
+export type TogglTask = {
+  // False when the task has been done
+  active: boolean;
+  // When the task was created/last modified
+  at: string;
+  // Estimation time for this task in seconds
+  estimated_seconds: number;
+  // Task ID
+  id: number;
+  // Task Name
+  name: string;
+  // Project ID
+  project_id: number;
+  // Whether this is a recurring task
+  recurring: boolean;
+  // When the task was deleted
+  server_deleted_at?: string;
+  // The value tracked_seconds is in milliseconds, not in seconds.
+  tracked_seconds: number;
+  // Task assignee, if available
+  user_id?: number;
+  // Workspace ID
+  workspace_id: number;
+};
