@@ -6,6 +6,7 @@ export default function loadTogglProjects(
 ): TogglProject[] {
   const data = projects.map((p): TogglProject => {
     return {
+      billable: true,
       active: true,
       at: "2021-09-01T00:00:00+00:00",
       cid: 0,

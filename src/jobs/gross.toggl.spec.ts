@@ -71,28 +71,6 @@ describe("gross toggl", () => {
     expectNewPoint({ requestid: "toggl-123-2022-08-10" });
   });
 
-  it("only retrieves billable projects", async () => {
-    await gross();
-
-    expect(axios.get).toHaveBeenCalledWith(
-      expect.stringMatching(/projects/),
-      expect.objectContaining({
-        params: expect.objectContaining({ billable: true }),
-      })
-    );
-  });
-
-  it("only retrieves active projects", async () => {
-    await gross();
-
-    expect(axios.get).toHaveBeenCalledWith(
-      expect.stringMatching(/projects/),
-      expect.objectContaining({
-        params: expect.objectContaining({ active: true }),
-      })
-    );
-  });
-
   it("handles hourly projects", async () => {
     loadTogglProjects([{ id: 123, rate: 3 }]);
     loadTimeEntries([{ project_id: 123, duration: 3600 }]);
@@ -161,5 +139,23 @@ describe("gross toggl", () => {
     await gross();
 
     expectNewPoint({ daystamp: "20220810" });
+  });
+
+  it("ignores non-billable projects", async () => {
+    loadTogglProjects([{ id: 123, rate: 3, billable: false }]);
+    loadTimeEntries([{ project_id: 123, duration: 3600 }]);
+
+    await gross();
+
+    expect(axios.post).not.toHaveBeenCalled();
+  });
+
+  it("ignores archived projects", async () => {
+    loadTogglProjects([{ id: 123, rate: 3, active: false }]);
+    loadTimeEntries([{ project_id: 123, duration: 3600 }]);
+
+    await gross();
+
+    expect(axios.post).not.toHaveBeenCalled();
   });
 });

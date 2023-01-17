@@ -20,6 +20,8 @@ function getProjectRate(project: TogglProject): number {
 
 async function gross() {
   const projects = await getProjects();
+  const active = projects.filter((p) => p.active);
+  const billable = active.filter((p) => p.billable);
 
   const weekDates = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
@@ -49,7 +51,7 @@ async function gross() {
       {}
     );
 
-    projects.forEach((project: TogglProject) => {
+    billable.forEach((project: TogglProject) => {
       const e = projectTimeEntries[project.id];
       const t = getSumOfHours(e);
       const r = getProjectRate(project);

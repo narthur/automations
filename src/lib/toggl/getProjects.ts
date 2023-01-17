@@ -87,10 +87,6 @@ export default async function getProjects(): Promise<TogglProject[]> {
       headers: {
         Authorization: `Basic ${auth}`,
       },
-      params: {
-        billable: true,
-        active: true,
-      },
     })
     .catch((error) => {
       console.error("Error fetching projects");
