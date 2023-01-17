@@ -82,15 +82,22 @@ export default async function getProjects(): Promise<TogglProject[]> {
     "base64"
   );
 
-  const response = await axios.get<TogglProject[]>(url, {
-    headers: {
-      Authorization: `Basic ${auth}`,
-    },
-    params: {
-      billable: true,
-      active: true,
-    },
-  });
+  const response = await axios
+    .get<TogglProject[]>(url, {
+      headers: {
+        Authorization: `Basic ${auth}`,
+      },
+      params: {
+        billable: true,
+        active: true,
+      },
+    })
+    .catch((error) => {
+      console.error("Error fetching projects");
+      console.error("URL:", url);
+      console.error(error);
+      throw error;
+    });
 
   return response.data;
 }

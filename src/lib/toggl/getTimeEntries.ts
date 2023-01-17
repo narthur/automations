@@ -50,12 +50,20 @@ export default async function getTimeEntries(options: Options = {}) {
     "base64"
   );
   const params = dateParams(options.filters?.date);
-  const response = await axios.get<TimeEntry[]>(url, {
-    headers: {
-      Authorization: `Basic ${auth}`,
-    },
-    params,
-  });
+  const response = await axios
+    .get<TimeEntry[]>(url, {
+      headers: {
+        Authorization: `Basic ${auth}`,
+      },
+      params,
+    })
+    .catch((error) => {
+      console.error("Error fetching time entries");
+      console.error("URL:", url);
+      console.error("Params:", params);
+      console.error(error);
+      throw error;
+    });
 
   return response.data.filter((entry: TimeEntry): boolean => {
     if (
