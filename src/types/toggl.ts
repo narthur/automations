@@ -1,6 +1,3 @@
-import axios from "axios";
-import callToggl, { TogglEndpoint } from "./callToggl";
-
 // Source: https://developers.track.toggl.com/docs/api/projects#get-workspaceprojects
 export interface TogglProject {
   // Whether the project is active or archived
@@ -77,15 +74,25 @@ export interface TogglProject {
   workspace_id: number;
 }
 
-export default async function getProjects(): Promise<TogglProject[]> {
-  const response = await callToggl<TogglProject[]>(
-    TogglEndpoint.Projects
-  ).catch((error) => {
-    console.error("Error fetching projects");
-    console.error("Endpoint:", TogglEndpoint.Projects);
-    console.error(error);
-    throw error;
-  });
-
-  return response.data;
-}
+// https://developers.track.toggl.com/docs/api/time_entries
+export type TimeEntry = {
+  at: string;
+  billable: boolean;
+  description: string;
+  duration: number;
+  duronly: boolean;
+  id: number;
+  pid: number;
+  project_id: number;
+  server_deleted_at: string;
+  start: string;
+  stop: string;
+  tag_ids: number[];
+  tags: string[];
+  task_id: number;
+  tid: number;
+  uid: number;
+  user_id: number;
+  wid: number;
+  workspace_id: number;
+};

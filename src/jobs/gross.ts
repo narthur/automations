@@ -1,8 +1,8 @@
 import { config } from "dotenv";
 import createBeeminderDatapoint from "../lib/bm/createBeeminderDatapoint";
-import getTimeEntries, { TimeEntry } from "../lib/toggl/getTimeEntries";
-import getSumOfHours from "../lib/toggl/getSumOfHours";
-import getProjects, { TogglProject } from "../lib/toggl/getProjects";
+import getSumOfHours from "../lib/getSumOfHours";
+import { TimeEntry, TogglProject } from "../types/toggl";
+import { getProjects, getTimeEntries } from "../lib/toggl";
 
 config();
 
@@ -16,6 +16,20 @@ function getProjectRate(project: TogglProject): number {
   if (est > 0) return project.fixed_fee / act;
 
   return 0;
+}
+
+function dateParams(date?: Date) {
+  if (!date) {
+    return {};
+  }
+
+  const tomorrow = new Date(date);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  return {
+    start_date: date.toISOString().split("T")[0],
+    end_date: tomorrow.toISOString().split("T")[0],
+  };
 }
 
 async function gross() {
@@ -33,9 +47,7 @@ async function gross() {
     const dateString = date.toISOString().split("T")[0];
 
     const timeEntries = await getTimeEntries({
-      filters: {
-        date,
-      },
+      params: dateParams(date),
     });
 
     const projectTimeEntries = timeEntries.reduce(

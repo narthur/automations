@@ -1,6 +1,6 @@
 import sendEmail from "../lib/sendEmail";
-import getSumOfHours from "../lib/toggl/getSumOfHours";
-import getTimeEntries from "../lib/toggl/getTimeEntries";
+import getSumOfHours from "../lib/getSumOfHours";
+import { getTimeEntries } from "../lib/toggl";
 
 function getFirstDayOfPreviousMonth() {
   const date = new Date();
@@ -10,11 +10,9 @@ function getFirstDayOfPreviousMonth() {
 }
 
 export default async function payroll(): Promise<string> {
-  const entries = await getTimeEntries({
-    filters: {
-      projectIds: process.env.PAYROLL_TOGGL_PROJECTS.split(",").map(Number),
-    },
-  });
+  const projectIds = process.env.PAYROLL_TOGGL_PROJECTS.split(",").map(Number);
+  const all = await getTimeEntries();
+  const entries = all.filter((e) => projectIds.includes(e.project_id));
   const sum = getSumOfHours(entries);
   const body = `Total time: ${sum}`;
   const recipients = [

@@ -1,9 +1,10 @@
 import payroll from "./payroll";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import sendEmail from "../lib/sendEmail";
-import axios, { __loadResponse } from "axios";
+import { __loadResponse } from "axios";
 import { PROJECTS, setEnv } from "../../vitest.setup";
 import loadTimeEntries from "../lib/test/loadTimeEntries";
+import { getTimeEntries } from "../lib/toggl";
 
 vi.mock("../lib/sendEmail");
 vi.mock("axios");
@@ -46,10 +47,7 @@ describe("payroll", () => {
   it("gets time entries", async () => {
     await payroll();
 
-    expect(axios.get).toBeCalledWith(
-      expect.stringMatching(/toggl/),
-      expect.anything()
-    );
+    expect(getTimeEntries).toBeCalled();
   });
 
   it("includes sum in email", async () => {

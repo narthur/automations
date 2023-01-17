@@ -1,4 +1,4 @@
-import { TimeEntry } from "./getTimeEntries";
+import { TimeEntry } from "../types/toggl";
 
 export default function getSumOfHours(entries: TimeEntry[]): number {
   if (entries === undefined) {

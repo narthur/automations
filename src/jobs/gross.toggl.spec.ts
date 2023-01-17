@@ -4,6 +4,7 @@ import axios, { __loadResponse } from "axios";
 import expectNewPoint from "../lib/test/expectNewPoint";
 import loadTimeEntries from "../lib/test/loadTimeEntries";
 import loadTogglProjects from "../lib/test/loadTogglProjects";
+import { getTimeEntries } from "../lib/toggl";
 
 vi.mock("axios");
 
@@ -71,8 +72,7 @@ describe("gross toggl", () => {
 
     await gross();
 
-    expect(axios.get).toHaveBeenCalledWith(
-      expect.stringMatching(/time_entries/),
+    expect(getTimeEntries).toHaveBeenCalledWith(
       expect.objectContaining({
         params: expect.objectContaining({
           start_date: "2022-08-10",
@@ -87,8 +87,7 @@ describe("gross toggl", () => {
 
     await gross();
 
-    expect(axios.get).toHaveBeenCalledWith(
-      expect.stringMatching(/time_entries/),
+    expect(getTimeEntries).toHaveBeenCalledWith(
       expect.objectContaining({
         params: expect.objectContaining({
           start_date: "2022-08-04",

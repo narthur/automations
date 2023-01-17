@@ -1,8 +1,8 @@
 import { beforeEach, vi } from "vitest";
-import callToggl from "./src/lib/toggl/callToggl";
+import { getProjects, getTimeEntries } from "./src/lib/toggl";
 
 vi.mock("axios");
-vi.mock("./src/lib/toggl/callToggl");
+vi.mock("./src/lib/toggl");
 
 export const PROJECTS = [
   {
@@ -31,8 +31,6 @@ export const setEnv = (env: Record<string, string>) => {
 
 beforeEach(() => {
   setEnv({});
-  vi.mocked(callToggl).mockResolvedValue({
-    ok: true,
-    data: [],
-  } as any);
+  vi.mocked(getTimeEntries).mockResolvedValue([]);
+  vi.mocked(getProjects).mockResolvedValue([]);
 });
