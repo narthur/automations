@@ -50,12 +50,16 @@ async function gross() {
     );
 
     projects.forEach((project: TogglProject) => {
-      const v =
-        getSumOfHours(projectTimeEntries[project.id]) * getProjectRate(project);
+      const e = projectTimeEntries[project.id];
+      const t = getSumOfHours(e);
+      const r = getProjectRate(project);
+      const v = t * r;
+      if (t === 0) return;
       void createBeeminderDatapoint("narthur", "gross", {
         value: v,
-        comment: `Toggl: ${project.name}: ${v}hrs`,
+        comment: `Toggl: ${project.name}: ${v}hrs @ $${r}/hr`,
         requestid: `toggl-${project.id}-${dateString}`,
+        daystamp: dateString.replace(/-/g, ""),
       });
     });
   });

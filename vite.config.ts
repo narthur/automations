@@ -5,5 +5,6 @@ export default defineConfig({
   test: {
     root: __dirname,
     setupFiles: ["./vitest.setup.ts"],
+    clearMocks: true,
   },
 });

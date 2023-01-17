@@ -43,9 +43,12 @@ describe("gross toggl", () => {
   it("includes project name in datapoint comment", async () => {
     loadTogglProjects([
       {
+        id: 123,
         name: "project_name",
       },
     ]);
+
+    loadTimeEntries([{ project_id: 123, duration: 3600 }]);
 
     await gross();
 
@@ -60,6 +63,8 @@ describe("gross toggl", () => {
         id: 123,
       },
     ]);
+
+    loadTimeEntries([{ project_id: 123, duration: 3600 }]);
 
     await gross();
 
@@ -108,6 +113,7 @@ describe("gross toggl", () => {
 
   it("queries time entries by date", async () => {
     vi.setSystemTime("2022-08-10T17:50:07+00:00");
+
     await gross();
 
     expect(axios.get).toHaveBeenCalledWith(
@@ -135,5 +141,25 @@ describe("gross toggl", () => {
         }),
       })
     );
+  });
+
+  it("does not post zero-time datapoints", async () => {
+    loadTogglProjects([{ id: 123, rate: 3 }]);
+    loadTimeEntries([]);
+
+    await gross();
+
+    expect(axios.post).not.toHaveBeenCalled();
+  });
+
+  it("sets daystamp", async () => {
+    vi.setSystemTime("2022-08-10T17:50:07+00:00");
+
+    loadTogglProjects([{ id: 123, rate: 3 }]);
+    loadTimeEntries([{ project_id: 123, duration: 3600 }]);
+
+    await gross();
+
+    expectNewPoint({ daystamp: "20220810" });
   });
 });
