@@ -9,6 +9,17 @@ export function getTimeEntries(options: AxiosRequestConfig = {}) {
   return api<TimeEntry[]>("me/time_entries", options);
 }
 
+export function getTasks(
+  workspaceId: number,
+  projectId: number,
+  options: AxiosRequestConfig = {}
+) {
+  return api<TimeEntry[]>(
+    `workspaces/${workspaceId}/projects/${projectId}/tasks`,
+    options
+  );
+}
+
 async function api<T>(p: string, o: AxiosRequestConfig = {}): Promise<T> {
   const u = `https://api.track.toggl.com/api/v9/${p}`;
   const a = Buffer.from(`${process.env.TOGGL_API_TOKEN}:api_token`).toString(

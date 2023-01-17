@@ -19,9 +19,7 @@ function getProjectRate(project: TogglProject): number {
 }
 
 function dateParams(date?: Date) {
-  if (!date) {
-    return {};
-  }
+  if (!date) return {};
 
   const tomorrow = new Date(date);
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -32,38 +30,46 @@ function dateParams(date?: Date) {
   };
 }
 
-async function gross() {
+async function getBillableProjects() {
   const projects = await getProjects();
-  const active = projects.filter((p) => p.active);
-  const billable = active.filter((p) => p.billable);
+  return projects.filter((p) => p.billable && p.active);
+}
 
-  const weekDates = Array.from({ length: 7 }, (_, i) => {
+function getWeekDates() {
+  return Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - i);
     return d;
   });
+}
 
+async function getProjectTimeEntries(date: Date) {
+  const timeEntries = await getTimeEntries({
+    params: dateParams(date),
+  });
+
+  return timeEntries.reduce(
+    (acc: Record<string, Array<TimeEntry>>, timeEntry: TimeEntry) => {
+      if (acc[timeEntry.project_id]) {
+        acc[timeEntry.project_id].push(timeEntry);
+      } else {
+        acc[timeEntry.project_id] = [timeEntry];
+      }
+
+      return acc;
+    },
+    {}
+  );
+}
+
+async function gross() {
+  const projects = await getBillableProjects();
+  const weekDates = getWeekDates();
   const promises = weekDates.map(async (date) => {
     const dateString = date.toISOString().split("T")[0];
+    const projectTimeEntries = await getProjectTimeEntries(date);
 
-    const timeEntries = await getTimeEntries({
-      params: dateParams(date),
-    });
-
-    const projectTimeEntries = timeEntries.reduce(
-      (acc: Record<string, Array<TimeEntry>>, timeEntry: TimeEntry) => {
-        if (acc[timeEntry.project_id]) {
-          acc[timeEntry.project_id].push(timeEntry);
-        } else {
-          acc[timeEntry.project_id] = [timeEntry];
-        }
-
-        return acc;
-      },
-      {}
-    );
-
-    const p = billable.map(async (project: TogglProject) => {
+    const p = projects.map(async (project: TogglProject) => {
       const e = projectTimeEntries[project.id];
       const t = getSumOfHours(e);
       const r = getProjectRate(project);
