@@ -32,6 +32,14 @@ module.exports = {
       rules: {
         "@typescript-eslint/unbound-method": "off",
         "@typescript-eslint/no-unsafe-assignment": "off",
+        "max-lines": [
+          "warn",
+          {
+            max: 200,
+            skipBlankLines: true,
+            skipComments: true,
+          },
+        ],
       },
     },
     {

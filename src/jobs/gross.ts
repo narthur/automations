@@ -1,62 +1,66 @@
 import { config } from "dotenv";
-import createDatapoint from "../lib/bm/createDatapoint";
-import getTimeEntries from "../lib/toggl/getTimeEntries";
-import getSum from "../lib/toggl/getSum";
+import createBeeminderDatapoint from "../lib/bm/createBeeminderDatapoint";
+import getTimeEntries, { TimeEntry } from "../lib/toggl/getTimeEntries";
+import getSumOfHours from "../lib/toggl/getSumOfHours";
+import getProjects, { TogglProject } from "../lib/toggl/getProjects";
 
 config();
 
-type Project = {
-  id: number;
-  hours: number;
-  total: number;
-  label: string;
-};
+function getProjectRate(project: TogglProject): number {
+  if (!project.fixed_fee) return project.rate;
+
+  const est = project.estimated_hours || 0;
+  const act = project.actual_hours || 0;
+
+  if (est > act) return project.fixed_fee / est;
+  if (est > 0) return project.fixed_fee / act;
+
+  return 0;
+}
 
 async function gross() {
-  const date = new Date().toISOString().split("T")[0];
+  const workspaceProjects = await getProjects();
 
-  const ids = process.env.GROSS_TOGGL_PROJECTS.split(",").map(Number);
-  const rates = process.env.GROSS_TOGGL_RATES.split(",").map(Number);
-  const labels = process.env.GROSS_TOGGL_LABELS.split(",");
-
-  if (ids.length !== rates.length || ids.length !== labels.length) {
-    throw new Error(
-      "GROSS_TOGGL_PROJECTS, GROSS_TOGGL_RATES and GROSS_TOGGL_LABELS must have the same length"
-    );
-  }
-
-  const entries = await getTimeEntries({
-    filters: {
-      projectIds: ids,
-      date,
-    },
+  const weekDates = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    return d;
   });
 
-  const projects: Project[] = ids.reduce((prev: Project[], id, i) => {
-    const filtered = entries.filter((e) => e.project_id === id);
-    const hours = getSum(filtered);
+  const promises = weekDates.map(async (date) => {
+    const dateString = date.toISOString().split("T")[0];
 
-    return [
-      ...prev,
-      {
-        id,
-        hours,
-        total: hours * rates[i],
-        label: labels[i],
+    const timeEntries = await getTimeEntries({
+      filters: {
+        date,
       },
-    ];
-  }, []);
+    });
 
-  await Promise.all(
-    projects.map(async (p: Project) => {
-      await createDatapoint("narthur", "gross", {
-        value: p.total,
-        comment: `Toggl: ${p.label}: ${p.hours}hrs`,
-        daystamp: date,
-        requestid: `toggl-${p.id}-${date}`,
+    const projectTimeEntries = timeEntries.reduce(
+      (acc: Record<string, Array<TimeEntry>>, timeEntry: TimeEntry) => {
+        if (acc[timeEntry.project_id]) {
+          acc[timeEntry.project_id].push(timeEntry);
+        } else {
+          acc[timeEntry.project_id] = [timeEntry];
+        }
+
+        return acc;
+      },
+      {}
+    );
+
+    workspaceProjects.forEach((project: TogglProject) => {
+      const v =
+        getSumOfHours(projectTimeEntries[project.id]) * getProjectRate(project);
+      void createBeeminderDatapoint("narthur", "gross", {
+        value: v,
+        comment: `Toggl: ${project.name}: ${v}hrs`,
+        requestid: `toggl-${project.id}-${dateString}`,
       });
-    })
-  );
+    });
+  });
+
+  await Promise.all(promises);
 }
 
 if (!process.env.VITEST_WORKER_ID) {

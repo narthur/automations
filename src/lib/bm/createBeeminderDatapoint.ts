@@ -22,7 +22,7 @@ function isServerError(err: unknown): err is ServerError {
   return typeof (err as ServerError).response === "object";
 }
 
-export default async function createDatapoint(
+export default async function createBeeminderDatapoint(
   user: string,
   slug: string,
   data: Data

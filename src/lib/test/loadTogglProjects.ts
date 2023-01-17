@@ -1,0 +1,40 @@
+import { TogglProject } from "../toggl/getProjects";
+import { __loadResponse } from "axios";
+
+export default function loadTogglProjects(
+  projects: Array<Partial<TogglProject>>
+): TogglProject[] {
+  const data = projects.map((p): TogglProject => {
+    return {
+      active: true,
+      at: "2021-09-01T00:00:00+00:00",
+      cid: 0,
+      color: "#000000",
+      created_at: "2021-09-01T00:00:00+00:00",
+      current_period: {
+        end_date: "2021-09-01T00:00:00+00:00",
+        start_date: "2021-09-01T00:00:00+00:00",
+      },
+      end_date: "2021-09-01T00:00:00+00:00",
+      first_time_entry: "2021-09-01T00:00:00+00:00",
+      id: 0,
+      is_private: true,
+      name: "Project",
+      rate: 0,
+      recurring: false,
+      start_date: "2021-09-01T00:00:00+00:00",
+      wid: 0,
+      workspace_id: 0,
+      ...p,
+    };
+  });
+
+  __loadResponse({
+    url: /\/projects$/,
+    payload: {
+      data,
+    },
+  });
+
+  return data;
+}

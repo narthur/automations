@@ -1,6 +1,10 @@
 import { TimeEntry } from "./getTimeEntries";
 
-export default function getSum(entries: TimeEntry[]): number {
+export default function getSumOfHours(entries: TimeEntry[]): number {
+  if (entries === undefined) {
+    return 0;
+  }
+
   return entries.reduce((sum: number, entry: TimeEntry) => {
     if (entry.duration > 0) {
       return sum + entry.duration / 3600;

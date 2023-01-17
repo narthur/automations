@@ -1,4 +1,4 @@
-import createDatapoint from "../lib/bm/createDatapoint";
+import createBeeminderDatapoint from "../lib/bm/createBeeminderDatapoint";
 import getGoal from "../lib/bm/getGoal";
 
 // https://stackoverflow.com/a/10639010/937377
@@ -38,7 +38,7 @@ export default async function techtainment() {
 
   Object.entries(daysums).forEach(([daystamp, daysum]) => {
     const multiplier = daysum > 0 ? -2 : 0;
-    void createDatapoint("narthur", "techtainment", {
+    void createBeeminderDatapoint("narthur", "techtainment", {
       value: daysum * multiplier,
       daystamp,
       requestid: `exercise-${daystamp}`,

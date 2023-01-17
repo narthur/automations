@@ -3,6 +3,7 @@ import { PROJECTS } from "../../../vitest.setup";
 
 export default function loadTimeEntries(entries: Record<string, unknown>[]) {
   __loadResponse({
+    url: /me\/time_entries/,
     payload: {
       data: entries.map((e) => {
         return {

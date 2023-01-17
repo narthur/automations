@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import getGoal from "../lib/bm/getGoal";
 import techtainment from "./techtainment";
-import createDatapoint from "../lib/bm/createDatapoint";
+import createBeeminderDatapoint from "../lib/bm/createBeeminderDatapoint";
 import { Datapoint, Goal } from "../lib/bm/types";
 
 vi.mock("../lib/bm/getGoal");
-vi.mock("../lib/bm/createDatapoint");
+vi.mock("../lib/bm/createBeeminderDatapoint");
 
 function loadDatapoints(
   datapoints: Partial<Datapoint>[] = [
@@ -19,7 +19,7 @@ function loadDatapoints(
 }
 
 function expectValue(value: number) {
-  expect(createDatapoint).toBeCalledWith(
+  expect(createBeeminderDatapoint).toBeCalledWith(
     "narthur",
     "techtainment",
     expect.objectContaining({
@@ -32,7 +32,7 @@ describe("techtainment", () => {
   beforeEach(() => {
     vi.setSystemTime(new Date("2021-01-01T00:00:00.000Z"));
     loadDatapoints();
-    vi.mocked(createDatapoint).mockClear();
+    vi.mocked(createBeeminderDatapoint).mockClear();
   });
 
   it("gets exercise Beeminder goal", async () => {
@@ -50,7 +50,7 @@ describe("techtainment", () => {
   it("sets request id", async () => {
     await techtainment();
 
-    expect(createDatapoint).toBeCalledWith(
+    expect(createBeeminderDatapoint).toBeCalledWith(
       "narthur",
       "techtainment",
       expect.objectContaining({
@@ -62,7 +62,7 @@ describe("techtainment", () => {
   it("sets comment", async () => {
     await techtainment();
 
-    expect(createDatapoint).toBeCalledWith(
+    expect(createBeeminderDatapoint).toBeCalledWith(
       "narthur",
       "techtainment",
       expect.objectContaining({
@@ -111,6 +111,6 @@ describe("techtainment", () => {
 
     await techtainment();
 
-    expect(createDatapoint).not.toBeCalled();
+    expect(createBeeminderDatapoint).not.toBeCalled();
   });
 });
