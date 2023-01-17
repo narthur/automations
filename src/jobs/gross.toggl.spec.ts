@@ -168,4 +168,19 @@ describe("gross toggl", () => {
 
     expect(axios.post).not.toHaveBeenCalled();
   });
+
+  it("treats entire task value as captured when it is marked inactive (done)", async () => {
+    loadTogglProjects([{ id: 123, fixed_fee: 30, estimated_hours: 10 }]);
+    loadTogglTasks([
+      {
+        estimated_seconds: 3600,
+        tracked_seconds: (3600 * 1000) / 2,
+        active: false,
+      },
+    ]);
+
+    await gross();
+
+    expectNewPoint({ value: 3 });
+  });
 });

@@ -76,11 +76,17 @@ async function handleHourlyProjects(projects: TogglProject[]) {
 
 async function handleFixedFeeProjects(projects: TogglProject[]) {
   const promises = projects.map(async (p) => {
-    const projectEstimate = p.estimated_hours || 0;
+    const projectEstimate = p.estimated_hours * 3600 || 0;
     const tasks = await getTasks(p.workspace_id, p.id);
     const capturedValue = tasks.reduce((acc: number, t: TogglTask) => {
-      const est = t.estimated_seconds / 3600 || 0;
-      const act = t.tracked_seconds / (3600 * 1000) || 0;
+      if (!t.active) {
+        // Task has been completed
+        const slice = t.estimated_seconds / projectEstimate;
+        return slice * p.fixed_fee + acc;
+      }
+
+      const est = t.estimated_seconds || 0;
+      const act = t.tracked_seconds / 1000 || 0;
       const taken = Math.min(est, act);
       const slice = taken / projectEstimate;
 
