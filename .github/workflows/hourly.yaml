@@ -4,25 +4,6 @@ on:
   schedule:
     - cron: "0 * * * *"
 jobs:
-  techtainment:
-    runs-on: ubuntu-latest
-    steps:
-      - run: date
-      - uses: actions/checkout@v2
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7
-      - name: Use Node.js 16.15.0
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.15.0
-          cache: "pnpm"
-      - name: Install dependencies
-        run: pnpm install
-      - name: Run techtainment
-        run: pnpm ts-node ./src/jobs/techtainment.ts
-        env:
-          BM_AUTHS: ${{ secrets.BM_AUTHS }}
   gross:
     runs-on: ubuntu-latest
     steps:
