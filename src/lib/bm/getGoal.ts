@@ -1,6 +1,6 @@
 import axios from "axios";
 import getBmToken from "./getBmToken";
-import { Goal } from "./types";
+import { Goal } from "../../types/beeminder";
 
 function isGoal(obj: unknown): obj is Goal {
   // This is a type guard. It checks if the object is a Goal.
