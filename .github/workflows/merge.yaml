@@ -37,4 +37,4 @@ jobs:
       - name: Create service account json file
         run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > service-account.json
       - name: Deploy
-        run: firebase deploy --token ${{ secrets.FIREBASE_TOKEN }} --only functions
+        run: firebase deploy --only functions
