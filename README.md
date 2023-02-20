@@ -18,3 +18,9 @@ nvm use
 pnpm install
 pnpm deploy
 ```
+
+## Todo
+
+- Fix gross function
+- Register gross function with Toggl webhook
+- Create new function to ask Beeminder to refresh all Toggl autodata goals using Toggl webhook
