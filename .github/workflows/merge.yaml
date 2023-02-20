@@ -37,4 +37,4 @@ jobs:
       - name: Deploy
         run: firebase deploy --only functions
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ./service-account.json
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ env.GITHUB_WORKSPACE }}/service-account.json
