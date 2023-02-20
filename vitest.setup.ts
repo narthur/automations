@@ -1,8 +1,11 @@
 import { beforeEach, vi } from "vitest";
 import { getProjects, getTimeEntries } from "./src/lib/toggl";
+import { defineSecret } from "firebase-functions/params";
+import { SecretParam } from "firebase-functions/lib/params/types";
 
 vi.mock("axios");
 vi.mock("./src/lib/toggl");
+vi.mock("firebase-functions/params");
 
 export const PROJECTS = [
   {
@@ -18,8 +21,7 @@ export const PROJECTS = [
 ];
 
 export const setEnv = (env: Record<string, string>) => {
-  process.env = {
-    ...process.env,
+  env = {
     GROSS_TOGGL_LABELS: PROJECTS.map((p) => p.label).join(","),
     GROSS_TOGGL_PROJECTS: PROJECTS.map((p) => p.id).join(","),
     GROSS_TOGGL_RATES: PROJECTS.map((p) => p.rate).join(","),
@@ -27,7 +29,16 @@ export const setEnv = (env: Record<string, string>) => {
     BM_AUTHS: "narthur:the_auth_token",
     ...env,
   };
+
+  vi.mocked(defineSecret).mockImplementation(
+    (name: string) =>
+      ({
+        value: () => env[name] || "",
+      } as SecretParam)
+  );
 };
+
+setEnv({});
 
 beforeEach(() => {
   setEnv({});

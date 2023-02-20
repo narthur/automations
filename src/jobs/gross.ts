@@ -1,10 +1,15 @@
-import { config } from "dotenv";
 import createBeeminderDatapoint from "../lib/bm/createBeeminderDatapoint";
 import getSumOfHours from "../lib/getSumOfHours";
-import { TimeEntry, TogglProject, TogglTask } from "../types/toggl";
+import {
+  TimeEntry,
+  TogglProject,
+  TogglProjectFixedFee,
+  TogglProjectHourly,
+  TogglTask,
+} from "../types/toggl";
 import { getProjects, getTasks, getTimeEntries } from "../lib/toggl";
-
-config();
+import getWeekDates from "../lib/getWeekDates";
+import { isFixedFee, isHourly } from "../lib/toggl.helpers";
 
 function dateParams(date?: Date) {
   if (!date) return {};
@@ -16,19 +21,6 @@ function dateParams(date?: Date) {
     start_date: date.toISOString().split("T")[0],
     end_date: tomorrow.toISOString().split("T")[0],
   };
-}
-
-const isBillable = (p: TogglProject) => p.billable && p.active;
-const isFixedFee = (p: TogglProject) =>
-  isBillable(p) && p.fixed_fee && p.estimated_hours > 0;
-const isHourly = (p: TogglProject) => isBillable(p) && !p.fixed_fee;
-
-function getWeekDates() {
-  return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    return d;
-  });
 }
 
 async function getProjectTimeEntries(
@@ -47,7 +39,7 @@ async function getProjectTimeEntries(
   );
 }
 
-async function handleHourlyProjects(projects: TogglProject[]) {
+async function handleHourlyProjects(projects: TogglProjectHourly[]) {
   const weekDates = getWeekDates();
 
   const publishDateData = async (date: Date) => {
@@ -74,8 +66,8 @@ async function handleHourlyProjects(projects: TogglProject[]) {
   await Promise.all(weekDates.map(publishDateData));
 }
 
-async function handleFixedFeeProjects(projects: TogglProject[]) {
-  const promises = projects.map(async (p) => {
+async function handleFixedFeeProjects(projects: TogglProjectFixedFee[]) {
+  const promises = projects.map(async (p: TogglProjectFixedFee) => {
     const projectEstimate = p.estimated_hours * 3600 || 0;
     const tasks = await getTasks(p.workspace_id, p.id);
     const capturedValue = tasks.reduce((acc: number, t: TogglTask) => {
@@ -110,12 +102,6 @@ async function gross() {
   const projects = await getProjects();
   await handleHourlyProjects(projects.filter(isHourly));
   await handleFixedFeeProjects(projects.filter(isFixedFee));
-}
-
-if (!process.env.VITEST_WORKER_ID) {
-  console.log("running");
-  void gross();
-  console.log("done");
 }
 
 export default gross;

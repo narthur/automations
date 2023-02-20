@@ -1,16 +1,8 @@
 import axios from "axios";
+import { defineSecret } from "firebase-functions/params";
 
-// Axios example:
-//
-// curl -s --user 'api:YOUR_API_KEY' \
-//     https://api.mailgun.net/v3/YOUR_DOMAIN_NAME/messages \
-//     -F from='Excited User <mailgun@YOUR_DOMAIN_NAME>' \
-//     -F to=YOU@YOUR_DOMAIN_NAME \
-//     -F to=bar@example.com \
-//     -F subject='Hello' \
-//     -F text='Testing some Mailgun awesomeness!'
-//
-// source: https://documentation.mailgun.com/en/latest/quickstart-sending.html#send-with-smtp-or-api
+const mailgunDomain = defineSecret("MAILGUN_DOMAIN");
+const mailgunApiKey = defineSecret("MAILGUN_API_KEY");
 
 export default async function sendEmail({
   recipients = ["nathan@nathanarthur.com"],
@@ -23,9 +15,8 @@ export default async function sendEmail({
   subject: string;
   from?: string;
 }): Promise<unknown> {
-  // Send email via Mailgun API and Axios
   return axios.post(
-    `https://api.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`,
+    `https://api.mailgun.net/v3/${mailgunDomain.value()}/messages`,
     {
       from: `Nathan Arthur <${from}>`,
       to: recipients,
@@ -35,7 +26,7 @@ export default async function sendEmail({
     {
       auth: {
         username: "api",
-        password: process.env.MAILGUN_API_KEY,
+        password: mailgunApiKey.value(),
       },
     }
   );

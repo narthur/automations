@@ -26,8 +26,8 @@ function factory(method: string) {
       return r.url.test(url);
     });
 
-    if (!response.ok) {
-      return Promise.reject(response.payload);
+    if (!response?.ok) {
+      return Promise.reject(response?.payload);
     }
 
     return Promise.resolve(response?.payload);

@@ -122,3 +122,17 @@ export type TogglTask = {
   // Workspace ID
   workspace_id: number;
 };
+
+export type TogglProjectBillable = TogglProject & {
+  billable: true;
+  active: true;
+};
+
+export type TogglProjectFixedFee = TogglProjectBillable & {
+  fixed_fee: number;
+  estimated_hours: number;
+};
+
+export type TogglProjectHourly = TogglProjectBillable & {
+  fixed_fee: null;
+};
