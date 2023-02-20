@@ -35,6 +35,8 @@ jobs:
       - name: Create service account json file
         run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > service-account.json
       - name: Deploy
-        run: firebase deploy --only functions
+        run: |
+          echo $GOOGLE_APPLICATION_CREDENTIALS
+          firebase deploy --only functions
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ env.GITHUB_WORKSPACE }}/service-account.json
