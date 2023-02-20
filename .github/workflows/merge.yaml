@@ -39,4 +39,4 @@ jobs:
           echo $GOOGLE_APPLICATION_CREDENTIALS
           firebase deploy --only functions
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ env.GITHUB_WORKSPACE }}/service-account.json
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/service-account.json
