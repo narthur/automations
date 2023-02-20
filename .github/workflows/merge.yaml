@@ -32,11 +32,9 @@ jobs:
         run: pnpm install
       - name: Install Firebase CLI
         run: npm install -g firebase-tools@11.18.0
-      - name: Create service account json file
-        run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > service-account.json
+      - name: Authenticate with Firebase
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
       - name: Deploy
-        run: |
-          echo $GOOGLE_APPLICATION_CREDENTIALS
-          firebase deploy --only functions
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/service-account.json
+        run: firebase deploy --only functions
