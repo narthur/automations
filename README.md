@@ -19,6 +19,12 @@ pnpm install
 pnpm deploy
 ```
 
+## Toggl
+
+- [Toggl Track Webhooks](https://support.toggl.com/en/articles/6321281-toggl-track-webhooks)
+- [Webhooks API](https://developers.track.toggl.com/docs/webhooks_start/index.html)
+- [URL Endpoint Validation](https://developers.track.toggl.com/docs/webhooks_start/url_endpoint_validation/index.html)
+
 ## Todo
 
 - Fix gross function
