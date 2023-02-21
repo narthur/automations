@@ -1,7 +1,19 @@
 import { __loadResponse } from "axios";
-import { PROJECTS } from "../../../vitest.setup";
 import { vi } from "vitest";
 import { getTimeEntries } from "../toggl";
+
+const PROJECTS = [
+  {
+    id: 0,
+    rate: 10,
+    label: "Project 0",
+  },
+  {
+    id: 1,
+    rate: 20,
+    label: "Project 1",
+  },
+];
 
 export default function loadTimeEntries(entries: Record<string, unknown>[]) {
   const data = entries.map((e) => {
