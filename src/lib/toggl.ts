@@ -25,9 +25,8 @@ const togglApiToken = defineSecret("TOGGL_API_TOKEN");
 
 async function api<T>(p: string, o: AxiosRequestConfig = {}): Promise<T> {
   const u = `https://api.track.toggl.com/api/v9/${p}`;
-  const a = Buffer.from(`${togglApiToken.value()}:api_token`).toString(
-    "base64"
-  );
+  const t = togglApiToken.value();
+  const a = Buffer.from(`${t}:api_token`).toString("base64");
 
   const r = await axios(u, {
     headers: {
@@ -39,6 +38,8 @@ async function api<T>(p: string, o: AxiosRequestConfig = {}): Promise<T> {
       endpoint: p,
       url: u,
       options: o,
+      token: t,
+      auth: a,
     });
     throw err;
   });
