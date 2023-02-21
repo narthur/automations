@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { defineSecret } from "firebase-functions/params";
+import { togglApiToken } from "../secrets";
 import { TimeEntry, TogglProject, TogglTask } from "../types/toggl";
 
 export function getProjects(options: AxiosRequestConfig = {}) {
@@ -20,8 +20,6 @@ export function getTasks(
     options
   );
 }
-
-const togglApiToken = defineSecret("TOGGL_API_TOKEN");
 
 async function api<T>(p: string, o: AxiosRequestConfig = {}): Promise<T> {
   const u = `https://api.track.toggl.com/api/v9/${p}`;

@@ -1,8 +1,5 @@
 import axios from "axios";
-import { defineSecret } from "firebase-functions/params";
-
-const mailgunDomain = defineSecret("MAILGUN_DOMAIN");
-const mailgunApiKey = defineSecret("MAILGUN_API_KEY");
+import { mailgunApiKey, mailgunDomain } from "../secrets";
 
 export default async function sendEmail({
   recipients = ["nathan@nathanarthur.com"],

@@ -1,6 +1,4 @@
-import { defineSecret } from "firebase-functions/params";
-
-const bmAuths = defineSecret("BM_AUTHS");
+import { bmAuths } from "../../secrets";
 
 export default function getBmToken(user: string): string | undefined {
   const auths = bmAuths
