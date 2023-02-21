@@ -7,6 +7,7 @@ const gross = functions
     secrets: [bmAuths.name, togglApiToken.name],
   })
   .https.onRequest(async (req, res) => {
+    console.log(req.params, req.query, req.body);
     if (req.params.validation_code) {
       // https://developers.track.toggl.com/docs/webhooks_start/url_endpoint_validation/index.html
       res.send({
