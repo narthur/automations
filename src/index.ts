@@ -7,11 +7,12 @@ const gross = functions
     secrets: [bmAuths.name, togglApiToken.name],
   })
   .https.onRequest(async (req, res) => {
-    console.log(req.params, req.query, req.body);
-    if (req.params.validation_code) {
+    const body = req.body as Record<string, unknown>;
+    const code = "validation_code" in body && body.validation_code;
+    if (code) {
       // https://developers.track.toggl.com/docs/webhooks_start/url_endpoint_validation/index.html
       res.send({
-        validation_code: req.params.validation_code,
+        validation_code: code,
       });
     }
     await gross_();
