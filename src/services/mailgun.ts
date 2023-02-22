@@ -1,7 +1,7 @@
 import axios from "axios";
 import { mailgunApiKey, mailgunDomain } from "../secrets";
 
-export default async function sendEmail({
+export async function sendEmail({
   recipients = ["nathan@nathanarthur.com"],
   body,
   from = "nathan@nathanarthur.com",
