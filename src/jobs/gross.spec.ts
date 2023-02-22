@@ -7,8 +7,6 @@ import loadTogglProjects from "../test/loadTogglProjects";
 import { getTimeEntries } from "../services/toggl";
 import loadTogglTasks from "../test/loadTogglTasks";
 
-vi.mock("axios");
-
 describe("gross toggl", () => {
   beforeEach(() => {
     vi.setSystemTime("2022-08-10T17:50:07+00:00");
