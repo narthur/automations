@@ -1,5 +1,4 @@
 import createBeeminderDatapoint from "../services/bm/createBeeminderDatapoint";
-import getSumOfHours from "../services/getSumOfHours";
 import {
   TimeEntry,
   TogglProject,
@@ -9,7 +8,7 @@ import {
 } from "../types/toggl";
 import { getProjects, getTasks, getTimeEntries } from "../services/toggl";
 import getWeekDates from "../getWeekDates";
-import { isFixedFee, isHourly } from "../services/toggl.helpers";
+import { getSumOfHours, isFixedFee, isHourly } from "../services/toggl.helpers";
 
 const SIGFIGS = 2;
 
