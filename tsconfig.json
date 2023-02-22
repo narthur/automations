@@ -17,6 +17,6 @@
     "**/*.test.ts",
     "**/*.spec.tsx",
     "**/*.test.tsx",
-    "src/lib/test"
+    "src/test"
   ]
 }
