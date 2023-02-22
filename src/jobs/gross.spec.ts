@@ -183,4 +183,36 @@ describe("gross toggl", () => {
 
     expectNewPoint({ value: 3 });
   });
+
+  it("rounds number of hours in datapoint comment to 2 decimal places", async () => {
+    loadTogglProjects([{ id: 123, rate: 3 }]);
+    loadTimeEntries([{ project_id: 123, duration: 3600 }]);
+
+    await gross();
+
+    expectNewPoint({ comment: expect.stringMatching(/1h/) });
+  });
+
+  it("rounds captured value to 2 decimal places", async () => {
+    loadTogglProjects([{ id: 123, fixed_fee: 30, estimated_hours: 13 }]);
+    loadTogglTasks([
+      {
+        estimated_seconds: 3600,
+        tracked_seconds: (3600 * 1000) / 2,
+      },
+    ]);
+
+    await gross();
+
+    expectNewPoint({ value: 1.15 });
+  });
+
+  it("rounds value to 2 decimal places for hourly projects", async () => {
+    loadTogglProjects([{ id: 123, rate: 3 }]);
+    loadTimeEntries([{ project_id: 123, duration: 2900 }]);
+
+    await gross();
+
+    expectNewPoint({ value: 2.42 });
+  });
 });

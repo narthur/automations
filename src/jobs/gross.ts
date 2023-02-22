@@ -11,6 +11,12 @@ import { getProjects, getTasks, getTimeEntries } from "../lib/toggl";
 import getWeekDates from "../lib/getWeekDates";
 import { isFixedFee, isHourly } from "../lib/toggl.helpers";
 
+const SIGFIGS = 2;
+
+function sigfigs(n: number) {
+  return +n.toFixed(SIGFIGS);
+}
+
 function dateParams(date?: Date) {
   if (!date) return {};
 
@@ -53,8 +59,8 @@ async function handleHourlyProjects(projects: TogglProjectHourly[]) {
       const v = t * r;
       if (t === 0) return;
       await createBeeminderDatapoint("narthur", "gross", {
-        value: v,
-        comment: `Toggl: ${project.name}: ${t}hrs @ $${r}/hr`,
+        value: sigfigs(v),
+        comment: `Toggl: ${project.name}: ${sigfigs(t)}h @ $${r}/h`,
         requestid: `toggl-${project.id}-${dateString}`,
         daystamp: dateString.replace(/-/g, ""),
       });
@@ -90,8 +96,10 @@ async function handleFixedFeeProjects(projects: TogglProjectFixedFee[]) {
     }, 0);
 
     await createBeeminderDatapoint("narthur", "gross", {
-      value: capturedValue,
-      comment: `Toggl: ${p.name}: ${totalTracked}hrs of est. ${projectEstimate}hrs for a fixed fee of $${p.fixed_fee}`,
+      value: sigfigs(capturedValue),
+      comment: `Toggl: ${p.name}: ${sigfigs(totalTracked)}h of est. ${sigfigs(
+        projectEstimate
+      )}h for a fixed fee of $${sigfigs(p.fixed_fee)}`,
       requestid: `toggl-${p.id}-fixed`,
     });
   });
