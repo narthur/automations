@@ -5,6 +5,7 @@ import {
   TogglProjectHourly,
   TimeEntry,
 } from "../services/toggl.types";
+import * as functions from "firebase-functions";
 
 export function getSumOfHours(entries: TimeEntry[]): number {
   if (entries === undefined) {
@@ -35,3 +36,19 @@ export const isFixedFee = (p: TogglProject): p is TogglProjectFixedFee =>
 
 export const isHourly = (p: TogglProject): p is TogglProjectHourly =>
   isBillable(p) && !p.fixed_fee;
+
+export function validateTogglEndpoint(
+  req: functions.https.Request,
+  res: functions.Response
+) {
+  const body = req.body as Record<string, unknown>;
+  const code = "validation_code" in body && body.validation_code;
+  if (code) {
+    // https://developers.track.toggl.com/docs/webhooks_start/url_endpoint_validation/index.html
+    res.send({
+      validation_code: code,
+    });
+    return true;
+  }
+  return false;
+}
