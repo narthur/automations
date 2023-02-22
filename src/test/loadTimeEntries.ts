@@ -1,6 +1,7 @@
 import { __loadResponse } from "axios";
 import { vi } from "vitest";
-import { getTimeEntries } from "../toggl";
+import { getTimeEntries } from "../services/toggl";
+import { TimeEntry } from "../types/toggl";
 
 const PROJECTS = [
   {
@@ -15,8 +16,8 @@ const PROJECTS = [
   },
 ];
 
-export default function loadTimeEntries(entries: Record<string, unknown>[]) {
-  const data = entries.map((e) => {
+export default function loadTimeEntries(entries: Partial<TimeEntry>[]) {
+  const data = entries.map((e): Partial<TimeEntry> => {
     return {
       project_id: PROJECTS[0].id,
       duration: 3600,
@@ -32,5 +33,5 @@ export default function loadTimeEntries(entries: Record<string, unknown>[]) {
     },
   });
 
-  vi.mocked(getTimeEntries).mockResolvedValue(data as any);
+  vi.mocked(getTimeEntries).mockResolvedValue(data as TimeEntry[]);
 }

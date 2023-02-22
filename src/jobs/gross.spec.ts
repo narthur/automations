@@ -1,11 +1,11 @@
 import { describe, it, vi, beforeEach, expect } from "vitest";
 import gross from "./gross";
 import axios, { __loadResponse } from "axios";
-import expectNewPoint from "../lib/test/expectNewPoint";
-import loadTimeEntries from "../lib/test/loadTimeEntries";
-import loadTogglProjects from "../lib/test/loadTogglProjects";
-import { getTimeEntries } from "../lib/toggl";
-import loadTogglTasks from "../lib/test/loadTogglTasks";
+import expectNewPoint from "../test/expectNewPoint";
+import loadTimeEntries from "../test/loadTimeEntries";
+import loadTogglProjects from "../test/loadTogglProjects";
+import { getTimeEntries } from "../services/toggl";
+import loadTogglTasks from "../test/loadTogglTasks";
 
 vi.mock("axios");
 

@@ -1,7 +1,7 @@
 import { __loadResponse } from "axios";
 import { vi } from "vitest";
-import { getProjects } from "../toggl";
-import { TogglProject } from "../../types/toggl";
+import { getProjects } from "../services/toggl";
+import { TogglProject } from "../types/toggl";
 
 export default function loadTogglProjects(
   projects: Array<Partial<TogglProject>>
@@ -32,7 +32,7 @@ export default function loadTogglProjects(
     };
   });
 
-  vi.mocked(getProjects).mockResolvedValue(data as any);
+  vi.mocked(getProjects).mockResolvedValue(data);
 
   __loadResponse({
     url: /\/projects$/,
