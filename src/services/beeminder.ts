@@ -47,10 +47,8 @@ export async function createDatapoint(
 }
 
 function isGoal(obj: unknown): obj is Goal {
-  if (typeof obj !== "object" || obj === null) {
-    return false;
-  }
-
+  if (typeof obj !== "object") return false;
+  if (obj === null) return false;
   return typeof (obj as Goal).slug === "string";
 }
 
