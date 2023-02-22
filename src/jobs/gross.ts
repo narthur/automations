@@ -1,4 +1,3 @@
-import createBeeminderDatapoint from "../services/bm/createBeeminderDatapoint";
 import {
   TimeEntry,
   TogglProject,
@@ -9,6 +8,7 @@ import {
 import { getProjects, getTasks, getTimeEntries } from "../services/toggl";
 import getWeekDates from "../getWeekDates";
 import { getSumOfHours, isFixedFee, isHourly } from "../services/toggl.helpers";
+import { createDatapoint } from "../services/beeminder";
 
 const SIGFIGS = 2;
 
@@ -57,7 +57,7 @@ async function handleHourlyProjects(projects: TogglProjectHourly[]) {
       const r = project.rate;
       const v = t * r;
       if (t === 0) return;
-      await createBeeminderDatapoint("narthur", "gross", {
+      await createDatapoint("narthur", "gross", {
         value: sigfigs(v),
         comment: `Toggl: ${project.name}: ${sigfigs(t)}h @ $${r}/h`,
         requestid: `toggl-${project.id}-${dateString}`,
@@ -94,7 +94,7 @@ async function handleFixedFeeProjects(projects: TogglProjectFixedFee[]) {
       return act + acc;
     }, 0);
 
-    await createBeeminderDatapoint("narthur", "gross", {
+    await createDatapoint("narthur", "gross", {
       value: sigfigs(capturedValue),
       comment: `Toggl: ${p.name}: ${sigfigs(totalTracked)}h of est. ${sigfigs(
         projectEstimate
