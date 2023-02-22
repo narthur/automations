@@ -52,7 +52,7 @@ module.exports = {
       },
     },
     {
-      files: ["*.d.ts"],
+      files: ["*.d.ts", "*.types.ts"],
       rules: {
         "max-lines": "off",
       },

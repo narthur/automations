@@ -408,3 +408,16 @@ export type Goal = {
    */
   tags: string[];
 };
+
+export type DatapointInput = {
+  value: number;
+  comment?: string;
+  daystamp?: string;
+  requestid?: string;
+};
+
+export type ServerError = {
+  response: {
+    status: number;
+  };
+};

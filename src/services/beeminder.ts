@@ -1,19 +1,6 @@
 import axios from "axios";
-import { Goal } from "./beeminder.types";
+import { DatapointInput, Goal, ServerError } from "./beeminder.types";
 import { bmAuths } from "../secrets";
-
-type Data = {
-  value: number;
-  comment?: string;
-  daystamp?: string;
-  requestid?: string;
-};
-
-type ServerError = {
-  response: {
-    status: number;
-  };
-};
 
 function parse(auth: string): [string, string] {
   const [u, t] = auth.split(":");
@@ -36,7 +23,11 @@ function isServerError(err: unknown): err is ServerError {
   return typeof (err as ServerError).response === "object";
 }
 
-export async function createDatapoint(user: string, slug: string, data: Data) {
+export async function createDatapoint(
+  user: string,
+  slug: string,
+  data: DatapointInput
+) {
   const url = `https://www.beeminder.com/api/v1/users/${user}/goals/${slug}/datapoints.json`;
   const options = {
     auth_token: getToken(user),
