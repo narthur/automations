@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Goal } from "../types/beeminder";
+import { Goal } from "./beeminder.types";
 import { bmAuths } from "../secrets";
 
 type Data = {

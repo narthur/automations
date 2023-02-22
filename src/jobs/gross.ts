@@ -4,7 +4,7 @@ import {
   TogglProjectFixedFee,
   TogglProjectHourly,
   TogglTask,
-} from "../types/toggl";
+} from "../services/toggl.types";
 import { getProjects, getTasks, getTimeEntries } from "../services/toggl";
 import getWeekDates from "../getWeekDates";
 import { getSumOfHours, isFixedFee, isHourly } from "../services/toggl.helpers";

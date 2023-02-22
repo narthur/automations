@@ -4,7 +4,7 @@ import {
   TogglProjectFixedFee,
   TogglProjectHourly,
   TimeEntry,
-} from "../types/toggl";
+} from "../services/toggl.types";
 
 export function getSumOfHours(entries: TimeEntry[]): number {
   if (entries === undefined) {

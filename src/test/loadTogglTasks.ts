@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-import { TogglTask } from "../types/toggl";
+import { TogglTask } from "../types/toggl.types";
 import { getTasks } from "../services/toggl";
 
 export default function loadTogglTasks(tasks: Partial<TogglTask>[]) {
