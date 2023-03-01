@@ -10,7 +10,7 @@
   "scripts": {
     "test": "vitest --segfault-retry=3",
     "checkTs": "tsc --noEmit",
-    "lint": "eslint --ext .js,.ts .",
+    "lint": "eslint .",
     "build": "npx rimraf ./lib && tsc",
     "build:watch": "tsc --watch",
     "serve": "npm run build && firebase emulators:start --only functions",

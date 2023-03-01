@@ -1,11 +1,5 @@
 {
   "extends": "./tsconfig.json",
-  "include": [
-    "src",
-    ".eslintrc.js",
-    "vite.config.ts",
-    "vitest.setup.ts",
-    "__mocks__"
-  ],
+  "include": ["src", "vite.config.ts", "vitest.setup.ts", "__mocks__"],
   "exclude": []
 }
