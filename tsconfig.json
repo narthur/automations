@@ -1,42 +1,25 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "noImplicitReturns": true,
-        "noUnusedLocals": true,
-        "outDir": "lib",
-        "sourceMap": true,
-        "strict": true,
-        "target": "es2017",
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "baseUrl": ".",
-        "paths": {
-            "@__mocks__/*": [
-                "src/__mocks__/*"
-            ],
-            "@jobs/*": [
-                "src/jobs/*"
-            ],
-            "@services/*": [
-                "src/services/*"
-            ],
-            "@test/*": [
-                "src/test/*"
-            ],
-            "@/*": [
-                "src/*"
-            ]
-        }
-    },
-    "compileOnSave": true,
-    "include": [
-        "src"
-    ],
-    "exclude": [
-        "**/*.spec.ts",
-        "**/*.test.ts",
-        "**/*.spec.tsx",
-        "**/*.test.tsx",
-        "src/test"
-    ]
+  "compilerOptions": {
+    "module": "CommonJS",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2017",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "resolveJsonModule": true
+  },
+  "compileOnSave": true,
+  "include": ["src"],
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/*.spec.tsx",
+    "**/*.test.tsx",
+    "src/test",
+    "**/__mocks__/**/*"
+  ]
 }
