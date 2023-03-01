@@ -1,7 +1,7 @@
 import { describe, it, vi, beforeEach, expect } from "vitest";
 import gross from "./gross";
 import axios, { __loadResponse } from "axios";
-import expectNewPoint from "../test/expectNewPoint";
+import expectNewPoint from "@test/expectNewPoint";
 import loadTimeEntries from "../test/loadTimeEntries";
 import loadTogglProjects from "../test/loadTogglProjects";
 import { getTimeEntries } from "../services/toggl";

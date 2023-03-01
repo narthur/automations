@@ -14,4 +14,11 @@ export default defineConfig({
     clearMocks: true,
     include: ["./src/**/*.spec.ts"],
   },
+  build: {
+    outDir: "lib",
+    lib: {
+      entry: "src/index.ts",
+      formats: ["cjs"],
+    },
+  },
 });
