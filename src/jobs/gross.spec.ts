@@ -213,4 +213,13 @@ describe("gross toggl", () => {
 
     expectNewPoint({ value: 2.42 });
   });
+
+  it("does not post datapoint for ongoing time entry", async () => {
+    loadTogglProjects([{ id: 123, rate: 3 }]);
+    loadTimeEntries([{ project_id: 123, duration: -1 }]);
+
+    await gross();
+
+    expect(axios.post).not.toHaveBeenCalled();
+  });
 });

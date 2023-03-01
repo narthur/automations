@@ -8,21 +8,12 @@ import {
 import * as functions from "firebase-functions";
 
 export function getSumOfHours(entries: TimeEntry[]): number {
-  if (entries === undefined) {
-    return 0;
-  }
+  if (entries === undefined) return 0;
 
-  return entries.reduce((sum: number, entry: TimeEntry) => {
-    if (entry.duration > 0) {
-      return sum + entry.duration / 3600;
-    }
+  const durations = entries.map((e) => e.duration).filter((d) => d > 0);
+  const sum = durations.reduce((a, b) => a + b, 0);
 
-    const start = new Date(entry.start);
-    const end = new Date();
-    const duration = end.getTime() - start.getTime();
-
-    return (sum + duration) / 3600 / 1000;
-  }, 0);
+  return sum / 3600;
 }
 
 export const isBillable = (p: TogglProject): p is TogglProjectBillable =>
