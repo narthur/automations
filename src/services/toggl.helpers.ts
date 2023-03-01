@@ -4,8 +4,13 @@ import {
   TogglProjectFixedFee,
   TogglProjectHourly,
   TimeEntry,
+  TogglTask,
 } from "../services/toggl.types";
 import * as functions from "firebase-functions";
+
+export function isTaskCompleted(task: TogglTask): boolean {
+  return !task.active;
+}
 
 export function getSumOfHours(entries: TimeEntry[]): number {
   if (entries === undefined) return 0;
