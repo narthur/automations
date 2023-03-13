@@ -2,7 +2,7 @@ import { TogglProjectFixedFee, TogglTask } from "../services/toggl.types";
 import { getTasks } from "../services/toggl";
 import { createDatapoint } from "../services/beeminder";
 import { sigfigs } from "./gross";
-import { isTaskCompleted } from "src/services/toggl.helpers";
+import { isTaskCompleted } from "../services/toggl.helpers";
 
 export async function handleFixedFeeProjects(projects: TogglProjectFixedFee[]) {
   const promises = projects.map(async (p: TogglProjectFixedFee) => {
