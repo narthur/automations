@@ -4,10 +4,6 @@ on:
 env:
   NODE_VERSION: 16
 jobs:
-  temp:
-    runs-on: ubuntu-latest
-    steps:
-      - run: hostname
   lint:
     runs-on: ubuntu-latest
     steps:
