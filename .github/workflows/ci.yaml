@@ -7,7 +7,7 @@ jobs:
   temp:
     runs-on: ubuntu-latest
     steps:
-      - run: echo $USER
+      - run: hostname
   lint:
     runs-on: ubuntu-latest
     steps:
