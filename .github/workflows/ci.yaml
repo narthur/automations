@@ -4,6 +4,10 @@ on:
 env:
   NODE_VERSION: 16
 jobs:
+  temp:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo $USER
   lint:
     runs-on: ubuntu-latest
     steps:
