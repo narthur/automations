@@ -13,9 +13,10 @@ const gross_https = functions
   .runWith({
     secrets: [bmAuths.name, togglApiToken.name],
   })
-  .https.onRequest((req, res) => {
+  .https.onRequest(async (req, res) => {
     res.set("Access-Control-Allow-Origin", "*");
-    return gross_();
+    await gross_();
+    res.send("OK");
   });
 
 export { gross_cron, gross_https };
