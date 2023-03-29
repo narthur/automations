@@ -6,7 +6,7 @@ const gross_cron = functions
   .runWith({
     secrets: [bmAuths.name, togglApiToken.name],
   })
-  .pubsub.schedule("every 10 minutes")
+  .pubsub.schedule("every 30 minutes")
   .onRun(gross_);
 
 const gross_https = functions
