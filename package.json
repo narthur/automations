@@ -5,6 +5,7 @@
   "engines": {
     "node": "16"
   },
+  "packageManager": "pnpm@7.12.2",
   "main": "lib/index.js",
   "scripts": {
     "test": "vitest --segfault-retry=3",
