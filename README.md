@@ -16,8 +16,16 @@ open http://localhost:5001/automations-120bb/us-central1/gross # run https funct
 ```bash
 nvm use
 pnpm install
-pnpm deploy
+firebase login # or firebase login:add
+firebase login:use the_email
+pnpm run deploy
 ```
+
+If you receive the following error:
+
+> Error: Failed to get Firebase project [project_id]. Please make sure the project exists and your account has permission to access it.
+
+Try running `firebase logout` and `firebase login` to refresh your access token.
 
 ## Toggl
 
