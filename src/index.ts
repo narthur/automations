@@ -63,7 +63,7 @@ const sms_https = functions
     const twilioSignature = String(req.headers["x-twilio-signature"]);
     const url = `https://${String(req.header("host"))}/${String(
       process.env.FUNCTION_TARGET
-    )}${req.originalUrl}`;
+    )}`;
 
     console.log(
       twilioAuthToken.value(),
