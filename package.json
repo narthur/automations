@@ -29,17 +29,18 @@
   },
   "homepage": "https://github.com/narthur/automations#readme",
   "dependencies": {
+    "@notionhq/client": "^2.2.3",
     "@types/node": "^18.14.0",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
     "axios": "^1.3.3",
-    "eslint": "^8.34.0",
-    "firebase-admin": "^11.5.0",
+    "eslint": "^8.37.0",
+    "firebase-admin": "^11.6.0",
     "firebase-functions": "^4.2.1",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.5",
-    "vite": "^4.1.3",
-    "vitest": "^0.28.5"
+    "typescript": "^5.0.4",
+    "vite": "^4.2.1",
+    "vitest": "^0.29.8"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.12.0",
@@ -48,7 +49,7 @@
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.27.5",
     "firebase-functions-test": "^3.0.0",
-    "rimraf": "^4.1.2",
+    "rimraf": "^4.4.1",
     "typescript": "^4.5.4"
   },
   "private": true

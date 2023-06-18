@@ -1,3 +1,4 @@
+import path from "path";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
@@ -6,5 +7,13 @@ export default defineConfig({
     setupFiles: ["./vitest.setup.ts"],
     clearMocks: true,
     include: ["./src/**/*.spec.ts"],
+  },
+  resolve: {
+    alias: [
+      {
+        find: /^src\//,
+        replacement: path.resolve(__dirname, "./src") + path.sep,
+      },
+    ],
   },
 });

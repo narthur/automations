@@ -1,22 +1,54 @@
 import * as functions from "firebase-functions";
-import gross_ from "./jobs/gross";
-import { bmAuths, togglApiToken } from "./secrets";
+import gross from "./jobs/gross";
+import trCards from "./jobs/tr-cards";
+import {
+  bmAuths,
+  togglApiToken,
+  notionApiKey,
+  notionDatabaseIdTrCards,
+} from "./secrets";
+
+const grossSecrets = [bmAuths.name, togglApiToken.name];
+const trCardsSecrets = [
+  bmAuths.name,
+  notionApiKey.name,
+  notionDatabaseIdTrCards.name,
+];
+
+function setCors(res: functions.Response) {
+  res.set("Access-Control-Allow-Origin", "*");
+}
 
 const gross_cron = functions
   .runWith({
-    secrets: [bmAuths.name, togglApiToken.name],
+    secrets: grossSecrets,
   })
   .pubsub.schedule("every 30 minutes")
-  .onRun(gross_);
+  .onRun(gross);
 
 const gross_https = functions
   .runWith({
-    secrets: [bmAuths.name, togglApiToken.name],
+    secrets: grossSecrets,
   })
   .https.onRequest(async (req, res) => {
-    res.set("Access-Control-Allow-Origin", "*");
-    await gross_();
-    res.send("OK");
+    setCors(res);
+    await gross();
   });
 
-export { gross_cron, gross_https };
+const trCards_cron = functions
+  .runWith({
+    secrets: trCardsSecrets,
+  })
+  .pubsub.schedule("every 30 minutes")
+  .onRun(trCards);
+
+const trCards_https = functions
+  .runWith({
+    secrets: trCardsSecrets,
+  })
+  .https.onRequest(async (req, res) => {
+    setCors(res);
+    await trCards();
+  });
+
+export { gross_cron, gross_https, trCards_cron, trCards_https };
