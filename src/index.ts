@@ -61,9 +61,9 @@ const sms_https = functions
   .https.onRequest((req, res) => {
     console.info("Validating Twilio request");
     const twilioSignature = String(req.headers["x-twilio-signature"]);
-    const url = `${req.protocol}://${String(req.get("Origin"))}${
-      req.originalUrl
-    }`;
+    const url = `https://${String(req.header("host"))}/${String(
+      process.env.FUNCTION_TARGET
+    )}${req.originalUrl}`;
 
     console.log(
       twilioAuthToken.value(),
