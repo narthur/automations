@@ -7,6 +7,7 @@ import {
   notionApiKey,
   notionDatabaseIdTrCards,
 } from "./secrets";
+import { twiml } from "twilio";
 
 const grossSecrets = [bmAuths.name, togglApiToken.name];
 const trCardsSecrets = [
@@ -51,4 +52,11 @@ const trCards_https = functions
     await trCards();
   });
 
-export { gross_cron, gross_https, trCards_cron, trCards_https };
+const sms_https = functions.https.onRequest((req, res) => {
+  console.log(req.body);
+  const m = new twiml.MessagingResponse();
+  m.message("Hello World");
+  res.send(m.toString());
+});
+
+export { gross_cron, gross_https, trCards_cron, trCards_https, sms_https };
