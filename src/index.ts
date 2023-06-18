@@ -60,19 +60,20 @@ const sms_https = functions
   })
   .https.onRequest((req, res) => {
     console.info("Validating Twilio request");
-    const twilioSignature = String(req.headers["X-Twilio-Signature"]);
+    const twilioSignature = String(req.headers["x-twilio-signature"]);
+    const url = `${String(req.headers["x-forwarded-proto"])}://${req.hostname}`;
 
     console.log(
       twilioAuthToken.value(),
       twilioSignature,
-      req.url,
+      url,
       req.body as Record<string, unknown>
     );
 
     const isValid = twilio.validateRequest(
       twilioAuthToken.value(),
       twilioSignature,
-      req.url,
+      url,
       req.body as Record<string, unknown>
     );
 
