@@ -1,6 +1,7 @@
 import * as functions from "firebase-functions";
 import gross_ from "./jobs/gross";
 import { bmAuths, togglApiToken } from "./secrets";
+import { twiml } from "twilio";
 
 const gross_cron = functions
   .runWith({
@@ -19,4 +20,11 @@ const gross_https = functions
     res.send("OK");
   });
 
-export { gross_cron, gross_https };
+const sms_https = functions.https.onRequest(async (req, res) => {
+  console.log(req.body);
+  const m = new twiml.MessagingResponse();
+  m.message("Hello World");
+  res.send(m.toString());
+});
+
+export { gross_cron, gross_https, sms_https };
