@@ -7,6 +7,7 @@ import {
   notionApiKey,
   notionDatabaseIdTrCards,
   twilioAuthToken,
+  twilioWhitelistedNumbers,
 } from "./secrets";
 import twilio from "twilio";
 
@@ -16,7 +17,7 @@ const trCardsSecrets = [
   notionApiKey.name,
   notionDatabaseIdTrCards.name,
 ];
-const smsSecrets = [twilioAuthToken.name];
+const smsSecrets = [twilioAuthToken.name, twilioWhitelistedNumbers.name];
 
 function setCors(res: functions.Response) {
   res.set("Access-Control-Allow-Origin", "*");
@@ -60,26 +61,24 @@ const sms_https = functions
   })
   .https.onRequest((req, res) => {
     console.info("Validating Twilio request");
+
     const twilioSignature = String(req.headers["x-twilio-signature"]);
     const url = `https://${String(req.header("host"))}/${String(
       process.env.FUNCTION_TARGET
     )}`;
-
-    console.log(
-      twilioAuthToken.value(),
-      twilioSignature,
-      url,
-      req.body as Record<string, unknown>
-    );
-
+    const params = req.body as Record<string, unknown>;
     const isValid = twilio.validateRequest(
       twilioAuthToken.value(),
       twilioSignature,
       url,
-      req.body as Record<string, unknown>
+      params
     );
+    const isWhitelisted =
+      typeof params.From === "string" &&
+      params.From.length > 0 &&
+      twilioWhitelistedNumbers.value().includes(params.From);
 
-    if (!isValid) {
+    if (!isValid || !isWhitelisted) {
       console.error("Unauthorized");
       res.status(401).send("Unauthorized");
       return;
