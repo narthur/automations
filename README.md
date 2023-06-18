@@ -16,8 +16,8 @@ open http://localhost:5001/automations-120bb/us-central1/gross # run https funct
 ```bash
 nvm use
 pnpm install
-firebase login # or firebase login:add
-firebase login:use the_email
+pnpm firebase login # or pnpm firebase login:add
+pnpm firebase login:use the_email
 pnpm run deploy
 ```
 
@@ -26,6 +26,15 @@ If you receive the following error:
 > Error: Failed to get Firebase project [project_id]. Please make sure the project exists and your account has permission to access it.
 
 Try running `firebase logout` and `firebase login` to refresh your access token.
+
+### Secrets
+
+```bash
+pnpm firebase functions:secrets:set THE_SECRET_ID
+pnpm firebase functions:secrets:get THE_SECRET_ID
+```
+
+You can view the secret's value in the Google Cloud console Secrets Manager.
 
 ## Toggl
 

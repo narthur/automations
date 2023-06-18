@@ -6,8 +6,9 @@ import {
   togglApiToken,
   notionApiKey,
   notionDatabaseIdTrCards,
+  twilioAuthToken,
 } from "./secrets";
-import { twiml } from "twilio";
+import twilio from "twilio";
 
 const grossSecrets = [bmAuths.name, togglApiToken.name];
 const trCardsSecrets = [
@@ -15,6 +16,7 @@ const trCardsSecrets = [
   notionApiKey.name,
   notionDatabaseIdTrCards.name,
 ];
+const smsSecrets = [twilioAuthToken.name];
 
 function setCors(res: functions.Response) {
   res.set("Access-Control-Allow-Origin", "*");
@@ -52,11 +54,32 @@ const trCards_https = functions
     await trCards();
   });
 
-const sms_https = functions.https.onRequest((req, res) => {
-  console.log(req.body);
-  const m = new twiml.MessagingResponse();
-  m.message("Hello World");
-  res.send(m.toString());
-});
+const sms_https = functions
+  .runWith({
+    secrets: smsSecrets,
+  })
+  .https.onRequest((req, res) => {
+    const twilioSignature = String(req.headers["X-Twilio-Signature"]);
+
+    const isValid = twilio.validateRequest(
+      twilioAuthToken.value(),
+      twilioSignature,
+      req.url,
+      req.body as Record<string, unknown>
+    );
+
+    if (!isValid) {
+      res.status(401).send("Unauthorized");
+      return;
+    }
+
+    console.log(req.body);
+
+    const m = new twilio.twiml.MessagingResponse();
+
+    m.message("Hello World");
+
+    res.send(m.toString());
+  });
 
 export { gross_cron, gross_https, trCards_cron, trCards_https, sms_https };

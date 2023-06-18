@@ -15,3 +15,6 @@ export const notionApiKey = defineSecret("NOTION_API_KEY");
 export const notionDatabaseIdTrCards = defineSecret(
   "NOTION_DATABASE_ID_TR_CARDS"
 );
+
+// Twilio
+export const twilioAuthToken = defineSecret("TWILIO_AUTH_TOKEN");
