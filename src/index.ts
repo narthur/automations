@@ -10,6 +10,7 @@ import {
   twilioWhitelistedNumbers,
 } from "./secrets";
 import twilio from "twilio";
+import { isRequestAuthorized } from "./services/twilio";
 
 const grossSecrets = [bmAuths.name, togglApiToken.name];
 const trCardsSecrets = [
@@ -62,23 +63,7 @@ const sms_https = functions
   .https.onRequest((req, res) => {
     console.info("Validating Twilio request");
 
-    const twilioSignature = String(req.headers["x-twilio-signature"]);
-    const url = `https://${String(req.header("host"))}/${String(
-      process.env.FUNCTION_TARGET
-    )}`;
-    const params = req.body as Record<string, unknown>;
-    const isValid = twilio.validateRequest(
-      twilioAuthToken.value(),
-      twilioSignature,
-      url,
-      params
-    );
-    const isWhitelisted =
-      typeof params.From === "string" &&
-      params.From.length > 0 &&
-      twilioWhitelistedNumbers.value().includes(params.From);
-
-    if (!isValid || !isWhitelisted) {
+    if (!isRequestAuthorized(req)) {
       console.error("Unauthorized");
       res.status(401).send("Unauthorized");
       return;
