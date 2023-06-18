@@ -20,7 +20,7 @@ const gross_https = functions
     res.send("OK");
   });
 
-const sms_https = functions.https.onRequest(async (req, res) => {
+const sms_https = functions.https.onRequest((req, res) => {
   console.log(req.body);
   const m = new twiml.MessagingResponse();
   m.message("Hello World");
