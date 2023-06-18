@@ -29,9 +29,11 @@ Try running `firebase logout` and `firebase login` to refresh your access token.
 
 ### Secrets
 
+After defining a new secret in `secrets.ts`, you'll need to set it in the Firebase project:
+
 ```bash
-pnpm firebase functions:secrets:set THE_SECRET_ID
-pnpm firebase functions:secrets:get THE_SECRET_ID
+pnpm firebase functions:secrets:set THE_SECRET_ID # and enter the value
+pnpm firebase functions:secrets:get THE_SECRET_ID # to verify
 ```
 
 You can view the secret's value in the Google Cloud console Secrets Manager.

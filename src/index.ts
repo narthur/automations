@@ -59,8 +59,8 @@ const sms_https = functions
     secrets: smsSecrets,
   })
   .https.onRequest((req, res) => {
+    console.info("Validating Twilio request");
     const twilioSignature = String(req.headers["X-Twilio-Signature"]);
-
     const isValid = twilio.validateRequest(
       twilioAuthToken.value(),
       twilioSignature,
@@ -69,9 +69,12 @@ const sms_https = functions
     );
 
     if (!isValid) {
+      console.error("Unauthorized");
       res.status(401).send("Unauthorized");
       return;
     }
+
+    console.info("Twilio request is authorized");
 
     console.log(req.body);
 
@@ -79,6 +82,7 @@ const sms_https = functions
 
     m.message("Hello World");
 
+    console.info("Sending response");
     res.send(m.toString());
   });
 
