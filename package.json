@@ -4,9 +4,8 @@
   "description": "",
   "engines": {
     "node": "16",
-    "pnpm": "7.12.2"
+    "pnpm": "7"
   },
-  "packageManager": "pnpm@7.12.2",
   "main": "lib/index.js",
   "scripts": {
     "test": "vitest --segfault-retry=3",
