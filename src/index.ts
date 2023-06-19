@@ -27,6 +27,7 @@ const smsSecrets = [
   twilioPhoneNumber.name,
   twilioWhitelistedNumbers.name,
   openAiSecretKey.name,
+  bmAuths.name,
 ];
 
 function setCors(res: functions.Response) {
