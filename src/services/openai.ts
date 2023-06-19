@@ -38,6 +38,11 @@ export async function getResponse(
       model: MODEL,
       messages: [
         {
+          role: "system",
+          content:
+            "Your user is a developer. If they ask you to do something beyond your capabilities, you should request that they add a function to the system for you to use. Describe the function you need in as much detail as possible.",
+        },
+        {
           role: "user",
           content: prompt,
         },
