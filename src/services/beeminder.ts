@@ -82,6 +82,7 @@ export async function getGoals(): Promise<Goal[]> {
   const goals = await Promise.all(
     Object.entries(auths).map(async ([user, token]) => {
       const url = `https://www.beeminder.com/api/v1/users/${user}/goals.json?auth_token=${token}&datapoints=true`;
+      console.info("Fetching goals for", user, "from", url);
       const response = await axios.get(url).catch((error) => {
         console.error("Error fetching goals");
         console.error("URL:", url);
