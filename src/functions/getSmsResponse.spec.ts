@@ -2,6 +2,9 @@ import { describe, expect, it, vi } from "vitest";
 import getSmsResponse, { MAX_SMS_LENGTH } from "./getSmsResponse";
 import { getResponse } from "src/services/openai";
 import { ChatCompletionResponseMessageRoleEnum } from "openai";
+import { getGoals } from "src/services/beeminder";
+
+vi.mock("src/services/beeminder");
 
 describe("getSmsResponse", () => {
   it("should return a response", async () => {
@@ -16,7 +19,7 @@ describe("getSmsResponse", () => {
   it("passes prompt to openai", async () => {
     const prompt = "Hello world!";
     await getSmsResponse(prompt);
-    expect(getResponse).toHaveBeenCalledWith(prompt);
+    expect(getResponse).toHaveBeenCalledWith(prompt, expect.anything());
   });
 
   it("splits long messages", async () => {
@@ -48,5 +51,17 @@ describe("getSmsResponse", () => {
     const response = await getSmsResponse("");
 
     expect(response[0]).toContain("1/2");
+  });
+
+  it("calls functions", async () => {
+    vi.mocked(getGoals).mockResolvedValue([]);
+    vi.mocked(getResponse).mockResolvedValue({
+      role: ChatCompletionResponseMessageRoleEnum.Assistant,
+      function_call: {
+        name: "getBeemergencies",
+      },
+    });
+    await getSmsResponse("");
+    expect(getGoals).toBeCalled();
   });
 });

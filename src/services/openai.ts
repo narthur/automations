@@ -1,4 +1,8 @@
-import { Configuration, OpenAIApi } from "openai";
+import {
+  Configuration,
+  OpenAIApi,
+  ChatCompletionResponseMessage,
+} from "openai";
 import { openAiSecretKey } from "../secrets";
 
 const MODEL = "gpt-3.5-turbo-0613";
@@ -17,7 +21,14 @@ function getOpenAi() {
   return openai;
 }
 
-export async function getResponse(prompt: string) {
+export async function getResponse(
+  prompt: string,
+  functions?: {
+    name: string;
+    description?: string;
+    parameters?: Record<string, unknown>;
+  }[]
+): Promise<ChatCompletionResponseMessage | undefined> {
   const completion = await getOpenAi().createChatCompletion({
     model: MODEL,
     messages: [
@@ -26,6 +37,7 @@ export async function getResponse(prompt: string) {
         content: prompt,
       },
     ],
+    functions,
   });
 
   return completion.data.choices[0].message;

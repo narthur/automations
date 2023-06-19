@@ -52,10 +52,7 @@ function isGoal(obj: unknown): obj is Goal {
   return typeof (obj as Goal).slug === "string";
 }
 
-export default async function getGoal(
-  user: string,
-  slug: string
-): Promise<Goal> {
+export async function getGoal(user: string, slug: string): Promise<Goal> {
   const t = getToken(user);
 
   if (!t) {
@@ -75,4 +72,32 @@ export default async function getGoal(
   }
 
   throw new Error(`Failed to get goal for ${slug}`);
+}
+
+export async function getGoals(): Promise<Goal[]> {
+  const rawAuths = bmAuths.value();
+  const entries = rawAuths.split(",").map(parse);
+  const auths = Object.fromEntries(entries);
+
+  const goals = await Promise.all(
+    Object.entries(auths).map(async ([user, token]) => {
+      const url = `https://www.beeminder.com/api/v1/users/${user}/goals.json?auth_token=${token}&datapoints=true`;
+      const response = await axios.get(url).catch((error) => {
+        console.error("Error fetching goals");
+        console.error("URL:", url);
+        console.error(error);
+        throw error;
+      });
+
+      const data = response.data as unknown[];
+
+      if (data.every(isGoal)) {
+        return data;
+      }
+
+      throw new Error(`Failed to get goals for ${user}`);
+    })
+  );
+
+  return goals.flat();
 }
