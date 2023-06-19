@@ -33,17 +33,22 @@ export async function getResponse(
   const client = getOpenAi();
 
   console.info("getting openai completion");
-  const completion = await client.createChatCompletion({
-    model: MODEL,
-    messages: [
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
-    functions,
-  });
+  const completion = await client
+    .createChatCompletion({
+      model: MODEL,
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      functions,
+    })
+    .catch((e) => {
+      console.error(e);
+      return undefined;
+    });
 
   console.info("returning first openai completion message");
-  return completion.data.choices[0].message;
+  return completion?.data.choices[0].message;
 }
