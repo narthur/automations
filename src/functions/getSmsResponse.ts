@@ -23,6 +23,9 @@ const FUNCTIONS: {
     name: "getBeemergencies",
     fn: getBeemergencies,
     description: "Get a list of Beeminder goals which are due today.",
+    parameters: {
+      type: "object",
+    },
   },
 ];
 
