@@ -3,14 +3,22 @@ import { openAiSecretKey } from "../secrets";
 
 const MODEL = "gpt-3.5-turbo-0613";
 
-const configuration = new Configuration({
-  apiKey: openAiSecretKey.value(),
-});
+let openai: OpenAIApi | undefined;
 
-const openai = new OpenAIApi(configuration);
+function getOpenAi() {
+  if (!openai) {
+    const configuration = new Configuration({
+      apiKey: openAiSecretKey.value(),
+    });
+
+    openai = new OpenAIApi(configuration);
+  }
+
+  return openai;
+}
 
 export async function getResponse(prompt: string) {
-  const completion = await openai.createChatCompletion({
+  const completion = await getOpenAi().createChatCompletion({
     model: MODEL,
     messages: [
       {
