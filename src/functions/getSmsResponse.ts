@@ -1,4 +1,4 @@
-import { getGoals } from "src/services/beeminder";
+import { getGoals } from "../services/beeminder";
 import { getResponse } from "../services/openai";
 import { ChatCompletionResponseMessage } from "openai";
 
