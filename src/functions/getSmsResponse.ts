@@ -25,6 +25,8 @@ const FUNCTIONS: {
     description: "Get a list of Beeminder goals which are due today.",
     parameters: {
       type: "object",
+      properties: {},
+      required: [],
     },
   },
 ];
