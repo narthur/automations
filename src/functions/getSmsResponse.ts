@@ -13,7 +13,12 @@ async function getBeemergencies(): Promise<string> {
   return due.map((g) => g.slug).join("\n");
 }
 
-const FUNCTIONS = [
+const FUNCTIONS: {
+  name: string;
+  fn: () => Promise<string>;
+  description?: string;
+  parameters?: Record<string, unknown>;
+}[] = [
   {
     name: "getBeemergencies",
     fn: getBeemergencies,
@@ -42,7 +47,14 @@ export default async function getSmsResponse(
   prompt: string
 ): Promise<string[]> {
   console.info("getting openai response");
-  const raw = await getResponse(prompt, FUNCTIONS);
+  const raw = await getResponse(
+    prompt,
+    FUNCTIONS.map((f) => ({
+      name: f.name,
+      description: f.description,
+      parameters: f.parameters,
+    }))
+  );
   if (!raw) {
     console.error("no response from openai");
     return [];
