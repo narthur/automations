@@ -29,7 +29,7 @@ Try running `firebase logout` and `firebase login` to refresh your access token.
 
 ### Secrets
 
-After defining a new secret in `secrets.ts`, you'll need to set it in the Firebase project:
+After defining a new secret in `secrets.ts` and including it in the function's secrets array, you'll need to set it in the Firebase project:
 
 ```bash
 pnpm firebase functions:secrets:set THE_SECRET_ID # and enter the value

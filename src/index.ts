@@ -9,10 +9,12 @@ import {
   twilioAuthToken,
   twilioWhitelistedNumbers,
   openAiSecretKey,
+  twilioAccountSid,
+  twilioPhoneNumber,
 } from "./secrets";
 import twilio from "twilio";
-import { isRequestAuthorized } from "./services/twilio";
-import { getResponse } from "./services/openai";
+import { isRequestAuthorized, sendMessages } from "./services/twilio";
+import getSmsResponse from "./functions/getSmsResponse";
 
 const grossSecrets = [bmAuths.name, togglApiToken.name];
 const trCardsSecrets = [
@@ -21,7 +23,9 @@ const trCardsSecrets = [
   notionDatabaseIdTrCards.name,
 ];
 const smsSecrets = [
+  twilioAccountSid.name,
   twilioAuthToken.name,
+  twilioPhoneNumber.name,
   twilioWhitelistedNumbers.name,
   openAiSecretKey.name,
 ];
@@ -80,12 +84,22 @@ const sms_https = functions
     console.log(req.body);
 
     const params = req.body as Record<string, unknown>;
+    const messages = await getSmsResponse(params.Body as string);
+    const last = messages.pop();
     const m = new twilio.twiml.MessagingResponse();
-    const response = await getResponse(params.Body as string);
 
-    m.message(JSON.stringify(response));
+    if (!last) {
+      console.error("No messages");
+      res.status(500).send("No messages");
+      return;
+    }
 
-    console.info("Sending response");
+    m.message(last);
+
+    console.info("Sending messages");
+
+    await sendMessages(params.From as string, messages);
+
     res.send(m.toString());
   });
 

@@ -1,6 +1,11 @@
 import twilio from "twilio";
 import * as functions from "firebase-functions";
-import { twilioAuthToken, twilioWhitelistedNumbers } from "../secrets";
+import {
+  twilioAccountSid,
+  twilioAuthToken,
+  twilioPhoneNumber,
+  twilioWhitelistedNumbers,
+} from "../secrets";
 
 export function isRequestAuthorized(req: functions.https.Request): boolean {
   const twilioSignature = String(req.headers["x-twilio-signature"]);
@@ -20,4 +25,20 @@ export function isRequestAuthorized(req: functions.https.Request): boolean {
     twilioWhitelistedNumbers.value().includes(params.From);
 
   return isValid && isWhitelisted;
+}
+
+export function sendMessage(to: string, body: string) {
+  const client = twilio(twilioAccountSid.value(), twilioAuthToken.value());
+
+  return client.messages.create({
+    body,
+    from: twilioPhoneNumber.value(),
+    to,
+  });
+}
+
+export async function sendMessages(to: string, body: string[]) {
+  for (const message of body) {
+    await sendMessage(to, message);
+  }
 }
