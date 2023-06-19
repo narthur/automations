@@ -29,7 +29,11 @@ export async function getResponse(
     parameters?: Record<string, unknown>;
   }[]
 ): Promise<ChatCompletionResponseMessage | undefined> {
-  const completion = await getOpenAi().createChatCompletion({
+  console.info("getting openai client");
+  const client = getOpenAi();
+
+  console.info("getting openai completion");
+  const completion = await client.createChatCompletion({
     model: MODEL,
     messages: [
       {
@@ -40,5 +44,6 @@ export async function getResponse(
     functions,
   });
 
+  console.info("returning first openai completion message");
   return completion.data.choices[0].message;
 }

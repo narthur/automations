@@ -41,9 +41,12 @@ async function getContent(
 export default async function getSmsResponse(
   prompt: string
 ): Promise<string[]> {
-  console.info("getting openai resonse");
+  console.info("getting openai response");
   const raw = await getResponse(prompt, FUNCTIONS);
-  if (!raw) return [];
+  if (!raw) {
+    console.error("no response from openai");
+    return [];
+  }
   console.info("parsing openai response");
   const content = await getContent(raw);
   const messages =
