@@ -12,7 +12,6 @@ import {
   twilioAccountSid,
   twilioPhoneNumber,
 } from "./secrets";
-import twilio from "twilio";
 import { isRequestAuthorized, sendMessages } from "./services/twilio";
 import getSmsResponse from "./functions/getSmsResponse";
 
@@ -85,22 +84,12 @@ const sms_https = functions
 
     const params = req.body as Record<string, unknown>;
     const messages = await getSmsResponse(params.Body as string);
-    const last = messages.pop();
-    const m = new twilio.twiml.MessagingResponse();
-
-    if (!last) {
-      console.error("No messages");
-      res.status(500).send("No messages");
-      return;
-    }
-
-    m.message(last);
 
     console.info("Sending messages");
 
     await sendMessages(params.From as string, messages);
 
-    res.send(m.toString());
+    res.sendStatus(200);
   });
 
 export { gross_cron, gross_https, trCards_cron, trCards_https, sms_https };
