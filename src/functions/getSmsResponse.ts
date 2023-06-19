@@ -1,4 +1,4 @@
-import { getResponse } from "src/services/openai";
+import { getResponse } from "../services/openai";
 
 export const MAX_SMS_LENGTH = 320;
 
