@@ -26,6 +26,7 @@ async function getContent(
 ): Promise<string> {
   if (response.function_call) {
     try {
+      console.info("calling function", response.function_call?.name);
       const fn = FUNCTIONS.find((f) => f.name === response.function_call?.name);
       if (!fn) return "Unknown function";
       return fn.fn();
@@ -40,8 +41,10 @@ async function getContent(
 export default async function getSmsResponse(
   prompt: string
 ): Promise<string[]> {
+  console.info("getting openai resonse");
   const raw = await getResponse(prompt, FUNCTIONS);
   if (!raw) return [];
+  console.info("parsing openai response");
   const content = await getContent(raw);
   const messages =
     content.match(new RegExp(`(.{1,${MAX_SMS_LENGTH}})`, "g")) || [];
