@@ -18,4 +18,9 @@ export const notionDatabaseIdTrCards = defineSecret(
 
 // Twilio
 export const twilioAuthToken = defineSecret("TWILIO_AUTH_TOKEN");
-export const twilioWhitelistedNumbers = defineSecret("TWILIO_WHITELISTED_NUMBERS");
+export const twilioWhitelistedNumbers = defineSecret(
+  "TWILIO_WHITELISTED_NUMBERS"
+);
+
+// OpenAI
+export const openAiSecretKey = defineSecret("OPENAI_SECRET_KEY");
