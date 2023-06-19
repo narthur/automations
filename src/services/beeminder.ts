@@ -75,12 +75,13 @@ export async function getGoal(user: string, slug: string): Promise<Goal> {
 }
 
 export async function getGoals(): Promise<Goal[]> {
+  console.info("Fetching goals");
   const rawAuths = bmAuths.value();
   const entries = rawAuths.split(",").map(parse);
-  const auths = Object.fromEntries(entries);
+  console.log("Entries:", entries);
 
   const goals = await Promise.all(
-    Object.entries(auths).map(async ([user, token]) => {
+    entries.map(async ([user, token]) => {
       const url = `https://www.beeminder.com/api/v1/users/${user}/goals.json?auth_token=${token}`;
       console.info("Fetching goals for", user, "from", url);
       const response = await axios.get(url).catch((error) => {
