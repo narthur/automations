@@ -1,8 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
-import getSmsResponse, { MAX_SMS_LENGTH } from "./getSmsResponse";
+import getSmsResponse from "./getSmsResponse";
 import { getResponse } from "src/services/openai";
 import { ChatCompletionResponseMessageRoleEnum } from "openai";
 import { getGoals } from "src/services/beeminder";
+import { MAX_SMS_LENGTH } from "./splitMessages";
 
 vi.mock("src/services/beeminder");
 
@@ -39,13 +40,13 @@ describe("getSmsResponse", () => {
 
     const response = await getSmsResponse("");
 
-    expect(response).toHaveLength(2);
+    expect(response).toHaveLength(1);
   });
 
   it("numbers messages", async () => {
     vi.mocked(getResponse).mockResolvedValue({
       role: ChatCompletionResponseMessageRoleEnum.Assistant,
-      content: "a\nb",
+      content: "a".repeat(MAX_SMS_LENGTH + 1),
     });
 
     const response = await getSmsResponse("");

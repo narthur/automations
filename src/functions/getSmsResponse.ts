@@ -1,8 +1,7 @@
 import { getGoals } from "../services/beeminder";
 import { getResponse } from "../services/openai";
 import { ChatCompletionResponseMessage } from "openai";
-
-export const MAX_SMS_LENGTH = 320;
+import splitMessages from "./splitMessages";
 
 async function getBeemergencies(): Promise<string> {
   const goals = await getGoals();
@@ -66,8 +65,5 @@ export default async function getSmsResponse(
   }
   console.info("parsing openai response");
   const content = await getContent(raw);
-  const messages =
-    content.match(new RegExp(`(.{1,${MAX_SMS_LENGTH}})`, "g")) || [];
-  if (messages.length < 2) return messages;
-  return messages.map((m, i) => `${i + 1}/${messages.length}\n${m}`);
+  return splitMessages(content);
 }
