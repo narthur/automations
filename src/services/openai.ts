@@ -1,5 +1,5 @@
 import { Configuration, OpenAIApi } from "openai";
-import { openAiSecretKey } from "src/secrets";
+import { openAiSecretKey } from "../secrets";
 
 const MODEL = "gpt-3.5-turbo-0613";
 
