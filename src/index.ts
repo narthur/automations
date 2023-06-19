@@ -8,6 +8,7 @@ import {
   notionDatabaseIdTrCards,
   twilioAuthToken,
   twilioWhitelistedNumbers,
+  openAiSecretKey,
 } from "./secrets";
 import twilio from "twilio";
 import { isRequestAuthorized } from "./services/twilio";
@@ -19,7 +20,11 @@ const trCardsSecrets = [
   notionApiKey.name,
   notionDatabaseIdTrCards.name,
 ];
-const smsSecrets = [twilioAuthToken.name, twilioWhitelistedNumbers.name];
+const smsSecrets = [
+  twilioAuthToken.name,
+  twilioWhitelistedNumbers.name,
+  openAiSecretKey.name,
+];
 
 function setCors(res: functions.Response) {
   res.set("Access-Control-Allow-Origin", "*");
