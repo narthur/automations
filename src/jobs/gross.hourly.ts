@@ -8,7 +8,7 @@ import getWeekDates from "../helpers/getWeekDates";
 import { getSumOfHours } from "../services/toggl.helpers";
 import { createDatapoint } from "../services/beeminder";
 import { sigfigs } from "./gross";
-import dateParams from "src/helpers/dateParams";
+import dateParams from "../helpers/dateParams";
 
 async function getProjectTimeEntries(
   date: Date

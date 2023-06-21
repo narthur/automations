@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import getSmsResponse from "./getSmsResponse";
-import { getResponse } from "src/services/openai";
+import { getResponse } from "../services/openai";
 import { ChatCompletionResponseMessageRoleEnum } from "openai";
-import { getGoals } from "src/services/beeminder";
+import { getGoals } from "../services/beeminder";
 import { MAX_SMS_LENGTH } from "./splitMessages";
 
 vi.mock("src/services/beeminder");
