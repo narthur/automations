@@ -9,6 +9,7 @@ export const mailgunDomain = defineSecret("MAILGUN_DOMAIN");
 
 // Toggl
 export const togglApiToken = defineSecret("TOGGL_API_TOKEN");
+export const togglClientAv = defineSecret("TOGGL_CLIENT_AV");
 
 // Notion
 export const notionApiKey = defineSecret("NOTION_API_KEY");

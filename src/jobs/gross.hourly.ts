@@ -4,10 +4,11 @@ import {
   TogglProjectHourly,
 } from "../services/toggl.types";
 import { getTimeEntries } from "../services/toggl";
-import getWeekDates from "../getWeekDates";
+import getWeekDates from "../helpers/getWeekDates";
 import { getSumOfHours } from "../services/toggl.helpers";
 import { createDatapoint } from "../services/beeminder";
 import { sigfigs } from "./gross";
+import dateParams from "src/helpers/dateParams";
 
 async function getProjectTimeEntries(
   date: Date
@@ -19,22 +20,10 @@ async function getProjectTimeEntries(
   return entries.reduce(
     (acc: Record<string, Array<TimeEntry>>, e: TimeEntry) => ({
       ...acc,
-      [e.project_id]: [...(acc[e.project_id] || []), e],
+      [e.project_id || "NONE"]: [...(acc[e.project_id || "NONE"] || []), e],
     }),
     {}
   );
-}
-
-function dateParams(date?: Date) {
-  if (!date) return {};
-
-  const tomorrow = new Date(date);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-
-  return {
-    start_date: date.toISOString().split("T")[0],
-    end_date: tomorrow.toISOString().split("T")[0],
-  };
 }
 
 export async function handleHourlyProjects(projects: TogglProjectHourly[]) {

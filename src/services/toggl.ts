@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { togglApiToken } from "../secrets";
-import { TimeEntry, TogglProject, TogglTask } from "./toggl.types";
+import { TimeEntry, TogglClient, TogglProject, TogglTask } from "./toggl.types";
 
 export function getProjects(options: AxiosRequestConfig = {}) {
   return api<TogglProject[]>("me/projects", options);
@@ -8,6 +8,24 @@ export function getProjects(options: AxiosRequestConfig = {}) {
 
 export function getTimeEntries(options: AxiosRequestConfig = {}) {
   return api<TimeEntry[]>("me/time_entries", options);
+}
+
+export function getClient(
+  workspaceId: number,
+  clientId: number,
+  options: AxiosRequestConfig = {}
+) {
+  return api<TogglClient>(
+    `workspaces/${workspaceId}/clients/${clientId}`,
+    options
+  );
+}
+
+export function getClients(
+  workspaceId: number,
+  options: AxiosRequestConfig = {}
+) {
+  return api<TogglClient[]>(`workspaces/${workspaceId}/clients`, options);
 }
 
 export function getTasks(

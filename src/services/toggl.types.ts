@@ -82,8 +82,10 @@ export type TimeEntry = {
   duration: number;
   duronly: boolean;
   id: number;
+  // Project ID, legacy field
   pid: number;
-  project_id: number;
+  // Project ID. Can be null if project was not provided or project was later deleted
+  project_id?: number;
   server_deleted_at: string;
   start: string;
   stop: string;
@@ -135,4 +137,20 @@ export type TogglProjectFixedFee = TogglProjectBillable & {
 
 export type TogglProjectHourly = TogglProjectBillable & {
   fixed_fee: null;
+};
+
+// https://developers.track.toggl.com/docs/api/clients#get-load-client-from-id
+export type TogglClient = {
+  // IsArchived is true if the client is archived
+  archived: boolean;
+  // When was the last update
+  at: string;
+  // Client ID
+  id: number;
+  // Name of the client
+  name: string;
+  // When was deleted, null if not deleted
+  server_deleted_at?: string;
+  // Workspace ID
+  wid: number;
 };
