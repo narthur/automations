@@ -3,7 +3,7 @@ import { getClients, getProjects, getTimeEntries } from "../services/toggl";
 import { togglClientAv } from "../secrets";
 import dateParams from "../helpers/dateParams";
 import getWeekDates from "../helpers/getWeekDates";
-import memoize from "src/helpers/memoize";
+import memoize from "../helpers/memoize";
 
 const _getProjects = memoize(getProjects, "getProjects");
 const _getClients = memoize(getClients, "getClients");
