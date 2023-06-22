@@ -187,4 +187,16 @@ describe("av-prime", () => {
       })
     );
   });
+
+  it("only gets projects once", async () => {
+    await avPrime();
+
+    expect(getProjects).toHaveBeenCalledTimes(1);
+  });
+
+  it("only gets clients once", async () => {
+    await avPrime();
+
+    expect(getClients).toHaveBeenCalledTimes(1);
+  });
 });
