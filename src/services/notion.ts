@@ -1,5 +1,5 @@
 import { Client } from "@notionhq/client";
-import { notionDatabaseIdTrCards } from "../secrets";
+import { notionApiKey } from "../secrets";
 import {
   QueryDatabaseParameters,
   QueryDatabaseResponse,
@@ -14,7 +14,7 @@ let client: Client | null = null;
 function getNotion() {
   if (!client) {
     client = new Client({
-      auth: notionDatabaseIdTrCards.value(),
+      auth: notionApiKey.value(),
     });
   }
 
