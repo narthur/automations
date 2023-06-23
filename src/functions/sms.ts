@@ -8,7 +8,7 @@ import {
   twilioPhoneNumber,
 } from "../secrets";
 import { isRequestAuthorized, sendMessages } from "../services/twilio";
-import getSmsResponse from "../helpers/getSmsResponse";
+import getGptResponse from "../helpers/getGptResponse";
 
 export const sms_https = functions
   .runWith({
@@ -35,7 +35,7 @@ export const sms_https = functions
     console.log(req.body);
 
     const params = req.body as Record<string, unknown>;
-    const messages = await getSmsResponse(params.Body as string);
+    const messages = await getGptResponse(params.Body as string);
 
     console.info("Sending messages");
 

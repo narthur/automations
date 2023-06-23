@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import getSmsResponse from "./getSmsResponse";
+import getGptResponse from "./getGptResponse";
 import { getResponse } from "../services/openai";
 import { ChatCompletionResponseMessageRoleEnum } from "openai";
 import { getGoals } from "../services/beeminder";
@@ -13,13 +13,13 @@ describe("getSmsResponse", () => {
       role: ChatCompletionResponseMessageRoleEnum.Assistant,
       content: "Hello world!",
     });
-    const response = await getSmsResponse("");
+    const response = await getGptResponse("");
     expect(response).toContain("Hello world!");
   });
 
   it("passes prompt to openai", async () => {
     const prompt = "Hello world!";
-    await getSmsResponse(prompt);
+    await getGptResponse(prompt);
     expect(getResponse).toHaveBeenCalledWith(prompt, expect.anything());
   });
 
@@ -28,7 +28,7 @@ describe("getSmsResponse", () => {
       role: ChatCompletionResponseMessageRoleEnum.Assistant,
       content: "a".repeat(MAX_SMS_LENGTH + 1),
     });
-    const response = await getSmsResponse("");
+    const response = await getGptResponse("");
     expect(response).toHaveLength(2);
   });
 
@@ -38,7 +38,7 @@ describe("getSmsResponse", () => {
       content: "a\nb",
     });
 
-    const response = await getSmsResponse("");
+    const response = await getGptResponse("");
 
     expect(response).toHaveLength(1);
   });
@@ -49,7 +49,7 @@ describe("getSmsResponse", () => {
       content: "a".repeat(MAX_SMS_LENGTH + 1),
     });
 
-    const response = await getSmsResponse("");
+    const response = await getGptResponse("");
 
     expect(response[0]).toContain("1/2");
   });
@@ -62,7 +62,7 @@ describe("getSmsResponse", () => {
         name: "getBeemergencies",
       },
     });
-    await getSmsResponse("");
+    await getGptResponse("");
     expect(getGoals).toBeCalled();
   });
 });

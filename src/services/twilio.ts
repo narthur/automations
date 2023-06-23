@@ -6,12 +6,11 @@ import {
   twilioPhoneNumber,
   twilioWhitelistedNumbers,
 } from "../secrets";
+import getFunctionUrl from "src/helpers/getFunctionUrl";
 
 export function isRequestAuthorized(req: functions.https.Request): boolean {
   const twilioSignature = String(req.headers["x-twilio-signature"]);
-  const url = `https://${String(req.header("host"))}/${String(
-    process.env.FUNCTION_TARGET
-  )}`;
+  const url = getFunctionUrl(req);
   const params = req.body as Record<string, unknown>;
   const isValid = twilio.validateRequest(
     twilioAuthToken.value(),

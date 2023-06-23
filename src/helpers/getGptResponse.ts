@@ -47,7 +47,7 @@ async function getContent(
   return response.content || "";
 }
 
-export default async function getSmsResponse(
+export default async function getGptResponse(
   prompt: string
 ): Promise<string[]> {
   console.info("getting openai response");
