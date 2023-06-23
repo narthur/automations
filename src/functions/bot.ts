@@ -5,9 +5,9 @@ import {
   telegramApiToken,
   telegramWebhookToken,
 } from "../secrets";
-import getFunctionUrl from "src/helpers/getFunctionUrl";
-import { setWebhook, sendMessage } from "src/services/telegram";
-import { TelegramUpdate } from "src/services/telegram.types";
+import getFunctionUrl from "../helpers/getFunctionUrl";
+import { setWebhook, sendMessage } from "../services/telegram";
+import { TelegramUpdate } from "../services/telegram.types";
 
 export const bot_https = functions
   .runWith({

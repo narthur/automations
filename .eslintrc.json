@@ -31,6 +31,12 @@
         "skipBlankLines": true,
         "skipComments": true
       }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["src/*"]
+      }
     ]
   },
   "overrides": [

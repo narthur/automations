@@ -1,6 +1,6 @@
 import { beforeEach, vi } from "vitest";
 import { getProjects, getTimeEntries } from "./src/services/toggl";
-import { __reset } from "src/helpers/memoize";
+import { __reset } from "./src/helpers/memoize";
 
 vi.mock("axios");
 vi.mock("firebase-functions/params");
