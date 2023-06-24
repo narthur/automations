@@ -3,11 +3,11 @@ import getGptResponse from "./getGptResponse";
 import { getResponse } from "../services/openai";
 import { ChatCompletionResponseMessageRoleEnum } from "openai";
 import { getGoals } from "../services/beeminder";
-import { MAX_SMS_LENGTH } from "./splitMessages";
+import { MAX_MESSAGE_LENGTH } from "./splitMessages";
 
 vi.mock("src/services/beeminder");
 
-describe("getSmsResponse", () => {
+describe("getGptResponse", () => {
   it("should return a response", async () => {
     vi.mocked(getResponse).mockResolvedValue({
       role: ChatCompletionResponseMessageRoleEnum.Assistant,
@@ -26,7 +26,7 @@ describe("getSmsResponse", () => {
   it("splits long messages", async () => {
     vi.mocked(getResponse).mockResolvedValue({
       role: ChatCompletionResponseMessageRoleEnum.Assistant,
-      content: "a".repeat(MAX_SMS_LENGTH + 1),
+      content: "a".repeat(MAX_MESSAGE_LENGTH + 1),
     });
     const response = await getGptResponse("");
     expect(response).toHaveLength(2);
@@ -41,17 +41,6 @@ describe("getSmsResponse", () => {
     const response = await getGptResponse("");
 
     expect(response).toHaveLength(1);
-  });
-
-  it("numbers messages", async () => {
-    vi.mocked(getResponse).mockResolvedValue({
-      role: ChatCompletionResponseMessageRoleEnum.Assistant,
-      content: "a".repeat(MAX_SMS_LENGTH + 1),
-    });
-
-    const response = await getGptResponse("");
-
-    expect(response[0]).toContain("1/2");
   });
 
   it("calls functions", async () => {
