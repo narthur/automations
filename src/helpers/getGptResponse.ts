@@ -9,7 +9,9 @@ async function getBeemergencies(): Promise<string> {
 
   if (due.length === 0) return "No beemergencies!";
 
-  return due.map((g) => `${g.slug} : ${g.limsum}`).join("\n");
+  const rows = due.map((g) => `${g.slug} | ${g.limsum}`).join("\n");
+
+  return `slug | limsum\n---\n${rows}`;
 }
 
 const FUNCTIONS: {
