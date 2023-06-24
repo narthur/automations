@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase-admin/app";
 import {
   DocumentData,
+  Timestamp,
   WithFieldValue,
   getFirestore,
 } from "firebase-admin/firestore";
@@ -32,7 +33,7 @@ export function addMessage(
 const zMessage = z.object({
   role: z.nativeEnum(ChatCompletionRequestMessageRoleEnum),
   content: z.string(),
-  timestamp: z.date(),
+  timestamp: z.instanceof(Timestamp).transform((t) => t.toDate()),
 });
 
 const zMessages = z.array(zMessage);
