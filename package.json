@@ -17,6 +17,7 @@
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
+    "delete": "firebase functions:delete",
     "logs": "firebase functions:log",
     "secrets:set": "pnpm firebase functions:secrets:set",
     "secrets:get": "pnpm firebase functions:secrets:get"
