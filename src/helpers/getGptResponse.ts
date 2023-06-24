@@ -39,14 +39,15 @@ async function getContent(
   response: ChatCompletionResponseMessage
 ): Promise<string> {
   if (response.function_call) {
+    const name = response.function_call?.name;
     try {
-      console.info("calling function", response.function_call?.name);
-      const fn = FUNCTIONS.find((f) => f.name === response.function_call?.name);
-      if (!fn) return "Unknown function";
+      console.info("calling function", name);
+      const fn = FUNCTIONS.find((f) => f.name === name);
+      if (!fn) return `Unknown function ${String(name)}`;
       return fn.fn();
     } catch (e) {
       console.error(e);
-      return "Error calling function";
+      return `Error calling function ${String(name)}`;
     }
   }
   return response.content || "";
