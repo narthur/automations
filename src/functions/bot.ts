@@ -58,7 +58,6 @@ export const bot_https = functions
       await sendMessage({
         chat_id: message.chat.id,
         text,
-        parse_mode: "MarkdownV2",
       });
     }
 
