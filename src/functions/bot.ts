@@ -51,4 +51,5 @@ export const bot_setup = functions
       url: getFunctionUrl(req, "bot_https"),
       secret_token: telegramWebhookToken.value(),
     });
+    res.status(200).send("OK");
   });
