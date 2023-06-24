@@ -17,7 +17,9 @@
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "secrets:set": "pnpm firebase functions:secrets:set",
+    "secrets:get": "pnpm firebase functions:secrets:get"
   },
   "repository": {
     "type": "git",

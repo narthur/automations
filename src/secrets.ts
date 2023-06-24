@@ -4,8 +4,8 @@ import { defineSecret } from "firebase-functions/params";
 After defining a new secret in `secrets.ts` and including it in the function's 
 secrets array, you'll need to set it in the Firebase project:
 
-pnpm firebase functions:secrets:set THE_SECRET_ID # and enter the value
-pnpm firebase functions:secrets:get THE_SECRET_ID # to verify
+pnpm secrets:set THE_SECRET_ID # and enter the value
+pnpm secrets:get THE_SECRET_ID # to verify
 
 You can view the secret's value in the Google Cloud console Secrets Manager.
 */
@@ -41,3 +41,4 @@ export const openAiSecretKey = defineSecret("OPENAI_SECRET_KEY");
 // Telegram
 export const telegramApiToken = defineSecret("TELEGRAM_API_TOKEN");
 export const telegramWebhookToken = defineSecret("TELEGRAM_WEBHOOK_TOKEN");
+export const telegramAllowedUser = defineSecret("TELEGRAM_ALLOWED_USER");

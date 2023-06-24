@@ -2,12 +2,14 @@ import * as functions from "firebase-functions";
 import {
   bmAuths,
   openAiSecretKey,
+  telegramAllowedUser,
   telegramApiToken,
   telegramWebhookToken,
 } from "../secrets";
 import getFunctionUrl from "../helpers/getFunctionUrl";
 import { setWebhook, sendMessage } from "../services/telegram";
 import { TelegramUpdate } from "../services/telegram.types";
+import getGptResponse from "../helpers/getGptResponse";
 
 export const bot_https = functions
   .runWith({
@@ -16,12 +18,15 @@ export const bot_https = functions
       bmAuths.name,
       telegramApiToken.name,
       telegramWebhookToken.name,
+      telegramAllowedUser.name,
     ],
   })
   .https.onRequest(async (req, res) => {
-    const token = req.headers["x-telegram-bot-api-secret-token"];
+    const isTelegram =
+      req.headers["x-telegram-bot-api-secret-token"] ===
+      telegramWebhookToken.value();
 
-    if (token !== telegramWebhookToken.value()) {
+    if (!isTelegram) {
       res.status(403).send("Forbidden");
       return;
     }
@@ -34,10 +39,27 @@ export const bot_https = functions
       return;
     }
 
-    await sendMessage({
-      chat_id: message.chat.id,
-      text: `Your user ID is ${String(message.from?.id)}`,
-    });
+    const isAllowedUser =
+      String(message.from?.id) === telegramAllowedUser.value();
+
+    if (!isAllowedUser) {
+      res.status(403).send("Forbidden");
+      return;
+    }
+
+    if (!message.text) {
+      res.status(200).send("OK");
+      return;
+    }
+
+    const texts = await getGptResponse(message.text);
+
+    for (const text of texts) {
+      await sendMessage({
+        chat_id: message.chat.id,
+        text,
+      });
+    }
 
     res.status(200).send("OK");
   });
