@@ -14,7 +14,7 @@ async function getBeemergencies(): Promise<string> {
     .map((g) => `${g.slug.padEnd(len, " ")}${g.limsum}`)
     .join("\n");
 
-  return `\`\`\`${rows}\`\`\``;
+  return `\`\`\`\n${rows}\n\`\`\``;
 }
 
 const FUNCTIONS: {
