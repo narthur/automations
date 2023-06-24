@@ -6,6 +6,7 @@ import {
   ChatCompletionFunctions,
 } from "openai";
 import { openAiSecretKey } from "../secrets";
+import { z } from "zod";
 
 const MODEL = "gpt-3.5-turbo-0613";
 
@@ -23,6 +24,12 @@ function getOpenAi() {
   return openai;
 }
 
+const zError = z.object({
+  data: z.object({
+    error: z.unknown(),
+  }),
+});
+
 export async function getResponse(
   messages: Array<ChatCompletionRequestMessage>,
   functions?: Array<ChatCompletionFunctions>
@@ -38,7 +45,11 @@ export async function getResponse(
       functions,
     })
     .catch((e) => {
-      console.error(e);
+      const parsed = zError.safeParse(e);
+      console.error(
+        "openai error",
+        parsed.success ? parsed.data.data.error : e
+      );
       return undefined;
     });
 
