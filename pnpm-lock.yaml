@@ -22,6 +22,7 @@ specifiers:
   typescript: ^5.0.4
   vite: ^4.2.1
   vitest: ^0.29.8
+  zod: ^3.21.4
 
 dependencies:
   '@google-cloud/functions-framework': 3.2.0
@@ -40,6 +41,7 @@ dependencies:
   typescript: 5.0.4
   vite: 4.2.1_@types+node@18.14.0
   vitest: 0.29.8
+  zod: 3.21.4
 
 devDependencies:
   eslint-config-google: 0.14.0_eslint@8.37.0
@@ -8792,6 +8794,10 @@ packages:
       compress-commons: 4.1.1
       readable-stream: 3.6.2
     dev: true
+
+  /zod/3.21.4:
+    resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+    dev: false
 
   /zwitch/1.0.5:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}

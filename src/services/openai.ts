@@ -2,6 +2,9 @@ import {
   Configuration,
   OpenAIApi,
   ChatCompletionResponseMessage,
+  ChatCompletionRequestMessageRoleEnum,
+  ChatCompletionRequestMessage,
+  ChatCompletionFunctions,
 } from "openai";
 import { openAiSecretKey } from "../secrets";
 
@@ -22,12 +25,8 @@ function getOpenAi() {
 }
 
 export async function getResponse(
-  prompt: string,
-  functions?: {
-    name: string;
-    description?: string;
-    parameters?: Record<string, unknown>;
-  }[]
+  messages: Array<ChatCompletionRequestMessage>,
+  functions?: Array<ChatCompletionFunctions>
 ): Promise<ChatCompletionResponseMessage | undefined> {
   console.info("getting openai client");
   const client = getOpenAi();
@@ -36,17 +35,7 @@ export async function getResponse(
   const completion = await client
     .createChatCompletion({
       model: MODEL,
-      messages: [
-        {
-          role: "system",
-          content:
-            "Your user is a developer. If they ask you to do something beyond your capabilities, you should request that they add a function to the system for you to use. Describe the function you need in as much detail as possible.",
-        },
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
+      messages,
       functions,
     })
     .catch((e) => {

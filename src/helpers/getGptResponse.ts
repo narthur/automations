@@ -1,7 +1,11 @@
 import { getGoals } from "../services/beeminder";
 import { getResponse } from "../services/openai";
-import { ChatCompletionResponseMessage } from "openai";
+import {
+  ChatCompletionRequestMessageRoleEnum,
+  ChatCompletionResponseMessage,
+} from "openai";
 import splitMessages from "./splitMessages";
+import { addMessage, getMessages } from "../services/firestore";
 
 async function getBeemergencies(): Promise<string> {
   const goals = await getGoals();
@@ -57,8 +61,25 @@ export default async function getGptResponse(
   prompt: string
 ): Promise<string[]> {
   console.info("getting openai response");
+  const history = await getMessages();
+  const messages = [
+    {
+      role: ChatCompletionRequestMessageRoleEnum.System,
+      content:
+        "Your user is a developer. If they ask you to do something beyond your capabilities, you should request that they add a function to the system for you to use. Describe the function you need in as much detail as possible.",
+    },
+    ...history.map((m) => ({
+      role: m.role,
+      content: m.content,
+    })),
+    {
+      role: ChatCompletionRequestMessageRoleEnum.User,
+      content: prompt,
+    },
+  ];
+  await addMessage(ChatCompletionRequestMessageRoleEnum.User, prompt);
   const raw = await getResponse(
-    prompt,
+    messages,
     FUNCTIONS.map((f) => ({
       name: f.name,
       description: f.description,
@@ -71,5 +92,11 @@ export default async function getGptResponse(
   }
   console.info("parsing openai response");
   const content = await getContent(raw);
+  await addMessage(
+    raw.function_call?.name?.length
+      ? ChatCompletionRequestMessageRoleEnum.Function
+      : ChatCompletionRequestMessageRoleEnum.Assistant,
+    content
+  );
   return splitMessages(content);
 }
