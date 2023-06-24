@@ -43,6 +43,7 @@
     "firebase-admin": "^11.6.0",
     "firebase-functions": "^4.4.1",
     "openai": "^3.3.0",
+    "telegramify-markdown": "^1.1.0",
     "ts-node": "^10.9.1",
     "twilio": "^4.12.0",
     "typescript": "^5.0.4",

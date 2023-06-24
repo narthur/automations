@@ -10,6 +10,7 @@ import getFunctionUrl from "../helpers/getFunctionUrl";
 import { setWebhook, sendMessage } from "../services/telegram";
 import { TelegramUpdate } from "../services/telegram.types";
 import getGptResponse from "../helpers/getGptResponse";
+import telegramifyMarkdown from "telegramify-markdown";
 
 export const bot_https = functions
   .runWith({
@@ -54,10 +55,10 @@ export const bot_https = functions
 
     const texts = await getGptResponse(message.text);
 
-    for (const text of texts) {
+    for (const t of texts) {
       await sendMessage({
         chat_id: message.chat.id,
-        text,
+        text: telegramifyMarkdown(t),
         parse_mode: "MarkdownV2",
       });
     }
