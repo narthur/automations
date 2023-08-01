@@ -45,7 +45,6 @@
     "openai": "^3.3.0",
     "telegramify-markdown": "^1.1.0",
     "ts-node": "^10.9.1",
-    "twilio": "^4.14.1",
     "typescript": "^5.1.6",
     "vite": "^4.4.8",
     "vitest": "^0.34.1",
