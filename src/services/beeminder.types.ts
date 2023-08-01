@@ -228,7 +228,26 @@ export type Goal = {
   /**
    * How to aggregate points on the same day, eg, min/max/mean.
    */
-  aggday: "min" | "max" | "mean" | string;
+  aggday:
+    | "last"
+    | "first"
+    | "min"
+    | "max"
+    | "trueman"
+    | "mean"
+    | "uniqmean"
+    | "median"
+    | "mode"
+    | "trimmean"
+    | "sum"
+    | "binary"
+    | "nonzero"
+    | "triangle"
+    | "square"
+    | "clocky"
+    | "count"
+    | "skatesum"
+    | "cap1";
 
   /**
    * Join dots with purple steppy-style line.
