@@ -1,0 +1,29 @@
+import { getGoals } from "../services/beeminder";
+import { describe, it, expect, vi } from "vitest";
+import getBeemergencies from "./getBeemergencies";
+import { Goal } from "../services/beeminder.types";
+
+vi.mock("../services/beeminder");
+
+describe("getBeemergencies", () => {
+  it("pads beemergencies", async () => {
+    const goals: Partial<Goal>[] = [
+      {
+        slug: "test",
+        safebuf: 0,
+        limsum: "LIMSUM",
+      },
+      {
+        slug: "test2",
+        safebuf: 0,
+        limsum: "LIMSUM",
+      },
+    ];
+
+    vi.mocked(getGoals).mockResolvedValue(goals as any);
+
+    const response = await getBeemergencies();
+
+    expect(response).toContain("test  LIMSUM");
+  });
+});

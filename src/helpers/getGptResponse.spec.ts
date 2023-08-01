@@ -5,7 +5,7 @@ import { ChatCompletionResponseMessageRoleEnum } from "openai";
 import { getGoals } from "../services/beeminder";
 import { MAX_MESSAGE_LENGTH } from "./splitMessages";
 
-vi.mock("src/services/beeminder");
+vi.mock("../services/beeminder");
 
 describe("getGptResponse", () => {
   it("should return a response", async () => {
