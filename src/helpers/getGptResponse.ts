@@ -68,16 +68,16 @@ export default async function getGptResponse(
       content:
         "Your user is a developer. If they ask you to do something beyond your capabilities, you should request that they add a function to the system for you to use. Describe the function you need in as much detail as possible.",
     },
-    ...history.map((m) => ({
-      role: m.role,
-      content: m.content,
-    })),
+    ...history.map((m) => m.message),
     {
       role: ChatCompletionRequestMessageRoleEnum.User,
       content: prompt,
     },
   ];
-  await addMessage(ChatCompletionRequestMessageRoleEnum.User, prompt);
+  await addMessage({
+    role: ChatCompletionRequestMessageRoleEnum.User,
+    content: prompt,
+  });
   const raw = await getResponse(
     messages,
     FUNCTIONS.map((f) => ({
@@ -92,11 +92,20 @@ export default async function getGptResponse(
   }
   console.info("parsing openai response");
   const content = await getContent(raw);
+  const isFunction = !!raw.function_call?.name?.length;
   await addMessage(
-    raw.function_call?.name?.length
-      ? ChatCompletionRequestMessageRoleEnum.Function
-      : ChatCompletionRequestMessageRoleEnum.Assistant,
-    content
+    isFunction
+      ? {
+          role: ChatCompletionRequestMessageRoleEnum.Function,
+          name: raw.function_call?.name,
+          function_call: {
+            ...raw.function_call,
+          },
+        }
+      : {
+          role: ChatCompletionRequestMessageRoleEnum.Assistant,
+          content,
+        }
   );
   return splitMessages(content);
 }

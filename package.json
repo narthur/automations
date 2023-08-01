@@ -4,7 +4,7 @@
   "description": "",
   "engines": {
     "node": "16",
-    "pnpm": "7.33.1"
+    "pnpm": "8"
   },
   "main": "lib/index.js",
   "scripts": {

@@ -20,7 +20,14 @@ describe("getGptResponse", () => {
   it("passes prompt to openai", async () => {
     const prompt = "Hello world!";
     await getGptResponse(prompt);
-    expect(getResponse).toHaveBeenCalledWith(prompt, expect.anything());
+    expect(getResponse).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        expect.objectContaining({
+          content: prompt,
+        }),
+      ]),
+      expect.anything()
+    );
   });
 
   it("splits long messages", async () => {

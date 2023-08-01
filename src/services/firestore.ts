@@ -5,8 +5,12 @@ import {
   WithFieldValue,
   getFirestore,
 } from "firebase-admin/firestore";
-import { ChatCompletionRequestMessageRoleEnum } from "openai";
+import {
+  ChatCompletionRequestMessage,
+  ChatCompletionRequestMessageRoleEnum,
+} from "openai";
 import { z } from "zod";
+import { zChatCompletionRequestMessage } from "./openai.schemas";
 
 initializeApp();
 
@@ -19,20 +23,15 @@ export function addDoc<T extends WithFieldValue<DocumentData>>(
   return db.collection(collection).add(data);
 }
 
-export function addMessage(
-  role: ChatCompletionRequestMessageRoleEnum,
-  content: string
-) {
+export function addMessage(message: ChatCompletionRequestMessage) {
   return addDoc("messages", {
-    role,
-    content,
+    message,
     timestamp: new Date(),
   });
 }
 
 const zMessage = z.object({
-  role: z.nativeEnum(ChatCompletionRequestMessageRoleEnum),
-  content: z.string(),
+  message: zChatCompletionRequestMessage,
   timestamp: z.instanceof(Timestamp).transform((t) => t.toDate()),
 });
 
