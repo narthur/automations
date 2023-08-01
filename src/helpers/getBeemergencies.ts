@@ -6,9 +6,10 @@ export default async function getBeemergencies(): Promise<string> {
 
   if (due.length === 0) return "No beemergencies!";
 
-  const len = due.reduce((acc, g) => Math.max(acc, g.slug.length + 1), 0);
+  const slugLengths = due.map((g) => g.slug.length);
+  const len = Math.max(...slugLengths);
   const rows = due
-    .map((g) => `${g.slug.padEnd(len, " ")}${g.limsum}`)
+    .map((g) => `${g.slug.padEnd(len, " ")} ${g.limsum}`)
     .join("\n");
 
   return `\`\`\`\n${rows}\n\`\`\``;
