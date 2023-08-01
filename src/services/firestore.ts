@@ -5,10 +5,7 @@ import {
   WithFieldValue,
   getFirestore,
 } from "firebase-admin/firestore";
-import {
-  ChatCompletionRequestMessage,
-  ChatCompletionRequestMessageRoleEnum,
-} from "openai";
+import { ChatCompletionRequestMessage } from "openai";
 import { z } from "zod";
 import { zChatCompletionRequestMessage } from "./openai.schemas";
 
