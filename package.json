@@ -20,7 +20,8 @@
     "delete": "firebase functions:delete",
     "logs": "firebase functions:log",
     "secrets:set": "pnpm firebase functions:secrets:set",
-    "secrets:get": "pnpm firebase functions:secrets:get"
+    "secrets:get": "pnpm firebase functions:secrets:get",
+    "checkAll": "vitest run && pnpm checkTs && pnpm lint && pnpm build"
   },
   "repository": {
     "type": "git",
