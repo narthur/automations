@@ -5,17 +5,26 @@ import { DynalistFile, Res } from "./dynalist.types";
 
 const TOKEN = "todo";
 
-export function getFiles() {
-  return axios.get<
-    Res<{
-      root_file_id: string;
-      files: DynalistFile[];
-    }>
-  >("https://dynalist.io/api/v1/file/list", {
-    params: {
-      token: TOKEN,
-    },
-  });
+type GetFilesResponse = {
+  root_file_id: string;
+  files: DynalistFile[];
+};
+
+export async function getFiles(): Promise<GetFilesResponse> {
+  const r = await axios.get<Res<GetFilesResponse>>(
+    "https://dynalist.io/api/v1/file/list",
+    {
+      params: {
+        token: TOKEN,
+      },
+    }
+  );
+
+  if (r.data._code !== "OK") {
+    throw new Error(r.data._msg);
+  }
+
+  return r.data;
 }
 
 export function updateFile(changes: unknown) {
