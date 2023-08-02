@@ -4,8 +4,31 @@ import axios from "axios";
 
 const TOKEN = "todo";
 
+type Error = {
+  _code: "InvalidToken" | "TooManyRequests" | "Invalid" | "LockFile";
+  _msg: string;
+};
+
+type Ok<T> = { _code: "OK"; _msg: "" } & T;
+
+type Res<T> = Error | Ok<T>;
+
+type File = {
+  id: string;
+  title: string;
+  type: "document" | "folder";
+  permission: 0 | 1 | 2 | 3 | 4;
+  collapsed?: boolean;
+  children?: string[];
+};
+
 export function getFiles() {
-  return axios.get("https://dynalist.io/api/v1/file/list", {
+  return axios.get<
+    Res<{
+      root_file_id: string;
+      files: File[];
+    }>
+  >("https://dynalist.io/api/v1/file/list", {
     params: {
       token: TOKEN,
     },
