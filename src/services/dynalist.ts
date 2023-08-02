@@ -3,7 +3,7 @@ import { DynalistFile, Res } from "./dynalist.types";
 
 // https://apidocs.dynalist.io/
 
-const TOKEN = "todo";
+const token = "todo";
 
 type GetFilesResponse = {
   root_file_id: string;
@@ -15,7 +15,7 @@ export async function getFiles(): Promise<GetFilesResponse> {
     "https://dynalist.io/api/v1/file/list",
     {
       params: {
-        token: TOKEN,
+        token,
       },
     }
   );
@@ -29,33 +29,33 @@ export async function getFiles(): Promise<GetFilesResponse> {
 
 export function updateFile(changes: unknown) {
   return axios.post("https://dynalist.io/api/v1/file/edit", {
-    token: TOKEN,
+    token,
     changes,
   });
 }
 
-export function getDocument(fileId: string) {
+export function getDocument(file_id: string) {
   return axios.get("https://dynalist.io/api/v1/doc/read", {
     params: {
-      token: TOKEN,
-      file_id: fileId,
+      token,
+      file_id,
     },
   });
 }
 
-export function getDocumentUpdates(fileIds: string[]) {
+export function getDocumentUpdates(file_ids: string[]) {
   return axios.get("https://dynalist.io/api/v1/doc/read", {
     params: {
-      token: TOKEN,
-      file_ids: fileIds,
+      token,
+      file_ids,
     },
   });
 }
 
-export function updateDocument(fileId: string, changes: unknown) {
+export function updateDocument(file_id: string, changes: unknown) {
   return axios.post("https://dynalist.io/api/v1/doc/edit", {
-    token: TOKEN,
-    file_id: fileId,
+    token,
+    file_id,
     changes,
   });
 }
@@ -70,7 +70,7 @@ export function addToInbox(options: {
   color?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
 }) {
   return axios.post("https://dynalist.io/api/v1/inbox/add", {
-    token: TOKEN,
+    token,
     ...options,
   });
 }
@@ -81,7 +81,7 @@ export function uploadFile(options: {
   data: string; // base64 encoded
 }) {
   return axios.post("https://dynalist.io/api/v1/file/upload", {
-    token: TOKEN,
+    token,
     ...options,
   });
 }
