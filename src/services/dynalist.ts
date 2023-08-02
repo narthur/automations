@@ -13,14 +13,23 @@ type Ok<T> = { _code: "OK"; _msg: "" } & T;
 
 type Res<T> = Error | Ok<T>;
 
-type File = {
+type Document = {
   id: string;
   title: string;
-  type: "document" | "folder";
+  type: "document";
   permission: 0 | 1 | 2 | 3 | 4;
-  collapsed?: boolean;
-  children?: string[];
 };
+
+type Folder = {
+  id: string;
+  title: string;
+  type: "folder";
+  permission: 0 | 1 | 2 | 3 | 4;
+  collapsed: boolean;
+  children: string[];
+};
+
+type File = Document | Folder;
 
 export function getFiles() {
   return axios.get<
