@@ -13,12 +13,14 @@ export const getFiles = makeRoute<
   }
 >("file/list");
 
-export function updateFile(changes: unknown) {
-  return axios.post("https://dynalist.io/api/v1/file/edit", {
-    token,
-    changes,
-  });
-}
+export const updateFile = makeRoute<
+  {
+    changes: unknown;
+  },
+  unknown
+>("file/edit", {
+  method: "post",
+});
 
 export function getDocument(file_id: string) {
   return axios.get("https://dynalist.io/api/v1/doc/read", {
