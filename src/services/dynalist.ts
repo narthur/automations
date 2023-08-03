@@ -46,20 +46,20 @@ export const updateDocument = makeRoute<
   method: "post",
 });
 
-export function addToInbox(options: {
-  index: number;
-  content: string;
-  note?: string;
-  checked?: boolean;
-  checkbox?: boolean;
-  heading?: 0 | 1 | 2 | 3;
-  color?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
-}) {
-  return axios.post("https://dynalist.io/api/v1/inbox/add", {
-    token,
-    ...options,
-  });
-}
+export const addToInbox = makeRoute<
+  {
+    index: number;
+    content: string;
+    note?: string;
+    checked?: boolean;
+    checkbox?: boolean;
+    heading?: 0 | 1 | 2 | 3;
+    color?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  },
+  unknown
+>("inbox/add", {
+  method: "post",
+});
 
 export function uploadFile(options: {
   filename: string;
