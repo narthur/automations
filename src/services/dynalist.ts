@@ -29,22 +29,22 @@ export const getDocument = makeRoute<
   unknown
 >("doc/read");
 
-export function getDocumentUpdates(file_ids: string[]) {
-  return axios.get("https://dynalist.io/api/v1/doc/read", {
-    params: {
-      token,
-      file_ids,
-    },
-  });
-}
+export const getDocumentUpdates = makeRoute<
+  {
+    file_ids: string[];
+  },
+  unknown
+>("doc/check_for_updates");
 
-export function updateDocument(file_id: string, changes: unknown) {
-  return axios.post("https://dynalist.io/api/v1/doc/edit", {
-    token,
-    file_id,
-    changes,
-  });
-}
+export const updateDocument = makeRoute<
+  {
+    file_id: string;
+    changes: unknown;
+  },
+  unknown
+>("doc/edit", {
+  method: "post",
+});
 
 export function addToInbox(options: {
   index: number;
