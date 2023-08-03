@@ -22,14 +22,12 @@ export const updateFile = makeRoute<
   method: "post",
 });
 
-export function getDocument(file_id: string) {
-  return axios.get("https://dynalist.io/api/v1/doc/read", {
-    params: {
-      token,
-      file_id,
-    },
-  });
-}
+export const getDocument = makeRoute<
+  {
+    file_id: string;
+  },
+  unknown
+>("doc/read");
 
 export function getDocumentUpdates(file_ids: string[]) {
   return axios.get("https://dynalist.io/api/v1/doc/read", {
