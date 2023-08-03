@@ -61,16 +61,16 @@ export const addToInbox = makeRoute<
   method: "post",
 });
 
-export function uploadFile(options: {
-  filename: string;
-  content_type: string;
-  data: string; // base64 encoded
-}) {
-  return axios.post("https://dynalist.io/api/v1/file/upload", {
-    token,
-    ...options,
-  });
-}
+export const uploadFile = makeRoute<
+  {
+    filename: string;
+    content_type: string;
+    data: string; // base64 encoded
+  },
+  unknown
+>("file/upload", {
+  method: "post",
+});
 
 function makeRoute<T extends Record<string, unknown>, D>(
   route: string,
