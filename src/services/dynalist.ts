@@ -94,3 +94,21 @@ function makeRoute<T extends Record<string, unknown>, D>(
     return r.data;
   };
 }
+
+// TODO: https://axios-http.com/docs/config_defaults
+
+// const api: {
+//   get: typeof axios.get;
+//   post: typeof axios.post;
+// } = {
+//   get: (route, config) =>
+//     axios.get(`https://dynalist.io/api/v1/${route}`, {
+//       ...config,
+//       params: { token, ...(config?.params || {}) },
+//     }),
+//   post: (route, data, config) =>
+//     axios.post(`https://dynalist.io/api/v1/${route}`, data, {
+//       ...config,
+//       params: { token, ...(config?.params || {}) },
+//     }),
+// };
