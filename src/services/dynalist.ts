@@ -5,27 +5,13 @@ import { DynalistFile, Res } from "./dynalist.types";
 
 const token = "todo";
 
-type GetFilesResponse = {
-  root_file_id: string;
-  files: DynalistFile[];
-};
-
-export async function getFiles(): Promise<GetFilesResponse> {
-  const r = await axios.get<Res<GetFilesResponse>>(
-    "https://dynalist.io/api/v1/file/list",
-    {
-      params: {
-        token,
-      },
-    }
-  );
-
-  if (r.data._code !== "OK") {
-    throw new Error(r.data._msg);
+export const getFiles = makeRoute<
+  Record<string, never>,
+  {
+    root_file_id: string;
+    files: DynalistFile[];
   }
-
-  return r.data;
-}
+>("file/list");
 
 export function updateFile(changes: unknown) {
   return axios.post("https://dynalist.io/api/v1/file/edit", {
@@ -84,4 +70,29 @@ export function uploadFile(options: {
     token,
     ...options,
   });
+}
+
+function makeRoute<T extends Record<string, unknown>, D>(
+  route: string,
+  {
+    method = "get",
+  }: {
+    method?: "get" | "post";
+  } = {}
+): (params?: T) => Promise<D> {
+  return async (params): Promise<D> => {
+    const r = await axios<Res<D>>(`https://dynalist.io/api/v1/${route}`, {
+      method,
+      params: {
+        token,
+        ...params,
+      },
+    });
+
+    if (r.data._code !== "OK") {
+      throw new Error(r.data._msg);
+    }
+
+    return r.data;
+  };
 }
