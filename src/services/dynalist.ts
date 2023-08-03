@@ -13,14 +13,12 @@ export const getFiles = makeRoute<
   }
 >("file/list");
 
-export const updateFile = makeRoute<
+export const updateFile = makePostRoute<
   {
     changes: unknown;
   },
   unknown
->("file/edit", {
-  method: "post",
-});
+>("file/edit");
 
 export const getDocument = makeRoute<
   {
@@ -36,17 +34,15 @@ export const getDocumentUpdates = makeRoute<
   unknown
 >("doc/check_for_updates");
 
-export const updateDocument = makeRoute<
+export const updateDocument = makePostRoute<
   {
     file_id: string;
     changes: unknown;
   },
   unknown
->("doc/edit", {
-  method: "post",
-});
+>("doc/edit");
 
-export const addToInbox = makeRoute<
+export const addToInbox = makePostRoute<
   {
     index: number;
     content: string;
@@ -57,20 +53,22 @@ export const addToInbox = makeRoute<
     color?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   },
   unknown
->("inbox/add", {
-  method: "post",
-});
+>("inbox/add");
 
-export const uploadFile = makeRoute<
+export const uploadFile = makePostRoute<
   {
     filename: string;
     content_type: string;
     data: string; // base64 encoded
   },
   unknown
->("file/upload", {
-  method: "post",
-});
+>("file/upload");
+
+function makePostRoute<T extends Record<string, unknown>, D>(
+  route: string
+): (params?: T) => Promise<D> {
+  return makeRoute<T, D>(route, { method: "post" });
+}
 
 function makeRoute<T extends Record<string, unknown>, D>(
   route: string,
