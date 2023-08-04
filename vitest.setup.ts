@@ -7,6 +7,7 @@ vi.mock("axios");
 vi.mock("firebase-functions/params");
 vi.mock("./src/services/notion");
 vi.mock("./src/services/openai");
+vi.mock("./src/services/telegram");
 vi.mock("./src/services/toggl");
 vi.mock("./src/services/firestore");
 

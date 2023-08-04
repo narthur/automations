@@ -7,10 +7,9 @@ import {
   telegramWebhookToken,
 } from "../secrets";
 import getFunctionUrl from "../helpers/getFunctionUrl";
-import { setWebhook, sendMessage } from "../services/telegram";
-import { TelegramUpdate } from "../services/telegram.types";
-import getGptResponse from "../helpers/getGptResponse";
-import telegramifyMarkdown from "telegramify-markdown";
+import { setWebhook } from "../services/telegram";
+
+import handleBotRequest from "../helpers/handleBotRequest";
 
 export const bot_https = functions
   .runWith({
@@ -22,49 +21,7 @@ export const bot_https = functions
       telegramAllowedUser.name,
     ],
   })
-  .https.onRequest(async (req, res) => {
-    const isTelegram =
-      req.headers["x-telegram-bot-api-secret-token"] ===
-      telegramWebhookToken.value();
-
-    if (!isTelegram) {
-      res.status(403).send("Forbidden");
-      return;
-    }
-
-    const update = req.body as TelegramUpdate;
-    const message = "message" in update ? update.message : undefined;
-
-    if (!message) {
-      res.status(200).send("OK");
-      return;
-    }
-
-    const isAllowedUser =
-      String(message.from?.id) === telegramAllowedUser.value();
-
-    if (!isAllowedUser) {
-      res.status(403).send("Forbidden");
-      return;
-    }
-
-    if (!message.text) {
-      res.status(200).send("OK");
-      return;
-    }
-
-    const texts = await getGptResponse(message.text);
-
-    for (const t of texts) {
-      await sendMessage({
-        chat_id: message.chat.id,
-        text: telegramifyMarkdown(t),
-        parse_mode: "MarkdownV2",
-      });
-    }
-
-    res.status(200).send("OK");
-  });
+  .https.onRequest(handleBotRequest);
 
 export const bot_setup = functions
   .runWith({
