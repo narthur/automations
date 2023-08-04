@@ -73,8 +73,7 @@ export default async function getGptResponse(
     }))
   );
   if (!raw) {
-    console.error("no response from openai");
-    return [];
+    throw new Error("no response from openai");
   }
   console.info("parsing openai response");
   const content = await getContent(raw);
