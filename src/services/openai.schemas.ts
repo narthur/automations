@@ -12,12 +12,7 @@ export const zChatCompletionRequestMessage: z.ZodType<ChatCompletionRequestMessa
     function_call: z.optional(
       z.object({
         name: z.string(),
-        description: z.string(),
-        parameters: z.object({
-          type: z.string(),
-          properties: z.object({}),
-          required: z.array(z.string()),
-        }),
+        arguments: z.string(),
       })
     ),
   });
