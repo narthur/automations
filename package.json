@@ -45,6 +45,7 @@
     "firebase-functions": "^4.4.1",
     "openai": "^3.3.0",
     "telegramify-markdown": "^1.1.0",
+    "text-table": "^0.2.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6",
     "vite": "^4.4.8",
@@ -52,6 +53,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@types/text-table": "^0.2.2",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
     "eslint": "^8.9.0",

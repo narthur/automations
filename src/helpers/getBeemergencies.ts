@@ -1,4 +1,5 @@
 import { getGoals } from "../services/beeminder";
+import table from "text-table";
 
 export default async function getBeemergencies(): Promise<string> {
   const goals = await getGoals();
@@ -6,11 +7,7 @@ export default async function getBeemergencies(): Promise<string> {
 
   if (due.length === 0) return "No beemergencies!";
 
-  const slugLengths = due.map((g) => g.slug.length);
-  const len = Math.max(...slugLengths);
-  const rows = due
-    .map((g) => `${g.slug.padEnd(len, " ")} ${g.limsum}`)
-    .join("\n");
+  const data = due.map((g) => [g.slug, g.limsum, `$${g.pledge}`]);
 
-  return `\`\`\`\n${rows}\n\`\`\``;
+  return `\`\`\`\n${table(data)}\n\`\`\``;
 }

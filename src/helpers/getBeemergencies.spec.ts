@@ -24,6 +24,24 @@ describe("getBeemergencies", () => {
 
     const response = await getBeemergencies();
 
-    expect(response).toContain("test  LIMSUM");
+    expect(response).toContain("test   LIMSUM");
+  });
+
+  it("includes stakes", async () => {
+    const goals: Partial<Goal>[] = [
+      {
+        slug: "test",
+        safebuf: 0,
+        limsum: "LIMSUM",
+        pledge: 10,
+        rate: 1,
+      },
+    ];
+
+    vi.mocked(getGoals).mockResolvedValue(goals as any);
+
+    const response = await getBeemergencies();
+
+    expect(response).toContain("$10");
   });
 });
