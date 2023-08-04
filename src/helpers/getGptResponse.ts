@@ -79,14 +79,18 @@ export default async function getGptResponse(
   console.info("parsing openai response");
   const content = await getContent(raw);
   const isFunction = !!raw.function_call?.name?.length;
-  const role = isFunction
-    ? ChatCompletionRequestMessageRoleEnum.Function
-    : ChatCompletionRequestMessageRoleEnum.Assistant;
-  await addMessage({
-    role,
-    name: raw.function_call?.name,
-    content,
-    function_call: raw.function_call,
-  });
+  await addMessage(
+    isFunction
+      ? {
+          role: ChatCompletionRequestMessageRoleEnum.Function,
+          name: raw.function_call?.name,
+          content,
+          function_call: raw.function_call,
+        }
+      : {
+          role: ChatCompletionRequestMessageRoleEnum.Assistant,
+          content,
+        }
+  );
   return splitMessages(content);
 }
