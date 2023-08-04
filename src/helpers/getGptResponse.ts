@@ -54,7 +54,17 @@ export default async function getGptResponse(
       content:
         "Your user is a developer. If they ask you to do something beyond your capabilities, you should request that they add a function to the system for you to use. Describe the function you need in as much detail as possible.",
     },
-    ...history.map((m) => m.message),
+    ...history.map((m) => {
+      if (m.message.role === ChatCompletionRequestMessageRoleEnum.Function) {
+        return {
+          role: ChatCompletionRequestMessageRoleEnum.Function,
+          name: m.message.name,
+          function_call: m.message.function_call,
+        };
+      }
+
+      return m.message;
+    }),
     {
       role: ChatCompletionRequestMessageRoleEnum.User,
       content: prompt,
