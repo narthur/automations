@@ -5,7 +5,7 @@ on:
       - "main"
 env:
   NODE_VERSION: 16
-  PNPM_VERSION: 7.33.1
+  PNPM_VERSION: 8.11.0
 jobs:
   auto:
     runs-on: ubuntu-latest
