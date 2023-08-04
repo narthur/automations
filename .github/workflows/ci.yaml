@@ -3,6 +3,7 @@ on:
   push:
 env:
   NODE_VERSION: 16
+  PNPM_VERSION: 8.6.9
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -10,7 +11,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: pnpm/action-setup@v2.2.2
         with:
-          version: 7
+          version: ${{ env.PNPM_VERSION }}
       - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v2
         with:
