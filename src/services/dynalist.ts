@@ -1,9 +1,27 @@
 import axios from "axios";
 import { DynalistFile, Res } from "./dynalist.types";
 
+// API docs:
 // https://apidocs.dynalist.io/
 
-const token = "todo";
+// Setting Axios client defaults:
+// https://axios-http.com/docs/config_defaults
+// https://stackoverflow.com/a/59050108/937377
+
+const client = axios.create({
+  baseURL: "https://dynalist.io/api/v1",
+});
+
+client.interceptors.request.use((config) => {
+  // WORKAROUND: eslint rules disabled because the upstream type
+  // defines params as `any`.
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  config.params = config.params || {};
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  config.params.token = "todo";
+  return config;
+});
 
 export const getFiles = makeRoute<
   Record<string, never>,
@@ -79,12 +97,9 @@ function makeRoute<T extends Record<string, unknown>, D>(
   } = {}
 ): (params?: T) => Promise<D> {
   return async (params): Promise<D> => {
-    const r = await axios<Res<D>>(`https://dynalist.io/api/v1/${route}`, {
+    const r = await client<Res<D>>(route, {
       method,
-      params: {
-        token,
-        ...params,
-      },
+      params,
     });
 
     if (r.data._code !== "OK") {
@@ -94,21 +109,3 @@ function makeRoute<T extends Record<string, unknown>, D>(
     return r.data;
   };
 }
-
-// TODO: https://axios-http.com/docs/config_defaults
-
-// const api: {
-//   get: typeof axios.get;
-//   post: typeof axios.post;
-// } = {
-//   get: (route, config) =>
-//     axios.get(`https://dynalist.io/api/v1/${route}`, {
-//       ...config,
-//       params: { token, ...(config?.params || {}) },
-//     }),
-//   post: (route, data, config) =>
-//     axios.post(`https://dynalist.io/api/v1/${route}`, data, {
-//       ...config,
-//       params: { token, ...(config?.params || {}) },
-//     }),
-// };
