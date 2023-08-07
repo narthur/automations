@@ -18,6 +18,7 @@ client.interceptors.request.use((config) => {
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   config.params = config.params || {};
+  // TODO: create a firebase secret for this
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   config.params.token = "todo";
   return config;
