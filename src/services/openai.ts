@@ -27,7 +27,10 @@ export async function getResponse(
   messages: Array<ChatCompletionRequestMessage>,
   functions?: Array<ChatCompletionFunctions>
 ): Promise<ChatCompletionResponseMessage | undefined> {
-  console.info("message history:", messages);
+  console.info(
+    "function messages:",
+    messages.filter((m) => m.role === "function")
+  );
 
   console.info("getting openai client");
   const client = getOpenAi();
