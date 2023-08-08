@@ -88,7 +88,7 @@ export default async function getGptResponse(
   const content = await getContent(raw);
   if (hasFunctionCall(raw)) {
     await addMessage({
-      role: "function",
+      role: "assistant",
       name: raw.function_call?.name,
       content,
       function_call: raw.function_call,
