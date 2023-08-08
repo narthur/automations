@@ -1,13 +1,10 @@
-import {
-  ChatCompletionRequestMessage,
-  ChatCompletionRequestMessageRoleEnum,
-} from "openai";
+import { CreateChatCompletionRequestMessage } from "openai/resources/chat";
 import { z } from "zod";
 
-export const zChatCompletionRequestMessage: z.ZodType<ChatCompletionRequestMessage> =
+export const zChatCompletionRequestMessage: z.ZodType<CreateChatCompletionRequestMessage> =
   z.object({
-    role: z.nativeEnum(ChatCompletionRequestMessageRoleEnum),
-    content: z.optional(z.string()),
+    role: z.enum(["user", "system", "function", "assistant"]),
+    content: z.nullable(z.string()),
     name: z.optional(z.string()),
     function_call: z.optional(
       z.object({

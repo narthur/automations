@@ -1,7 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import getGptResponse from "./getGptResponse";
 import { getResponse } from "../services/openai";
-import { ChatCompletionResponseMessageRoleEnum } from "openai";
 import { getGoals } from "../services/beeminder";
 import { MAX_MESSAGE_LENGTH } from "./splitMessages";
 
@@ -10,7 +9,7 @@ vi.mock("../services/beeminder");
 describe("getGptResponse", () => {
   it("should return a response", async () => {
     vi.mocked(getResponse).mockResolvedValue({
-      role: ChatCompletionResponseMessageRoleEnum.Assistant,
+      role: "assistant",
       content: "Hello world!",
     });
     const response = await getGptResponse("");
@@ -32,7 +31,7 @@ describe("getGptResponse", () => {
 
   it("splits long messages", async () => {
     vi.mocked(getResponse).mockResolvedValue({
-      role: ChatCompletionResponseMessageRoleEnum.Assistant,
+      role: "assistant",
       content: "a".repeat(MAX_MESSAGE_LENGTH + 1),
     });
     const response = await getGptResponse("");
@@ -41,7 +40,7 @@ describe("getGptResponse", () => {
 
   it("handlews newlines", async () => {
     vi.mocked(getResponse).mockResolvedValue({
-      role: ChatCompletionResponseMessageRoleEnum.Assistant,
+      role: "assistant",
       content: "a\nb",
     });
 
@@ -53,7 +52,7 @@ describe("getGptResponse", () => {
   it("calls functions", async () => {
     vi.mocked(getGoals).mockResolvedValue([]);
     vi.mocked(getResponse).mockResolvedValue({
-      role: ChatCompletionResponseMessageRoleEnum.Assistant,
+      role: "assistant",
       function_call: {
         name: "getBeemergencies",
       },

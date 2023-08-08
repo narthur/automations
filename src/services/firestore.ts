@@ -5,9 +5,9 @@ import {
   WithFieldValue,
   getFirestore,
 } from "firebase-admin/firestore";
-import { ChatCompletionRequestMessage } from "openai";
 import { z } from "zod";
 import { zChatCompletionRequestMessage } from "./openai.schemas";
+import { CreateChatCompletionRequestMessage } from "openai/resources/chat";
 
 initializeApp();
 
@@ -20,7 +20,7 @@ export function addDoc<T extends WithFieldValue<DocumentData>>(
   return db.collection(collection).add(data);
 }
 
-export function addMessage(message: ChatCompletionRequestMessage) {
+export function addMessage(message: CreateChatCompletionRequestMessage) {
   return addDoc("messages", {
     message,
     timestamp: new Date(),

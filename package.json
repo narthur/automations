@@ -43,7 +43,7 @@
     "eslint": "^8.46.0",
     "firebase-admin": "^11.10.1",
     "firebase-functions": "^4.4.1",
-    "openai": "^3.3.0",
+    "openai": "4.0.0-beta.8",
     "telegramify-markdown": "^1.1.0",
     "text-table": "^0.2.0",
     "ts-node": "^10.9.1",

@@ -1,32 +1,29 @@
-import {
-  Configuration,
-  OpenAIApi,
-  ChatCompletionResponseMessage,
-  ChatCompletionRequestMessage,
-  ChatCompletionFunctions,
-} from "openai";
+import OpenAI from "openai";
 import { openAiSecretKey } from "../secrets";
+import {
+  ChatCompletion,
+  CompletionCreateParams,
+  CreateChatCompletionRequestMessage,
+} from "openai/resources/chat";
 
 const MODEL = "gpt-3.5-turbo-0613";
 
-let openai: OpenAIApi | undefined;
+let openai: OpenAI | undefined;
 
 function getOpenAi() {
   if (!openai) {
-    const configuration = new Configuration({
+    openai = new OpenAI({
       apiKey: openAiSecretKey.value(),
     });
-
-    openai = new OpenAIApi(configuration);
   }
 
   return openai;
 }
 
 export async function getResponse(
-  messages: Array<ChatCompletionRequestMessage>,
-  functions?: Array<ChatCompletionFunctions>
-): Promise<ChatCompletionResponseMessage | undefined> {
+  messages: Array<CreateChatCompletionRequestMessage>,
+  functions?: Array<CompletionCreateParams.Function>
+): Promise<ChatCompletion.Choice.Message> {
   console.info(
     "function messages:",
     messages.filter((m) => m.role === "function")
@@ -36,12 +33,12 @@ export async function getResponse(
   const client = getOpenAi();
 
   console.info("getting openai completion");
-  const completion = await client.createChatCompletion({
+  const completion = await client.chat.completions.create({
     model: MODEL,
     messages,
     functions,
   });
 
   console.info("returning first openai completion message");
-  return completion?.data.choices[0].message;
+  return completion.choices[0].message;
 }

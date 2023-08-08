@@ -1,17 +1,17 @@
 import { getResponse } from "../services/openai";
-import {
-  ChatCompletionRequestMessageRoleEnum,
-  ChatCompletionResponseMessage,
-} from "openai";
 import splitMessages from "./splitMessages";
 import { addMessage, getMessages } from "../services/firestore";
 import getBeemergencies from "./getBeemergencies";
+import {
+  ChatCompletion,
+  CreateChatCompletionRequestMessage,
+} from "openai/resources/chat";
 
 const FUNCTIONS: {
   name: string;
   fn: () => Promise<string>;
   description?: string;
-  parameters?: Record<string, unknown>;
+  parameters: Record<string, unknown>;
 }[] = [
   {
     name: "getBeemergencies",
@@ -26,7 +26,7 @@ const FUNCTIONS: {
 ];
 
 async function getContent(
-  response: ChatCompletionResponseMessage
+  response: ChatCompletion.Choice.Message
 ): Promise<string> {
   if (response.function_call) {
     const name = response.function_call?.name;
@@ -43,25 +43,36 @@ async function getContent(
   return response.content || "";
 }
 
+function hasFunctionCall(
+  message: ChatCompletion.Choice.Message
+): message is ChatCompletion.Choice.Message & {
+  function_call: {
+    name: string;
+    arguments: string;
+  };
+} {
+  return Boolean(message.function_call);
+}
+
 export default async function getGptResponse(
   prompt: string
 ): Promise<string[]> {
   console.info("getting openai response");
   const history = await getMessages();
-  const messages = [
+  const messages: Array<CreateChatCompletionRequestMessage> = [
     {
-      role: ChatCompletionRequestMessageRoleEnum.System,
+      role: "system",
       content:
         "Your user is a developer. If they ask you to do something beyond your capabilities, you should request that they add a function to the system for you to use. Describe the function you need in as much detail as possible.",
     },
     ...history.map((m) => m.message),
     {
-      role: ChatCompletionRequestMessageRoleEnum.User,
+      role: "user",
       content: prompt,
     },
   ];
   await addMessage({
-    role: ChatCompletionRequestMessageRoleEnum.User,
+    role: "user",
     content: prompt,
   });
   const raw = await getResponse(
@@ -72,24 +83,21 @@ export default async function getGptResponse(
       parameters: f.parameters,
     }))
   );
-  if (!raw) {
-    throw new Error("no response from openai");
-  }
+  if (!raw) throw new Error("no response from openai");
   console.info("parsing openai response");
   const content = await getContent(raw);
-  const isFunction = !!raw.function_call?.name?.length;
-  await addMessage(
-    isFunction
-      ? {
-          role: ChatCompletionRequestMessageRoleEnum.Function,
-          name: raw.function_call?.name,
-          content,
-          function_call: raw.function_call,
-        }
-      : {
-          role: ChatCompletionRequestMessageRoleEnum.Assistant,
-          content,
-        }
-  );
+  if (hasFunctionCall(raw)) {
+    await addMessage({
+      role: "function",
+      name: raw.function_call?.name,
+      content,
+      function_call: raw.function_call,
+    });
+  } else {
+    await addMessage({
+      role: "assistant",
+      content,
+    });
+  }
   return splitMessages(content);
 }
