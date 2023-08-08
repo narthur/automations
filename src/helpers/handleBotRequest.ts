@@ -41,10 +41,7 @@ export default async function handleBotRequest(
   }
 
   const texts = await getGptResponse(message.text).catch((e: unknown) => {
-    let s =
-      e instanceof Error
-        ? `${e.name}: ${e.message}\n${e.stack}\n${e.toString()}`
-        : "";
+    let s = e instanceof Error ? e.toString() : "";
     s += `\n${JSON.stringify(e, null, 2)}`;
     return splitMessages(s);
   });
