@@ -1,7 +1,7 @@
 import { getResponse } from "../services/openai";
-import splitMessages from "./splitMessages";
+import splitMessages from "../transforms/splitMessages";
 import { addMessage, getMessages } from "../services/firestore";
-import getBeemergencies from "./getBeemergencies";
+import getBeemergencies from "../effects/getBeemergencies";
 import {
   ChatCompletion,
   CreateChatCompletionRequestMessage,

@@ -1,9 +1,9 @@
 import { createDatapoint } from "../services/beeminder";
 import { getClients, getProjects, getTimeEntries } from "../services/toggl";
 import { togglClientAv } from "../secrets";
-import dateParams from "../helpers/dateParams";
-import getWeekDates from "../helpers/getWeekDates";
-import memoize from "../helpers/memoize";
+import dateParams from "../transforms/dateParams";
+import getWeekDates from "../effects/getWeekDates";
+import memoize from "../effects/memoize";
 
 const _getProjects = memoize(getProjects, "getProjects");
 const _getClients = memoize(getClients, "getClients");

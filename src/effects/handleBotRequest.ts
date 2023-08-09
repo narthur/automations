@@ -1,10 +1,10 @@
 import { TelegramUpdate } from "../services/telegram.types";
-import getGptResponse from "../helpers/getGptResponse";
+import getGptResponse from "./getGptResponse";
 import telegramifyMarkdown from "telegramify-markdown";
 import * as functions from "firebase-functions";
 import { telegramAllowedUser, telegramWebhookToken } from "../secrets";
 import { sendMessage } from "../services/telegram";
-import splitMessages from "./splitMessages";
+import splitMessages from "../transforms/splitMessages";
 
 export default async function handleBotRequest(
   req: functions.https.Request,

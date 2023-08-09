@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import getGptResponse from "./getGptResponse";
 import { getResponse } from "../services/openai";
 import { getGoals } from "../services/beeminder";
-import { MAX_MESSAGE_LENGTH } from "./splitMessages";
+import { MAX_MESSAGE_LENGTH } from "../transforms/splitMessages";
 
 vi.mock("../services/beeminder");
 

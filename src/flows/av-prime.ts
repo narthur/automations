@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions";
 import { bmAuths, togglApiToken, togglClientAv } from "../secrets";
 import avPrime from "../jobs/av-prime";
-import setCors from "../helpers/setCors";
+import setCors from "../effects/setCors";
 
 const secrets = [bmAuths.name, togglApiToken.name, togglClientAv.name];
 
