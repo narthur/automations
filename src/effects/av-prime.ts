@@ -4,19 +4,30 @@ import { togglClientAv } from "../secrets";
 import dateParams from "../transforms/dateParams";
 import getWeekDates from "../effects/getWeekDates";
 import memoize from "../effects/memoize";
+import { getSumOfHours } from "../services/toggl.helpers";
 
 const _getProjects = memoize(getProjects, "getProjects");
 const _getClients = memoize(getClients, "getClients");
 
-async function getPrimeClients(date: Date): Promise<string[]> {
+async function getPrimeEntries(date: Date) {
   const entries = await getTimeEntries({
     params: dateParams(date),
   });
-  const primeEntries = entries.filter((e) => e.tags.includes("prime"));
 
-  if (!primeEntries?.length) return [];
+  return entries.filter((e) => e.tags.includes("prime")) ?? [];
+}
 
-  const projectIds = [...new Set(primeEntries.map((e) => e.project_id))];
+async function getPrimeTime(date: Date): Promise<number> {
+  const entries = await getPrimeEntries(date);
+  return getSumOfHours(entries);
+}
+
+async function getPrimeClients(date: Date): Promise<string[]> {
+  const entries = await getPrimeEntries(date);
+
+  if (!entries.length) return [];
+
+  const projectIds = [...new Set(entries.map((e) => e.project_id))];
   const projects = await _getProjects();
   const primeProjects = projects.filter((p) => projectIds.includes(p.id));
   const clientIds = [...new Set(primeProjects.map((p) => p.client_id))];
@@ -35,8 +46,17 @@ async function updatePoint(d: Date) {
   const clientNames = await getPrimeClients(d);
   const hasPrimeMatch = clientNames.includes(togglClientAv.value());
 
-  return createDatapoint("narthur", "audioprime", {
+  await createDatapoint("narthur", "audioprime", {
     value: hasPrimeMatch ? 1 : 0,
+    daystamp,
+    requestid: daystamp,
+    comment: clientNames.join(", "),
+  });
+
+  const primeHours = await getPrimeTime(d);
+
+  await createDatapoint("narthur", "techtainment", {
+    value: primeHours * -2,
     daystamp,
     requestid: daystamp,
     comment: clientNames.join(", "),

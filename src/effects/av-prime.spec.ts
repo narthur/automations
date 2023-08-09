@@ -14,6 +14,7 @@ describe("av-prime", () => {
       {
         tags: ["prime"],
         project_id: 1,
+        duration: 3600 / 2,
       } as any,
     ]);
 
@@ -161,7 +162,7 @@ describe("av-prime", () => {
   it("updates entries for previous week", async () => {
     await avPrime();
 
-    expect(getTimeEntries).toHaveBeenCalledTimes(7);
+    expect(getTimeEntries).toHaveBeenCalledTimes(14);
   });
 
   it("sets daystamp", async () => {
@@ -198,5 +199,25 @@ describe("av-prime", () => {
     await avPrime();
 
     expect(getClients).toHaveBeenCalledTimes(1);
+  });
+
+  it("adds datapoints to techtainment goal", async () => {
+    await avPrime();
+
+    expect(createDatapoint).toHaveBeenCalledWith(
+      expect.anything(),
+      "techtainment",
+      expect.anything()
+    );
+  });
+
+  it("calculates techtainment value correctly", async () => {
+    await avPrime();
+
+    expect(createDatapoint).toHaveBeenCalledWith(
+      expect.anything(),
+      "techtainment",
+      expect.objectContaining({ value: -1 })
+    );
   });
 });
