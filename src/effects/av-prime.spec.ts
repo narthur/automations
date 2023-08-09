@@ -159,12 +159,6 @@ describe("av-prime", () => {
     );
   });
 
-  it("updates entries for previous week", async () => {
-    await avPrime();
-
-    expect(getTimeEntries).toHaveBeenCalledTimes(14);
-  });
-
   it("sets daystamp", async () => {
     await avPrime();
 
@@ -219,5 +213,11 @@ describe("av-prime", () => {
       "techtainment",
       expect.objectContaining({ value: -1 })
     );
+  });
+
+  it("only gets time entries once per date", async () => {
+    await avPrime();
+
+    expect(getTimeEntries).toHaveBeenCalledTimes(7);
   });
 });

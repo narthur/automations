@@ -6,11 +6,12 @@ import getWeekDates from "../effects/getWeekDates";
 import memoize from "../effects/memoize";
 import { getSumOfHours } from "../services/toggl.helpers";
 
+const _getTimeEntries = memoize(getTimeEntries, "getTimeEntries");
 const _getProjects = memoize(getProjects, "getProjects");
 const _getClients = memoize(getClients, "getClients");
 
 async function getPrimeEntries(date: Date) {
-  const entries = await getTimeEntries({
+  const entries = await _getTimeEntries({
     params: dateParams(date),
   });
 
@@ -18,8 +19,7 @@ async function getPrimeEntries(date: Date) {
 }
 
 async function getPrimeTime(date: Date): Promise<number> {
-  const entries = await getPrimeEntries(date);
-  return getSumOfHours(entries);
+  return getPrimeEntries(date).then(getSumOfHours);
 }
 
 async function getPrimeClients(date: Date): Promise<string[]> {
@@ -33,10 +33,6 @@ async function getPrimeClients(date: Date): Promise<string[]> {
   const clientIds = [...new Set(primeProjects.map((p) => p.client_id))];
   const workspaceId = entries[0].workspace_id;
   const clients = await _getClients(workspaceId);
-
-  if (!clients?.length) {
-    throw new Error("Could not get clients");
-  }
 
   return clients.filter((c) => clientIds.includes(c.id)).map((c) => c.name);
 }
