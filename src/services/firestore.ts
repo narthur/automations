@@ -6,7 +6,7 @@ import {
   getFirestore,
 } from "firebase-admin/firestore";
 import { z } from "zod";
-import { zChatCompletionRequestMessage } from "./openai.schemas";
+import chatMessage from "../schemas/chatMessage";
 import { CreateChatCompletionRequestMessage } from "openai/resources/chat";
 
 initializeApp();
@@ -27,12 +27,12 @@ export function addMessage(message: CreateChatCompletionRequestMessage) {
   });
 }
 
-const zMessage = z.object({
-  message: zChatCompletionRequestMessage,
+const record = z.object({
+  message: chatMessage,
   timestamp: z.instanceof(Timestamp).transform((t) => t.toDate()),
 });
 
-const zMessages = z.array(zMessage);
+const records = z.array(record);
 
 export async function getMessages() {
   const now = Date.now();
@@ -43,5 +43,5 @@ export async function getMessages() {
     .get();
   const messages = docs.map((d) => d.data());
 
-  return zMessages.parse(messages);
+  return records.parse(messages);
 }
