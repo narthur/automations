@@ -19,4 +19,5 @@ export const avPrime_https = functions
   .https.onRequest(async (req, res) => {
     setCors(res);
     await avPrime();
+    res.status(200).send("OK");
   });
