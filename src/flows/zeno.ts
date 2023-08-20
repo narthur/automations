@@ -24,6 +24,9 @@ export const zeno_cron = functions
     const goals = await getGoals();
     const sorted = goals.sort((a, b) => a.losedate - b.losedate);
     const next = sorted.find((g) => g.losedate > now && g.safebuf === 0);
+
+    console.log("next", next?.slug);
+
     const shouldNotify =
       next &&
       isNotificationDue({
