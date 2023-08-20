@@ -46,6 +46,8 @@ export default async function handleBotRequest(
     return splitMessages(s);
   });
 
+  console.log("chat id", message.chat.id);
+
   for (const t of texts) {
     await sendMessage({
       chat_id: message.chat.id,
