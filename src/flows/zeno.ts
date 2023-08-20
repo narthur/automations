@@ -22,7 +22,7 @@ export const zeno_cron = functions
   .onRun(async () => {
     const now = Date.now() / 1000;
     const goals = await getGoals();
-    const sorted = goals.sort((a, b) => b.losedate - a.losedate);
+    const sorted = goals.sort((a, b) => a.losedate - b.losedate);
     const next = sorted.find((g) => g.losedate > now && g.safebuf === 0);
     const shouldNotify =
       next &&
