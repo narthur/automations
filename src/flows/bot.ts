@@ -1,6 +1,7 @@
 import * as functions from "firebase-functions";
 import {
   bmAuths,
+  openAiPrompt,
   openAiSecretKey,
   telegramAllowedUser,
   telegramApiToken,
@@ -15,6 +16,7 @@ export const bot_https = functions
   .runWith({
     secrets: [
       openAiSecretKey.name,
+      openAiPrompt.name,
       bmAuths.name,
       telegramApiToken.name,
       telegramWebhookToken.name,
