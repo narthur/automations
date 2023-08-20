@@ -6,7 +6,7 @@ import {
   CreateChatCompletionRequestMessage,
 } from "openai/resources/chat";
 
-const MODEL = "gpt-3.5-turbo-0613";
+const MODEL = "gpt-4-0613";
 
 let openai: OpenAI | undefined;
 
