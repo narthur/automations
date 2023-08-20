@@ -32,7 +32,13 @@ export const zeno_cron = functions
         window: 60,
       });
 
-    if (!shouldNotify) return;
+    if (!shouldNotify) {
+      await sendMessage({
+        chat_id: telegramChatId.value(),
+        text: `🤖 Nothing due`,
+      });
+      return;
+    }
 
     await sendMessage({
       chat_id: telegramChatId.value(),
