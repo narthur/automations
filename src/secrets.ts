@@ -29,6 +29,7 @@ export const notionDatabaseIdTrCards = defineSecret(
 
 // OpenAI
 export const openAiSecretKey = defineSecret("OPENAI_SECRET_KEY");
+export const openAiPrompt = defineSecret("OPENAI_PROMPT");
 
 // Telegram
 export const telegramApiToken = defineSecret("TELEGRAM_API_TOKEN");

@@ -6,6 +6,7 @@ import {
   ChatCompletion,
   CreateChatCompletionRequestMessage,
 } from "openai/resources/chat";
+import { openAiPrompt } from "../secrets";
 
 const FUNCTIONS: {
   name: string;
@@ -62,8 +63,7 @@ export default async function getGptResponse(
   const messages: Array<CreateChatCompletionRequestMessage> = [
     {
       role: "system",
-      content:
-        "Your user is a developer. If they ask you to do something beyond your capabilities, you should request that they add a function to the system for you to use. Describe the function you need in as much detail as possible.",
+      content: openAiPrompt.value(),
     },
     ...history.map((m) => m.message),
     {
