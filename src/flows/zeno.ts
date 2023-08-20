@@ -33,10 +33,7 @@ export const zeno_cron = functions
       });
 
     if (!shouldNotify) {
-      await sendMessage({
-        chat_id: telegramChatId.value(),
-        text: `🤖 Nothing due`,
-      });
+      console.log("no notification due");
       return;
     }
 
