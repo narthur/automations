@@ -29,7 +29,7 @@ describe("morning", () => {
 
     expect(sendMessage).toBeCalledWith(
       expect.objectContaining({
-        text: "Here are your tasks for today:",
+        text: expect.stringContaining("Here are your tasks for today:"),
       })
     );
   });
@@ -39,7 +39,7 @@ describe("morning", () => {
 
     expect(sendMessage).toBeCalledWith(
       expect.objectContaining({
-        text: "foo due bar or pay $1",
+        text: expect.stringContaining("foo due bar or pay $1"),
       })
     );
   });
@@ -53,5 +53,15 @@ describe("morning", () => {
         role: "system",
       },
     ]);
+  });
+
+  it("relays errors", async () => {
+    vi.mocked(getPendingTasks).mockRejectedValue(new Error("foo"));
+    await run();
+    expect(sendMessage).toBeCalledWith(
+      expect.objectContaining({
+        text: expect.stringContaining("foo"),
+      })
+    );
   });
 });

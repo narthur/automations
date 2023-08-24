@@ -5,7 +5,7 @@ import {
   allTelegram,
   telegramChatId,
 } from "../secrets";
-import { sendMessages } from "../services/telegram.helpers";
+import { sendMessages, tryWithRelay } from "../services/telegram.helpers";
 import { getPendingTasks } from "../services/taskratchet";
 import { defineSecret } from "firebase-functions/params";
 import { getResponse } from "../services/openai";
@@ -23,19 +23,21 @@ export const morning_cron = functions
   })
   .pubsub.schedule("every day 06:00")
   .onRun(async () => {
-    const tasks = await getPendingTasks();
-    const formatted = tasks.map(
-      (t) => `${t.task} due ${t.due} or pay $${t.cents / 100}`
-    );
-    const response = await getResponse([
-      {
-        content: morningPrompt.value(),
-        role: "system",
-      },
-    ]);
-    await sendMessages(telegramChatId.value(), [
-      response.content || "Failed to generate response.",
-      `Here are your tasks for today:`,
-      ...formatted,
-    ]);
+    await tryWithRelay(telegramChatId.value(), async () => {
+      const tasks = await getPendingTasks();
+      const formatted = tasks.map(
+        (t) => `${t.task} due ${t.due} or pay $${t.cents / 100}`
+      );
+      const response = await getResponse([
+        {
+          content: morningPrompt.value(),
+          role: "system",
+        },
+      ]);
+      await sendMessages(telegramChatId.value(), [
+        response.content || "Failed to generate response.",
+        `Here are your tasks for today:`,
+        ...formatted,
+      ]);
+    });
   });

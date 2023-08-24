@@ -1,11 +1,9 @@
 import { TelegramUpdate } from "../services/telegram.types";
 import getGptResponse from "./getGptResponse";
-import telegramifyMarkdown from "telegramify-markdown";
 import * as functions from "firebase-functions";
 import { telegramAllowedUser, telegramWebhookToken } from "../secrets";
-import { sendMessage } from "../services/telegram";
-import splitMessages from "../transforms/splitMessages";
 import getSlashCommandResponse from "./getSlashCommandResponse";
+import { sendMessages, tryWithRelay } from "../services/telegram.helpers";
 
 export default async function handleBotRequest(
   req: functions.https.Request,
@@ -23,41 +21,25 @@ export default async function handleBotRequest(
   const update = req.body as TelegramUpdate;
   const message = "message" in update ? update.message : undefined;
 
-  if (!message) {
+  if (!message?.text) {
     res.status(200).send("OK");
     return;
   }
 
-  const isAllowedUser =
-    String(message.from?.id) === telegramAllowedUser.value();
+  const { text, from, chat } = message;
+
+  const isAllowedUser = String(from?.id) === telegramAllowedUser.value();
 
   if (!isAllowedUser) {
     res.status(403).send("Forbidden");
     return;
   }
 
-  if (!message.text) {
-    res.status(200).send("OK");
-    return;
-  }
-
-  const texts =
-    (await getSlashCommandResponse(message.text)) ||
-    (await getGptResponse(message.text).catch((e: unknown) => {
-      let s = e instanceof Error ? e.toString() : "";
-      s += `\n${JSON.stringify(e, null, 2)}`;
-      return splitMessages(s);
-    }));
-
-  console.log("chat id", message.chat.id);
-
-  for (const t of texts) {
-    await sendMessage({
-      chat_id: message.chat.id,
-      text: telegramifyMarkdown(t),
-      parse_mode: "MarkdownV2",
-    });
-  }
+  await tryWithRelay(chat.id, async () => {
+    const texts =
+      (await getSlashCommandResponse(text)) || (await getGptResponse(text));
+    await sendMessages(chat.id, texts);
+  });
 
   res.status(200).send("OK");
 }
