@@ -34,9 +34,8 @@ export const morning_cron = functions
       },
     ]);
     await sendMessages(telegramChatId.value(), [
-      `Good morning!`,
+      response.content || "Failed to generate response.",
       `Here are your tasks for today:`,
       ...formatted,
-      response.content || "Failed to generate response.",
     ]);
   });
