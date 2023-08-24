@@ -5,6 +5,7 @@ import * as functions from "firebase-functions";
 import { telegramAllowedUser, telegramWebhookToken } from "../secrets";
 import { sendMessage } from "../services/telegram";
 import splitMessages from "../transforms/splitMessages";
+import getSlashCommandResponse from "./getSlashCommandResponse";
 
 export default async function handleBotRequest(
   req: functions.https.Request,
@@ -40,11 +41,13 @@ export default async function handleBotRequest(
     return;
   }
 
-  const texts = await getGptResponse(message.text).catch((e: unknown) => {
-    let s = e instanceof Error ? e.toString() : "";
-    s += `\n${JSON.stringify(e, null, 2)}`;
-    return splitMessages(s);
-  });
+  const texts =
+    getSlashCommandResponse(message.text) ||
+    (await getGptResponse(message.text).catch((e: unknown) => {
+      let s = e instanceof Error ? e.toString() : "";
+      s += `\n${JSON.stringify(e, null, 2)}`;
+      return splitMessages(s);
+    }));
 
   console.log("chat id", message.chat.id);
 
