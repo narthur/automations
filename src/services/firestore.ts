@@ -20,6 +20,22 @@ export function addDoc<T extends WithFieldValue<DocumentData>>(
   return db.collection(collection).add(data);
 }
 
+export function setDoc<T extends WithFieldValue<DocumentData>>(
+  documentPath: string,
+  data: T
+) {
+  return db.doc(documentPath).set(data);
+}
+
+export function getDoc<T extends WithFieldValue<DocumentData>>(
+  documentPath: string
+) {
+  return db
+    .doc(documentPath)
+    .get()
+    .then((d) => d.data() as T);
+}
+
 export function addMessage(message: CreateChatCompletionRequestMessage) {
   return addDoc("messages", {
     message,

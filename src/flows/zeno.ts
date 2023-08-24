@@ -7,7 +7,9 @@ import {
 } from "../secrets";
 import { getGoals } from "../services/beeminder";
 import isNotificationDue from "../transforms/isNotificationDue";
-import { sendMessage } from "../services/telegram";
+import { deleteMessage, sendMessage } from "../services/telegram";
+import { setDoc, getDoc } from "../services/firestore";
+import z from "zod";
 
 export const zeno_cron = functions
   .runWith({
@@ -40,8 +42,33 @@ export const zeno_cron = functions
       return;
     }
 
-    await sendMessage({
+    const m = await sendMessage({
       chat_id: telegramChatId.value(),
       text: `🚨 ${next.slug}: ${next.limsum}`,
     });
+
+    const schema = z.object({
+      message_id: z.number(),
+      chat: z.object({
+        id: z.number(),
+      }),
+    });
+
+    const last = await getDoc<Record<string, unknown>>("meta/lastZeno")
+      .then((d) => schema.parse(d))
+      .catch((e) => {
+        console.error("Failed to get last zeno message", e);
+        return null;
+      });
+
+    if (last) {
+      await deleteMessage({
+        chat_id: last.chat.id,
+        message_id: last.message_id,
+      }).catch((e) => {
+        console.error("Failed to delete previous message", e);
+      });
+    }
+
+    await setDoc("meta/lastZeno", m);
   });

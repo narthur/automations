@@ -38,6 +38,17 @@ export function sendMessage(data: {
   });
 }
 
+// https://core.telegram.org/bots/api#deletemessage
+export function deleteMessage(data: {
+  chat_id: number | string;
+  message_id: number;
+}) {
+  return api("deleteMessage", {
+    method: "POST",
+    data,
+  });
+}
+
 async function api<T>(p: string, o: AxiosRequestConfig = {}): Promise<T> {
   const t = telegramApiToken.value();
   const u = `https://api.telegram.org/bot${t}/${p}`;
