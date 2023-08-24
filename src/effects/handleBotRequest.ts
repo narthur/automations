@@ -42,7 +42,7 @@ export default async function handleBotRequest(
   }
 
   const texts =
-    getSlashCommandResponse(message.text) ||
+    (await getSlashCommandResponse(message.text)) ||
     (await getGptResponse(message.text).catch((e: unknown) => {
       let s = e instanceof Error ? e.toString() : "";
       s += `\n${JSON.stringify(e, null, 2)}`;
