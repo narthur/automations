@@ -17,7 +17,8 @@ export default async function getSlashCommandResponse(
   }
 
   if (message === "/taskratchet pending") {
-    return [await getPendingTasks().then(JSON.stringify)];
+    const tasks = await getPendingTasks();
+    return tasks.map((t) => `${t.task} due ${t.due} or pay $${t.cents / 100}`);
   }
 
   return false;
