@@ -1,3 +1,4 @@
+import { getPendingTasks } from "../services/taskratchet";
 import getBeemergencies from "./getBeemergencies";
 
 export default async function getSlashCommandResponse(
@@ -13,6 +14,10 @@ export default async function getSlashCommandResponse(
 
   if (message === "/beemergencies") {
     return [await getBeemergencies()];
+  }
+
+  if (message === "/taskratchet pending") {
+    return [await getPendingTasks().then(JSON.stringify)];
   }
 
   return false;

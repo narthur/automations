@@ -1,3 +1,4 @@
+import { getPendingTasks } from "../services/taskratchet";
 import { getGoals } from "../services/beeminder";
 import getSlashCommandResponse from "./getSlashCommandResponse";
 import { describe, it, expect, vi, beforeEach } from "vitest";
@@ -33,5 +34,11 @@ describe("getSlashCommandResponse", () => {
     await getSlashCommandResponse("/beemergencies");
 
     expect(getGoals).toBeCalled();
+  });
+
+  it("queries taskratchet", async () => {
+    await getSlashCommandResponse("/taskratchet pending");
+
+    expect(getPendingTasks).toBeCalled();
   });
 });

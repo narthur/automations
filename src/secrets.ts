@@ -36,3 +36,7 @@ export const telegramApiToken = defineSecret("TELEGRAM_API_TOKEN");
 export const telegramWebhookToken = defineSecret("TELEGRAM_WEBHOOK_TOKEN");
 export const telegramAllowedUser = defineSecret("TELEGRAM_ALLOWED_USER");
 export const telegramChatId = defineSecret("TELEGRAM_CHAT_ID");
+
+// TaskRatchet
+export const taskratchetUserId = defineSecret("TASKRATCHET_USER_ID");
+export const taskratchetApiToken = defineSecret("TASKRATCHET_API_TOKEN");
