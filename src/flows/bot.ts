@@ -3,6 +3,8 @@ import {
   bmAuths,
   openAiPrompt,
   openAiSecretKey,
+  taskratchetApiToken,
+  taskratchetUserId,
   telegramAllowedUser,
   telegramApiToken,
   telegramWebhookToken,
@@ -21,6 +23,8 @@ export const bot_https = functions
       telegramApiToken.name,
       telegramWebhookToken.name,
       telegramAllowedUser.name,
+      taskratchetUserId.name,
+      taskratchetApiToken.name,
     ],
   })
   .https.onRequest(handleBotRequest);
