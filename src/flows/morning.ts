@@ -1,10 +1,9 @@
 import * as functions from "firebase-functions";
 import {
-  taskratchetApiToken,
-  taskratchetUserId,
-  telegramApiToken,
+  allOpenAi,
+  allTaskratchet,
+  allTelegram,
   telegramChatId,
-  telegramWebhookToken,
 } from "../secrets";
 import { sendMessages } from "../services/telegram.helpers";
 import { getPendingTasks } from "../services/taskratchet";
@@ -16,11 +15,9 @@ const morningPrompt = defineSecret("MORNING_PROMPT");
 export const morning_cron = functions
   .runWith({
     secrets: [
-      telegramApiToken.name,
-      telegramWebhookToken.name,
-      telegramChatId.name,
-      taskratchetUserId.name,
-      taskratchetApiToken.name,
+      ...allOpenAi,
+      ...allTelegram,
+      ...allTaskratchet,
       morningPrompt.name,
     ],
   })
