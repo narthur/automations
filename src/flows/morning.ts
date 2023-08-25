@@ -21,7 +21,7 @@ export const morning_cron = functions
       morningPrompt.name,
     ],
   })
-  .pubsub.schedule("every day 06:00")
+  .pubsub.schedule("every day 03:00")
   .onRun(async () => {
     await tryWithRelay(telegramChatId.value(), async () => {
       const tasks = await getPendingTasks();
