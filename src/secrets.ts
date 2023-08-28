@@ -12,6 +12,7 @@ You can view the secret's value in the Google Cloud console Secrets Manager.
 
 // Beeminder
 export const bmAuths = defineSecret("BM_AUTHS");
+export const allBm = [bmAuths.name];
 
 // Mailgun
 export const mailgunApiKey = defineSecret("MAILGUN_API_KEY");

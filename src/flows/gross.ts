@@ -4,6 +4,7 @@ import { isBillable } from "../services/toggl.helpers";
 import { createDatapoint } from "../services/beeminder";
 import dateParams from "../transforms/dateParams";
 import setCors from "../effects/setCors";
+import { allBm, allToggl } from "../secrets";
 
 async function run() {
   const entries = await getTimeEntries({ params: dateParams(new Date()) });
@@ -26,7 +27,9 @@ async function run() {
 }
 
 export const gross_cron = functions
-  .runWith({})
+  .runWith({
+    secrets: [...allToggl, ...allBm],
+  })
   .pubsub.schedule("every 10 minutes")
   .onRun(run);
 
