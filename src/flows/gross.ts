@@ -3,6 +3,7 @@ import { getProjects, getTimeEntries } from "../services/toggl";
 import { isBillable } from "../services/toggl.helpers";
 import { createDatapoint } from "../services/beeminder";
 import dateParams from "../transforms/dateParams";
+import setCors from "../effects/setCors";
 
 async function run() {
   const entries = await getTimeEntries({ params: dateParams(new Date()) });
@@ -30,6 +31,7 @@ export const gross_cron = functions
   .onRun(run);
 
 export const gross_http = functions.https.onRequest(async (req, res) => {
+  setCors(res);
   await run();
   res.status(200).send("OK");
 });
