@@ -6,6 +6,9 @@ const functions = {
     schedule: vi.fn().mockReturnThis(),
     onRun: vi.fn((v: unknown) => v),
   },
+  https: {
+    onRequest: vi.fn((v: unknown) => v),
+  },
 };
 
 module.exports = functions;

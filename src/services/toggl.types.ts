@@ -79,6 +79,7 @@ export type TimeEntry = {
   at: string;
   billable: boolean;
   description: string;
+  // In seconds
   duration: number;
   duronly: boolean;
   id: number;
