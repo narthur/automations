@@ -33,8 +33,12 @@ export const gross_cron = functions
   .pubsub.schedule("every 10 minutes")
   .onRun(run);
 
-export const gross_http = functions.https.onRequest(async (req, res) => {
-  setCors(res);
-  await run();
-  res.status(200).send("OK");
-});
+export const gross_http = functions
+  .runWith({
+    secrets: [...allToggl, ...allBm],
+  })
+  .https.onRequest(async (req, res) => {
+    setCors(res);
+    await run();
+    res.status(200).send("OK");
+  });
