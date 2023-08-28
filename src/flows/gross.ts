@@ -11,6 +11,7 @@ async function run() {
   const projects = await getProjects();
   const value = entries.reduce((acc, entry) => {
     if (!entry.project_id) return acc;
+    if (entry.duration <= 0) return acc;
     const project = projects.find((p) => p.id === entry.project_id);
     if (!project || !isBillable(project)) return acc;
     const amount = (entry.duration / 3600) * project.rate;
