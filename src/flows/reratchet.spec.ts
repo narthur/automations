@@ -16,12 +16,6 @@ describe("reratchet", () => {
     vi.useRealTimers();
   });
 
-  it("should run", async () => {
-    await run();
-
-    expect(createTask).toBeCalled();
-  });
-
   it("creates task for next Saturday", async () => {
     await run();
 
