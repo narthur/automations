@@ -1,6 +1,8 @@
 import { Client } from "@notionhq/client";
 import { notionApiKey } from "../secrets";
 import {
+  CreatePageParameters,
+  CreatePageResponse,
   QueryDatabaseParameters,
   QueryDatabaseResponse,
 } from "@notionhq/client/build/src/api-endpoints";
@@ -25,4 +27,16 @@ export function queryDatabase(
   options: QueryDatabaseOptions
 ): Promise<QueryDatabaseResponse> {
   return getNotion().databases.query(options);
+}
+
+export function addDocument(
+  database_id: string,
+  properties: CreatePageParameters["properties"]
+): Promise<CreatePageResponse> {
+  return getNotion().pages.create({
+    parent: {
+      database_id,
+    },
+    properties,
+  });
 }
