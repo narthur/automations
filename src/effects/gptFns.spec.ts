@@ -6,13 +6,6 @@ describe("gptFns", () => {
   it("returns function definitions", () => {
     const defs = getFunctionDefinitions();
 
-    // console.dir(
-    //   { defs },
-    //   {
-    //     depth: 10,
-    //   }
-    // );
-
     expect(defs).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -34,6 +27,7 @@ describe("gptFns", () => {
         }),
       },
     });
+
     expect(addDocument).toBeCalledWith(
       expect.objectContaining({
         database: "__SECRET_NOTION_DATABASE_ID_TODOS__",
