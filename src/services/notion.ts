@@ -54,16 +54,22 @@ export function addDocument({
           },
         ],
       },
-      Content: {
-        rich_text: [
-          {
-            type: "text",
-            text: {
-              content,
-            },
-          },
-        ],
-      },
     },
+    children: [
+      {
+        object: "block",
+        type: "paragraph",
+        paragraph: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content,
+              },
+            },
+          ],
+        },
+      },
+    ],
   });
 }
