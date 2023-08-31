@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions";
 import {
+  allNotion,
   bmAuths,
   openAiPrompt,
   openAiSecretKey,
@@ -25,6 +26,7 @@ export const bot_https = functions
       telegramAllowedUser.name,
       taskratchetUserId.name,
       taskratchetApiToken.name,
+      ...allNotion,
     ],
   })
   .https.onRequest(handleBotRequest);
