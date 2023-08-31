@@ -4,7 +4,16 @@ import { addDocument } from "../services/notion";
 
 describe("gptFns", () => {
   it("returns function definitions", () => {
-    expect(getFunctionDefinitions()).toEqual(
+    const defs = getFunctionDefinitions();
+
+    // console.dir(
+    //   { defs },
+    //   {
+    //     depth: 10,
+    //   }
+    // );
+
+    expect(defs).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           name: expect.any(String),
@@ -25,6 +34,10 @@ describe("gptFns", () => {
         }),
       },
     });
-    expect(addDocument).toBeCalled();
+    expect(addDocument).toBeCalledWith(
+      expect.objectContaining({
+        database: "__SECRET_NOTION_DATABASE_ID_TODOS__",
+      })
+    );
   });
 });

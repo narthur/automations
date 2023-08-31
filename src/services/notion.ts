@@ -35,13 +35,13 @@ export function addDocument({
   title,
   content,
 }: {
-  database: z.infer<typeof DATABASES>;
+  database: z.output<typeof DATABASES>;
   title: string;
   content: string;
 }): Promise<CreatePageResponse> {
   return getNotion().pages.create({
     parent: {
-      database_id: DATABASES.parse(database),
+      database_id: database,
     },
     properties: {
       Name: {
