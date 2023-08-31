@@ -21,5 +21,11 @@ export default async function getSlashCommandResponse(
     return tasks.map((t) => `${t.task} due ${t.due} or pay $${t.cents / 100}`);
   }
 
+  if (message.match(/^\/roll (\d+)$/)) {
+    const [, sides] = message.match(/^\/roll (\d+)$/) || [];
+    const roll = Math.floor(Math.random() * Number(sides)) + 1;
+    return [`You rolled a ${roll}`];
+  }
+
   return false;
 }
