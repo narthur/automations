@@ -29,7 +29,12 @@ export const notionApiKey = defineSecret("NOTION_API_KEY");
 export const notionDatabaseIdTrCards = defineSecret(
   "NOTION_DATABASE_ID_TR_CARDS"
 );
-export const allNotion = [notionApiKey.name, notionDatabaseIdTrCards.name];
+export const notionDatabaseIdTodos = defineSecret("NOTION_DATABASE_ID_TODOS");
+export const allNotion = [
+  notionApiKey.name,
+  notionDatabaseIdTrCards.name,
+  notionDatabaseIdTodos.name,
+];
 
 // OpenAI
 export const openAiSecretKey = defineSecret("OPENAI_SECRET_KEY");

@@ -1,11 +1,12 @@
 import { Client } from "@notionhq/client";
 import { notionApiKey } from "../secrets";
 import {
-  CreatePageParameters,
   CreatePageResponse,
   QueryDatabaseParameters,
   QueryDatabaseResponse,
 } from "@notionhq/client/build/src/api-endpoints";
+import { z } from "zod";
+import { DATABASES } from "./notion.helpers";
 
 type QueryDatabaseOptions = {
   auth?: string;
@@ -29,14 +30,40 @@ export function queryDatabase(
   return getNotion().databases.query(options);
 }
 
-export function addDocument(
-  database_id: string,
-  properties: CreatePageParameters["properties"]
-): Promise<CreatePageResponse> {
+export function addDocument({
+  database,
+  title,
+  content,
+}: {
+  database: z.infer<typeof DATABASES>;
+  title: string;
+  content: string;
+}): Promise<CreatePageResponse> {
   return getNotion().pages.create({
     parent: {
-      database_id,
+      database_id: DATABASES.parse(database),
     },
-    properties,
+    properties: {
+      Name: {
+        title: [
+          {
+            type: "text",
+            text: {
+              content: title,
+            },
+          },
+        ],
+      },
+      Content: {
+        rich_text: [
+          {
+            type: "text",
+            text: {
+              content,
+            },
+          },
+        ],
+      },
+    },
   });
 }

@@ -1,48 +1,12 @@
 import { getResponse } from "../services/openai";
 import splitMessages from "../transforms/splitMessages";
 import { addMessage, getMessages } from "../services/firestore";
-import getBeemergencies from "../effects/getBeemergencies";
 import {
   ChatCompletion,
   CreateChatCompletionRequestMessage,
 } from "openai/resources/chat";
 import { openAiPrompt } from "../secrets";
-
-const FUNCTIONS: {
-  name: string;
-  fn: () => Promise<string>;
-  description?: string;
-  parameters: Record<string, unknown>;
-}[] = [
-  {
-    name: "getBeemergencies",
-    fn: getBeemergencies,
-    description: "Get a list of Beeminder goals which are due today.",
-    parameters: {
-      type: "object",
-      properties: {},
-      required: [],
-    },
-  },
-];
-
-async function getContent(
-  response: ChatCompletion.Choice.Message
-): Promise<string> {
-  if (response.function_call) {
-    const name = response.function_call?.name;
-    try {
-      console.info("calling function", name);
-      const fn = FUNCTIONS.find((f) => f.name === name);
-      if (!fn) return `Unknown function ${String(name)}`;
-      return fn.fn();
-    } catch (e) {
-      console.error(e);
-      return `Error calling function ${String(name)}`;
-    }
-  }
-  return response.content || "";
-}
+import { getFunctionResponse, getFunctionDefinitions } from "./gptFns";
 
 function hasFunctionCall(
   message: ChatCompletion.Choice.Message
@@ -75,17 +39,10 @@ export default async function getGptResponse(
     role: "user",
     content: prompt,
   });
-  const raw = await getResponse(
-    messages,
-    FUNCTIONS.map((f) => ({
-      name: f.name,
-      description: f.description,
-      parameters: f.parameters,
-    }))
-  );
+  const raw = await getResponse(messages, getFunctionDefinitions());
   if (!raw) throw new Error("no response from openai");
   console.info("parsing openai response");
-  const content = await getContent(raw);
+  const content = (await getFunctionResponse(raw)) || raw.content || "";
   if (hasFunctionCall(raw)) {
     await addMessage({
       role: "assistant",
