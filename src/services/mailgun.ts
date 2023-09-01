@@ -12,6 +12,7 @@ export async function sendEmail({
   subject: string;
   from?: string;
 }): Promise<unknown> {
+  console.info("Sending email", { recipients, subject });
   return axios.post(
     `https://api.mailgun.net/v3/${mailgunDomain.value()}/messages`,
     {

@@ -97,7 +97,6 @@ export const invoice_cron = functions
         const dueLine = `\nTotal Due: ${formatDollars(dueCents)}`;
 
         await sendEmail({
-          recipients: ["nathan@nathanarthur.com"],
           subject: `${monthName} Invoice: ${c.name}`,
           body: `Invoice ID: ${id}\nPeriod: ${params.start_date} - ${
             params.end_date
