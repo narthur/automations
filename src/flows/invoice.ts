@@ -9,9 +9,9 @@ import {
   intervalToDuration,
   set,
 } from "date-fns";
-import { TimeEntry, TogglProject } from "../services/toggl/types";
 import { formatInTimeZone, utcToZonedTime } from "date-fns-tz";
 import { allMailgun, allToggl } from "../secrets";
+import getClientEntries from "../services/toggl/getClientEntries";
 
 const TIME_ZONE = "America/New_York";
 
@@ -27,17 +27,6 @@ function formatSeconds(seconds: number) {
 }
 
 const formatDollars = (cents: number) => `$${(cents / 100).toFixed(2)}`;
-
-function getClientEntries(
-  clientId: number,
-  entries: TimeEntry[],
-  projects: TogglProject[]
-) {
-  return entries.filter((e) => {
-    const p = projects.find((p) => p.id === e.project_id);
-    return e.billable && p?.client_id === clientId;
-  });
-}
 
 export const invoice_cron = functions
   .runWith({
