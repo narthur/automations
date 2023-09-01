@@ -21,6 +21,8 @@ const template = (p: {
   start_date: string;
   end_date: string;
 }) => `
+### Invoice
+
 Key | Value
 --- | ---
 Invoice ID | ${p.id}
@@ -28,14 +30,18 @@ Period | ${p.start_date} - ${p.end_date}
 Client | ${p.client}
 Contractor | Nathan Arthur
 
+### Line Items
+
 Description | Hours
 --- | ---
 ${p.lines.join("\n")}
 
+### Summary
+
 Key | Value
 --- | ---
-Total Time | ${p.hours} hours
-${p.rate && `Hourly Rate | $${p.rate.toFixed(2)}/hr`}
+Total Time | ${p.hours.toFixed(2)} hours
+Hourly Rate | ${p.rate ? `$${p.rate.toFixed(2)}/hr` : "n/a"}
 Total Due | $${(p.hours * p.rate).toFixed(2)}
 `;
 
@@ -43,7 +49,7 @@ const line = ({ desc, entries }: { desc: string; entries: TimeEntry[] }) =>
   `${desc} | ${getSumOfHours({
     entries,
     where: (e) => e.description === desc,
-  })}`;
+  }).toFixed(2)}`;
 
 export const invoice_cron = functions
   .runWith({

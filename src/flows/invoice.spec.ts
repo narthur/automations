@@ -113,7 +113,7 @@ describe("invoice_cron", () => {
   it("includes total duration", async () => {
     await run();
 
-    expectBodyContains("Total Time | 1 hour");
+    expectBodyContains("Total Time | 1.00 hour");
   });
 
   it("includes client name in email subject", async () => {
@@ -193,7 +193,7 @@ describe("invoice_cron", () => {
 
     await run();
 
-    expectBodyContains("Total Time | 0 hours");
+    expectBodyContains("Total Time | 0.00 hours");
   });
 
   it("includes hourly rate", async () => {
@@ -215,11 +215,7 @@ describe("invoice_cron", () => {
 
     await run();
 
-    expect(sendEmail).not.toBeCalledWith(
-      expect.objectContaining({
-        markdown: expect.stringContaining("Hourly Rate"),
-      })
-    );
+    expectBodyContains("Rate | n/a");
   });
 
   it("includes total due", async () => {
