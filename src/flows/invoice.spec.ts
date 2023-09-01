@@ -113,7 +113,7 @@ describe("invoice_cron", () => {
   it("includes total duration", async () => {
     await run();
 
-    expectBodyContains("Total Time: 1 hour");
+    expectBodyContains("Total Time | 1 hour");
   });
 
   it("includes client name in email subject", async () => {
@@ -131,7 +131,7 @@ describe("invoice_cron", () => {
   it("includes invoice id", async () => {
     await run();
 
-    expectBodyContains("Invoice ID: client1-2020-12");
+    expectBodyContains("Invoice ID | client1-2020-12");
   });
 
   it("only fetches time entries for the last month", async () => {
@@ -193,13 +193,13 @@ describe("invoice_cron", () => {
 
     await run();
 
-    expectBodyContains("Total Time: 0 hours");
+    expectBodyContains("Total Time | 0 hours");
   });
 
   it("includes hourly rate", async () => {
     await run();
 
-    expectBodyContains("Rate: $1.00/hr");
+    expectBodyContains("Rate | $1.00/hr");
   });
 
   it("does not include hourly rate if no billable time", async () => {
@@ -225,6 +225,6 @@ describe("invoice_cron", () => {
   it("includes total due", async () => {
     await run();
 
-    expectBodyContains("Total Due: $1.00");
+    expectBodyContains("Total Due | $1.00");
   });
 });

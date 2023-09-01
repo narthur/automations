@@ -1,14 +1,7 @@
 import * as functions from "firebase-functions";
 import { getClients, getProjects, getTimeEntries } from "../services/toggl";
 import { sendEmail } from "../services/mailgun";
-import {
-  addMonths,
-  addSeconds,
-  endOfMonth,
-  formatDuration,
-  intervalToDuration,
-  set,
-} from "date-fns";
+import { addMonths, endOfMonth, set } from "date-fns";
 import { formatInTimeZone, utcToZonedTime } from "date-fns-tz";
 import { allMailgun, allToggl } from "../secrets";
 import getClientEntries from "../services/toggl/getClientEntries";
@@ -19,17 +12,6 @@ import getEntriesRate from "../services/toggl/getEntriesRate";
 
 const TIME_ZONE = "America/New_York";
 
-function formatHours(hours: number) {
-  if (hours === 0) return "0 hours";
-
-  const a = new Date(0);
-  const b = addSeconds(a, hours * 3600);
-
-  return formatDuration(intervalToDuration({ start: a, end: b }), {
-    format: ["hours", "minutes"],
-  });
-}
-
 const template = (p: {
   hours: number;
   rate: number;
@@ -39,24 +21,29 @@ const template = (p: {
   start_date: string;
   end_date: string;
 }) => `
-Invoice ID: ${p.id}
-Period: ${p.start_date} - ${p.end_date}
-Client: ${p.client}
-Contractor: Nathan Arthur
+Key | Value
+--- | ---
+Invoice ID | ${p.id}
+Period | ${p.start_date} - ${p.end_date}
+Client | ${p.client}
+Contractor | Nathan Arthur
 
-Description | Time
+Description | Hours
 --- | ---
 ${p.lines.join("\n")}
 
-Total Time: ${formatHours(p.hours)}
-${p.rate && `Hourly Rate: $${p.rate.toFixed(2)}/hr`}
-Total Due: $${(p.hours * p.rate).toFixed(2)}
+Key | Value
+--- | ---
+Total Time | ${p.hours} hours
+${p.rate && `Hourly Rate | $${p.rate.toFixed(2)}/hr`}
+Total Due | $${(p.hours * p.rate).toFixed(2)}
 `;
 
 const line = ({ desc, entries }: { desc: string; entries: TimeEntry[] }) =>
-  `${desc} | ${formatHours(
-    getSumOfHours({ entries, where: (e) => e.description === desc })
-  )}`;
+  `${desc} | ${getSumOfHours({
+    entries,
+    where: (e) => e.description === desc,
+  })}`;
 
 export const invoice_cron = functions
   .runWith({
