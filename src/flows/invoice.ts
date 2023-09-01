@@ -32,7 +32,7 @@ Contractor | Nathan Arthur
 
 ### Line Items
 
-Description | Hours
+Hours | Description
 --- | ---
 ${p.lines.join("\n")}
 
@@ -46,10 +46,10 @@ Total Due | $${(p.hours * p.rate).toFixed(2)}
 `;
 
 const line = ({ desc, entries }: { desc: string; entries: TimeEntry[] }) =>
-  `${desc} | ${getSumOfHours({
+  `${getSumOfHours({
     entries,
     where: (e) => e.description === desc,
-  }).toFixed(2)}`;
+  }).toFixed(2)} | ${desc}`;
 
 export const invoice_cron = functions
   .runWith({
