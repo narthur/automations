@@ -26,6 +26,9 @@ export async function sendEmail({
         username: "api",
         password: mailgunApiKey.value(),
       },
+      headers: {
+        "Content-Type": "application/json",
+      },
     }
   );
 }
