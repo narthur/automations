@@ -69,7 +69,6 @@ export const invoice_cron = functions
     const workspaceId = entries[0].wid;
     const projects = await getProjects();
     const clients = await getClients(workspaceId);
-    const monthName = format(start, "MMMM");
 
     await Promise.all(
       clients.map(async (c) => {
@@ -78,7 +77,7 @@ export const invoice_cron = functions
         const rate = getEntriesRate({ timeEntries: e, projects });
 
         await sendEmail({
-          subject: `${monthName} Invoice: ${c.name}`,
+          subject: `${c.name} Invoice for ${format(start, "MMMM yyyy")})}`,
           markdown: template({
             ...params,
             hours: getSumOfHours({ entries: e }),
