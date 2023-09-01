@@ -77,7 +77,7 @@ export const invoice_cron = functions
         const rate = getEntriesRate({ timeEntries: e, projects });
 
         await sendEmail({
-          subject: `${c.name} Invoice for ${format(start, "MMMM yyyy")})}`,
+          subject: `${c.name}: Invoice for ${format(start, "MMMM yyyy")}`,
           markdown: template({
             ...params,
             hours: getSumOfHours({ entries: e }),
