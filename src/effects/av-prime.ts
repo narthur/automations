@@ -4,7 +4,7 @@ import { togglClientAv } from "../secrets";
 import dateParams from "../services/toggl/dateParams";
 import getWeekDates from "../effects/getWeekDates";
 import memoize from "../effects/memoize";
-import { getSumOfHours } from "src/services/toggl/getSumOfHours";
+import { getSumOfHours } from "../services/toggl/getSumOfHours";
 
 const _getTimeEntries = memoize(getTimeEntries, "getTimeEntries");
 const _getProjects = memoize(getProjects, "getProjects");
