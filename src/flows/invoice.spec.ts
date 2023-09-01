@@ -30,12 +30,12 @@ const defaultProjects: Partial<TogglProject>[] = [
   {
     id: 1,
     client_id: 1,
-    rate: 100,
+    rate: 1,
   },
   {
     id: 2,
     client_id: 2,
-    rate: 100,
+    rate: 1,
   },
 ];
 
@@ -75,7 +75,7 @@ function expectSubjectContains(needle: string) {
 function expectBodyContains(needle: string) {
   expect(sendEmail).toBeCalledWith(
     expect.objectContaining({
-      body: expect.stringContaining(needle),
+      markdown: expect.stringContaining(needle),
     })
   );
 }
@@ -175,7 +175,7 @@ describe("invoice_cron", () => {
 
     expect(sendEmail).not.toBeCalledWith(
       expect.objectContaining({
-        body: expect.stringContaining("description1"),
+        markdown: expect.stringContaining("description1"),
       })
     );
   });
@@ -217,7 +217,7 @@ describe("invoice_cron", () => {
 
     expect(sendEmail).not.toBeCalledWith(
       expect.objectContaining({
-        body: expect.stringContaining("Hourly Rate"),
+        markdown: expect.stringContaining("Hourly Rate"),
       })
     );
   });

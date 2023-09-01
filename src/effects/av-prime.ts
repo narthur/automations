@@ -19,7 +19,7 @@ async function getPrimeEntries(date: Date) {
 }
 
 async function getPrimeTime(date: Date): Promise<number> {
-  return getPrimeEntries(date).then(getSumOfHours);
+  return getPrimeEntries(date).then((e) => getSumOfHours({ entries: e }));
 }
 
 async function getPrimeClients(date: Date): Promise<string[]> {
