@@ -41,6 +41,7 @@
     "@typescript-eslint/parser": "^6.3.0",
     "axios": "^1.4.0",
     "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0",
     "eslint": "^8.46.0",
     "firebase-admin": "^11.10.1",
     "firebase-functions": "^4.4.1",
