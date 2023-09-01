@@ -1,8 +1,8 @@
 import * as functions from "firebase-functions";
 import { getClients, getProjects, getTimeEntries } from "../services/toggl";
 import { sendEmail } from "../services/mailgun";
-import { addMonths, endOfMonth, set } from "date-fns";
-import { formatInTimeZone, utcToZonedTime } from "date-fns-tz";
+import { addMonths, endOfMonth, format, set } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
 import { allMailgun, allToggl } from "../secrets";
 import getClientEntries from "../services/toggl/getClientEntries";
 import { TimeEntry } from "../services/toggl/types";
@@ -68,14 +68,14 @@ export const invoice_cron = functions
     });
     const end = endOfMonth(start);
     const params = {
-      start_date: formatInTimeZone(start, TIME_ZONE, "yyyy-MM-dd"),
-      end_date: formatInTimeZone(end, TIME_ZONE, "yyyy-MM-dd"),
+      start_date: format(start, "yyyy-MM-dd"),
+      end_date: format(end, "yyyy-MM-dd"),
     };
     const entries = await getTimeEntries({ params });
     const workspaceId = entries[0].wid;
     const projects = await getProjects();
     const clients = await getClients(workspaceId);
-    const monthName = formatInTimeZone(start, TIME_ZONE, "MMMM");
+    const monthName = format(start, "MMMM");
 
     await Promise.all(
       clients.map(async (c) => {
