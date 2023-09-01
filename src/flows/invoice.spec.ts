@@ -3,7 +3,7 @@ import { sendEmail } from "../services/mailgun";
 import { getClients, getProjects, getTimeEntries } from "../services/toggl";
 import { invoice_cron } from "./invoice";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { TimeEntry, TogglClient, TogglProject } from "../services/toggl.types";
+import { TimeEntry, TogglClient, TogglProject } from "../services/toggl/types";
 
 vi.mock("../services/mailgun");
 

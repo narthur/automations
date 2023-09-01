@@ -9,7 +9,7 @@ import {
   intervalToDuration,
   set,
 } from "date-fns";
-import { TimeEntry, TogglProject } from "../services/toggl.types";
+import { TimeEntry, TogglProject } from "../services/toggl/types";
 import { formatInTimeZone, utcToZonedTime } from "date-fns-tz";
 import { allMailgun, allToggl } from "../secrets";
 

@@ -1,8 +1,8 @@
 import * as functions from "firebase-functions";
 import { getProjects, getTimeEntries } from "../services/toggl";
-import { isBillable } from "../services/toggl.helpers";
+import { isBillable } from "src/services/toggl/isBillable";
 import { createDatapoint } from "../services/beeminder";
-import dateParams from "../transforms/dateParams";
+import dateParams from "../services/toggl/dateParams";
 import setCors from "../effects/setCors";
 import { allBm, allToggl } from "../secrets";
 
