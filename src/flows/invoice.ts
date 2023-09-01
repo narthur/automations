@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions";
 import { getClients, getProjects, getTimeEntries } from "../services/toggl";
 import { sendEmail } from "../services/mailgun";
-import { addMonths, endOfMonth, format, set } from "date-fns";
+import { addMonths, endOfMonth, format, startOfMonth } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 import { allMailgun, allToggl } from "../secrets";
 import getClientEntries from "../services/toggl/getClientEntries";
@@ -59,13 +59,7 @@ export const invoice_cron = functions
   .onRun(async () => {
     const utc = new Date(new Date().toUTCString());
     const zoned = utcToZonedTime(utc, TIME_ZONE);
-    const start = set(addMonths(zoned, -1), {
-      date: 1,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-      milliseconds: 0,
-    });
+    const start = startOfMonth(addMonths(zoned, -1));
     const end = endOfMonth(start);
     const params = {
       start_date: format(start, "yyyy-MM-dd"),
