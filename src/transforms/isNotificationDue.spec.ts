@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import isNotificationDue from "./isNotificationDue";
+import isNotificationDue from "./isNotificationDue.js";
 
 describe("isNotificationDue", () => {
   it("should return true if the notification is due", () => {

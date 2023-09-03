@@ -1,7 +1,8 @@
-export * from "./flows/av-prime";
-export * from "./flows/bot";
-export * from "./flows/zeno";
-export * from "./flows/morning";
-export * from "./flows/gross";
-export * from "./flows/reratchet";
-export * from "./flows/invoice";
+import { app } from "./app.js";
+import "./cron.ts";
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Listening at http://localhost:${PORT}`);
+});

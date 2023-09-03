@@ -1,4 +1,4 @@
-import { CreateChatCompletionRequestMessage } from "openai/resources/chat";
+import { CreateChatCompletionRequestMessage } from "openai/resources/chat/index.js";
 import { z } from "zod";
 
 const chatMessage: z.ZodType<CreateChatCompletionRequestMessage> = z.object({

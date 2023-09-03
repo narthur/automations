@@ -1,6 +1,6 @@
 import telegramifyMarkdown from "telegramify-markdown";
-import splitMessages from "../transforms/splitMessages";
-import { sendMessage } from "./telegram";
+import splitMessages from "../transforms/splitMessages.js";
+import { sendMessage } from "./telegram.js";
 
 export async function sendMessages(
   chat_id: number | string,

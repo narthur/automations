@@ -1,10 +1,10 @@
 import OpenAI from "openai";
-import { openAiSecretKey } from "../secrets";
+import { openAiSecretKey } from "../secrets.js";
 import {
   ChatCompletion,
   CompletionCreateParams,
   CreateChatCompletionRequestMessage,
-} from "openai/resources/chat";
+} from "openai/resources/chat/index.js";
 
 // upgrade to gpt-4-0613 when it's available
 const MODEL = "gpt-3.5-turbo-0613";

@@ -1,7 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import avPrime from "./av-prime";
-import { getClients, getProjects, getTimeEntries } from "../services/toggl";
-import { createDatapoint } from "../services/beeminder";
+import avPrime from "./av-prime.js";
+import {
+  getClients,
+  getProjects,
+  getTimeEntries,
+} from "../services/toggl/index.js";
+import { createDatapoint } from "../services/beeminder.js";
 
 vi.mock("src/services/beeminder");
 

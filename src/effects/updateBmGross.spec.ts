@@ -1,12 +1,12 @@
 import { describe, it, expect, vi } from "vitest";
-import { gross_cron } from "./gross";
-import { getProjects, getTimeEntries } from "../services/toggl";
-import { createDatapoint } from "../services/beeminder";
+import { getProjects, getTimeEntries } from "../services/toggl/index.js";
+import { createDatapoint } from "../services/beeminder.js";
+import updateBmGross from "./updateBmGross.js";
 
 vi.mock("../services/beeminder");
 
 function run() {
-  return (gross_cron as any)();
+  return (updateBmGross as any)();
 }
 
 describe("gross", () => {

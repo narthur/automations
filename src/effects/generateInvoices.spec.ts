@@ -1,14 +1,22 @@
 import {} from "node:test";
-import { sendEmail } from "../services/mailgun";
-import { getClients, getProjects, getTimeEntries } from "../services/toggl";
-import { invoice_cron } from "./invoice";
+import { sendEmail } from "../services/mailgun.js";
+import {
+  getClients,
+  getProjects,
+  getTimeEntries,
+} from "../services/toggl/index.js";
+import generateInvoices from "./generateInvoices.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { TimeEntry, TogglClient, TogglProject } from "../services/toggl/types";
+import {
+  TimeEntry,
+  TogglClient,
+  TogglProject,
+} from "../services/toggl/types.js";
 
 vi.mock("../services/mailgun");
 
 function run(): Promise<unknown> {
-  return (invoice_cron as any)();
+  return (generateInvoices as any)();
 }
 
 const defaultEntries: Partial<TimeEntry>[] = [

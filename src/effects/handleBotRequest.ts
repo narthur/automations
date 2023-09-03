@@ -1,13 +1,13 @@
-import { TelegramUpdate } from "../services/telegram.types";
-import getGptResponse from "./getGptResponse";
-import * as functions from "firebase-functions";
-import { telegramAllowedUser, telegramWebhookToken } from "../secrets";
-import getSlashCommandResponse from "./getSlashCommandResponse";
-import { sendMessages, tryWithRelay } from "../services/telegram.helpers";
+import { TelegramUpdate } from "../services/telegram.types.js";
+import getGptResponse from "./getGptResponse.js";
+import { telegramAllowedUser, telegramWebhookToken } from "../secrets.js";
+import getSlashCommandResponse from "./getSlashCommandResponse.js";
+import { sendMessages, tryWithRelay } from "../services/telegram.helpers.js";
+import express from "express";
 
 export default async function handleBotRequest(
-  req: functions.https.Request,
-  res: functions.Response
+  req: express.Request,
+  res: express.Response
 ) {
   const isTelegram =
     req.headers["x-telegram-bot-api-secret-token"] ===

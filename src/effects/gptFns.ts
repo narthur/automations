@@ -1,9 +1,12 @@
-import getBeemergencies from "./getBeemergencies";
-import { ChatCompletion, CompletionCreateParams } from "openai/resources/chat";
-import { addDocument } from "../services/notion";
+import getBeemergencies from "./getBeemergencies.js";
+import {
+  ChatCompletion,
+  CompletionCreateParams,
+} from "openai/resources/chat/index.js";
+import { addDocument } from "../services/notion.js";
 import z from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
-import { DATABASES } from "../services/notion.helpers";
+import { DATABASES } from "../services/notion.helpers.js";
 
 type Fn = z.ZodEffects<z.ZodType<unknown, z.ZodTypeDef, unknown>, string>;
 

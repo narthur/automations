@@ -1,5 +1,5 @@
-import { isBillable } from "./isBillable";
-import { TogglProject, TogglProjectFixedFee } from "./types";
+import { isBillable } from "./isBillable.js";
+import { TogglProject, TogglProjectFixedFee } from "./types.js";
 
 export const isFixedFee = (p: TogglProject): p is TogglProjectFixedFee =>
   isBillable(p) &&

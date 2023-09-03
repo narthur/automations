@@ -1,21 +1,28 @@
-import { createDatapoint } from "../services/beeminder";
-import { getClients, getProjects, getTimeEntries } from "../services/toggl";
-import { togglClientAv } from "../secrets";
-import dateParams from "../services/toggl/dateParams";
-import getWeekDates from "../effects/getWeekDates";
-import memoize from "../effects/memoize";
-import { getSumOfHours } from "../services/toggl/getSumOfHours";
+import { createDatapoint } from "../services/beeminder.js";
+import {
+  getClients,
+  getProjects,
+  getTimeEntries,
+} from "../services/toggl/index.js";
+import { togglClientAv } from "../secrets.js";
+import dateParams from "../services/toggl/dateParams.js";
+import getWeekDates from "../effects/getWeekDates.js";
+import memoize from "../effects/memoize.js";
+import { getSumOfHours } from "../services/toggl/getSumOfHours.js";
+import { type TimeEntry } from "src/services/toggl/types.js";
 
 const _getTimeEntries = memoize(getTimeEntries, "getTimeEntries");
 const _getProjects = memoize(getProjects, "getProjects");
 const _getClients = memoize(getClients, "getClients");
 
-async function getPrimeEntries(date: Date) {
+async function getPrimeEntries(date: Date): Promise<TimeEntry[]> {
   const entries = await _getTimeEntries({
     params: dateParams(date),
   });
 
-  return entries.filter((e) => e.tags.includes("prime")) ?? [];
+  const filtered = entries.filter((e) => e.tags.includes("prime"));
+
+  return filtered;
 }
 
 async function getPrimeTime(date: Date): Promise<number> {

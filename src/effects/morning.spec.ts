@@ -1,12 +1,12 @@
 import {} from "node:test";
-import { sendMessage } from "../services/telegram";
-import { morning_cron } from "./morning";
+import { sendMessage } from "../services/telegram.js";
+import morning from "./morning.js";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getPendingTasks } from "../services/taskratchet";
-import { getResponse } from "../services/openai";
+import { getPendingTasks } from "../services/taskratchet.js";
+import { getResponse } from "../services/openai.js";
 
 function run() {
-  return (morning_cron as any)();
+  return (morning as any)();
 }
 
 describe("morning", () => {

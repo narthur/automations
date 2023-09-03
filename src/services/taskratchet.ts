@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { taskratchetApiToken, taskratchetUserId } from "../secrets";
+import { taskratchetApiToken, taskratchetUserId } from "../secrets.js";
 
 let client: AxiosInstance;
 

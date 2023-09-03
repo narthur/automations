@@ -1,8 +1,8 @@
-import * as functions from "firebase-functions";
+import express from "express";
 
 export function validateTogglEndpoint(
-  req: functions.https.Request,
-  res: functions.Response
+  req: express.Request,
+  res: express.Response
 ) {
   const body = req.body as Record<string, unknown>;
   const code = "validation_code" in body && body.validation_code;

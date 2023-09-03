@@ -1,1 +1,1 @@
-export default <T>(arr: T[]) => [...new Set(arr)];
+export default <T>(arr: T[]): T[] => [...new Set<T>(arr)];

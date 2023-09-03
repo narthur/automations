@@ -1,7 +1,7 @@
-import { getResponse } from "../services/openai";
+import { getResponse } from "../services/openai.js";
 import { describe, it, expect, vi } from "vitest";
-import handleBotRequest from "./handleBotRequest";
-import { sendMessage } from "../services/telegram";
+import handleBotRequest from "./handleBotRequest.js";
+import { sendMessage } from "../services/telegram.js";
 
 describe("handleBotRequest", () => {
   it("sends error messages to the user", async () => {

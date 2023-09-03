@@ -16,7 +16,7 @@
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module",
-    "project": ["tsconfig.dev.json"]
+    "project": ["tsconfig.json"]
   },
   "ignorePatterns": [
     "/lib/**/*" // Ignore built files.
@@ -30,12 +30,6 @@
         "max": 100,
         "skipBlankLines": true,
         "skipComments": true
-      }
-    ],
-    "no-restricted-imports": [
-      "error",
-      {
-        "patterns": ["src/*"]
       }
     ]
   },

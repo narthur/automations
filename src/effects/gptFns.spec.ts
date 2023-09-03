@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { getFunctionDefinitions, getFunctionResponse } from "./gptFns";
-import { addDocument } from "../services/notion";
+import { getFunctionDefinitions, getFunctionResponse } from "./gptFns.js";
+import { addDocument } from "../services/notion.js";
 
 describe("gptFns", () => {
   it("returns function definitions", () => {

@@ -1,4 +1,4 @@
-import { notionDatabaseIdTodos, notionDatabaseIdTrCards } from "../secrets";
+import { notionDatabaseIdTodos, notionDatabaseIdTrCards } from "../secrets.js";
 import { z } from "zod";
 
 export const DATABASES = z

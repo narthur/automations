@@ -1,28 +1,25 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
+    "module": "NodeNext",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
-    "outDir": "lib",
+    "noEmit": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es2017",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "resolveJsonModule": true,
+    "types": ["vitest/importMeta"],
     "paths": {
-      "src/*": ["src/*"]
+      "src/*": ["./src/*"]
     }
   },
   "compileOnSave": true,
-  "include": ["src"],
-  "exclude": [
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    "**/*.spec.tsx",
-    "**/*.test.tsx",
-    "src/test",
-    "**/__mocks__/**/*"
-  ]
+  "include": ["src", "vite.config.ts", "vitest.setup.ts", "__mocks__"],
+  "ts-node": {
+    "esm": true,
+    "files": true,
+    "require": ["tsconfig-paths/register"]
+  }
 }

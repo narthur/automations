@@ -1,7 +1,7 @@
-import { getGoals } from "../services/beeminder";
+import { getGoals } from "../services/beeminder.js";
 import { describe, it, expect, vi } from "vitest";
-import getBeemergencies from "./getBeemergencies";
-import { Goal } from "../services/beeminder.types";
+import getBeemergencies from "./getBeemergencies.js";
+import { Goal } from "../services/beeminder.types.js";
 
 vi.mock("../services/beeminder");
 

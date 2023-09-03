@@ -1,9 +1,9 @@
-import { createTask } from "../services/taskratchet";
-import { reratchet_cron } from "./reratchet";
+import { createTask } from "../services/taskratchet.js";
+import createRecurringTasks from "./createRecurringTasks.js";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 function run() {
-  return (reratchet_cron as any)();
+  return (createRecurringTasks as any)();
 }
 
 describe("reratchet", () => {
@@ -16,12 +16,12 @@ describe("reratchet", () => {
     vi.useRealTimers();
   });
 
-  it("creates task for next Saturday", async () => {
+  it("creates task for next Sunday", async () => {
     await run();
 
     expect(createTask).toBeCalledWith(
       expect.any(String),
-      "1/2/2021, 11:59 PM",
+      "1/3/2021, 11:59 PM",
       expect.any(Number)
     );
   });

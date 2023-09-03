@@ -1,5 +1,5 @@
-import { getPendingTasks } from "../services/taskratchet";
-import getBeemergencies from "./getBeemergencies";
+import { getPendingTasks } from "../services/taskratchet.js";
+import getBeemergencies from "./getBeemergencies.js";
 
 export default async function getSlashCommandResponse(
   message: string

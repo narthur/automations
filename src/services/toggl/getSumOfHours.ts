@@ -1,4 +1,4 @@
-import { TimeEntry } from "./types";
+import { TimeEntry } from "./types.js";
 
 export function getSumOfHours({
   entries,

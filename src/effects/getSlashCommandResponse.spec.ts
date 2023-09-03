@@ -1,6 +1,6 @@
-import { getPendingTasks } from "../services/taskratchet";
-import { getGoals } from "../services/beeminder";
-import getSlashCommandResponse from "./getSlashCommandResponse";
+import { getPendingTasks } from "../services/taskratchet.js";
+import { getGoals } from "../services/beeminder.js";
+import getSlashCommandResponse from "./getSlashCommandResponse.js";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 vi.mock("../services/beeminder");

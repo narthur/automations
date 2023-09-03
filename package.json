@@ -1,27 +1,20 @@
 {
   "name": "automations",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
   "engines": {
     "node": "16",
     "pnpm": "8"
   },
-  "main": "lib/index.js",
+  "main": "src/index.ts",
   "scripts": {
     "test": "vitest --segfault-retry=3",
     "checkTs": "tsc --noEmit",
     "lint": "eslint .",
-    "build": "npx rimraf ./lib && tsc",
-    "build:watch": "tsc --watch",
-    "serve": "npm run build && firebase emulators:start --only functions",
-    "shell": "npm run build && firebase functions:shell",
-    "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
-    "delete": "firebase functions:delete",
-    "logs": "firebase functions:log",
-    "secrets:set": "pnpm firebase functions:secrets:set",
-    "secrets:get": "pnpm firebase functions:secrets:get",
-    "checkAll": "vitest run && pnpm checkTs && pnpm lint && pnpm build"
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "checkAll": "vitest run && pnpm checkTs && pnpm lint"
   },
   "repository": {
     "type": "git",
@@ -34,24 +27,23 @@
   },
   "homepage": "https://github.com/narthur/automations#readme",
   "dependencies": {
-    "@google-cloud/functions-framework": "^3.3.0",
     "@notionhq/client": "^2.2.10",
     "@types/node": "^20.4.9",
     "@typescript-eslint/eslint-plugin": "^6.3.0",
     "@typescript-eslint/parser": "^6.3.0",
     "axios": "^1.4.0",
+    "croner": "^7.0.1",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
     "eslint": "^8.46.0",
-    "firebase-admin": "^11.10.1",
-    "firebase-functions": "^4.4.1",
+    "express": "^4.18.2",
     "form-data": "^4.0.0",
     "mailgun.js": "^9.2.1",
     "marked": "^7.0.5",
     "openai": "4.0.0-beta.8",
     "telegramify-markdown": "^1.1.0",
     "text-table": "^0.2.0",
-    "ts-node": "^10.9.1",
+    "tsx": "^3.12.8",
     "typescript": "^5.1.6",
     "vite": "^4.4.9",
     "vitest": "^0.34.1",
@@ -59,16 +51,14 @@
     "zod-to-json-schema": "^3.21.4"
   },
   "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/supertest": "^2.0.12",
     "@types/text-table": "^0.2.2",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
     "eslint": "^8.9.0",
-    "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.28.0",
-    "firebase-functions-test": "^3.1.0",
-    "firebase-tools": "^12.4.7",
-    "rimraf": "^5.0.1",
-    "typescript": "^4.5.4"
+    "supertest": "^6.3.3"
   },
   "private": true
 }

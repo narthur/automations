@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { togglApiToken } from "../../secrets";
-import { TimeEntry, TogglClient, TogglProject, TogglTask } from "./types";
+import { togglApiToken } from "../../secrets.js";
+import { TimeEntry, TogglClient, TogglProject, TogglTask } from "./types.js";
 
 export function getProjects(options: AxiosRequestConfig = {}) {
   return api<TogglProject[]>("me/projects", options);

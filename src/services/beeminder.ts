@@ -1,6 +1,6 @@
 import axios from "axios";
-import { DatapointInput, Goal, ServerError } from "./beeminder.types";
-import { bmAuths } from "../secrets";
+import { DatapointInput, Goal, ServerError } from "./beeminder.types.js";
+import { bmAuths } from "../secrets.js";
 
 function parse(auth: string): [string, string] {
   const [u, t] = auth.split(":");

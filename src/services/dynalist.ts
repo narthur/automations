@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DynalistFile, Res } from "./dynalist.types";
+import { DynalistFile, Res } from "./dynalist.types.js";
 
 // API docs:
 // https://apidocs.dynalist.io/
@@ -18,7 +18,7 @@ client.interceptors.request.use((config) => {
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   config.params = config.params || {};
-  // TODO: create a firebase secret for this
+  // TODO: create a secret for this
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   config.params.token = "todo";
   return config;

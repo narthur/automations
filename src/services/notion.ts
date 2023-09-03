@@ -1,12 +1,12 @@
 import { Client } from "@notionhq/client";
-import { notionApiKey } from "../secrets";
+import { notionApiKey } from "../secrets.js";
 import {
   CreatePageResponse,
   QueryDatabaseParameters,
   QueryDatabaseResponse,
-} from "@notionhq/client/build/src/api-endpoints";
+} from "@notionhq/client/build/src/api-endpoints.js";
 import { z } from "zod";
-import { DATABASES } from "./notion.helpers";
+import { DATABASES } from "./notion.helpers.js";
 
 type QueryDatabaseOptions = {
   auth?: string;

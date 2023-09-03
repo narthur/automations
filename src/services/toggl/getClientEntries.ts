@@ -1,4 +1,4 @@
-import { TimeEntry, TogglProject } from "./types";
+import { TimeEntry, TogglProject } from "./types.js";
 
 export default function getClientEntries(
   clientId: number,

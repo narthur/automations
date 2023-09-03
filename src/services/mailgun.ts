@@ -1,11 +1,11 @@
-import { mailgunApiKey, mailgunDomain } from "../secrets";
+import { mailgunApiKey, mailgunDomain } from "../secrets.js";
 import FormData from "form-data";
 import Mailgun from "mailgun.js";
-import memoize from "../effects/memoize";
+import memoize from "../effects/memoize.js";
 import { parse } from "marked";
 
 const getMailgun = memoize(() => {
-  const mailgun = new Mailgun(FormData);
+  const mailgun = new Mailgun.default(FormData);
   return mailgun.client({
     username: "api",
     key: mailgunApiKey.value(),

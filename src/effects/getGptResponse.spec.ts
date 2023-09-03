@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
-import getGptResponse from "./getGptResponse";
-import { getResponse } from "../services/openai";
-import { getGoals } from "../services/beeminder";
-import { MAX_MESSAGE_LENGTH } from "../transforms/splitMessages";
+import getGptResponse from "./getGptResponse.js";
+import { getResponse } from "../services/openai.js";
+import { getGoals } from "../services/beeminder.js";
+import { MAX_MESSAGE_LENGTH } from "../transforms/splitMessages.js";
 
 vi.mock("../services/beeminder");
 

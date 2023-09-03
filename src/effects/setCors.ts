@@ -1,5 +1,5 @@
-import * as functions from "firebase-functions";
+import express from "express";
 
-export default function setCors(res: functions.Response) {
+export default function setCors(res: express.Response) {
   res.set("Access-Control-Allow-Origin", "*");
 }
