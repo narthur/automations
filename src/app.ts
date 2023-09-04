@@ -14,51 +14,34 @@ export const app = express();
 
 app.use(cors(), express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+type Fn = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => unknown;
+
+function _get(path: string, fn: Fn) {
+  app.get(path, (req, res, next) => {
+    Promise.resolve(fn(req, res, next))
+      .then((d) => res.send(d || "OK"))
+      .catch(next);
+  });
+}
+
+_get("/", () => "Hello World!");
+_get("/cron/av-prime", avPrime);
+_get("/cron/gross", updateBmGross);
+_get("/cron/invoice", generateInvoices);
+_get("/cron/morning", morning);
+_get("/cron/reratchet", createRecurringTasks);
+
+app.post("/bot/hook", (req, res) => {
+  void handleBotRequest(req, res);
 });
 
-app.get("/cron/av-prime", (req, res, next) => {
-  avPrime()
-    .then(() => res.send("OK"))
-    .catch(next);
-});
-
-app.get("/cron/gross", (req, res, next) => {
-  updateBmGross()
-    .then(() => res.send("OK"))
-    .catch(next);
-});
-
-app.get("/cron/invoice", (req, res, next) => {
-  generateInvoices()
-    .then(() => res.send("OK"))
-    .catch(next);
-});
-
-app.get("/cron/morning", (req, res, next) => {
-  morning()
-    .then(() => res.send("OK"))
-    .catch(next);
-});
-
-app.get("/cron/reratchet", (req, res, next) => {
-  createRecurringTasks()
-    .then(() => res.send("OK"))
-    .catch(next);
-});
-
-app.post("/bot/hook", (req, res, next) => {
-  handleBotRequest(req, res)
-    .then(() => res.send("OK"))
-    .catch(next);
-});
-
-app.get("/bot/init", (req, res, next) => {
+_get("/bot/init", (req) =>
   setWebhook({
     url: getFullUrl(req, "bot/hook"),
     secret_token: telegramWebhookToken.value(),
   })
-    .then(() => res.send("OK"))
-    .catch(next);
-});
+);

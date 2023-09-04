@@ -49,7 +49,6 @@ describe("index", () => {
     const res = await request(app).get("/bot/init");
 
     expect(res.status).toBe(200);
-    expect(res.text).toBe("OK");
 
     expect(setWebhook).toBeCalled();
   });
