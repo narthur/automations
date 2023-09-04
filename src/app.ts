@@ -8,10 +8,11 @@ import updateBmGross from "./effects/updateBmGross.js";
 import generateInvoices from "./effects/generateInvoices.js";
 import morning from "./effects/morning.js";
 import createRecurringTasks from "./effects/createRecurringTasks.js";
+import cors from "cors";
 
 export const app = express();
 
-app.use(express.json());
+app.use(cors(), express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

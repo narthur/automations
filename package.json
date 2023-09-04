@@ -28,10 +28,12 @@
   "homepage": "https://github.com/narthur/automations#readme",
   "dependencies": {
     "@notionhq/client": "^2.2.10",
+    "@types/cors": "^2.8.14",
     "@types/node": "^20.4.9",
     "@typescript-eslint/eslint-plugin": "^6.3.0",
     "@typescript-eslint/parser": "^6.3.0",
     "axios": "^1.4.0",
+    "cors": "^2.8.5",
     "croner": "^7.0.1",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
