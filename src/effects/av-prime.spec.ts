@@ -187,18 +187,6 @@ describe("av-prime", () => {
     );
   });
 
-  it("only gets projects once", async () => {
-    await avPrime();
-
-    expect(getProjects).toHaveBeenCalledTimes(1);
-  });
-
-  it("only gets clients once", async () => {
-    await avPrime();
-
-    expect(getClients).toHaveBeenCalledTimes(1);
-  });
-
   it("adds datapoints to techtainment goal", async () => {
     await avPrime();
 
@@ -217,11 +205,5 @@ describe("av-prime", () => {
       "techtainment",
       expect.objectContaining({ value: -1 })
     );
-  });
-
-  it("only gets time entries once per date", async () => {
-    await avPrime();
-
-    expect(getTimeEntries).toHaveBeenCalledTimes(7);
   });
 });

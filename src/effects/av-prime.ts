@@ -7,22 +7,15 @@ import {
 import { togglClientAv } from "../secrets.js";
 import dateParams from "../services/toggl/dateParams.js";
 import getWeekDates from "../effects/getWeekDates.js";
-import memoize from "../effects/memoize.js";
 import { getSumOfHours } from "../services/toggl/getSumOfHours.js";
 import { type TimeEntry } from "src/services/toggl/types.js";
 
-const _getTimeEntries = memoize(getTimeEntries, "getTimeEntries");
-const _getProjects = memoize(getProjects, "getProjects");
-const _getClients = memoize(getClients, "getClients");
-
 async function getPrimeEntries(date: Date): Promise<TimeEntry[]> {
-  const entries = await _getTimeEntries({
+  const entries = await getTimeEntries({
     params: dateParams(date),
   });
 
-  const filtered = entries.filter((e) => e.tags.includes("prime"));
-
-  return filtered;
+  return entries.filter((e) => e.tags.includes("prime"));
 }
 
 async function getPrimeTime(date: Date): Promise<number> {
@@ -35,11 +28,11 @@ async function getPrimeClients(date: Date): Promise<string[]> {
   if (!entries.length) return [];
 
   const projectIds = [...new Set(entries.map((e) => e.project_id))];
-  const projects = await _getProjects();
+  const projects = await getProjects();
   const primeProjects = projects.filter((p) => projectIds.includes(p.id));
   const clientIds = [...new Set(primeProjects.map((p) => p.client_id))];
   const workspaceId = entries[0].workspace_id;
-  const clients = await _getClients(workspaceId);
+  const clients = await getClients(workspaceId);
 
   return clients.filter((c) => clientIds.includes(c.id)).map((c) => c.name);
 }

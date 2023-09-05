@@ -4,7 +4,6 @@ import {
   getProjects,
   getTimeEntries,
 } from "./src/services/toggl/index.js";
-import { __reset } from "./src/effects/memoize.js";
 import { deleteMessage, setWebhook } from "./src/services/telegram.js";
 import { getPendingTasks } from "./src/services/taskratchet.js";
 import { sendEmail } from "src/services/mailgun.js";
@@ -26,5 +25,4 @@ beforeEach(() => {
   vi.mocked(setWebhook).mockResolvedValue({});
   vi.mocked(sendEmail).mockResolvedValue({});
   vi.mocked(getClients).mockResolvedValue([]);
-  __reset();
 });

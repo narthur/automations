@@ -1,16 +1,13 @@
 import { mailgunApiKey, mailgunDomain } from "../secrets.js";
 import FormData from "form-data";
 import Mailgun from "mailgun.js";
-import memoize from "../effects/memoize.js";
 import { parse } from "marked";
 
-const getMailgun = memoize(() => {
-  const mailgun = new Mailgun.default(FormData);
-  return mailgun.client({
-    username: "api",
-    key: mailgunApiKey.value(),
-  });
-}, "mailgun");
+const mailgun = new Mailgun.default(FormData);
+const client = mailgun.client({
+  username: "api",
+  key: mailgunApiKey.value(),
+});
 
 export async function sendEmail({
   recipients = ["nathan@nathanarthur.com"],
@@ -24,7 +21,7 @@ export async function sendEmail({
   from?: string;
 }): Promise<unknown> {
   console.info("Sending email", { recipients, subject });
-  return getMailgun().messages.create(mailgunDomain.value(), {
+  return client.messages.create(mailgunDomain.value(), {
     from: `Nathan Arthur <${from}>`,
     to: recipients,
     subject,
