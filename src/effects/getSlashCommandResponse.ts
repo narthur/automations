@@ -1,5 +1,6 @@
 import { getPendingTasks } from "../services/taskratchet.js";
 import getBeemergencies from "./getBeemergencies.js";
+import { clearHistory } from "./history.js";
 
 export default async function getSlashCommandResponse(
   message: string
@@ -14,6 +15,11 @@ export default async function getSlashCommandResponse(
 
   if (message === "/date") {
     return [`The date is ${new Date().toLocaleDateString()}`];
+  }
+
+  if (message === "/reset") {
+    clearHistory();
+    return ["Internal memory cleared"];
   }
 
   if (message === "/beemergencies") {
