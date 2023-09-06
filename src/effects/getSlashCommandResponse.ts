@@ -12,6 +12,10 @@ export default async function getSlashCommandResponse(
     return [`The time is ${new Date().toLocaleTimeString()}`];
   }
 
+  if (message === "/date") {
+    return [`The date is ${new Date().toLocaleDateString()}`];
+  }
+
   if (message === "/beemergencies") {
     return [await getBeemergencies()];
   }
