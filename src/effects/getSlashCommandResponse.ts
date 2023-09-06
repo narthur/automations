@@ -1,12 +1,17 @@
 import { getPendingTasks } from "../services/taskratchet.js";
 import getBeemergencies from "./getBeemergencies.js";
 import { clearHistory } from "./history.js";
+import os from "os";
 
 export default async function getSlashCommandResponse(
   message: string
 ): Promise<string[] | false> {
   if (message === "/foo") {
     return ["bar"];
+  }
+
+  if (message === "/uptime") {
+    return [`process: ${process.uptime()}s`, `system: ${os.uptime()}s`];
   }
 
   if (message === "/time") {
