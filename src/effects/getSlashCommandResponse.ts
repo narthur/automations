@@ -23,13 +23,13 @@ s(/^\/uptime$/, () => [
   `system: ${os.uptime()}s`,
 ]);
 
-s(/^\/time$/, () => [`The time is ${new Date().toLocaleTimeString()}`]);
+s(/^\/time$/, () => `The time is ${new Date().toLocaleTimeString()}`);
 
-s(/^\/date$/, () => [`The date is ${new Date().toLocaleDateString()}`]);
+s(/^\/date$/, () => `The date is ${new Date().toLocaleDateString()}`);
 
 s(/^\/reset$/, () => {
   clearHistory();
-  return ["Internal memory cleared"];
+  return "Internal memory cleared";
 });
 
 s(/^\/beemergencies$/, getBeemergencies);
@@ -42,7 +42,7 @@ s(/^\/taskratchet pending$/, async () => {
 s(/^\/roll (\d+)$/, (message) => {
   const [, sides] = message.match(/^\/roll (\d+)$/) || [];
   const roll = Math.floor(Math.random() * Number(sides)) + 1;
-  return [`You rolled a ${roll}`];
+  return `You rolled a ${roll}`;
 });
 
 export default async function getSlashCommandResponse(
