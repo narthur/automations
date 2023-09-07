@@ -3,7 +3,9 @@ import getBeemergencies from "./getBeemergencies.js";
 import { clearHistory } from "./history.js";
 import os from "os";
 
-type Action = (message: string) => Promise<string[]> | string[];
+type Action = (
+  message: string
+) => Promise<string[]> | string[] | Promise<string> | string;
 
 const commands: {
   match: RegExp;
@@ -30,7 +32,7 @@ s(/^\/reset$/, () => {
   return ["Internal memory cleared"];
 });
 
-s(/^\/beemergencies$/, async () => [await getBeemergencies()]);
+s(/^\/beemergencies$/, getBeemergencies);
 
 s(/^\/taskratchet pending$/, async () => {
   const tasks = await getPendingTasks();
@@ -48,5 +50,15 @@ export default async function getSlashCommandResponse(
 ): Promise<string[] | false> {
   const m = commands.find((c) => c.match.test(message));
 
-  return m ? m.action(message) : false;
+  if (!m) {
+    return false;
+  }
+
+  const r = await m.action(message);
+
+  if (Array.isArray(r)) {
+    return r;
+  }
+
+  return [r];
 }
