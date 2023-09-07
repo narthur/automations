@@ -49,10 +49,7 @@ export default async function getSlashCommandResponse(
   message: string
 ): Promise<string[] | false> {
   const m = commands.find((c) => c.match.test(message));
-
   if (!m) return false;
-
   const r = await m.action(message);
-
   return Array.isArray(r) ? r : [r];
 }
