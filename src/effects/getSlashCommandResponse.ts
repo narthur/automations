@@ -3,15 +3,14 @@ import getBeemergencies from "./getBeemergencies.js";
 import { clearHistory } from "./history.js";
 import os from "os";
 
+type Action = (message: string) => Promise<string[]> | string[];
+
 const commands: {
   match: RegExp;
-  action: (message: string) => Promise<string[]> | string[];
+  action: Action;
 }[] = [];
 
-function s(
-  match: RegExp,
-  action: (message: string) => Promise<string[]> | string[]
-) {
+function s(match: RegExp, action: Action) {
   commands.push({ match, action });
 }
 
