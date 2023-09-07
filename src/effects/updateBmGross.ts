@@ -12,7 +12,7 @@ export default async function updateBmGross() {
       if (!entry.project_id) return acc;
       if (entry.duration <= 0) return acc;
       const project = projects.find((p) => p.id === entry.project_id);
-      if (!project || !isBillable(project)) return acc;
+      if (!project || !isBillable(project) || !entry.billable) return acc;
       const amount = (entry.duration / 3600) * project.rate;
       return acc + amount;
     },

@@ -28,6 +28,7 @@ describe("gross", () => {
         project_id: 7,
         description: "bar",
         duration: 3600,
+        billable: true,
       } as any,
     ]);
 
@@ -70,6 +71,7 @@ describe("gross", () => {
         project_id: 7,
         description: "bar",
         duration: 3600,
+        billable: true,
       } as any,
     ]);
 
@@ -99,6 +101,37 @@ describe("gross", () => {
         project_id: 7,
         description: "bar",
         duration: -3600,
+        billable: true,
+      } as any,
+    ]);
+
+    vi.mocked(getProjects).mockResolvedValue([
+      {
+        id: 7,
+        billable: true,
+        rate: 1,
+        active: true,
+      } as any,
+    ]);
+
+    await run();
+
+    expect(createDatapoint).toBeCalledWith(
+      "narthur",
+      "gross",
+      expect.objectContaining({
+        value: 0,
+      })
+    );
+  });
+
+  it("does not include non-billable time entries", async () => {
+    vi.mocked(getTimeEntries).mockResolvedValue([
+      {
+        project_id: 7,
+        description: "bar",
+        duration: 3600,
+        billable: false,
       } as any,
     ]);
 
