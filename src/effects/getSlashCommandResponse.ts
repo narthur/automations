@@ -45,6 +45,12 @@ s(/^\/roll (\d+)$/, (message) => {
   return `You rolled a ${roll}`;
 });
 
+s(/^\/memory$/, () => {
+  const f = os.freemem();
+  const t = os.totalmem();
+  return `Free memory: ${f} bytes (${Math.round((f / t) * 100)}%)`;
+});
+
 export default async function getSlashCommandResponse(
   message: string
 ): Promise<string[] | false> {
