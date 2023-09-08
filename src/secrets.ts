@@ -50,3 +50,6 @@ export const allTaskratchet = [
   taskratchetUserId.name,
   taskratchetApiToken.name,
 ];
+
+// Sentry
+export const sentryDsn = defineSecret("SENTRY_DSN");

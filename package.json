@@ -28,6 +28,8 @@
   "homepage": "https://github.com/narthur/automations#readme",
   "dependencies": {
     "@notionhq/client": "^2.2.10",
+    "@sentry/node": "^7.68.0",
+    "@sentry/profiling-node": "^1.2.1",
     "@types/cors": "^2.8.14",
     "@types/node": "^20.4.9",
     "@typescript-eslint/eslint-plugin": "^6.3.0",
