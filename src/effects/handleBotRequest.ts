@@ -4,6 +4,7 @@ import { telegramAllowedUser, telegramWebhookToken } from "../secrets.js";
 import getSlashCommandResponse from "./getSlashCommandResponse.js";
 import { sendMessages, tryWithRelay } from "../services/telegram.helpers.js";
 import express from "express";
+import { createDatapoint } from "src/services/beeminder.js";
 
 export default async function handleBotRequest(
   req: express.Request,
@@ -36,6 +37,9 @@ export default async function handleBotRequest(
   }
 
   await tryWithRelay(chat.id, async () => {
+    await createDatapoint("narthur", "mia", {
+      value: text.length,
+    });
     const texts =
       (await getSlashCommandResponse(text)) || (await getGptResponse(text));
     await sendMessages(chat.id, texts);

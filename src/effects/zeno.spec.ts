@@ -5,8 +5,6 @@ import { Goal } from "../services/beeminder.types.js";
 import { deleteMessage, sendMessage } from "../services/telegram.js";
 import { TelegramMessage } from "../services/telegram.types.js";
 
-vi.mock("../services/beeminder");
-
 function run(): Promise<void> {
   return (zeno as any)();
 }

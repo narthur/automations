@@ -7,8 +7,6 @@ import {
 } from "../services/toggl/index.js";
 import { createDatapoint } from "../services/beeminder.js";
 
-vi.mock("src/services/beeminder");
-
 const CLIENT_MATCH_ID = 3;
 const CLIENT_MISS_ID = 2;
 

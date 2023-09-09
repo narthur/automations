@@ -4,8 +4,6 @@ import { getResponse } from "../services/openai.js";
 import { getGoals } from "../services/beeminder.js";
 import { MAX_MESSAGE_LENGTH } from "../transforms/splitMessages.js";
 
-vi.mock("../services/beeminder");
-
 describe("getGptResponse", () => {
   it("should return a response", async () => {
     vi.mocked(getResponse).mockResolvedValue({

@@ -2,6 +2,7 @@ import { getResponse } from "../services/openai.js";
 import { describe, it, expect, vi } from "vitest";
 import handleBotRequest from "./handleBotRequest.js";
 import { sendMessage } from "../services/telegram.js";
+import { createDatapoint } from "src/services/beeminder.js";
 
 function send(text: string) {
   return handleBotRequest(
@@ -56,6 +57,18 @@ describe("handleBotRequest", () => {
     expect(sendMessage).toBeCalledWith(
       expect.objectContaining({
         text: expect.stringContaining("bar"),
+      })
+    );
+  });
+
+  it("sends incoming message lengths to beeminder", async () => {
+    await send("test");
+
+    expect(createDatapoint).toBeCalledWith(
+      "narthur",
+      "mia",
+      expect.objectContaining({
+        value: 4,
       })
     );
   });

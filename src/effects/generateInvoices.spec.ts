@@ -13,8 +13,6 @@ import {
   TogglProject,
 } from "../services/toggl/types.js";
 
-vi.mock("../services/mailgun");
-
 function run(): Promise<unknown> {
   return (generateInvoices as any)();
 }

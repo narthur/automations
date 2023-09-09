@@ -3,8 +3,6 @@ import { describe, it, expect, vi } from "vitest";
 import getBeemergencies from "./getBeemergencies.js";
 import { Goal } from "../services/beeminder.types.js";
 
-vi.mock("../services/beeminder");
-
 describe("getBeemergencies", () => {
   it("pads beemergencies", async () => {
     const goals: Partial<Goal>[] = [

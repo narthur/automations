@@ -3,8 +3,6 @@ import { getProjects, getTimeEntries } from "../services/toggl/index.js";
 import { createDatapoint } from "../services/beeminder.js";
 import updateBmGross from "./updateBmGross.js";
 
-vi.mock("../services/beeminder");
-
 function run() {
   return (updateBmGross as any)();
 }

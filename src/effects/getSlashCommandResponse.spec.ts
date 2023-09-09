@@ -3,8 +3,6 @@ import { getGoals } from "../services/beeminder.js";
 import getSlashCommandResponse from "./getSlashCommandResponse.js";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-vi.mock("../services/beeminder");
-
 describe("getSlashCommandResponse", () => {
   beforeEach(() => {
     vi.mocked(getGoals).mockResolvedValue([]);

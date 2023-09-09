@@ -5,8 +5,6 @@ import { getTimeEntries } from "./services/toggl/index.js";
 import { setWebhook } from "./services/telegram.js";
 import { createTask, getPendingTasks } from "./services/taskratchet.js";
 
-vi.mock("./services/beeminder");
-
 describe("index", () => {
   it("runs", async () => {
     const res = await request(app).get("/");
