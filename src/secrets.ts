@@ -1,36 +1,34 @@
-import defineSecret from "./effects/defineSecret.js";
+import d from "./effects/defineSecret.js";
 
 // Beeminder
-export const bmAuths = defineSecret("BM_AUTHS");
+export const bmAuths = d("BM_AUTHS");
 
 // Mailgun
-export const mailgunApiKey = defineSecret("MAILGUN_API_KEY");
-export const mailgunDomain = defineSecret("MAILGUN_DOMAIN");
+export const mailgunApiKey = d("MAILGUN_API_KEY");
+export const mailgunDomain = d("MAILGUN_DOMAIN");
 
 // Toggl
-export const togglApiToken = defineSecret("TOGGL_API_TOKEN");
-export const togglClientAv = defineSecret("TOGGL_CLIENT_AV");
+export const togglApiToken = d("TOGGL_API_TOKEN");
+export const togglClientAv = d("TOGGL_CLIENT_AV");
 
 // Notion
-export const notionApiKey = defineSecret("NOTION_API_KEY");
-export const notionDatabaseIdTrCards = defineSecret(
-  "NOTION_DATABASE_ID_TR_CARDS"
-);
-export const notionDatabaseIdTodos = defineSecret("NOTION_DATABASE_ID_TODOS");
+export const notionApiKey = d("NOTION_API_KEY");
+export const notionDatabaseIdTrCards = d("NOTION_DATABASE_ID_TR_CARDS");
+export const notionDatabaseIdTodos = d("NOTION_DATABASE_ID_TODOS");
 
 // OpenAI
-export const openAiSecretKey = defineSecret("OPENAI_SECRET_KEY");
-export const openAiPrompt = defineSecret("OPENAI_PROMPT");
+export const openAiSecretKey = d("OPENAI_SECRET_KEY");
+export const openAiPrompt = d("OPENAI_PROMPT");
 
 // Telegram
-export const telegramApiToken = defineSecret("TELEGRAM_API_TOKEN");
-export const telegramWebhookToken = defineSecret("TELEGRAM_WEBHOOK_TOKEN");
-export const telegramAllowedUser = defineSecret("TELEGRAM_ALLOWED_USER");
-export const telegramChatId = defineSecret("TELEGRAM_CHAT_ID");
+export const telegramApiToken = d("TELEGRAM_API_TOKEN");
+export const telegramWebhookToken = d("TELEGRAM_WEBHOOK_TOKEN");
+export const telegramAllowedUser = d("TELEGRAM_ALLOWED_USER");
+export const telegramChatId = d("TELEGRAM_CHAT_ID");
 
 // TaskRatchet
-export const taskratchetUserId = defineSecret("TASKRATCHET_USER_ID");
-export const taskratchetApiToken = defineSecret("TASKRATCHET_API_TOKEN");
+export const taskratchetUserId = d("TASKRATCHET_USER_ID");
+export const taskratchetApiToken = d("TASKRATCHET_API_TOKEN");
 
 // Sentry
-export const sentryDsn = defineSecret("SENTRY_DSN");
+export const sentryDsn = d("SENTRY_DSN");
