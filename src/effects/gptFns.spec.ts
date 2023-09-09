@@ -18,6 +18,7 @@ describe("gptFns", () => {
   it("calls addDocument", async () => {
     await getFunctionResponse({
       role: "assistant",
+      content: null,
       function_call: {
         name: "addNotionDocument",
         arguments: JSON.stringify({

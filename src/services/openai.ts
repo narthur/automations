@@ -1,9 +1,9 @@
 import OpenAI from "openai";
 import { openAiSecretKey } from "../secrets.js";
 import {
-  ChatCompletion,
-  CompletionCreateParams,
-  CreateChatCompletionRequestMessage,
+  ChatCompletionCreateParams,
+  ChatCompletionMessage,
+  ChatCompletionMessageParam,
 } from "openai/resources/chat/index.js";
 
 // upgrade to gpt-4-0613 when it's available
@@ -23,9 +23,9 @@ function getOpenAi() {
 }
 
 export async function getResponse(
-  messages: Array<CreateChatCompletionRequestMessage>,
-  functions?: Array<CompletionCreateParams.Function>
-): Promise<ChatCompletion.Choice.Message> {
+  messages: Array<ChatCompletionMessageParam>,
+  functions?: Array<ChatCompletionCreateParams.Function>
+): Promise<ChatCompletionMessage> {
   console.info(
     "function messages:",
     messages.filter((m) => m.role === "function")

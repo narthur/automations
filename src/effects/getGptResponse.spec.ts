@@ -53,8 +53,10 @@ describe("getGptResponse", () => {
     vi.mocked(getGoals).mockResolvedValue([]);
     vi.mocked(getResponse).mockResolvedValue({
       role: "assistant",
+      content: null,
       function_call: {
         name: "getBeemergencies",
+        arguments: "{}",
       },
     });
     await getGptResponse("");

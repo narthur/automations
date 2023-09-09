@@ -1,7 +1,7 @@
 import getBeemergencies from "./getBeemergencies.js";
 import {
-  ChatCompletion,
-  CompletionCreateParams,
+  ChatCompletionCreateParams,
+  ChatCompletionMessage,
 } from "openai/resources/chat/index.js";
 import { addDocument } from "../services/notion.js";
 import z from "zod";
@@ -29,7 +29,7 @@ const FUNCTIONS: Record<string, Fn> = {
 };
 
 export async function getFunctionResponse(
-  response: ChatCompletion.Choice.Message
+  response: ChatCompletionMessage
 ): Promise<string | false> {
   const { name, arguments: args = "{}" } = response.function_call || {};
   if (!name) return false;
@@ -43,7 +43,7 @@ export async function getFunctionResponse(
   }
 }
 
-export function getFunctionDefinitions(): CompletionCreateParams.Function[] {
+export function getFunctionDefinitions(): ChatCompletionCreateParams.Function[] {
   return Object.entries(FUNCTIONS).map(([name, fn]) => ({
     name,
     description: fn._def.description,

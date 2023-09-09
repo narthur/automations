@@ -1,16 +1,16 @@
 import { getResponse } from "../services/openai.js";
 import splitMessages from "../transforms/splitMessages.js";
 import {
-  ChatCompletion,
-  CreateChatCompletionRequestMessage,
+  ChatCompletionMessage,
+  ChatCompletionMessageParam,
 } from "openai/resources/chat/index.js";
 import { openAiPrompt } from "../secrets.js";
 import { getFunctionResponse, getFunctionDefinitions } from "./gptFns.js";
 import { addMessage, getMessages } from "./history.js";
 
 function hasFunctionCall(
-  message: ChatCompletion.Choice.Message
-): message is ChatCompletion.Choice.Message & {
+  message: ChatCompletionMessage
+): message is ChatCompletionMessage & {
   function_call: {
     name: string;
     arguments: string;
@@ -23,7 +23,7 @@ export default async function getGptResponse(
   prompt: string
 ): Promise<string[]> {
   console.info("getting openai response");
-  const messages: Array<CreateChatCompletionRequestMessage> = [
+  const messages: Array<ChatCompletionMessageParam> = [
     {
       role: "system",
       content: openAiPrompt.value(),
