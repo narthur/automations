@@ -55,7 +55,7 @@ const queue = new PQueue({
 });
 
 async function api<T>(p: string, o: AxiosRequestConfig = {}): Promise<T> {
-  const result = await queue.add(() => axios(p, o).then((r) => r.data as T));
+  const result = await queue.add(() => client(p, o).then((r) => r.data as T));
   // WORKAROUND: https://github.com/sindresorhus/p-queue/issues/175
   if (!result) throw new Error("No Toggl API result");
   return result;
