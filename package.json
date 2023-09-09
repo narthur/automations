@@ -45,6 +45,7 @@
     "mailgun.js": "^9.2.1",
     "marked": "^8.0.1",
     "openai": "4.6.0",
+    "p-queue": "^7.4.1",
     "telegramify-markdown": "^1.1.0",
     "text-table": "^0.2.0",
     "tsx": "^3.12.8",
