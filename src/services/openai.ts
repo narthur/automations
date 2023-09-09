@@ -7,8 +7,8 @@ import {
 } from "openai/resources/chat/index.js";
 
 // upgrade to gpt-4-0613 when it's available
-// const MODEL = "gpt-3.5-turbo-0613";
-const MODEL = "gpt-4-0613";
+const MODEL = "gpt-3.5-turbo-0613";
+// const MODEL = "gpt-4-0613";
 
 let openai: OpenAI | undefined;
 
