@@ -47,13 +47,19 @@ export const __loadResponse = ({
 const get = factory("get");
 const post = factory("post");
 
-const axios = {
+const axios: any = {
   get: vi.fn((url: string) => {
     return get(url);
   }),
   post: vi.fn((url: string) => {
     return post(url);
   }),
+  create: vi.fn(() => axios),
+  defaults: {
+    headers: {
+      common: {},
+    },
+  },
 };
 
 beforeEach(() => {
