@@ -70,9 +70,5 @@ _get("/bot/init", (req) =>
   })
 );
 
-app.get("/debug-sentry", () => {
-  throw new Error("My first Sentry error!");
-});
-
 // The error handler must be registered before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler());
