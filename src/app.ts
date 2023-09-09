@@ -27,6 +27,7 @@ Sentry.init({
   tracesSampleRate: 1.0, // Capture 100% of the transactions, reduce in production!
   // Set sampling rate for profiling - this is relative to tracesSampleRate
   profilesSampleRate: 1.0, // Capture 100% of the transactions, reduce in production!
+  release: process.env.RENDER_GIT_COMMIT,
 });
 
 // The request handler must be the first middleware on the app
