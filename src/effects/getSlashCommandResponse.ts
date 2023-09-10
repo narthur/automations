@@ -1,3 +1,4 @@
+import { SELF_CARE } from "src/constants.js";
 import { getPendingTasks } from "../services/taskratchet.js";
 import generateInvoices from "./generateInvoices.js";
 import getBeemergencies from "./getBeemergencies.js";
@@ -52,6 +53,10 @@ s("memory", () => {
 s("invoice", async () => {
   await generateInvoices();
   return "Invoices generated";
+});
+
+s("selfcare", () => {
+  return SELF_CARE[Math.floor(Math.random() * SELF_CARE.length)];
 });
 
 // no match / help command
