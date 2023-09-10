@@ -1,7 +1,7 @@
 import express from "express";
 import avPrime from "src/effects/av-prime.js";
 import handleBotRequest from "./effects/handleBotRequest.js";
-import { setWebhook } from "./services/telegram.js";
+import { setWebhook } from "./services/telegram/index.js";
 import { sentryDsn, telegramWebhookToken } from "./secrets.js";
 import getFullUrl from "./transforms/getFullUrl.js";
 import updateBmGross from "./effects/updateBmGross.js";

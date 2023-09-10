@@ -1,5 +1,6 @@
 import { telegramChatId } from "../secrets.js";
-import { sendMessages, tryWithRelay } from "../services/telegram.helpers.js";
+import { tryWithRelay } from "../services/telegram/tryWithRelay.js";
+import { sendMessages } from "src/services/telegram/sendMessages.js";
 import { getPendingTasks } from "../services/taskratchet.js";
 import { getResponse } from "../services/openai.js";
 import defineSecret from "./defineSecret.js";

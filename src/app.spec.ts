@@ -2,7 +2,7 @@ import { app } from "./app.js";
 import { describe, it, expect } from "vitest";
 import request from "supertest";
 import { getTimeEntries } from "./services/toggl/index.js";
-import { setWebhook } from "./services/telegram.js";
+import { setWebhook } from "./services/telegram/index.js";
 import { createTask, getPendingTasks } from "./services/taskratchet.js";
 
 describe("index", () => {

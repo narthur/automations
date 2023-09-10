@@ -2,7 +2,7 @@ import { describe, it, vi, beforeEach, afterEach, expect } from "vitest";
 import zeno from "./zeno.js";
 import { getGoals } from "../services/beeminder.js";
 import { Goal } from "../services/beeminder.types.js";
-import { deleteMessage, sendMessage } from "../services/telegram.js";
+import { deleteMessage, sendMessage } from "../services/telegram/index.js";
 import { TelegramMessage } from "../services/telegram.types.js";
 
 function run(): Promise<void> {

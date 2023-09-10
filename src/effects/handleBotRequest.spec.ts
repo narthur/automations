@@ -1,7 +1,7 @@
 import { getResponse } from "../services/openai.js";
 import { describe, it, expect, vi } from "vitest";
 import handleBotRequest from "./handleBotRequest.js";
-import { sendMessage } from "../services/telegram.js";
+import { sendMessage } from "../services/telegram/index.js";
 import { createDatapoint } from "src/services/beeminder.js";
 
 function send(text: string) {

@@ -4,7 +4,7 @@ import {
   getProjects,
   getTimeEntries,
 } from "./src/services/toggl/index.js";
-import { deleteMessage, setWebhook } from "./src/services/telegram.js";
+import { deleteMessage, setWebhook } from "./src/services/telegram/index.js";
 import { getPendingTasks } from "./src/services/taskratchet.js";
 import { sendEmail } from "src/services/mailgun.js";
 

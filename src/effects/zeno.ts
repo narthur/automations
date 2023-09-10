@@ -1,7 +1,7 @@
 import { telegramChatId } from "../secrets.js";
 import { getGoals } from "../services/beeminder.js";
 import isNotificationDue from "../transforms/isNotificationDue.js";
-import { deleteMessage, sendMessage } from "../services/telegram.js";
+import { deleteMessage, sendMessage } from "../services/telegram/index.js";
 import { TelegramMessage } from "src/services/telegram.types.js";
 
 let last: TelegramMessage | null = null;
