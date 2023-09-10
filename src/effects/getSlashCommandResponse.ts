@@ -54,6 +54,9 @@ s("invoice", async () => {
   return "Invoices generated";
 });
 
+// no match / help command
+s("", () => commands.map((c) => c.match.source));
+
 export default async function getSlashCommandResponse(
   message: string
 ): Promise<string[] | false> {
