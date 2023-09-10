@@ -13,46 +13,43 @@ const commands: {
   action: Action;
 }[] = [];
 
-function s(match: RegExp, action: Action) {
-  commands.push({ match, action });
+function s(name: string, action: Action) {
+  commands.push({ match: new RegExp(`^\\/${name}`), action });
 }
 
-s(/^\/foo$/, () => ["bar"]);
+s("foo", () => ["bar"]);
 
-s(/^\/uptime$/, () => [
-  `process: ${process.uptime()}s`,
-  `system: ${os.uptime()}s`,
-]);
+s("uptime", () => [`process: ${process.uptime()}s`, `system: ${os.uptime()}s`]);
 
-s(/^\/time$/, () => `The time is ${new Date().toLocaleTimeString()}`);
+s("time", () => `The time is ${new Date().toLocaleTimeString()}`);
 
-s(/^\/date$/, () => `The date is ${new Date().toLocaleDateString()}`);
+s("date", () => `The date is ${new Date().toLocaleDateString()}`);
 
-s(/^\/reset$/, () => {
+s("reset", () => {
   clearHistory();
   return "Internal memory cleared";
 });
 
-s(/^\/beemergencies$/, getBeemergencies);
+s("beemergencies", getBeemergencies);
 
-s(/^\/taskratchet pending$/, async () => {
+s("taskratchet", async () => {
   const tasks = await getPendingTasks();
   return tasks.map((t) => `${t.task} due ${t.due} or pay $${t.cents / 100}`);
 });
 
-s(/^\/roll (\d+)$/, (message) => {
+s("roll", (message) => {
   const [, sides] = message.match(/^\/roll (\d+)$/) || [];
   const roll = Math.floor(Math.random() * Number(sides)) + 1;
   return `You rolled a ${roll}`;
 });
 
-s(/^\/memory$/, () => {
+s("memory", () => {
   const f = os.freemem();
   const t = os.totalmem();
   return `Free memory: ${f} bytes (${Math.round((f / t) * 100)}%)`;
 });
 
-s(/^\/invoice$/, async () => {
+s("invoice", async () => {
   await generateInvoices();
   return "Invoices generated";
 });
