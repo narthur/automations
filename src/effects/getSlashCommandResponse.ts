@@ -18,7 +18,7 @@ function s(name: string, action: Action) {
   commands.push({ match: new RegExp(`^\\/${name}`), action });
 }
 
-s("foo", () => ["bar"]);
+s("foo", () => "bar");
 
 s("uptime", () => [`process: ${process.uptime()}s`, `system: ${os.uptime()}s`]);
 
