@@ -2,6 +2,7 @@ import { getPendingTasks } from "../services/taskratchet.js";
 import { getGoals } from "../services/beeminder.js";
 import getSlashCommandResponse from "./getSlashCommandResponse.js";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { getTimeEntries } from "src/services/toggl/index.js";
 
 describe("getSlashCommandResponse", () => {
   beforeEach(() => {
@@ -38,5 +39,11 @@ describe("getSlashCommandResponse", () => {
     await getSlashCommandResponse("/taskratchet pending");
 
     expect(getPendingTasks).toBeCalled();
+  });
+
+  it("generates invoices", async () => {
+    await getSlashCommandResponse("/invoice");
+
+    expect(getTimeEntries).toBeCalled();
   });
 });

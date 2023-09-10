@@ -63,7 +63,7 @@ export default async function generateInvoices() {
     end_date: format(end, "yyyy-MM-dd"),
   };
   const entries = await getTimeEntries({ params });
-  const workspaceId = entries[0].workspace_id;
+  const workspaceId = entries[0]?.workspace_id;
   const projects = await getProjects();
   const clients = await getClients(workspaceId);
 

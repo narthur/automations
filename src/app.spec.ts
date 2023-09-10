@@ -1,5 +1,5 @@
 import { app } from "./app.js";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import request from "supertest";
 import { getTimeEntries } from "./services/toggl/index.js";
 import { setWebhook } from "./services/telegram.js";
@@ -53,21 +53,6 @@ describe("index", () => {
 
   it("runs gross", async () => {
     const res = await request(app).get("/cron/gross");
-
-    expect(res.status).toBe(200);
-    expect(res.text).toBe("OK");
-
-    expect(getTimeEntries).toBeCalled();
-  });
-
-  it("runs invoice", async () => {
-    vi.mocked(getTimeEntries).mockResolvedValue([
-      {
-        workspace_id: 1,
-      } as any,
-    ]);
-
-    const res = await request(app).get("/cron/invoice");
 
     expect(res.status).toBe(200);
     expect(res.text).toBe("OK");

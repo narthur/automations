@@ -1,4 +1,5 @@
 import { getPendingTasks } from "../services/taskratchet.js";
+import generateInvoices from "./generateInvoices.js";
 import getBeemergencies from "./getBeemergencies.js";
 import { clearHistory } from "./history.js";
 import os from "os";
@@ -49,6 +50,11 @@ s(/^\/memory$/, () => {
   const f = os.freemem();
   const t = os.totalmem();
   return `Free memory: ${f} bytes (${Math.round((f / t) * 100)}%)`;
+});
+
+s(/^\/invoice$/, async () => {
+  await generateInvoices();
+  return "Invoices generated";
 });
 
 export default async function getSlashCommandResponse(

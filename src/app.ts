@@ -5,7 +5,6 @@ import { setWebhook } from "./services/telegram.js";
 import { sentryDsn, telegramWebhookToken } from "./secrets.js";
 import getFullUrl from "./transforms/getFullUrl.js";
 import updateBmGross from "./effects/updateBmGross.js";
-import generateInvoices from "./effects/generateInvoices.js";
 import morning from "./effects/morning.js";
 import createRecurringTasks from "./effects/createRecurringTasks.js";
 import cors from "cors";
@@ -55,7 +54,6 @@ function _get(path: string, fn: Fn) {
 _get("/", () => "Hello World!");
 _get("/cron/av-prime", avPrime);
 _get("/cron/gross", updateBmGross);
-_get("/cron/invoice", generateInvoices);
 _get("/cron/morning", morning);
 _get("/cron/reratchet", createRecurringTasks);
 
