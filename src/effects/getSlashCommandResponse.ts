@@ -55,9 +55,7 @@ s("invoice", async () => {
   return "Invoices generated";
 });
 
-s("selfcare", () => {
-  return SELF_CARE[Math.floor(Math.random() * SELF_CARE.length)];
-});
+s("selfcare", () => SELF_CARE[Math.floor(Math.random() * SELF_CARE.length)]);
 
 // no match / help command
 s("", () => commands.map((c) => c.match.source));
