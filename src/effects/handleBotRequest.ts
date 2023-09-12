@@ -1,4 +1,4 @@
-import { TelegramUpdate } from "../services/telegram.types.js";
+import { TelegramUpdate } from "../services/telegram/types.js";
 import getGptResponse from "./getGptResponse.js";
 import { telegramAllowedUser, telegramWebhookToken } from "../secrets.js";
 import getSlashCommandResponse from "./getSlashCommandResponse.js";
