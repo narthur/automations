@@ -44,6 +44,7 @@
     "form-data": "^4.0.0",
     "mailgun.js": "^9.2.1",
     "marked": "^9.0.0",
+    "mitt": "^3.0.1",
     "openai": "4.6.0",
     "p-queue": "^7.4.1",
     "telegramify-markdown": "^1.1.0",
