@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { telegramApiToken } from "../../secrets.js";
-import { TelegramMessage, TelegramResponse } from "./types.js";
+import { TelegramResponse } from "./types/TelegramResponse.js";
+import { TelegramMessage } from "./types/TelegramMessage.js";
 
 // https://core.telegram.org/bots/api#setwebhook
 export function setWebhook(data: {

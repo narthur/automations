@@ -3,7 +3,7 @@ import zeno from "./zeno.js";
 import { getGoals } from "../services/beeminder.js";
 import { Goal } from "../services/beeminder.types.js";
 import { deleteMessage, sendMessage } from "../services/telegram/index.js";
-import { TelegramMessage } from "../services/telegram/types.js";
+import { TelegramMessage } from "src/services/telegram/types/TelegramMessage.js";
 
 function run(): Promise<void> {
   return (zeno as any)();
