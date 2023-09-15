@@ -1,11 +1,11 @@
 import { TelegramUpdate } from "src/services/telegram/types/TelegramUpdate.js";
-import getGptResponse from "./getGptResponse.js";
 import { telegramAllowedUser, telegramWebhookToken } from "../secrets.js";
 import getSlashCommandResponse from "./getSlashCommandResponse.js";
 import { tryWithRelay } from "../services/telegram/tryWithRelay.js";
 import { sendMessages } from "src/services/telegram/sendMessages.js";
 import express from "express";
 import { createDatapoint } from "src/services/beeminder.js";
+import getGptResponse from "src/services/openai/getGptResponse.js";
 
 export default async function handleBotRequest(
   req: express.Request,
