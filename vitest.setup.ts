@@ -7,6 +7,7 @@ import {
 import { deleteMessage, setWebhook } from "./src/services/telegram/index.js";
 import { getPendingTasks } from "./src/services/taskratchet.js";
 import { sendEmail } from "src/services/mailgun.js";
+import { getGoals } from "src/services/beeminder.js";
 
 vi.mock("axios");
 vi.mock("./src/effects/defineSecret");
@@ -26,4 +27,5 @@ beforeEach(() => {
   vi.mocked(setWebhook).mockResolvedValue({});
   vi.mocked(sendEmail).mockResolvedValue({});
   vi.mocked(getClients).mockResolvedValue([]);
+  vi.mocked(getGoals).mockResolvedValue([]);
 });

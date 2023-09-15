@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { openAiSecretKey } from "../secrets.js";
+import { openAiSecretKey } from "../../secrets.js";
 import {
   ChatCompletionCreateParams,
   ChatCompletionMessage,

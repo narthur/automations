@@ -3,7 +3,7 @@ import { sendMessage } from "../services/telegram/index.js";
 import morning from "./morning.js";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { getPendingTasks } from "../services/taskratchet.js";
-import { getResponse } from "../services/openai.js";
+import { getResponse } from "../services/openai/index.js";
 
 function run() {
   return (morning as any)();

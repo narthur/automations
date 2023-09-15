@@ -1,6 +1,6 @@
 import { KeyboardButton } from "./KeyboardButton.js";
 
-type ReplyKeyboardMarkup = {
+export type ReplyKeyboardMarkup = {
   // Array of button rows, each represented by an Array of KeyboardButton objects
   keyboard: Array<Array<KeyboardButton>>;
 

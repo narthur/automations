@@ -2,6 +2,10 @@ import axios, { AxiosRequestConfig } from "axios";
 import { telegramApiToken } from "../../secrets.js";
 import { TelegramResponse } from "./types/TelegramResponse.js";
 import { TelegramMessage } from "./types/TelegramMessage.js";
+import { InlineKeyboardMarkup } from "./types/InlineKeyboardMarkup.js";
+import { ReplyKeyboardMarkup } from "./types/ReplyKeyboardMarkup.js";
+import { ReplyKeyboardRemove } from "./types/ReplyKeyboardRemove.js";
+import { ForceReply } from "./types/ForceReply.js";
 
 // https://core.telegram.org/bots/api#setwebhook
 export function setWebhook(data: {
@@ -31,7 +35,11 @@ export function sendMessage(data: {
   protect_content?: boolean;
   reply_to_message_id?: number;
   allow_sending_without_reply?: boolean;
-  reply_markup?: unknown;
+  reply_markup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
 }) {
   return api<TelegramMessage>("sendMessage", {
     method: "POST",
