@@ -12,3 +12,4 @@ Code mreged to the `main` branch will be automatically deployed to Render.com.
 
 - [ ] Use mitt for event bus
 - [ ] Implement beetuning bot flow
+- [ ] Switch to Bun
