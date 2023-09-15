@@ -13,10 +13,6 @@ import {
   TogglProject,
 } from "../services/toggl/types.js";
 
-function run(): Promise<unknown> {
-  return (generateInvoices as any)();
-}
-
 const defaultEntries: Partial<TimeEntry>[] = [
   {
     project_id: 1,
@@ -101,7 +97,7 @@ describe("invoice_cron", () => {
   });
 
   it("sends one invoice per client", async () => {
-    await run();
+    await generateInvoices();
 
     expect(sendEmail).toBeCalledTimes(2);
   });
@@ -111,37 +107,37 @@ describe("invoice_cron", () => {
       clients: [{}],
     });
 
-    await run();
+    await generateInvoices();
 
     expect(sendEmail).toBeCalledTimes(1);
   });
 
   it("includes total duration", async () => {
-    await run();
+    await generateInvoices();
 
     expectBodyContains("Total Time | 1.00 hour");
   });
 
   it("includes client name in email subject", async () => {
-    await run();
+    await generateInvoices();
 
     expectSubjectContains("client1");
   });
 
   it("includes descriptions in email body", async () => {
-    await run();
+    await generateInvoices();
 
     expectBodyContains("description1");
   });
 
   it("includes invoice id", async () => {
-    await run();
+    await generateInvoices();
 
     expectBodyContains("Invoice ID | client1-2020-12");
   });
 
   it("only fetches time entries for the last month", async () => {
-    await run();
+    await generateInvoices();
 
     expect(getTimeEntries).toBeCalledWith(
       expect.objectContaining({
@@ -154,13 +150,13 @@ describe("invoice_cron", () => {
   });
 
   it("includes date range", async () => {
-    await run();
+    await generateInvoices();
 
     expectBodyContains("2020-12-01 - 2020-12-31");
   });
 
   it("includes month name in subject", async () => {
-    await run();
+    await generateInvoices();
 
     expectSubjectContains("December");
   });
@@ -177,7 +173,7 @@ describe("invoice_cron", () => {
       ],
     });
 
-    await run();
+    await generateInvoices();
 
     expect(sendEmail).not.toBeCalledWith(
       expect.objectContaining({
@@ -197,13 +193,13 @@ describe("invoice_cron", () => {
       ],
     });
 
-    await run();
+    await generateInvoices();
 
     expectBodyContains("Total Time | 0.00 hours");
   });
 
   it("includes hourly rate", async () => {
-    await run();
+    await generateInvoices();
 
     expectBodyContains("Rate | $1.00/hr");
   });
@@ -219,13 +215,13 @@ describe("invoice_cron", () => {
       ],
     });
 
-    await run();
+    await generateInvoices();
 
     expectBodyContains("Rate | n/a");
   });
 
   it("includes total due", async () => {
-    await run();
+    await generateInvoices();
 
     expectBodyContains("Total Due | $1.00");
   });
