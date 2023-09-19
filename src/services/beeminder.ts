@@ -75,10 +75,8 @@ export async function getGoal(user: string, slug: string): Promise<Goal> {
 }
 
 export async function getGoals(): Promise<Goal[]> {
-  console.info("Fetching goals");
   const rawAuths = bmAuths.value();
   const entries = rawAuths.split(",").map(parse);
-  console.log("Entries:", entries);
 
   const goals = await Promise.all(
     entries.map(async ([user, token]) => {
