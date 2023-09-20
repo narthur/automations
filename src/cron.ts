@@ -5,16 +5,14 @@ import morning from "./effects/morning.js";
 import createRecurringTasks from "./effects/createRecurringTasks.js";
 import zeno from "./effects/zeno.js";
 
-const SCHEDULES = {
-  half_hour: "0 */30 * * * *",
-  ten_minutes: "0 */10 * * * *",
-  morning: "0 0 6 * * *",
-  monday_morning: "0 0 6 * * 1",
-  minute: "0 * * * * *",
-};
+const HALF_HOUR = "0 */30 * * * *" as const;
+const TEN_MINUTES = "0 */10 * * * *" as const;
+const EVERY_MORNING = "0 0 6 * * *" as const;
+const MONDAY_MORNING = "0 0 6 * * 1" as const;
+const MINUTE = "0 * * * * *" as const;
 
-new Cron(SCHEDULES.half_hour, avPrime);
-new Cron(SCHEDULES.ten_minutes, updateBmGross);
-new Cron(SCHEDULES.morning, morning);
-new Cron(SCHEDULES.monday_morning, createRecurringTasks);
-new Cron(SCHEDULES.minute, zeno);
+new Cron(HALF_HOUR, avPrime);
+new Cron(TEN_MINUTES, updateBmGross);
+new Cron(EVERY_MORNING, morning);
+new Cron(MONDAY_MORNING, createRecurringTasks);
+new Cron(MINUTE, zeno);
