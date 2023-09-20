@@ -5,17 +5,16 @@ import morning from "./effects/morning.js";
 import createRecurringTasks from "./effects/createRecurringTasks.js";
 import zeno from "./effects/zeno.js";
 
-// every 30 minutes
-export const avPrimeCron = new Cron("0 */30 * * * *", avPrime);
+const SCHEDULES = {
+  half_hour: "0 */30 * * * *",
+  ten_minutes: "0 */10 * * * *",
+  morning: "0 0 6 * * *",
+  monday_morning: "0 0 6 * * 1",
+  minute: "0 * * * * *",
+};
 
-// every 10 minutes
-export const grossCron = new Cron("0 */10 * * * *", updateBmGross);
-
-// every morning at 6am
-export const morningCron = new Cron("0 0 6 * * *", morning);
-
-// every Monday morning
-export const mondayCron = new Cron("0 0 6 * * 1", createRecurringTasks);
-
-// every minute
-export const zenoCron = new Cron("0 * * * * *", zeno);
+new Cron(SCHEDULES.half_hour, avPrime);
+new Cron(SCHEDULES.ten_minutes, updateBmGross);
+new Cron(SCHEDULES.morning, morning);
+new Cron(SCHEDULES.monday_morning, createRecurringTasks);
+new Cron(SCHEDULES.minute, zeno);
