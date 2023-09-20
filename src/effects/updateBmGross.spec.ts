@@ -152,4 +152,16 @@ describe("gross", () => {
       })
     );
   });
+
+  it("runs for previous week", async () => {
+    await run();
+
+    expect(createDatapoint).toBeCalledTimes(7);
+  });
+
+  it("only gets projects once", async () => {
+    await run();
+
+    expect(getProjects).toBeCalledTimes(1);
+  });
 });
