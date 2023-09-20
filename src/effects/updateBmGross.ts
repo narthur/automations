@@ -9,14 +9,14 @@ function sumPrimeEntries(
   entries: TimeEntry[],
   projects: TogglProject[]
 ): number {
-  return entries.reduce((acc: number, entry: TimeEntry): number => {
-    if (!entry.project_id) return acc;
-    if (entry.duration <= 0) return acc;
-    const project = projects.find((p) => p.id === entry.project_id);
-    if (!project || !isBillable(project) || !entry.billable) return acc;
-    const amount = (entry.duration / 3600) * project.rate;
-    return acc + amount;
-  }, 0);
+  return entries
+    .filter((e) => !!e.project_id && e.duration > 0 && e.billable)
+    .reduce((acc: number, entry: TimeEntry): number => {
+      const project = projects.find((p) => p.id === entry.project_id);
+      if (!project || !isBillable(project)) return acc;
+      const amount = (entry.duration / 3600) * project.rate;
+      return acc + amount;
+    }, 0);
 }
 
 async function doUpdate(date: Date, projects: TogglProject[]) {
