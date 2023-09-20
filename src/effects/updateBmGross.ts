@@ -5,19 +5,23 @@ import dateParams from "../services/toggl/dateParams.js";
 import { TimeEntry, TogglProject } from "src/services/toggl/types.js";
 import getWeekDates from "./getWeekDates.js";
 
+function sumPrimeEntries(
+  entries: TimeEntry[],
+  projects: TogglProject[]
+): number {
+  return entries.reduce((acc: number, entry: TimeEntry): number => {
+    if (!entry.project_id) return acc;
+    if (entry.duration <= 0) return acc;
+    const project = projects.find((p) => p.id === entry.project_id);
+    if (!project || !isBillable(project) || !entry.billable) return acc;
+    const amount = (entry.duration / 3600) * project.rate;
+    return acc + amount;
+  }, 0);
+}
+
 async function doUpdate(date: Date, projects: TogglProject[]) {
   const entries = await getTimeEntries({ params: dateParams(date) });
-  const value: number = entries.reduce(
-    (acc: number, entry: TimeEntry): number => {
-      if (!entry.project_id) return acc;
-      if (entry.duration <= 0) return acc;
-      const project = projects.find((p) => p.id === entry.project_id);
-      if (!project || !isBillable(project) || !entry.billable) return acc;
-      const amount = (entry.duration / 3600) * project.rate;
-      return acc + amount;
-    },
-    0
-  );
+  const value: number = sumPrimeEntries(entries, projects);
   const daystamp = new Date().toISOString().split("T")[0];
 
   await createDatapoint("narthur", "gross", {
