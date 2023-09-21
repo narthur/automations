@@ -57,6 +57,11 @@ _get("/cron/gross", updateBmGross);
 _get("/cron/morning", morning);
 _get("/cron/reratchet", createRecurringTasks);
 
+app.post("/toggl/hook", (req, res) => {
+  console.log(req.body);
+  res.send("OK");
+});
+
 app.post("/bot/hook", (req, res) => {
   void handleBotRequest(req, res);
 });
