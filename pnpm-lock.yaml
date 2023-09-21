@@ -52,9 +52,6 @@ dependencies:
   marked:
     specifier: ^9.0.3
     version: 9.0.3
-  mitt:
-    specifier: ^3.0.1
-    version: 3.0.1
   openai:
     specifier: 4.8.0
     version: 4.8.0
@@ -711,6 +708,7 @@ packages:
       typescript: 5.2.2
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /@typescript-eslint/parser@6.7.2(eslint@8.49.0)(typescript@5.2.2):
     resolution: {integrity: sha512-KA3E4ox0ws+SPyxQf9iSI25R6b4Ne78ORhNHeVKrPQnoYsb9UhieoiRoJgrzgEeKGOXhcY1i8YtOeCHHTDa6Fw==}
@@ -3056,10 +3054,6 @@ packages:
     dependencies:
       minipass: 3.3.6
       yallist: 4.0.0
-    dev: false
-
-  /mitt@3.0.1:
-    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
     dev: false
 
   /mkdirp@1.0.4:
