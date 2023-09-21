@@ -58,6 +58,8 @@ _get("/cron/morning", morning);
 _get("/cron/reratchet", createRecurringTasks);
 
 app.post("/toggl/hook", (req, res) => {
+  // TODO: Validate events using TOGGL_SIGNING_SECRET
+  // https://developers.track.toggl.com/docs/webhooks_start/validating_received_events
   console.log(req.body);
   res.send("OK");
 });
