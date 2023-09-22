@@ -3,19 +3,15 @@ import { getProjects, getTimeEntries } from "../services/toggl/index.js";
 import { createDatapoint } from "../services/beeminder.js";
 import updateBmGross from "./updateBmGross.js";
 
-function run() {
-  return (updateBmGross as any)();
-}
-
 describe("gross", () => {
   it("gets time entries", async () => {
-    await run();
+    await updateBmGross();
 
     expect(getTimeEntries).toBeCalled();
   });
 
   it("gets projects", async () => {
-    await run();
+    await updateBmGross();
 
     expect(getProjects).toBeCalled();
   });
@@ -39,7 +35,7 @@ describe("gross", () => {
       } as any,
     ]);
 
-    await run();
+    await updateBmGross();
 
     expect(createDatapoint).toBeCalledWith(
       "narthur",
@@ -51,7 +47,7 @@ describe("gross", () => {
   });
 
   it("fetches only time entries for current day", async () => {
-    await run();
+    await updateBmGross();
 
     expect(getTimeEntries).toBeCalledWith(
       expect.objectContaining({
@@ -82,7 +78,7 @@ describe("gross", () => {
       } as any,
     ]);
 
-    await run();
+    await updateBmGross();
 
     expect(createDatapoint).toBeCalledWith(
       "narthur",
@@ -112,7 +108,7 @@ describe("gross", () => {
       } as any,
     ]);
 
-    await run();
+    await updateBmGross();
 
     expect(createDatapoint).toBeCalledWith(
       "narthur",
@@ -142,7 +138,7 @@ describe("gross", () => {
       } as any,
     ]);
 
-    await run();
+    await updateBmGross();
 
     expect(createDatapoint).toBeCalledWith(
       "narthur",
@@ -154,13 +150,13 @@ describe("gross", () => {
   });
 
   it("runs for previous week", async () => {
-    await run();
+    await updateBmGross();
 
     expect(createDatapoint).toBeCalledTimes(7);
   });
 
   it("only gets projects once", async () => {
-    await run();
+    await updateBmGross();
 
     expect(getProjects).toBeCalledTimes(1);
   });
