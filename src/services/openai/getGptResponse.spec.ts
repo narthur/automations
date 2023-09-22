@@ -10,13 +10,17 @@ describe("getGptResponse", () => {
       role: "assistant",
       content: "Hello world!",
     });
+
     const response = await getGptResponse("");
+
     expect(response).toContain("Hello world!");
   });
 
   it("passes prompt to openai", async () => {
     const prompt = "Hello world!";
+
     await getGptResponse(prompt);
+
     expect(getResponse).toHaveBeenCalledWith(
       expect.arrayContaining([
         expect.objectContaining({
@@ -32,7 +36,9 @@ describe("getGptResponse", () => {
       role: "assistant",
       content: "a".repeat(MAX_MESSAGE_LENGTH + 1),
     });
+
     const response = await getGptResponse("");
+
     expect(response).toHaveLength(2);
   });
 
@@ -57,7 +63,9 @@ describe("getGptResponse", () => {
         arguments: "{}",
       },
     });
+
     await getGptResponse("");
+
     expect(getGoals).toBeCalled();
   });
 });
