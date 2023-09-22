@@ -9,7 +9,8 @@ const client = axios.create({
 
 const token = togglApiToken.value();
 const auth = Buffer.from(`${token}:api_token`).toString("base64");
-client.defaults.headers.common["Authorization"] = `Basic ${auth}`;
+
+client.defaults.headers.common.Authorization = `Basic ${auth}`;
 
 export function getProjects(options: AxiosRequestConfig = {}) {
   return api<TogglProject[]>("me/projects", options);
