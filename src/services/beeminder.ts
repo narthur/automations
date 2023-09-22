@@ -1,6 +1,6 @@
 import axios from "axios";
 import { DatapointInput, Goal, ServerError } from "./beeminder.types.js";
-import { bmAuths } from "../secrets.js";
+import { BM_AUTHS } from "../secrets.js";
 
 function parse(auth: string): [string, string] {
   const [u, t] = auth.split(":");
@@ -8,7 +8,7 @@ function parse(auth: string): [string, string] {
 }
 
 function getToken(user: string): string | undefined {
-  const rawAuths = bmAuths.value();
+  const rawAuths = BM_AUTHS.value();
   const entries = rawAuths.split(",").map(parse);
   const auths = Object.fromEntries(entries);
 
@@ -75,7 +75,7 @@ export async function getGoal(user: string, slug: string): Promise<Goal> {
 }
 
 export async function getGoals(): Promise<Goal[]> {
-  const rawAuths = bmAuths.value();
+  const rawAuths = BM_AUTHS.value();
   const entries = rawAuths.split(",").map(parse);
 
   const goals = await Promise.all(

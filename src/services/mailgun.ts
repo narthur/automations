@@ -1,4 +1,4 @@
-import { mailgunApiKey, mailgunDomain } from "../secrets.js";
+import { MAILGUN_API_KEY, MAILGUN_DOMAIN } from "../secrets.js";
 import FormData from "form-data";
 import Mailgun from "mailgun.js";
 import { parse } from "marked";
@@ -6,7 +6,7 @@ import { parse } from "marked";
 const mailgun = new Mailgun.default(FormData);
 const client = mailgun.client({
   username: "api",
-  key: mailgunApiKey.value(),
+  key: MAILGUN_API_KEY.value(),
 });
 
 export async function sendEmail({
@@ -21,7 +21,7 @@ export async function sendEmail({
   from?: string;
 }): Promise<unknown> {
   console.info("Sending email", { recipients, subject });
-  return client.messages.create(mailgunDomain.value(), {
+  return client.messages.create(MAILGUN_DOMAIN.value(), {
     from: `Nathan Arthur <${from}>`,
     to: recipients,
     subject,

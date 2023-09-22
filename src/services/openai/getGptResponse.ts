@@ -1,4 +1,4 @@
-import { openAiPrompt } from "src/secrets.js";
+import { OPENAI_PROMPT } from "src/secrets.js";
 import { getResponse } from "../../services/openai/index.js";
 import splitMessages from "../../transforms/splitMessages.js";
 import {
@@ -29,7 +29,7 @@ export default async function getGptResponse(
   const messages: Array<ChatCompletionMessageParam> = [
     {
       role: "system",
-      content: openAiPrompt.value(),
+      content: OPENAI_PROMPT.value(),
     },
     ...getMessages(),
     {

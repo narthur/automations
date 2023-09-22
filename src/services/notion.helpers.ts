@@ -1,4 +1,7 @@
-import { notionDatabaseIdTodos, notionDatabaseIdTrCards } from "../secrets.js";
+import {
+  NOTION_DATABASE_ID_TODOS,
+  NOTION_DATABASE_ID_TR_CARDS,
+} from "../secrets.js";
 import { z } from "zod";
 
 export const DATABASES = z
@@ -6,9 +9,9 @@ export const DATABASES = z
   .transform((val) => {
     switch (val) {
       case "TASKRATCHET_CARDS":
-        return notionDatabaseIdTrCards.value();
+        return NOTION_DATABASE_ID_TR_CARDS.value();
       case "TODOS":
-        return notionDatabaseIdTodos.value();
+        return NOTION_DATABASE_ID_TODOS.value();
       default:
         throw new Error("Invalid database");
     }

@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { telegramApiToken } from "../../secrets.js";
+import { TELEGRAM_API_TOKEN } from "../../secrets.js";
 import { TelegramResponse } from "./types/TelegramResponse.js";
 import { TelegramMessage } from "./types/TelegramMessage.js";
 import { InlineKeyboardMarkup } from "./types/InlineKeyboardMarkup.js";
@@ -59,7 +59,7 @@ export function deleteMessage(data: {
 }
 
 async function api<T>(p: string, o: AxiosRequestConfig = {}): Promise<T> {
-  const t = telegramApiToken.value();
+  const t = TELEGRAM_API_TOKEN.value();
   const u = `https://api.telegram.org/bot${t}/${p}`;
 
   const r = await axios<TelegramResponse<T>>(u, o).catch((err) => {

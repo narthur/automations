@@ -1,5 +1,5 @@
 import { Client } from "@notionhq/client";
-import { notionApiKey } from "../secrets.js";
+import { NOTION_API_KEY } from "../secrets.js";
 import {
   CreatePageResponse,
   QueryDatabaseParameters,
@@ -17,7 +17,7 @@ let client: Client | null = null;
 function getNotion() {
   if (!client) {
     client = new Client({
-      auth: notionApiKey.value(),
+      auth: NOTION_API_KEY.value(),
     });
   }
 

@@ -1,5 +1,5 @@
 import { TelegramUpdate } from "src/services/telegram/types/TelegramUpdate.js";
-import { telegramAllowedUser, telegramWebhookToken } from "../secrets.js";
+import { TELEGRAM_ALLOWED_USER, TELEGRAM_WEBHOOK_TOKEN } from "../secrets.js";
 import getSlashCommandResponse from "./getSlashCommandResponse.js";
 import { tryWithRelay } from "../services/telegram/tryWithRelay.js";
 import { sendMessages } from "src/services/telegram/sendMessages.js";
@@ -13,7 +13,7 @@ export default async function handleBotRequest(
 ) {
   const isTelegram =
     req.headers["x-telegram-bot-api-secret-token"] ===
-    telegramWebhookToken.value();
+    TELEGRAM_WEBHOOK_TOKEN.value();
 
   if (!isTelegram) {
     res.status(403).send("Forbidden");
@@ -30,7 +30,7 @@ export default async function handleBotRequest(
 
   const { text, from, chat } = message;
 
-  const isAllowedUser = String(from?.id) === telegramAllowedUser.value();
+  const isAllowedUser = String(from?.id) === TELEGRAM_ALLOWED_USER.value();
 
   if (!isAllowedUser) {
     res.status(403).send("Forbidden");

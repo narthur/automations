@@ -1,4 +1,4 @@
-import { telegramChatId } from "../secrets.js";
+import { TELEGRAM_CHAT_ID } from "../secrets.js";
 import { getGoals } from "../services/beeminder.js";
 import isNotificationDue from "../transforms/isNotificationDue.js";
 import { deleteMessage, sendMessage } from "../services/telegram/index.js";
@@ -28,7 +28,7 @@ export default async function zeno() {
   }
 
   const m = await sendMessage({
-    chat_id: telegramChatId.value(),
+    chat_id: TELEGRAM_CHAT_ID.value(),
     text: `🚨 ${next.slug}: ${next.limsum}`,
   });
 

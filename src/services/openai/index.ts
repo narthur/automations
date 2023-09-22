@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { openAiSecretKey } from "../../secrets.js";
+import { OPENAI_SECRET_KEY } from "../../secrets.js";
 import {
   ChatCompletionCreateParams,
   ChatCompletionMessage,
@@ -15,7 +15,7 @@ let openai: OpenAI | undefined;
 function getOpenAi() {
   if (!openai) {
     openai = new OpenAI({
-      apiKey: openAiSecretKey.value(),
+      apiKey: OPENAI_SECRET_KEY.value(),
     });
   }
 
