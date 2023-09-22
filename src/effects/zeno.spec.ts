@@ -5,10 +5,6 @@ import { Goal } from "../services/beeminder.types.js";
 import { deleteMessage, sendMessage } from "../services/telegram/index.js";
 import { TelegramMessage } from "src/services/telegram/types/TelegramMessage.js";
 
-function run(): Promise<void> {
-  return (zeno as any)();
-}
-
 describe("zeno", () => {
   beforeEach(() => {
     vi.useFakeTimers();
@@ -29,7 +25,7 @@ describe("zeno", () => {
   });
 
   it("sends alerts", async () => {
-    await run();
+    await zeno();
 
     expect(sendMessage).toBeCalled();
   });
@@ -44,8 +40,8 @@ describe("zeno", () => {
 
     vi.mocked(sendMessage).mockResolvedValue(m);
 
-    await run();
-    await run();
+    await zeno();
+    await zeno();
 
     expect(deleteMessage).toBeCalled();
   });
@@ -53,6 +49,6 @@ describe("zeno", () => {
   it("recovers from failed delete", () => {
     vi.mocked(deleteMessage).mockRejectedValueOnce(new Error("foo"));
 
-    expect(run).not.toThrow();
+    expect(zeno).not.toThrow();
   });
 });
