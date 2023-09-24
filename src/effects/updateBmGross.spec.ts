@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { getProjects, getTimeEntries } from "../services/toggl/index.js";
 import { createDatapoint } from "../services/beeminder.js";
 import updateBmGross from "./updateBmGross.js";
+import uniq from "src/transforms/uniq.js";
 
 describe("gross", () => {
   it("gets time entries", async () => {
@@ -159,5 +160,16 @@ describe("gross", () => {
     await updateBmGross();
 
     expect(getProjects).toBeCalledTimes(1);
+  });
+
+  it("sets daystamp to each day of week", async () => {
+    await updateBmGross();
+
+    const daystamps = vi
+      .mocked(createDatapoint)
+      .mock.calls.map((args) => args[2].daystamp);
+    const count = uniq(daystamps).length;
+
+    expect(count).toBe(7);
   });
 });

@@ -22,7 +22,7 @@ function sumPrimeEntries(
 async function doUpdate(date: Date, projects: TogglProject[]) {
   const entries = await getTimeEntries({ params: dateParams(date) });
   const value: number = sumPrimeEntries(entries, projects);
-  const daystamp = new Date().toISOString().split("T")[0];
+  const daystamp = date.toISOString().split("T")[0];
 
   await createDatapoint("narthur", "gross", {
     value,
