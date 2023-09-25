@@ -74,7 +74,11 @@ export async function getGoal(user: string, slug: string): Promise<Goal> {
   throw new Error(`Failed to get goal for ${slug}`);
 }
 
-export async function getGoals(): Promise<Goal[]> {
+export type GoalExtended = Goal & {
+  url: string;
+};
+
+export async function getGoals(): Promise<GoalExtended[]> {
   const rawAuths = BM_AUTHS.value();
   const entries = rawAuths.split(",").map(parse);
 
@@ -92,7 +96,10 @@ export async function getGoals(): Promise<Goal[]> {
       const data = response.data as unknown[];
 
       if (data.every(isGoal)) {
-        return data;
+        return data.map((g) => ({
+          ...g,
+          url: `https://www.beeminder.com/${user}/${g.slug}`,
+        }));
       }
 
       throw new Error(`Failed to get goals for ${user}`);

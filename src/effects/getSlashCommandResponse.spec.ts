@@ -46,4 +46,10 @@ describe("getSlashCommandResponse", () => {
 
     expect(getTimeEntries).toBeCalled();
   });
+
+  it("gets beetuning links", async () => {
+    await getSlashCommandResponse("/beetuning");
+
+    expect(getGoals).toBeCalled();
+  });
 });

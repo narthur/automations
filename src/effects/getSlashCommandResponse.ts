@@ -4,6 +4,7 @@ import generateInvoices from "./generateInvoices.js";
 import getBeemergencies from "./getBeemergencies.js";
 import { clearHistory } from "./history.js";
 import os from "os";
+import beetuning from "./beetuning.js";
 
 type Action = (
   message: string
@@ -32,6 +33,8 @@ s("reset", () => {
 });
 
 s("beemergencies", getBeemergencies);
+
+s("beetuning", beetuning);
 
 s("taskratchet", async () => {
   const tasks = await getPendingTasks();
