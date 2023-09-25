@@ -6,6 +6,10 @@ function loadGoals(goals: Partial<GoalExtended>[]) {
   vi.mocked(getGoals).mockResolvedValue(goals as any);
 }
 
+function makeLosedate(date: string) {
+  return new Date(date).getTime() / 1000;
+}
+
 describe("beetuning", () => {
   beforeEach(() => {
     vi.useFakeTimers();
@@ -26,7 +30,7 @@ describe("beetuning", () => {
     loadGoals([
       {
         slug: "first-goal",
-        losedate: new Date("2021-01-02T00:00:00.000Z").getTime() / 1000,
+        losedate: makeLosedate("2021-01-02T00:00:00.000Z"),
       },
     ]);
 
@@ -39,11 +43,11 @@ describe("beetuning", () => {
     loadGoals([
       {
         slug: "first-goal",
-        losedate: new Date("2021-01-02T00:00:00.000Z").getTime() / 1000,
+        losedate: makeLosedate("2021-01-02T00:00:00.000Z"),
       },
       {
         slug: "second-goal",
-        losedate: new Date("2021-01-03T00:00:00.000Z").getTime() / 1000,
+        losedate: makeLosedate("2021-01-03T00:00:00.000Z"),
       },
     ]);
 
@@ -57,7 +61,7 @@ describe("beetuning", () => {
     loadGoals([
       {
         slug: "first-goal",
-        losedate: new Date("2021-01-02T00:00:00.000Z").getTime() / 1000,
+        losedate: makeLosedate("2021-01-02T00:00:00.000Z"),
         url: "the_url",
       },
     ]);
@@ -71,7 +75,7 @@ describe("beetuning", () => {
     loadGoals([
       {
         slug: "first-goal",
-        losedate: new Date("2021-01-02T00:00:00.000Z").getTime() / 1000,
+        losedate: makeLosedate("2021-01-02T00:00:00.000Z"),
         url: "the_url",
       },
     ]);
