@@ -46,7 +46,6 @@
     "marked": "^9.0.3",
     "openai": "4.10.0",
     "p-queue": "^7.4.1",
-    "rxjs": "^7.8.1",
     "telegramify-markdown": "^1.1.0",
     "text-table": "^0.2.0",
     "tsx": "^3.12.10",
