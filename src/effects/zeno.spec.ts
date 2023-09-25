@@ -1,7 +1,6 @@
 import { describe, it, vi, beforeEach, afterEach, expect } from "vitest";
 import zeno from "./zeno.js";
-import { getGoals } from "../services/beeminder.js";
-import { Goal } from "../services/beeminder.types.js";
+import { GoalExtended, getGoals } from "../services/beeminder.js";
 import { deleteMessage, sendMessage } from "../services/telegram/index.js";
 import { TelegramMessage } from "src/services/telegram/types/TelegramMessage.js";
 
@@ -16,7 +15,7 @@ describe("zeno", () => {
         slug: "foo",
         safebuf: 0,
         losedate: 10,
-      } as Goal,
+      } as GoalExtended,
     ]);
   });
 
