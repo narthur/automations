@@ -19,7 +19,7 @@ export async function sendEmail({
   markdown: string;
   subject: string;
   from?: string;
-}): Promise<unknown> {
+}): Promise<Mailgun.MessagesSendResult> {
   console.info("Sending email", { recipients, subject });
   return client.messages.create(MAILGUN_DOMAIN.value(), {
     from: `Nathan Arthur <${from}>`,

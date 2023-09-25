@@ -25,7 +25,7 @@ beforeEach(() => {
   vi.mocked(deleteMessage).mockResolvedValue({});
   vi.mocked(getPendingTasks).mockResolvedValue([]);
   vi.mocked(setWebhook).mockResolvedValue({});
-  vi.mocked(sendEmail).mockResolvedValue({});
+  vi.mocked(sendEmail).mockResolvedValue({} as any);
   vi.mocked(getClients).mockResolvedValue([]);
   vi.mocked(getGoals).mockResolvedValue([]);
 });
