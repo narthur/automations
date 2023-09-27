@@ -33,5 +33,7 @@ beforeEach(() => {
   vi.mocked(getFiles).mockResolvedValue({
     files: [],
   } as any);
-  vi.mocked(getDocument).mockResolvedValue({} as any);
+  vi.mocked(getDocument).mockResolvedValue({
+    nodes: [],
+  } as any);
 });

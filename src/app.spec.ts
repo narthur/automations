@@ -6,6 +6,7 @@ import { setWebhook } from "./services/telegram/index.js";
 import { createTask, getPendingTasks } from "./services/taskratchet.js";
 import { getDocument, getFiles } from "./services/dynalist.js";
 import { afterEach } from "node:test";
+import { createDatapoint } from "./services/beeminder.js";
 
 describe("index", () => {
   beforeEach(() => {
@@ -128,6 +129,30 @@ describe("index", () => {
   });
 
   it("posts new nodes to beeminder", async () => {
+    vi.mocked(getFiles).mockResolvedValue({
+      files: [
+        {
+          type: "document",
+          id: "the_id",
+        },
+      ],
+    } as any);
+
+    vi.mocked(getDocument).mockResolvedValue({
+      nodes: [
+        {
+          id: "the_node_id",
+          content: "the_content",
+          created: 0,
+        },
+      ],
+    } as any);
+
     await request(app).get("/cron/dynalist");
+
+    expect(createDatapoint).toBeCalledWith("narthur", "dynanew", {
+      value: 1,
+      daystamp: "1970-01-01",
+    });
   });
 });
