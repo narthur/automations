@@ -77,4 +77,8 @@ describe("index", () => {
 
     expect(createTask).toBeCalled();
   });
+
+  it("gets dynalist data", async () => {
+    await request(app).get("/cron/dynalist");
+  });
 });
