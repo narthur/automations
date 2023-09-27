@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DynalistFile, Res } from "./dynalist.types.js";
+import { DynalistFile, DynalistNode, Res } from "./dynalist.types.js";
 
 // API docs:
 // https://apidocs.dynalist.io/
@@ -43,7 +43,14 @@ export const getDocument = makeRoute<
   {
     file_id: string;
   },
-  unknown
+  {
+    _code: string;
+    _msg: string;
+    file_id: string;
+    title: string;
+    nodes: DynalistNode[];
+    version: number;
+  }
 >("doc/read");
 
 export const getDocumentUpdates = makeRoute<

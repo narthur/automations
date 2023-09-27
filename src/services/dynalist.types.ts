@@ -25,12 +25,13 @@ type Folder = {
 
 export type DynalistFile = Document | Folder;
 
+// https://apidocs.dynalist.io/#get-content-of-a-document
 export type DynalistNode = {
   id: string;
   content: string;
   note: string;
-  created: number;
-  modified: number;
+  created: number; // timestamp in milliseconds
+  modified: number; // timestamp in milliseconds
   children: string[];
   collapsed?: boolean;
   heading?: 0 | 1 | 2 | 3;
