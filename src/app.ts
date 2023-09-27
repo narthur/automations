@@ -10,8 +10,7 @@ import createRecurringTasks from "./effects/createRecurringTasks.js";
 import cors from "cors";
 import * as Sentry from "@sentry/node";
 import { ProfilingIntegration } from "@sentry/profiling-node";
-import { getDocument, getFiles } from "./services/dynalist.js";
-import { createDatapoint } from "./services/beeminder.js";
+import updateDynalistGoals from "./effects/updateDynalistGoals.js";
 
 export const app = express();
 
@@ -59,25 +58,7 @@ _get("/cron/gross", updateBmGross);
 _get("/cron/morning", morning);
 _get("/cron/reratchet", createRecurringTasks);
 
-_get("/cron/dynalist", async () => {
-  const { files } = await getFiles();
-  const docs = files
-    .filter((f) => f.type === "document")
-    .map((f) => getDocument({ file_id: f.id }));
-  const daystamp = new Date().toISOString().slice(0, 10);
-  const allNodes = (await Promise.all(docs)).map((d) => d.nodes).flat();
-  const newNodes = allNodes.filter((n) => {
-    const created = new Date(n.created).toISOString().slice(0, 10);
-    return created === daystamp;
-  });
-
-  await createDatapoint("narthur", "dynanew", {
-    value: newNodes.length,
-    daystamp,
-  });
-
-  return "OK";
-});
+_get("/cron/dynalist", updateDynalistGoals);
 
 app.post("/toggl/hook", (req, res) => {
   // TODO: Validate events using TOGGL_SIGNING_SECRET
