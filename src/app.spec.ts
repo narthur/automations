@@ -1,12 +1,22 @@
 import { app } from "./app.js";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import request from "supertest";
 import { getTimeEntries } from "./services/toggl/index.js";
 import { setWebhook } from "./services/telegram/index.js";
 import { createTask, getPendingTasks } from "./services/taskratchet.js";
 import { getDocument, getFiles } from "./services/dynalist.js";
+import { afterEach } from "node:test";
 
 describe("index", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(0);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("runs", async () => {
     const res = await request(app).get("/");
 
@@ -115,5 +125,9 @@ describe("index", () => {
     await request(app).get("/cron/dynalist");
 
     expect(getDocument).not.toBeCalled();
+  });
+
+  it("posts new nodes to beeminder", async () => {
+    await request(app).get("/cron/dynalist");
   });
 });

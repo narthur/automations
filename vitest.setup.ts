@@ -8,6 +8,7 @@ import { deleteMessage, setWebhook } from "./src/services/telegram/index.js";
 import { getPendingTasks } from "./src/services/taskratchet.js";
 import { sendEmail } from "src/services/mailgun.js";
 import { getGoals } from "src/services/beeminder.js";
+import { getDocument, getFiles } from "src/services/dynalist.js";
 
 vi.mock("axios");
 vi.mock("./src/effects/defineSecret");
@@ -29,4 +30,8 @@ beforeEach(() => {
   vi.mocked(sendEmail).mockResolvedValue({} as any);
   vi.mocked(getClients).mockResolvedValue([]);
   vi.mocked(getGoals).mockResolvedValue([]);
+  vi.mocked(getFiles).mockResolvedValue({
+    files: [],
+  } as any);
+  vi.mocked(getDocument).mockResolvedValue({} as any);
 });
