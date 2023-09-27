@@ -10,6 +10,11 @@ import createRecurringTasks from "./effects/createRecurringTasks.js";
 import cors from "cors";
 import * as Sentry from "@sentry/node";
 import { ProfilingIntegration } from "@sentry/profiling-node";
+import {
+  getDocument,
+  getDocumentUpdates,
+  getFiles,
+} from "./services/dynalist.js";
 
 export const app = express();
 
@@ -57,7 +62,12 @@ _get("/cron/gross", updateBmGross);
 _get("/cron/morning", morning);
 _get("/cron/reratchet", createRecurringTasks);
 
-_get("/cron/dynalist", () => {
+_get("/cron/dynalist", async () => {
+  const { files } = await getFiles();
+  const docs = files
+    .filter((f) => f.type === "document")
+    .map((f) => getDocument({ file_id: f.id }));
+
   return "OK";
 });
 

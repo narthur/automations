@@ -50,7 +50,11 @@ export const getDocumentUpdates = makeRoute<
   {
     file_ids: string[];
   },
-  unknown
+  {
+    _code: string;
+    _msg: string;
+    versions: Record<string, number>;
+  }
 >("doc/check_for_updates");
 
 export const updateDocument = makePostRoute<

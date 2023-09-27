@@ -12,6 +12,7 @@ import { getGoals } from "src/services/beeminder.js";
 vi.mock("axios");
 vi.mock("./src/effects/defineSecret");
 vi.mock("./src/services/beeminder");
+vi.mock("./src/services/dynalist");
 vi.mock("./src/services/mailgun");
 vi.mock("./src/services/notion");
 vi.mock("./src/services/openai");

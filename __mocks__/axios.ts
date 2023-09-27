@@ -60,6 +60,11 @@ const axios: any = {
       common: {},
     },
   },
+  interceptors: {
+    request: {
+      use: vi.fn(),
+    },
+  },
 };
 
 beforeEach(() => {

@@ -1,9 +1,10 @@
 import { app } from "./app.js";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import request from "supertest";
 import { getTimeEntries } from "./services/toggl/index.js";
 import { setWebhook } from "./services/telegram/index.js";
 import { createTask, getPendingTasks } from "./services/taskratchet.js";
+import { getDocument, getFiles } from "./services/dynalist.js";
 
 describe("index", () => {
   it("runs", async () => {
@@ -78,7 +79,41 @@ describe("index", () => {
     expect(createTask).toBeCalled();
   });
 
-  it("gets dynalist data", async () => {
+  it("gets dynalist files", async () => {
     await request(app).get("/cron/dynalist");
+
+    expect(getFiles).toBeCalled();
+  });
+
+  it("gets dynalist documents", async () => {
+    vi.mocked(getFiles).mockResolvedValue({
+      files: [
+        {
+          type: "document",
+          id: "the_id",
+        },
+      ],
+    } as any);
+
+    await request(app).get("/cron/dynalist");
+
+    expect(getDocument).toBeCalledWith({
+      file_id: "the_id",
+    });
+  });
+
+  it("does not get folders", async () => {
+    vi.mocked(getFiles).mockResolvedValue({
+      files: [
+        {
+          type: "folder",
+          id: "the_id",
+        },
+      ],
+    } as any);
+
+    await request(app).get("/cron/dynalist");
+
+    expect(getDocument).not.toBeCalled();
   });
 });
