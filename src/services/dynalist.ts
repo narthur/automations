@@ -86,9 +86,12 @@ function makeRoute<T extends Record<string, unknown>, D = unknown>(
       },
     });
 
-    console.dir(r.request, {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    console.dir(r.request.data, {
       depth: 10,
     });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    console.log(r.request.method);
 
     if (r.data._code !== "OK") {
       throw new Error(r.data._msg);
