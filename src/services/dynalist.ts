@@ -1,5 +1,6 @@
 import axios from "axios";
 import { DynalistFile, DynalistNode, Res } from "./dynalist.types.js";
+import { DYNALIST_TOKEN } from "src/secrets.js";
 
 // API docs:
 // https://apidocs.dynalist.io/
@@ -18,9 +19,8 @@ client.interceptors.request.use((config) => {
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   config.params = config.params || {};
-  // TODO: create a secret for this
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  config.params.token = "todo";
+  config.params.token = DYNALIST_TOKEN.value();
   return config;
 });
 
@@ -97,20 +97,15 @@ export const uploadFile = makePostRoute<
 function makePostRoute<T extends Record<string, unknown>, D>(
   route: string
 ): (params?: T) => Promise<D> {
-  return makeRoute<T, D>(route, { method: "post" });
+  return makeRoute<T, D>(route);
 }
 
 function makeRoute<T extends Record<string, unknown>, D>(
-  route: string,
-  {
-    method = "get",
-  }: {
-    method?: "get" | "post";
-  } = {}
+  route: string
 ): (params?: T) => Promise<D> {
   return async (params): Promise<D> => {
     const r = await client<Res<D>>(route, {
-      method,
+      method: "post",
       params,
     });
 
