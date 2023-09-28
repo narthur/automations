@@ -89,6 +89,7 @@ function makeRoute<T extends Record<string, unknown>, D = unknown>(
     console.log(DYNALIST_TOKEN.value());
 
     if (r.data._code !== "OK") {
+      console.log(r.data);
       throw new Error(r.data._msg);
     }
 
