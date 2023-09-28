@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DynalistFile, DynalistNode, Res } from "./dynalist.types.js";
+import { DynalistFile, DynalistNode, Ok, Res } from "./dynalist.types.js";
 import { DYNALIST_TOKEN } from "src/secrets.js";
 
 // API docs:
@@ -72,11 +72,15 @@ export const uploadFile = makeRoute<{
   data: string; // base64 encoded
 }>("file/upload");
 
+function isOk<T>(r: Record<string, unknown>): r is Ok<T> & { _code: "OK" } {
+  return new String(r._code).toLowerCase() === "ok";
+}
+
 function makeRoute<T extends Record<string, unknown>, D = unknown>(
   route: string
 ): (params?: T) => Promise<D> {
   return async (params): Promise<D> => {
-    const r = await client<Res<D>>(route, {
+    const { data } = await client<Res<D>>(route, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -86,13 +90,11 @@ function makeRoute<T extends Record<string, unknown>, D = unknown>(
       },
     });
 
-    console.log(DYNALIST_TOKEN.value());
-
-    if (r.data._code !== "OK") {
-      console.log(r.data);
-      throw new Error(r.data._msg);
+    if (!isOk<D>(data)) {
+      console.log(data);
+      throw new Error(data._msg);
     }
 
-    return r.data;
+    return data;
   };
 }

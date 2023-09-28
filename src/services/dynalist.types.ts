@@ -3,7 +3,7 @@ type Error = {
   _msg: string;
 };
 
-type Ok<T> = { _code: "OK"; _msg: "" } & T;
+export type Ok<T> = { _code: "OK"; _msg: "" } & T;
 
 export type Res<T> = Error | Ok<T>;
 
