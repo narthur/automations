@@ -87,7 +87,7 @@ function makeRoute<T extends Record<string, unknown>, D = unknown>(
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    console.dir(r.request.data, {
+    console.dir(r.request.body, {
       depth: 10,
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
