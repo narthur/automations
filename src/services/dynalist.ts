@@ -12,6 +12,9 @@ import { DYNALIST_TOKEN } from "src/secrets.js";
 const client = axios.create({
   baseURL: "https://dynalist.io/api/v1",
   method: "post",
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 client.interceptors.request.use((config) => {
