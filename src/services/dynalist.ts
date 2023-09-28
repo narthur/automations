@@ -86,6 +86,10 @@ function makeRoute<T extends Record<string, unknown>, D = unknown>(
       },
     });
 
+    console.dir(r.request, {
+      depth: 10,
+    });
+
     if (r.data._code !== "OK") {
       throw new Error(r.data._msg);
     }
