@@ -80,7 +80,7 @@ function makeRoute<T extends Record<string, unknown>, D = unknown>(
       headers: {
         "Content-Type": "application/json",
       },
-      params: {
+      data: {
         ...params,
         token: DYNALIST_TOKEN.value(),
       },
