@@ -11,6 +11,7 @@ import { DYNALIST_TOKEN } from "src/secrets.js";
 
 const client = axios.create({
   baseURL: "https://dynalist.io/api/v1",
+  method: "post",
 });
 
 client.interceptors.request.use((config) => {
@@ -105,7 +106,6 @@ function makeRoute<T extends Record<string, unknown>, D>(
 ): (params?: T) => Promise<D> {
   return async (params): Promise<D> => {
     const r = await client<Res<D>>(route, {
-      method: "post",
       params,
     });
 
