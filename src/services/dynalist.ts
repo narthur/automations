@@ -17,17 +17,6 @@ const client = axios.create({
   },
 });
 
-client.interceptors.request.use((config) => {
-  // WORKAROUND: eslint rules disabled because the upstream type
-  // defines params as `any`.
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  config.params = config.params || {};
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  config.params.token = DYNALIST_TOKEN.value();
-  return config;
-});
-
 export const getFiles = makeRoute<
   Record<string, never>,
   {
@@ -91,7 +80,10 @@ function makeRoute<T extends Record<string, unknown>, D = unknown>(
 ): (params?: T) => Promise<D> {
   return async (params): Promise<D> => {
     const r = await client<Res<D>>(route, {
-      params,
+      params: {
+        ...params,
+        token: DYNALIST_TOKEN.value(),
+      },
     });
 
     if (r.data._code !== "OK") {
