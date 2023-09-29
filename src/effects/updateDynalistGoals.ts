@@ -14,7 +14,8 @@ function ds(date: Date): string {
 async function updateDynanew(date: Date, docs: Document[]) {
   const daystamp = ds(date);
   const nodes = docs.map((d) => d.nodes).flat();
-  const matches = nodes.filter((n) => ds(new Date(n.created)) === daystamp);
+  const isOnDate = (n: DynalistNode) => ds(new Date(n.created)) === daystamp;
+  const matches = nodes.filter(isOnDate);
 
   await createDatapoint("narthur", "dynanew", {
     value: matches.length,
