@@ -153,6 +153,28 @@ describe("index", () => {
     expect(createDatapoint).toBeCalledWith("narthur", "dynanew", {
       value: 1,
       daystamp: "1970-01-01",
+      requestid: "1970-01-01",
     });
+  });
+
+  it("updates datapoints for past week", async () => {
+    await request(app).get("/cron/dynalist");
+
+    expect(createDatapoint).toBeCalledTimes(7);
+  });
+
+  it("only gets each document once", async () => {
+    vi.mocked(getFiles).mockResolvedValue({
+      files: [
+        {
+          type: "document",
+          id: "the_id",
+        },
+      ],
+    } as any);
+
+    await request(app).get("/cron/dynalist");
+
+    expect(getDocument).toBeCalledTimes(1);
   });
 });
