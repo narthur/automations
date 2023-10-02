@@ -1,6 +1,6 @@
 import { createDatapoint } from "src/services/beeminder.js";
 import { getDocument, getFiles } from "src/services/dynalist.js";
-import getWeekDates from "./getWeekDates.js";
+import getWeekDates from "../effects/getWeekDates.js";
 import { DynalistNode } from "src/services/dynalist.types.js";
 
 type Document = {
@@ -11,7 +11,7 @@ function ds(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
 
-async function updateDynanew(date: Date, docs: Document[]) {
+async function updateDatapoint(date: Date, docs: Document[]) {
   const daystamp = ds(date);
   const nodes = docs.map((d) => d.nodes).flat();
   const isOnDate = (n: DynalistNode) => ds(new Date(n.created)) === daystamp;
@@ -24,7 +24,7 @@ async function updateDynanew(date: Date, docs: Document[]) {
   });
 }
 
-export default async function updateDynalistGoals() {
+export async function update() {
   const { files } = await getFiles();
   const docs: Document[] = await Promise.all(
     files
@@ -32,5 +32,5 @@ export default async function updateDynalistGoals() {
       .map((f) => getDocument({ file_id: f.id }))
   );
 
-  await Promise.all(getWeekDates().map((d) => updateDynanew(d, docs)));
+  await Promise.all(getWeekDates().map((d) => updateDatapoint(d, docs)));
 }

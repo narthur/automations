@@ -10,7 +10,7 @@ import createRecurringTasks from "./effects/createRecurringTasks.js";
 import cors from "cors";
 import * as Sentry from "@sentry/node";
 import { ProfilingIntegration } from "@sentry/profiling-node";
-import updateDynalistGoals from "./effects/updateDynalistGoals.js";
+import * as dynanew from "./goals/dynanew.js";
 
 export const app = express();
 
@@ -57,8 +57,7 @@ _get("/cron/av-prime", avPrime);
 _get("/cron/gross", updateBmGross);
 _get("/cron/morning", morning);
 _get("/cron/reratchet", createRecurringTasks);
-
-_get("/cron/dynalist", updateDynalistGoals);
+_get("/cron/dynalist", dynanew.update);
 
 app.post("/toggl/hook", (req, res) => {
   // TODO: Validate events using TOGGL_SIGNING_SECRET
