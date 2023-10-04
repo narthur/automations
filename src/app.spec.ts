@@ -7,6 +7,7 @@ import { createTask, getPendingTasks } from "./services/taskratchet.js";
 import { getDocument, getFiles } from "./services/dynalist.js";
 import { afterEach } from "node:test";
 import { createDatapoint } from "./services/beeminder.js";
+import getTimeSummary from "./services/toggl/getTimeSummary.js";
 
 describe("index", () => {
   beforeEach(() => {
@@ -69,7 +70,7 @@ describe("index", () => {
     expect(res.status).toBe(200);
     expect(res.text).toBe("OK");
 
-    expect(getTimeEntries).toBeCalled();
+    expect(getTimeSummary).toBeCalled();
   });
 
   it("runs morning flow", async () => {

@@ -157,3 +157,67 @@ export type TogglClient = {
   // Workspace ID
   wid: number;
 };
+
+export type TogglMe = {
+  id: number;
+  api_token: string;
+  email: string;
+  fullname: string;
+  timezone: string;
+  toggl_accounts_id: string;
+  default_workspace_id: number;
+  beginning_of_week: number;
+  image_url: string;
+  created_at: string;
+  updated_at: string;
+  openid_email: null;
+  openid_enabled: boolean;
+  country_id: number;
+  has_password: boolean;
+  at: string;
+  intercom_hash: string;
+  oauth_providers: string[];
+};
+
+export type TogglProjectSummaries = Array<{
+  user_id: number;
+  project_id: number;
+  tracked_seconds: number;
+  billable_seconds: number;
+}>;
+
+export type TogglProjectSummary = {
+  seconds: number;
+  billable_amount_in_cents: number;
+  rates: Array<{
+    billable_seconds: number;
+    hourly_rate_in_cents: number;
+    currency: string;
+  }>;
+  graph: Array<{
+    seconds: number;
+    billable_amount_in_cents?: number;
+    by_rate: Record<string, number>;
+  }>;
+  resolution: string;
+};
+
+export type TogglTimeSummaryEntry = {
+  id: number | null;
+  title: string | null;
+  seconds: number;
+  rates: Array<{
+    billable_seconds: number;
+    hourly_rate_in_cents: number;
+    currency: string;
+  }>;
+};
+
+export type TogglTimeSummaryGroup = {
+  id: number;
+  sub_groups: Array<TogglTimeSummaryEntry>;
+};
+
+export type TogglTimeSummary = {
+  groups: Array<TogglTimeSummaryGroup>;
+};

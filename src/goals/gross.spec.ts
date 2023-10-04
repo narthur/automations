@@ -1,84 +1,12 @@
 import { describe, it, expect, vi } from "vitest";
-import { getProjects, getTimeEntries } from "../services/toggl/index.js";
+import { getMe } from "../services/toggl/index.js";
 import { createDatapoint } from "../services/beeminder.js";
 import { update } from "./gross.js";
 import uniq from "src/transforms/uniq.js";
+import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 
 describe("gross", () => {
-  it("gets time entries", async () => {
-    await update();
-
-    expect(getTimeEntries).toBeCalled();
-  });
-
-  it("gets projects", async () => {
-    await update();
-
-    expect(getProjects).toBeCalled();
-  });
-
-  it("posts to gross goal", async () => {
-    vi.mocked(getTimeEntries).mockResolvedValue([
-      {
-        project_id: 7,
-        description: "bar",
-        duration: 3600,
-        billable: true,
-      } as any,
-    ]);
-
-    vi.mocked(getProjects).mockResolvedValue([
-      {
-        id: 7,
-        billable: true,
-        rate: 1,
-        active: true,
-      } as any,
-    ]);
-
-    await update();
-
-    expect(createDatapoint).toBeCalledWith(
-      "narthur",
-      "gross",
-      expect.objectContaining({
-        value: 1,
-      })
-    );
-  });
-
-  it("fetches only time entries for current day", async () => {
-    await update();
-
-    expect(getTimeEntries).toBeCalledWith(
-      expect.objectContaining({
-        params: expect.objectContaining({
-          start_date: expect.stringMatching(/^\d\d\d\d-\d\d-\d\d$/),
-          end_date: expect.stringMatching(/^\d\d\d\d-\d\d-\d\d$/),
-        }),
-      })
-    );
-  });
-
   it("sets requestid to daystamp", async () => {
-    vi.mocked(getTimeEntries).mockResolvedValue([
-      {
-        project_id: 7,
-        description: "bar",
-        duration: 3600,
-        billable: true,
-      } as any,
-    ]);
-
-    vi.mocked(getProjects).mockResolvedValue([
-      {
-        id: 7,
-        billable: true,
-        rate: 1,
-        active: true,
-      } as any,
-    ]);
-
     await update();
 
     expect(createDatapoint).toBeCalledWith(
@@ -91,24 +19,6 @@ describe("gross", () => {
   });
 
   it("does not count negative durations", async () => {
-    vi.mocked(getTimeEntries).mockResolvedValue([
-      {
-        project_id: 7,
-        description: "bar",
-        duration: -3600,
-        billable: true,
-      } as any,
-    ]);
-
-    vi.mocked(getProjects).mockResolvedValue([
-      {
-        id: 7,
-        billable: true,
-        rate: 1,
-        active: true,
-      } as any,
-    ]);
-
     await update();
 
     expect(createDatapoint).toBeCalledWith(
@@ -121,24 +31,6 @@ describe("gross", () => {
   });
 
   it("does not include non-billable time entries", async () => {
-    vi.mocked(getTimeEntries).mockResolvedValue([
-      {
-        project_id: 7,
-        description: "bar",
-        duration: 3600,
-        billable: false,
-      } as any,
-    ]);
-
-    vi.mocked(getProjects).mockResolvedValue([
-      {
-        id: 7,
-        billable: true,
-        rate: 1,
-        active: true,
-      } as any,
-    ]);
-
     await update();
 
     expect(createDatapoint).toBeCalledWith(
@@ -156,12 +48,6 @@ describe("gross", () => {
     expect(createDatapoint).toBeCalledTimes(7);
   });
 
-  it("only gets projects once", async () => {
-    await update();
-
-    expect(getProjects).toBeCalledTimes(1);
-  });
-
   it("sets daystamp to each day of week", async () => {
     await update();
 
@@ -171,5 +57,111 @@ describe("gross", () => {
     const count = uniq(daystamps).length;
 
     expect(count).toBe(7);
+  });
+
+  it("gets me", async () => {
+    await update();
+
+    expect(getMe).toBeCalled();
+  });
+
+  it("gets time summary", async () => {
+    await update();
+
+    expect(getTimeSummary).toBeCalled();
+  });
+
+  it("groups by user", async () => {
+    await update();
+
+    expect(getTimeSummary).toBeCalledWith(
+      expect.objectContaining({
+        grouping: "users",
+      })
+    );
+  });
+
+  it("sums main user entries", async () => {
+    vi.mocked(getMe).mockResolvedValue({
+      id: 3,
+      default_workspace_id: 1,
+    } as any);
+
+    vi.mocked(getTimeSummary).mockResolvedValue({
+      groups: [
+        {
+          id: 3,
+          sub_groups: [
+            {
+              id: null,
+              title: "the_title",
+              seconds: 3600,
+              rates: [
+                {
+                  billable_seconds: 3600,
+                  hourly_rate_in_cents: 100,
+                  currency: "usd",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    await update();
+
+    expect(createDatapoint).toBeCalledWith(
+      "narthur",
+      "gross",
+      expect.objectContaining({
+        value: 1,
+      })
+    );
+  });
+
+  it("sums sub user entries", async () => {
+    vi.mocked(getMe).mockResolvedValue({
+      id: 3,
+      default_workspace_id: 1,
+    } as any);
+
+    vi.mocked(getTimeSummary).mockResolvedValue({
+      groups: [
+        {
+          id: 5,
+          sub_groups: [
+            {
+              id: null,
+              title: "the_title",
+              seconds: 3600,
+              rates: [
+                {
+                  billable_seconds: 3600,
+                  hourly_rate_in_cents: 100,
+                  currency: "usd",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    await update();
+
+    expect(createDatapoint).toBeCalledWith(
+      "narthur",
+      "gross",
+      expect.objectContaining({
+        value: 0.3,
+      })
+    );
+  });
+
+  it("gets me only once", async () => {
+    await update();
+
+    expect(getMe).toBeCalledTimes(1);
   });
 });

@@ -1,6 +1,7 @@
 import { beforeEach, vi } from "vitest";
 import {
   getClients,
+  getMe,
   getProjects,
   getTimeEntries,
 } from "./src/services/toggl/index.js";
@@ -9,6 +10,7 @@ import { getPendingTasks } from "./src/services/taskratchet.js";
 import { sendEmail } from "src/services/mailgun.js";
 import { getGoals } from "src/services/beeminder.js";
 import { getDocument, getFiles } from "src/services/dynalist.js";
+import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 
 vi.mock("axios");
 vi.mock("./src/effects/defineSecret");
@@ -19,6 +21,7 @@ vi.mock("./src/services/notion");
 vi.mock("./src/services/openai");
 vi.mock("./src/services/telegram");
 vi.mock("./src/services/toggl");
+vi.mock("./src/services/toggl/getTimeSummary");
 vi.mock("./src/services/taskratchet");
 
 beforeEach(() => {
@@ -36,4 +39,10 @@ beforeEach(() => {
   vi.mocked(getDocument).mockResolvedValue({
     nodes: [],
   } as any);
+  vi.mocked(getMe).mockResolvedValue({
+    default_workspace_id: 1,
+  } as any);
+  vi.mocked(getTimeSummary).mockResolvedValue({
+    groups: [],
+  });
 });

@@ -1,16 +1,13 @@
-import axios, { AxiosRequestConfig } from "axios";
-import { TOGGL_API_TOKEN } from "../../secrets.js";
-import { TimeEntry, TogglClient, TogglProject, TogglTask } from "./types.js";
-import PQueue from "p-queue";
-
-const client = axios.create({
-  baseURL: "https://api.track.toggl.com/api/v9",
-});
-
-const token = TOGGL_API_TOKEN.value();
-const auth = Buffer.from(`${token}:api_token`).toString("base64");
-
-client.defaults.headers.common.Authorization = `Basic ${auth}`;
+import { AxiosRequestConfig } from "axios";
+import {
+  TimeEntry,
+  TogglClient,
+  TogglMe,
+  TogglProject,
+  TogglProjectSummaries,
+  TogglTask,
+} from "./types.js";
+import client from "./client.js";
 
 export function getProjects(options: AxiosRequestConfig = {}) {
   return api<TogglProject[]>("me/projects", options);
@@ -49,15 +46,58 @@ export function getTasks(
   );
 }
 
-const queue = new PQueue({
-  intervalCap: 1,
-  interval: 1000,
-  throwOnTimeout: true,
-});
+export function getMe() {
+  return api<TogglMe>("me");
+}
+
+export function getProjectSummaries(
+  workspaceId: number,
+  startDate: Date,
+  endDate: Date
+) {
+  return reports<TogglProjectSummaries>(
+    `workspace/${workspaceId}/projects/summary`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {
+        start_date: startDate.toISOString().split("T")[0],
+        end_date: endDate.toISOString().split("T")[0],
+      },
+    }
+  );
+}
+
+export function getProjectSummary(
+  workspaceId: number,
+  projectId: number,
+  startDate: Date,
+  endDate: Date
+) {
+  return reports<TogglProjectSummaries>(
+    `workspace/${workspaceId}/projects/${projectId}/summary`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {
+        start_date: startDate.toISOString().split("T")[0],
+        end_date: endDate.toISOString().split("T")[0],
+      },
+    }
+  );
+}
 
 async function api<T>(p: string, o: AxiosRequestConfig = {}): Promise<T> {
-  const result = await queue.add(() => client(p, o).then((r) => r.data as T));
-  // WORKAROUND: https://github.com/sindresorhus/p-queue/issues/175
-  if (!result) throw new Error("No Toggl API result");
-  return result;
+  return client(`api/v9/${p}`, o);
+}
+
+export async function reports<T>(
+  p: string,
+  o: AxiosRequestConfig = {}
+): Promise<T> {
+  return client(`reports/api/v3/${p}`, o);
 }
