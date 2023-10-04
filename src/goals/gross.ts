@@ -3,7 +3,7 @@ import { isBillable } from "../services/toggl/isBillable.js";
 import { createDatapoint } from "../services/beeminder.js";
 import dateParams from "../services/toggl/dateParams.js";
 import { TimeEntry, TogglProject } from "src/services/toggl/types.js";
-import getWeekDates from "./getWeekDates.js";
+import getWeekDates from "src/effects/getWeekDates.js";
 
 function sumPrimeEntries(
   entries: TimeEntry[],
@@ -31,7 +31,7 @@ async function doUpdate(date: Date, projects: TogglProject[]) {
   });
 }
 
-export default async function updateBmGross() {
+export async function update() {
   const dates = getWeekDates();
   const projects = await getProjects();
 

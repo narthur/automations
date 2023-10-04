@@ -1,18 +1,18 @@
 import { describe, it, expect, vi } from "vitest";
 import { getProjects, getTimeEntries } from "../services/toggl/index.js";
 import { createDatapoint } from "../services/beeminder.js";
-import updateBmGross from "./updateBmGross.js";
+import { update } from "./gross.js";
 import uniq from "src/transforms/uniq.js";
 
 describe("gross", () => {
   it("gets time entries", async () => {
-    await updateBmGross();
+    await update();
 
     expect(getTimeEntries).toBeCalled();
   });
 
   it("gets projects", async () => {
-    await updateBmGross();
+    await update();
 
     expect(getProjects).toBeCalled();
   });
@@ -36,7 +36,7 @@ describe("gross", () => {
       } as any,
     ]);
 
-    await updateBmGross();
+    await update();
 
     expect(createDatapoint).toBeCalledWith(
       "narthur",
@@ -48,7 +48,7 @@ describe("gross", () => {
   });
 
   it("fetches only time entries for current day", async () => {
-    await updateBmGross();
+    await update();
 
     expect(getTimeEntries).toBeCalledWith(
       expect.objectContaining({
@@ -79,7 +79,7 @@ describe("gross", () => {
       } as any,
     ]);
 
-    await updateBmGross();
+    await update();
 
     expect(createDatapoint).toBeCalledWith(
       "narthur",
@@ -109,7 +109,7 @@ describe("gross", () => {
       } as any,
     ]);
 
-    await updateBmGross();
+    await update();
 
     expect(createDatapoint).toBeCalledWith(
       "narthur",
@@ -139,7 +139,7 @@ describe("gross", () => {
       } as any,
     ]);
 
-    await updateBmGross();
+    await update();
 
     expect(createDatapoint).toBeCalledWith(
       "narthur",
@@ -151,19 +151,19 @@ describe("gross", () => {
   });
 
   it("runs for previous week", async () => {
-    await updateBmGross();
+    await update();
 
     expect(createDatapoint).toBeCalledTimes(7);
   });
 
   it("only gets projects once", async () => {
-    await updateBmGross();
+    await update();
 
     expect(getProjects).toBeCalledTimes(1);
   });
 
   it("sets daystamp to each day of week", async () => {
-    await updateBmGross();
+    await update();
 
     const daystamps = vi
       .mocked(createDatapoint)

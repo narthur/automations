@@ -4,7 +4,7 @@ import handleBotRequest from "./effects/handleBotRequest.js";
 import { setWebhook } from "./services/telegram/index.js";
 import { SENTRY_DSN, TELEGRAM_WEBHOOK_TOKEN } from "./secrets.js";
 import getFullUrl from "./transforms/getFullUrl.js";
-import updateBmGross from "./effects/updateBmGross.js";
+import * as gross from "./goals/gross.js";
 import morning from "./effects/morning.js";
 import createRecurringTasks from "./effects/createRecurringTasks.js";
 import cors from "cors";
@@ -54,7 +54,7 @@ function _get(path: string, fn: Fn) {
 
 _get("/", () => "Hello World!");
 _get("/cron/av-prime", avPrime);
-_get("/cron/gross", updateBmGross);
+_get("/cron/gross", gross.update);
 _get("/cron/morning", morning);
 _get("/cron/reratchet", createRecurringTasks);
 _get("/cron/dynalist", dynanew.update);
