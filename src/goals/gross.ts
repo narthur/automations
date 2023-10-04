@@ -5,10 +5,7 @@ import dateParams from "../services/toggl/dateParams.js";
 import { TimeEntry, TogglProject } from "src/services/toggl/types.js";
 import getWeekDates from "src/effects/getWeekDates.js";
 
-function sumPrimeEntries(
-  entries: TimeEntry[],
-  projects: TogglProject[]
-): number {
+function sumEntries(entries: TimeEntry[], projects: TogglProject[]): number {
   return entries
     .filter((e) => !!e.project_id && e.duration > 0 && e.billable)
     .reduce((acc: number, entry: TimeEntry): number => {
@@ -21,7 +18,7 @@ function sumPrimeEntries(
 
 async function doUpdate(date: Date, projects: TogglProject[]) {
   const entries = await getTimeEntries({ params: dateParams(date) });
-  const value: number = sumPrimeEntries(entries, projects);
+  const value: number = sumEntries(entries, projects);
   const daystamp = date.toISOString().split("T")[0];
 
   await createDatapoint("narthur", "gross", {
