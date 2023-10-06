@@ -21,16 +21,20 @@ export async function createDatapoint(
   data: DatapointInput
 ) {
   const url = `https://www.beeminder.com/api/v1/users/${user}/goals/${slug}/datapoints.json`;
-  const options = {
-    auth_token: getToken(user),
-    validateStatus: (status: number) => {
-      // Beeminder returns a 422 when the datapoint already exists.
-      return (status >= 200 && status < 300) || status === 422;
-    },
-    ...data,
-  };
 
-  await axios.post(url, options);
+  await axios.post(
+    url,
+    {
+      auth_token: getToken(user),
+      ...data,
+    },
+    {
+      validateStatus: (status: number) => {
+        // Beeminder returns a 422 when the datapoint already exists.
+        return (status >= 200 && status < 300) || status === 422;
+      },
+    }
+  );
 }
 
 function isGoal(obj: unknown): obj is Goal {
