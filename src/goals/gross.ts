@@ -8,11 +8,14 @@ import {
 import getWeekDates from "src/effects/getWeekDates.js";
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 
+const SECONDS_IN_HOUR = 3600;
+
 function sumRates(rates: TogglTimeSummaryEntry["rates"]): number {
   return rates.reduce<number>((acc, rate) => {
-    const hours = rate.billable_seconds / 3600;
-    const dollarRate = rate.hourly_rate_in_cents / 100;
-    return acc + hours * dollarRate;
+    const hours = rate.billable_seconds / SECONDS_IN_HOUR;
+    const cents = hours * rate.hourly_rate_in_cents;
+    const dollars = cents / 100;
+    return acc + dollars;
   }, 0);
 }
 
@@ -49,6 +52,5 @@ async function doUpdate(date: Date, me: TogglMe) {
 export async function update() {
   const dates = getWeekDates();
   const me = await getMe();
-
   await Promise.all(dates.map((d) => doUpdate(d, me)));
 }
