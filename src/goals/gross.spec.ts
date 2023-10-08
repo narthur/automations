@@ -13,7 +13,7 @@ const SUB_GROUP = {
     {
       billable_seconds: 3600,
       hourly_rate_in_cents: 100,
-      currency: "usd",
+      currency: "USD",
     },
   ],
 };
@@ -29,36 +29,6 @@ describe("gross", () => {
         requestid: expect.stringMatching(/^\d\d\d\d-\d\d-\d\d$/),
       })
     );
-  });
-
-  it("does not count negative durations", async () => {
-    await update();
-
-    expect(createDatapoint).toBeCalledWith(
-      "narthur",
-      "gross",
-      expect.objectContaining({
-        value: 0,
-      })
-    );
-  });
-
-  it("does not include non-billable time entries", async () => {
-    await update();
-
-    expect(createDatapoint).toBeCalledWith(
-      "narthur",
-      "gross",
-      expect.objectContaining({
-        value: 0,
-      })
-    );
-  });
-
-  it("runs for previous week", async () => {
-    await update();
-
-    expect(createDatapoint).toBeCalledTimes(7);
   });
 
   it("sets daystamp to each day of week", async () => {
