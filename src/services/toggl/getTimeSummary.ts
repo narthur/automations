@@ -15,8 +15,8 @@ export default function getTimeSummary(options: {
     end_date: makeDaystamp(options.endDate),
     billable: options.billable,
     user_ids: options.userIds,
+    grouping: options.grouping,
   };
-  console.log("getting time summary", data);
   return reports<TogglTimeSummary>(
     `workspace/${options.workspaceId}/summary/time_entries`,
     {

@@ -41,8 +41,6 @@ async function doUpdate(date: Date, me: TogglMe) {
     grouping: "users",
   });
 
-  console.log(date, me, groups);
-
   const sums = groups.map((group) => [group.id, sumUser(group, me)]);
   const value = sums.reduce((acc, [, sum]) => acc + sum, 0);
   const comment = `updated ${new Date().toLocaleString()}: ${JSON.stringify(
