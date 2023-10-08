@@ -28,6 +28,7 @@
   "homepage": "https://github.com/narthur/automations#readme",
   "dependencies": {
     "@notionhq/client": "^2.2.13",
+    "@octokit/graphql": "^7.0.2",
     "@sentry/node": "^7.73.0",
     "@sentry/profiling-node": "^1.2.1",
     "@types/cors": "^2.8.14",
