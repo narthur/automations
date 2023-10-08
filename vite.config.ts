@@ -4,6 +4,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     root: __dirname,
+    globalSetup: "./vitest.global.ts",
     setupFiles: ["./vitest.setup.ts"],
     clearMocks: true,
     include: ["./src/**/*.spec.ts"],

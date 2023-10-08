@@ -16,7 +16,13 @@
     }
   },
   "compileOnSave": true,
-  "include": ["src", "vite.config.ts", "vitest.setup.ts", "__mocks__"],
+  "include": [
+    "src",
+    "vite.config.ts",
+    "vitest.setup.ts",
+    "vitest.global.ts",
+    "__mocks__"
+  ],
   "ts-node": {
     "esm": true,
     "files": true,

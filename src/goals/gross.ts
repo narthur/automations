@@ -7,6 +7,7 @@ import {
 } from "src/services/toggl/types.js";
 import getWeekDates from "src/effects/getWeekDates.js";
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
+import makeDaystamp from "src/transforms/makeDaystamp.js";
 
 const SECONDS_IN_HOUR = 3600;
 
@@ -30,7 +31,7 @@ function sumUser(user: TogglTimeSummaryGroup, me: TogglMe): number {
 }
 
 async function doUpdate(date: Date, me: TogglMe) {
-  const daystamp = date.toISOString().split("T")[0];
+  const daystamp = makeDaystamp(date);
 
   const { groups } = await getTimeSummary({
     workspaceId: me.default_workspace_id,
@@ -46,6 +47,7 @@ async function doUpdate(date: Date, me: TogglMe) {
     value,
     daystamp,
     requestid: daystamp,
+    comment: `updated ${new Date().toLocaleString()}`,
   });
 }
 
