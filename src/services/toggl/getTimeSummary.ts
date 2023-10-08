@@ -1,5 +1,6 @@
 import { TogglTimeSummary } from "./types.js";
 import { reports } from "./index.js";
+import makeDaystamp from "src/transforms/makeDaystamp.js";
 
 export default function getTimeSummary(options: {
   workspaceId: number;
@@ -17,8 +18,8 @@ export default function getTimeSummary(options: {
         "Content-Type": "application/json",
       },
       data: {
-        start_date: options.startDate.toISOString().split("T")[0],
-        end_date: options.endDate.toISOString().split("T")[0],
+        start_date: makeDaystamp(options.startDate),
+        end_date: makeDaystamp(options.endDate),
         billable: options.billable,
         user_ids: options.userIds,
       },
