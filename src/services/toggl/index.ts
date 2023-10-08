@@ -8,6 +8,7 @@ import {
   TogglTask,
 } from "./types.js";
 import client from "./client.js";
+import makeDaystamp from "src/transforms/makeDaystamp.js";
 
 export function getProjects(options: AxiosRequestConfig = {}) {
   return api<TogglProject[]>("me/projects", options);
@@ -63,8 +64,8 @@ export function getProjectSummaries(
         "Content-Type": "application/json",
       },
       data: {
-        start_date: startDate.toISOString().split("T")[0],
-        end_date: endDate.toISOString().split("T")[0],
+        start_date: makeDaystamp(startDate),
+        end_date: makeDaystamp(endDate),
       },
     }
   );
@@ -84,8 +85,8 @@ export function getProjectSummary(
         "Content-Type": "application/json",
       },
       data: {
-        start_date: startDate.toISOString().split("T")[0],
-        end_date: endDate.toISOString().split("T")[0],
+        start_date: makeDaystamp(startDate),
+        end_date: makeDaystamp(endDate),
       },
     }
   );
