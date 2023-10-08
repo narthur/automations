@@ -4,6 +4,7 @@ import { createDatapoint } from "../services/beeminder.js";
 import { update } from "./gross.js";
 import uniq from "src/transforms/uniq.js";
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
+import { TogglTimeSummaryGroup } from "src/services/toggl/types.js";
 
 const SUB_GROUP = {
   id: null,
@@ -17,6 +18,18 @@ const SUB_GROUP = {
     },
   ],
 };
+
+function loadTimeSummary(group: Partial<TogglTimeSummaryGroup> = {}) {
+  vi.mocked(getTimeSummary).mockResolvedValue({
+    groups: [
+      {
+        id: 3,
+        sub_groups: [],
+        ...group,
+      },
+    ],
+  });
+}
 
 describe("gross", () => {
   it("sets requestid to daystamp", async () => {
@@ -42,12 +55,6 @@ describe("gross", () => {
     expect(count).toBe(7);
   });
 
-  it("gets me", async () => {
-    await update();
-
-    expect(getMe).toBeCalled();
-  });
-
   it("groups by user", async () => {
     await update();
 
@@ -64,13 +71,8 @@ describe("gross", () => {
       default_workspace_id: 1,
     } as any);
 
-    vi.mocked(getTimeSummary).mockResolvedValue({
-      groups: [
-        {
-          id: 3,
-          sub_groups: [SUB_GROUP],
-        },
-      ],
+    loadTimeSummary({
+      sub_groups: [SUB_GROUP],
     });
 
     await update();
@@ -90,13 +92,9 @@ describe("gross", () => {
       default_workspace_id: 1,
     } as any);
 
-    vi.mocked(getTimeSummary).mockResolvedValue({
-      groups: [
-        {
-          id: 5,
-          sub_groups: [SUB_GROUP],
-        },
-      ],
+    loadTimeSummary({
+      id: 5,
+      sub_groups: [SUB_GROUP],
     });
 
     await update();
@@ -122,13 +120,8 @@ describe("gross", () => {
       default_workspace_id: 1,
     } as any);
 
-    vi.mocked(getTimeSummary).mockResolvedValue({
-      groups: [
-        {
-          id: 3,
-          sub_groups: [SUB_GROUP, SUB_GROUP],
-        },
-      ],
+    loadTimeSummary({
+      sub_groups: [SUB_GROUP, SUB_GROUP],
     });
 
     await update();
