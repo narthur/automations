@@ -41,13 +41,17 @@ async function doUpdate(date: Date, me: TogglMe) {
     grouping: "users",
   });
 
-  const value = groups.reduce((acc, user) => acc + sumUser(user, me), 0);
+  const sums = groups.map((group) => [group.id, sumUser(group, me)]);
+  const value = sums.reduce((acc, [, sum]) => acc + sum, 0);
+  const comment = `updated ${new Date().toLocaleString()}: ${JSON.stringify(
+    sums
+  )}`;
 
   await createDatapoint("narthur", "gross", {
     value,
     daystamp,
     requestid: daystamp,
-    comment: `updated ${new Date().toLocaleString()}`,
+    comment,
   });
 }
 
