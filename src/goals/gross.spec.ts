@@ -5,6 +5,19 @@ import { update } from "./gross.js";
 import uniq from "src/transforms/uniq.js";
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 
+const SUB_GROUP = {
+  id: null,
+  title: "the_title",
+  seconds: 3600,
+  rates: [
+    {
+      billable_seconds: 3600,
+      hourly_rate_in_cents: 100,
+      currency: "usd",
+    },
+  ],
+};
+
 describe("gross", () => {
   it("sets requestid to daystamp", async () => {
     await update();
@@ -65,12 +78,6 @@ describe("gross", () => {
     expect(getMe).toBeCalled();
   });
 
-  it("gets time summary", async () => {
-    await update();
-
-    expect(getTimeSummary).toBeCalled();
-  });
-
   it("groups by user", async () => {
     await update();
 
@@ -91,20 +98,7 @@ describe("gross", () => {
       groups: [
         {
           id: 3,
-          sub_groups: [
-            {
-              id: null,
-              title: "the_title",
-              seconds: 3600,
-              rates: [
-                {
-                  billable_seconds: 3600,
-                  hourly_rate_in_cents: 100,
-                  currency: "usd",
-                },
-              ],
-            },
-          ],
+          sub_groups: [SUB_GROUP],
         },
       ],
     });
@@ -130,20 +124,7 @@ describe("gross", () => {
       groups: [
         {
           id: 5,
-          sub_groups: [
-            {
-              id: null,
-              title: "the_title",
-              seconds: 3600,
-              rates: [
-                {
-                  billable_seconds: 3600,
-                  hourly_rate_in_cents: 100,
-                  currency: "usd",
-                },
-              ],
-            },
-          ],
+          sub_groups: [SUB_GROUP],
         },
       ],
     });
@@ -163,5 +144,31 @@ describe("gross", () => {
     await update();
 
     expect(getMe).toBeCalledTimes(1);
+  });
+
+  it("sums multiple sub_groups", async () => {
+    vi.mocked(getMe).mockResolvedValue({
+      id: 3,
+      default_workspace_id: 1,
+    } as any);
+
+    vi.mocked(getTimeSummary).mockResolvedValue({
+      groups: [
+        {
+          id: 3,
+          sub_groups: [SUB_GROUP, SUB_GROUP],
+        },
+      ],
+    });
+
+    await update();
+
+    expect(createDatapoint).toBeCalledWith(
+      "narthur",
+      "gross",
+      expect.objectContaining({
+        value: 2,
+      })
+    );
   });
 });
