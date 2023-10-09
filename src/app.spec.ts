@@ -153,8 +153,8 @@ describe("index", () => {
 
     expect(createDatapoint).toBeCalledWith("narthur", "dynanew", {
       value: 1,
-      daystamp: "1970-01-01",
-      requestid: "1970-01-01",
+      daystamp: expect.stringMatching(/\d{4}-\d{2}-\d{2}/),
+      requestid: expect.stringMatching(/\d{4}-\d{2}-\d{2}/),
     });
   });
 

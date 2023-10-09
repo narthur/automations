@@ -1,36 +1,34 @@
-import { createDatapoint } from "src/services/beeminder.js";
 import { getDocument, getFiles } from "src/services/dynalist.js";
-import getWeekDates from "../effects/getWeekDates.js";
 import { DynalistNode } from "src/services/dynalist.types.js";
+import { makeUpdater } from "./index.js";
+import makeDaystamp from "src/transforms/makeDaystamp.js";
 
 type Document = {
   nodes: DynalistNode[];
 };
 
-function ds(date: Date): string {
-  return date.toISOString().slice(0, 10);
-}
-
-async function updateDatapoint(date: Date, docs: Document[]) {
-  const daystamp = ds(date);
+function getDateUpdate(date: Date, docs: Document[]) {
+  const daystamp = makeDaystamp(date);
   const nodes = docs.map((d) => d.nodes).flat();
-  const isOnDate = (n: DynalistNode) => ds(new Date(n.created)) === daystamp;
+  const isOnDate = (n: DynalistNode) =>
+    makeDaystamp(new Date(n.created)) === daystamp;
   const matches = nodes.filter(isOnDate);
 
-  await createDatapoint("narthur", "dynanew", {
+  return Promise.resolve({
     value: matches.length,
-    daystamp,
-    requestid: daystamp,
   });
 }
 
-export async function update() {
-  const { files } = await getFiles();
-  const docs: Document[] = await Promise.all(
-    files
-      .filter((f) => f.type === "document")
-      .map((f) => getDocument({ file_id: f.id }))
-  );
-
-  await Promise.all(getWeekDates().map((d) => updateDatapoint(d, docs)));
-}
+export const update = makeUpdater({
+  user: "narthur",
+  goal: "dynanew",
+  getSharedData: async () => {
+    const { files } = await getFiles();
+    return Promise.all(
+      files
+        .filter((f) => f.type === "document")
+        .map((f) => getDocument({ file_id: f.id }))
+    );
+  },
+  getDateUpdate,
+});
