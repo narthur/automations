@@ -1,13 +1,11 @@
 import { getMe } from "../services/toggl/index.js";
-import { createDatapoint } from "../services/beeminder.js";
 import {
   TogglMe,
   TogglTimeSummaryEntry,
   TogglTimeSummaryGroup,
 } from "src/services/toggl/types.js";
-import getWeekDates from "src/effects/getWeekDates.js";
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
-import makeDaystamp from "src/transforms/makeDaystamp.js";
+import { makeUpdater } from "./index.js";
 
 const SECONDS_IN_HOUR = 3600;
 
@@ -30,9 +28,7 @@ function sumUser(user: TogglTimeSummaryGroup, me: TogglMe): number {
   return sumEntries(entries) * multiplier;
 }
 
-async function doUpdate(date: Date, me: TogglMe) {
-  const daystamp = makeDaystamp(date);
-
+async function getDateUpdate(date: Date, me: TogglMe) {
   const { groups } = await getTimeSummary({
     workspaceId: me.default_workspace_id,
     startDate: date,
@@ -47,16 +43,15 @@ async function doUpdate(date: Date, me: TogglMe) {
     sums
   )}`;
 
-  await createDatapoint("narthur", "gross", {
+  return {
     value,
-    daystamp,
-    requestid: daystamp,
     comment,
-  });
+  };
 }
 
-export async function update() {
-  const dates = getWeekDates();
-  const me = await getMe();
-  await Promise.all(dates.map((d) => doUpdate(d, me)));
-}
+export const update = makeUpdater({
+  user: "narthur",
+  goal: "gross",
+  getSharedData: getMe,
+  getDateUpdate,
+});
