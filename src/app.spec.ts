@@ -13,6 +13,15 @@ describe("index", () => {
   beforeEach(() => {
     vi.useFakeTimers();
     vi.setSystemTime(0);
+
+    vi.mocked(getFiles).mockResolvedValue({
+      files: [
+        {
+          type: "document",
+          id: "the_id",
+        },
+      ],
+    } as any);
   });
 
   afterEach(() => {
@@ -98,15 +107,6 @@ describe("index", () => {
   });
 
   it("gets dynalist documents", async () => {
-    vi.mocked(getFiles).mockResolvedValue({
-      files: [
-        {
-          type: "document",
-          id: "the_id",
-        },
-      ],
-    } as any);
-
     await request(app).get("/cron/dynalist");
 
     expect(getDocument).toBeCalledWith({
@@ -130,15 +130,6 @@ describe("index", () => {
   });
 
   it("posts new nodes to beeminder", async () => {
-    vi.mocked(getFiles).mockResolvedValue({
-      files: [
-        {
-          type: "document",
-          id: "the_id",
-        },
-      ],
-    } as any);
-
     vi.mocked(getDocument).mockResolvedValue({
       nodes: [
         {
@@ -165,17 +156,18 @@ describe("index", () => {
   });
 
   it("only gets each document once", async () => {
-    vi.mocked(getFiles).mockResolvedValue({
-      files: [
-        {
-          type: "document",
-          id: "the_id",
-        },
-      ],
-    } as any);
-
     await request(app).get("/cron/dynalist");
 
     expect(getDocument).toBeCalledTimes(1);
+  });
+
+  it("runs dynadone", async () => {
+    const res = await request(app).get("/cron/dynadone");
+
+    expect(res.status).toBe(200);
+    expect(res.text).toBe("OK");
+
+    expect(getDocument).toBeCalled();
+    expect(createDatapoint).toBeCalled();
   });
 });

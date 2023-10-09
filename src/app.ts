@@ -11,6 +11,7 @@ import cors from "cors";
 import * as Sentry from "@sentry/node";
 import { ProfilingIntegration } from "@sentry/profiling-node";
 import * as dynanew from "./goals/dynanew.js";
+import * as dynadone from "./goals/dynadone.js";
 
 export const app = express();
 
@@ -58,6 +59,7 @@ _get("/cron/gross", gross.update);
 _get("/cron/morning", morning);
 _get("/cron/reratchet", createRecurringTasks);
 _get("/cron/dynalist", dynanew.update);
+_get("/cron/dynadone", dynadone.update);
 
 app.post("/toggl/hook", (req, res) => {
   // TODO: Validate events using TOGGL_SIGNING_SECRET
