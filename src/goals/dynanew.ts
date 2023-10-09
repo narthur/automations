@@ -1,15 +1,10 @@
-import { getDocument, getFiles } from "src/services/dynalist.js";
-import { DynalistNode } from "src/services/dynalist.types.js";
+import { DynalistNode } from "src/services/dynalist/types.js";
 import { makeUpdater } from "./index.js";
 import makeDaystamp from "src/transforms/makeDaystamp.js";
+import getNodes from "src/services/dynalist/getNodes.js";
 
-type Document = {
-  nodes: DynalistNode[];
-};
-
-function getDateUpdate(date: Date, docs: Document[]) {
+function getDateUpdate(date: Date, nodes: DynalistNode[]) {
   const daystamp = makeDaystamp(date);
-  const nodes = docs.map((d) => d.nodes).flat();
   const isOnDate = (n: DynalistNode) =>
     makeDaystamp(new Date(n.created)) === daystamp;
   const matches = nodes.filter(isOnDate);
@@ -22,13 +17,6 @@ function getDateUpdate(date: Date, docs: Document[]) {
 export const update = makeUpdater({
   user: "narthur",
   goal: "dynanew",
-  getSharedData: async () => {
-    const { files } = await getFiles();
-    return Promise.all(
-      files
-        .filter((f) => f.type === "document")
-        .map((f) => getDocument({ file_id: f.id }))
-    );
-  },
+  getSharedData: getNodes,
   getDateUpdate,
 });

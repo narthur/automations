@@ -4,7 +4,7 @@ import request from "supertest";
 import { getTimeEntries } from "./services/toggl/index.js";
 import { setWebhook } from "./services/telegram/index.js";
 import { createTask, getPendingTasks } from "./services/taskratchet.js";
-import { getDocument, getFiles } from "./services/dynalist.js";
+import { getDocument, getFiles } from "./services/dynalist/index.js";
 import { afterEach } from "node:test";
 import { createDatapoint } from "./services/beeminder.js";
 import getTimeSummary from "./services/toggl/getTimeSummary.js";

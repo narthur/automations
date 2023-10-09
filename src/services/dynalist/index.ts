@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DynalistFile, DynalistNode, Ok, Res } from "./dynalist.types.js";
+import { DynalistFile, DynalistNode, Ok, Res } from "./types.js";
 import { DYNALIST_TOKEN } from "src/secrets.js";
 
 // API docs:

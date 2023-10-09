@@ -9,7 +9,7 @@ import { deleteMessage, setWebhook } from "./src/services/telegram/index.js";
 import { getPendingTasks } from "./src/services/taskratchet.js";
 import { sendEmail } from "src/services/mailgun.js";
 import { getGoals } from "src/services/beeminder.js";
-import { getDocument, getFiles } from "src/services/dynalist.js";
+import { getDocument, getFiles } from "src/services/dynalist/index.js";
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 
 vi.mock("axios");
