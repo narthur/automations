@@ -5,6 +5,7 @@ import morning from "./effects/morning.js";
 import createRecurringTasks from "./effects/createRecurringTasks.js";
 import zeno from "./effects/zeno.js";
 import * as dynanew from "./goals/dynanew.js";
+import * as dynadone from "./goals/dynadone.js";
 
 const HALF_HOUR = "0 */30 * * * *" as const;
 const TEN_MINUTES = "0 */10 * * * *" as const;
@@ -18,3 +19,4 @@ new Cron(EVERY_MORNING, morning);
 new Cron(MONDAY_MORNING, createRecurringTasks);
 new Cron(MINUTE, zeno);
 new Cron(HALF_HOUR, dynanew.update);
+new Cron(HALF_HOUR, dynadone.update);
