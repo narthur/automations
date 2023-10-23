@@ -18,6 +18,7 @@
   "compileOnSave": true,
   "include": [
     "src",
+    "scripts",
     "vite.config.ts",
     "vitest.setup.ts",
     "vitest.global.ts",

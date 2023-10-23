@@ -1,0 +1,57 @@
+export type TrelloCard = {
+  id: string;
+  badges: {
+    attachmentsByType: unknown;
+    location: boolean;
+    votes: number;
+    viewingMemberVoted: boolean;
+    subscribed: boolean;
+    fogbugz: string;
+    checkItems: number;
+    checkItemsChecked: number;
+    comments: number;
+    attachments: number;
+    description: boolean;
+    due: unknown;
+    dueComplete: boolean;
+    start: unknown;
+  };
+  checkItemStates: unknown[];
+  closed: boolean;
+  dueComplete: boolean;
+  dateLastActivity: string;
+  desc: string;
+  descData: {
+    emoji: unknown;
+  };
+  due: unknown;
+  dueReminder: unknown;
+  email: unknown;
+  idBoard: string;
+  idChecklists: unknown[];
+  idList: string;
+  idMembers: string[];
+  idMembersVoted: unknown[];
+  idShort: number;
+  idAttachmentCover: unknown;
+  labels: unknown[];
+  idLabels: unknown[];
+  manualCoverAttachment: boolean;
+  name: string;
+  pos: number;
+  shortLink: string;
+  shortUrl: string;
+  start: unknown;
+  subscribed: boolean;
+  url: string;
+  cover: {
+    idAttachment: unknown;
+    color: unknown;
+    idUploadedBackground: unknown;
+    size: string;
+    brightness: string;
+    idPlugin: unknown;
+  };
+  isTemplate: boolean;
+  cardRole: unknown;
+};
