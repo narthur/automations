@@ -31,6 +31,7 @@ export const TELEGRAM_CHAT_ID = d("TELEGRAM_CHAT_ID");
 export const TRELLO_API_KEY = d("TRELLO_API_KEY");
 export const TRELLO_API_TOKEN = d("TRELLO_API_TOKEN");
 export const TRELLO_INC_BOARD_ID = d("TRELLO_INC_BOARD_ID");
+export const TRELLO_INC_INBOX_LIST_ID = d("TRELLO_INC_INBOX_LIST_ID");
 
 // TaskRatchet
 export const TASKRATCHET_USER_ID = d("TASKRATCHET_USER_ID");
