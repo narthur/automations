@@ -3,6 +3,7 @@ import { TRELLO_API_KEY, TRELLO_API_TOKEN } from "src/secrets.js";
 import { TrelloCard } from "./types/TrelloCard.js";
 import { TrelloList } from "./types/TrelloList.js";
 import { TrelloCardInput } from "./types/TrelloCardInput.js";
+import { SearchInput } from "./types/SearchInput.js";
 
 const client = axios.create({
   baseURL: "https://api.trello.com/1",
@@ -40,4 +41,21 @@ export async function createCard(input: TrelloCardInput) {
       ...input,
     },
   });
+}
+
+export async function getListCards(listId: string) {
+  const response = await client.get<TrelloCard[]>(`/lists/${listId}/cards`, {
+    params: getAuth(),
+  });
+  return response.data;
+}
+
+export async function search(input: SearchInput) {
+  const response = await client.get<TrelloCard[]>(`/search`, {
+    params: {
+      ...getAuth(),
+      ...input,
+    },
+  });
+  return response.data;
 }
