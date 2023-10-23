@@ -13,7 +13,7 @@ import { getDocument, getFiles } from "src/services/dynalist/index.js";
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 
 vi.mock("axios");
-vi.mock("./src/effects/defineSecret");
+vi.mock("./src/lib/defineSecret");
 vi.mock("./src/services/beeminder");
 vi.mock("./src/services/dynalist");
 vi.mock("./src/services/mailgun");

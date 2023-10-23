@@ -6,7 +6,7 @@ import {
 } from "../services/toggl/index.js";
 import { TOGGL_CLIENT_AV } from "../secrets.js";
 import dateParams from "../services/toggl/dateParams.js";
-import getWeekDates from "../effects/getWeekDates.js";
+import getWeekDates from "../lib/getWeekDates.js";
 import { getSumOfHours } from "../services/toggl/getSumOfHours.js";
 import { type TimeEntry } from "src/services/toggl/types.js";
 

@@ -1,15 +1,12 @@
 import { OPENAI_PROMPT } from "src/secrets.js";
 import { getResponse } from "../../services/openai/index.js";
-import splitMessages from "../../transforms/splitMessages.js";
+import splitMessages from "../../lib/splitMessages.js";
 import {
   ChatCompletionMessage,
   ChatCompletionMessageParam,
 } from "openai/resources/chat/index.js";
-import { addMessage, getMessages } from "src/effects/history.js";
-import {
-  getFunctionDefinitions,
-  getFunctionResponse,
-} from "src/effects/gptFns.js";
+import { addMessage, getMessages } from "src/lib/history.js";
+import { getFunctionDefinitions, getFunctionResponse } from "src/lib/gptFns.js";
 
 function hasFunctionCall(
   message: ChatCompletionMessage

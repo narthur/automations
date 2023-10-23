@@ -1,6 +1,6 @@
 import { DynalistNode } from "src/services/dynalist/types.js";
 import { makeUpdater } from "./index.js";
-import makeDaystamp from "src/transforms/makeDaystamp.js";
+import makeDaystamp from "src/lib/makeDaystamp.js";
 import getNodes from "src/services/dynalist/getNodes.js";
 
 function getDateUpdate(date: Date, nodes: DynalistNode[]) {

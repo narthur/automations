@@ -1,9 +1,9 @@
 import { Cron } from "croner";
-import avPrime from "./effects/av-prime.js";
+import avPrime from "./jobs/av-prime.js";
 import * as gross from "./goals/gross.js";
-import morning from "./effects/morning.js";
-import createRecurringTasks from "./effects/createRecurringTasks.js";
-import zeno from "./effects/zeno.js";
+import morning from "./jobs/morning.js";
+import createRecurringTasks from "./jobs/createRecurringTasks.js";
+import zeno from "./jobs/zeno.js";
 import * as dynanew from "./goals/dynanew.js";
 import * as dynadone from "./goals/dynadone.js";
 

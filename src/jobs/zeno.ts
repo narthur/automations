@@ -1,6 +1,6 @@
 import { TELEGRAM_CHAT_ID } from "../secrets.js";
 import { getGoals } from "../services/beeminder.js";
-import isNotificationDue from "../transforms/isNotificationDue.js";
+import isNotificationDue from "../lib/isNotificationDue.js";
 import { deleteMessage, sendMessage } from "../services/telegram/index.js";
 import { TelegramMessage } from "src/services/telegram/types/TelegramMessage.js";
 

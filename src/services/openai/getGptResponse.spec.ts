@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import getGptResponse from "./getGptResponse.js";
 import { getResponse } from "./index.js";
 import { getGoals } from "../beeminder.js";
-import { MAX_MESSAGE_LENGTH } from "../../transforms/splitMessages.js";
+import { MAX_MESSAGE_LENGTH } from "../../lib/splitMessages.js";
 
 describe("getGptResponse", () => {
   it("should return a response", async () => {

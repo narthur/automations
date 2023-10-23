@@ -1,12 +1,12 @@
 import express from "express";
-import avPrime from "src/effects/av-prime.js";
-import handleBotRequest from "./effects/handleBotRequest.js";
+import avPrime from "src/jobs/av-prime.js";
+import handleBotRequest from "./lib/handleBotRequest.js";
 import { setWebhook } from "./services/telegram/index.js";
 import { SENTRY_DSN, TELEGRAM_WEBHOOK_TOKEN } from "./secrets.js";
-import getFullUrl from "./transforms/getFullUrl.js";
+import getFullUrl from "./lib/getFullUrl.js";
 import * as gross from "./goals/gross.js";
-import morning from "./effects/morning.js";
-import createRecurringTasks from "./effects/createRecurringTasks.js";
+import morning from "./jobs/morning.js";
+import createRecurringTasks from "./jobs/createRecurringTasks.js";
 import cors from "cors";
 import * as Sentry from "@sentry/node";
 import { ProfilingIntegration } from "@sentry/profiling-node";

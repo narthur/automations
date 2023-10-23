@@ -1,5 +1,5 @@
 import telegramifyMarkdown from "telegramify-markdown";
-import splitMessages from "../../transforms/splitMessages.js";
+import splitMessages from "../../lib/splitMessages.js";
 import { sendMessage } from "./index.js";
 
 export async function sendMessages(

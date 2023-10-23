@@ -1,4 +1,4 @@
-import d from "./effects/defineSecret.js";
+import d from "./lib/defineSecret.js";
 
 // Beeminder
 export const BM_AUTHS = d("BM_AUTHS");

@@ -9,7 +9,7 @@ import { utcToZonedTime } from "date-fns-tz";
 import getClientEntries from "../services/toggl/getClientEntries.js";
 import { TimeEntry } from "../services/toggl/types.js";
 import { getSumOfHours } from "../services/toggl/getSumOfHours.js";
-import uniq from "../transforms/uniq.js";
+import uniq from "./uniq.js";
 import getEntriesRate from "../services/toggl/getEntriesRate.js";
 
 const TIME_ZONE = "America/New_York";
