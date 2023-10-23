@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import request from "supertest";
 import { getTimeEntries } from "./services/toggl/index.js";
 import { setWebhook } from "./services/telegram/index.js";
-import { getPendingTasks } from "./services/taskratchet.js";
+import { getDueTasks } from "./services/taskratchet.js";
 import { getDocument, getFiles } from "./services/dynalist/index.js";
 import { afterEach } from "node:test";
 import { createDatapoint } from "./services/beeminder.js";
@@ -88,7 +88,7 @@ describe("index", () => {
     expect(res.status).toBe(200);
     expect(res.text).toBe("OK");
 
-    expect(getPendingTasks).toBeCalled();
+    expect(getDueTasks).toBeCalled();
   });
 
   it("gets dynalist files", async () => {

@@ -3,6 +3,8 @@ import { TASKRATCHET_API_TOKEN, TASKRATCHET_USER_ID } from "../secrets.js";
 
 let client: AxiosInstance;
 
+const ONE_DAY = 24 * 60 * 60 * 1000;
+
 function getClient() {
   if (!client) {
     client = axios.create({
@@ -35,6 +37,12 @@ export function getTasks() {
 
 export function getPendingTasks() {
   return getTasks().then((r) => r.data.filter((t) => t.status === "pending"));
+}
+
+export function getDueTasks() {
+  return getPendingTasks().then((r) =>
+    r.filter((t) => t.due_timestamp < Date.now() + ONE_DAY)
+  );
 }
 
 /**

@@ -2,7 +2,7 @@ import {} from "node:test";
 import { sendMessage } from "../services/telegram/index.js";
 import morning from "./morning.js";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getPendingTasks } from "../services/taskratchet.js";
+import { getDueTasks } from "../services/taskratchet.js";
 import { getResponse } from "../services/openai/index.js";
 
 function run() {
@@ -11,7 +11,7 @@ function run() {
 
 describe("morning", () => {
   beforeEach(() => {
-    vi.mocked(getPendingTasks).mockResolvedValue([
+    vi.mocked(getDueTasks).mockResolvedValue([
       {
         task: "foo",
         due: "bar",
@@ -22,26 +22,6 @@ describe("morning", () => {
     vi.mocked(getResponse).mockResolvedValue({
       content: "foo",
     } as any);
-  });
-
-  it("sends telegram messages", async () => {
-    await run();
-
-    expect(sendMessage).toBeCalledWith(
-      expect.objectContaining({
-        text: expect.stringContaining("Here are your tasks for today:"),
-      })
-    );
-  });
-
-  it("sends pending tasks", async () => {
-    await run();
-
-    expect(sendMessage).toBeCalledWith(
-      expect.objectContaining({
-        text: expect.stringContaining("foo due bar or pay $1"),
-      })
-    );
   });
 
   it("uses morning prompt", async () => {
@@ -56,11 +36,46 @@ describe("morning", () => {
   });
 
   it("relays errors", async () => {
-    vi.mocked(getPendingTasks).mockRejectedValue(new Error("foo"));
+    vi.mocked(getDueTasks).mockRejectedValue(new Error("foo"));
     await run();
     expect(sendMessage).toBeCalledWith(
       expect.objectContaining({
         text: expect.stringContaining("foo"),
+      })
+    );
+  });
+
+  it("sends count of tasks due today", async () => {
+    vi.mocked(getDueTasks).mockResolvedValue([
+      {
+        task: "foo",
+        due: "bar",
+        cents: 100,
+      } as any,
+      {
+        task: "foo",
+        due: "bar",
+        cents: 100,
+      } as any,
+    ]);
+
+    await run();
+
+    expect(sendMessage).toBeCalledWith(
+      expect.objectContaining({
+        text: expect.stringContaining("2 tasks due today"),
+      })
+    );
+  });
+
+  it("does not send count of tasks due today if there are none", async () => {
+    vi.mocked(getDueTasks).mockResolvedValue([]);
+
+    await run();
+
+    expect(sendMessage).not.toBeCalledWith(
+      expect.objectContaining({
+        text: expect.stringContaining("tasks due today"),
       })
     );
   });
