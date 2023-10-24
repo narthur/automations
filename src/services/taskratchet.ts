@@ -41,7 +41,7 @@ export function getPendingTasks() {
 
 export function getDueTasks() {
   return getPendingTasks().then((r) =>
-    r.filter((t) => t.due_timestamp < Date.now() + ONE_DAY)
+    r.filter((t) => t.due_timestamp * 1000 < Date.now() + ONE_DAY)
   );
 }
 
