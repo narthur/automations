@@ -9,7 +9,7 @@ export default function getTimeSummary(options: {
   billable?: boolean;
   userIds?: number[];
   grouping?: "projects" | "users" | "clients";
-}) {
+}): Promise<TogglTimeSummary> {
   const data = {
     start_date: makeDaystamp(options.startDate),
     end_date: makeDaystamp(options.endDate),
