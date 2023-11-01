@@ -1,6 +1,7 @@
 import { getDueTasks } from "src/services/taskratchet.js";
 import runCommand from "../lib/runCommand.js";
 import { expect, it, describe } from "vitest";
+import getBeemergencies from "src/services/beeminder/getBeemergencies.js";
 
 describe("today", () => {
   it("returns response", async () => {
@@ -11,5 +12,11 @@ describe("today", () => {
     await runCommand("/today");
 
     expect(getDueTasks).toBeCalled();
+  });
+
+  it("gets beemergencies", async () => {
+    await runCommand("/today");
+
+    expect(getBeemergencies).toBeCalled();
   });
 });
