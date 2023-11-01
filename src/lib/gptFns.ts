@@ -1,4 +1,4 @@
-import getBeemergencies from "./getBeemergencies.js";
+import getBeemergencySummary from "./getBeemergencySummary.js";
 import {
   ChatCompletionCreateParams,
   ChatCompletionMessage,
@@ -14,7 +14,7 @@ const FUNCTIONS: Record<string, Fn> = {
   getBeemergencies: z
     .object({})
     .describe("Get a list of Beeminder goals which are due today.")
-    .transform(getBeemergencies),
+    .transform(getBeemergencySummary),
   addNotionDocument: z
     .object({
       database: DATABASES,

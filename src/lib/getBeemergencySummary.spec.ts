@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from "vitest";
-import getBeemergencies from "./getBeemergencies.js";
+import getBeemergencySummary from "./getBeemergencySummary.js";
 import { Goal } from "src/services/beeminder/types/goal.js";
 import getGoals from "src/services/beeminder/getGoals.js";
 
-describe("getBeemergencies", () => {
+describe("getBeemergencySummary", () => {
   it("pads beemergencies", async () => {
     const goals: Partial<Goal>[] = [
       {
@@ -20,7 +20,7 @@ describe("getBeemergencies", () => {
 
     vi.mocked(getGoals).mockResolvedValue(goals as any);
 
-    const response = await getBeemergencies();
+    const response = await getBeemergencySummary();
 
     expect(response).toContain("test   LIMSUM");
   });
@@ -38,7 +38,7 @@ describe("getBeemergencies", () => {
 
     vi.mocked(getGoals).mockResolvedValue(goals as any);
 
-    const response = await getBeemergencies();
+    const response = await getBeemergencySummary();
 
     expect(response).toContain("$10");
   });

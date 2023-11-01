@@ -1,7 +1,7 @@
 import getGoals from "src/services/beeminder/getGoals.js";
 import table from "text-table";
 
-export default async function getBeemergencies(): Promise<string> {
+export default async function getBeemergencySummary(): Promise<string> {
   const goals = await getGoals();
   const due = goals.filter((g) => g.safebuf === 0);
 

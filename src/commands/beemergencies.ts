@@ -1,4 +1,4 @@
-import getBeemergencies from "src/lib/getBeemergencies.js";
+import getBeemergencySummary from "src/lib/getBeemergencySummary.js";
 import cmd from "../lib/cmd.js";
 
-export default cmd("beemergencies", getBeemergencies);
+export default cmd("beemergencies", getBeemergencySummary);
