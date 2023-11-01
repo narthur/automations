@@ -35,8 +35,8 @@ describe("index", () => {
     expect(res.text).toBe("Hello World!");
   });
 
-  it("runs av-prime", async () => {
-    const res = await request(app).get("/cron/av-prime");
+  it("runs techtainment", async () => {
+    const res = await request(app).get("/cron/techtainment");
 
     expect(res.status).toBe(200);
     expect(getTimeEntries).toHaveBeenCalled();

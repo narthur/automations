@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import avPrime from "./av-prime.js";
+import { update } from "./techtainment.js";
 import {
   getClients,
   getProjects,
@@ -42,7 +42,7 @@ describe("av-prime", () => {
       } as any,
     ]);
 
-    await avPrime();
+    await update();
 
     expect(getClients).not.toHaveBeenCalled();
   });
@@ -55,13 +55,13 @@ describe("av-prime", () => {
       } as any,
     ]);
 
-    await avPrime();
+    await update();
 
     expect(getProjects).not.toHaveBeenCalled();
   });
 
   it("sets start and end dates", async () => {
-    await avPrime();
+    await update();
 
     expect(getTimeEntries).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -74,7 +74,7 @@ describe("av-prime", () => {
   });
 
   it("sets daystamp", async () => {
-    await avPrime();
+    await update();
 
     expect(createDatapoint).toHaveBeenCalledWith(
       expect.anything(),
@@ -86,7 +86,7 @@ describe("av-prime", () => {
   });
 
   it("sets request ID", async () => {
-    await avPrime();
+    await update();
 
     expect(createDatapoint).toHaveBeenCalledWith(
       expect.anything(),
@@ -98,7 +98,7 @@ describe("av-prime", () => {
   });
 
   it("adds datapoints to techtainment goal", async () => {
-    await avPrime();
+    await update();
 
     expect(createDatapoint).toHaveBeenCalledWith(
       expect.anything(),
@@ -108,7 +108,7 @@ describe("av-prime", () => {
   });
 
   it("calculates techtainment value correctly", async () => {
-    await avPrime();
+    await update();
 
     expect(createDatapoint).toHaveBeenCalledWith(
       expect.anything(),

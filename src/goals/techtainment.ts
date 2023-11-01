@@ -48,7 +48,7 @@ async function updatePoint(d: Date) {
   };
 }
 
-export default makeUpdater({
+export const update = makeUpdater({
   user: "narthur",
   goal: "techtainment",
   getSharedData: () => Promise.resolve({}),

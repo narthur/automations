@@ -1,5 +1,5 @@
 import express from "express";
-import avPrime from "src/jobs/av-prime.js";
+import * as techtainment from "src/goals/techtainment.js";
 import handleBotRequest from "./lib/handleBotRequest.js";
 import { setWebhook } from "./services/telegram/index.js";
 import { SENTRY_DSN, TELEGRAM_WEBHOOK_TOKEN } from "./secrets.js";
@@ -54,7 +54,7 @@ function _get(path: string, fn: Fn) {
 
 _get("/", () => "Hello World!");
 
-_get("/cron/av-prime", avPrime);
+_get("/cron/techtainment", techtainment.update);
 _get("/cron/gross", gross.update);
 _get("/cron/morning", morning);
 _get("/cron/dynalist", dynanew.update);
