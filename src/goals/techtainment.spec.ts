@@ -47,19 +47,6 @@ describe("av-prime", () => {
     expect(getClients).not.toHaveBeenCalled();
   });
 
-  it("does not get projects if no prime entries", async () => {
-    vi.mocked(getTimeEntries).mockResolvedValue([
-      {
-        tags: [],
-        project_id: 1,
-      } as any,
-    ]);
-
-    await update();
-
-    expect(getProjects).not.toHaveBeenCalled();
-  });
-
   it("sets start and end dates", async () => {
     await update();
 
@@ -115,5 +102,17 @@ describe("av-prime", () => {
       "techtainment",
       expect.objectContaining({ value: -1 })
     );
+  });
+
+  it("only gets time entries once per day", async () => {
+    await update();
+
+    expect(getTimeEntries).toHaveBeenCalledTimes(7);
+  });
+
+  it("only gets projects once", async () => {
+    await update();
+
+    expect(getProjects).toHaveBeenCalledTimes(1);
   });
 });
