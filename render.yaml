@@ -4,5 +4,6 @@ services:
     runtime: node
     region: ohio
     plan: starter
-    buildCommand: pnpm install
+    # WORKAROUND: https://community.render.com/t/support-pnpm-8-6/12513/2
+    buildCommand: npm i -g pnpm && pnpm install
     startCommand: pnpm start
