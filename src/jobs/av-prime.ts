@@ -4,10 +4,9 @@ import {
   getTimeEntries,
 } from "../services/toggl/index.js";
 import dateParams from "../services/toggl/dateParams.js";
-import getWeekDates from "../lib/getWeekDates.js";
 import { getSumOfHours } from "../services/toggl/getSumOfHours.js";
 import { type TimeEntry } from "src/services/toggl/types.js";
-import createDatapoint from "src/services/beeminder/createDatapoint.js";
+import { makeUpdater } from "src/goals/index.js";
 
 async function getPrimeEntries(date: Date): Promise<TimeEntry[]> {
   const entries = await getTimeEntries({
@@ -41,14 +40,17 @@ async function updatePoint(d: Date) {
   const clientNames = await getPrimeClients(d);
   const primeHours = await getPrimeTime(d);
 
-  await createDatapoint("narthur", "techtainment", {
+  return {
     value: primeHours * -2,
     daystamp,
     requestid: daystamp,
     comment: clientNames.join(", "),
-  });
+  };
 }
 
-export default async function avPrime() {
-  return Promise.all(getWeekDates().map(updatePoint));
-}
+export default makeUpdater({
+  user: "narthur",
+  goal: "techtainment",
+  getSharedData: () => Promise.resolve({}),
+  getDateUpdate: updatePoint,
+});
