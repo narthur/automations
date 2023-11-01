@@ -1,6 +1,6 @@
 import { TelegramUpdate } from "src/services/telegram/types/TelegramUpdate.js";
 import { TELEGRAM_ALLOWED_USER, TELEGRAM_WEBHOOK_TOKEN } from "../secrets.js";
-import getSlashCommandResponse from "./getSlashCommandResponse.js";
+import runCommand from "../commands/runCommand.js";
 import { tryWithRelay } from "../services/telegram/tryWithRelay.js";
 import { sendMessages } from "src/services/telegram/sendMessages.js";
 import express from "express";
@@ -41,8 +41,7 @@ export default async function handleBotRequest(
     await createDatapoint("narthur", "mia", {
       value: text.length,
     });
-    const texts =
-      (await getSlashCommandResponse(text)) || (await getGptResponse(text));
+    const texts = (await runCommand(text)) || (await getGptResponse(text));
     await sendMessages(chat.id, texts);
   });
 
