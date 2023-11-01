@@ -7,6 +7,7 @@ import dateParams from "../services/toggl/dateParams.js";
 import { getSumOfHours } from "../services/toggl/getSumOfHours.js";
 import { TogglProject, type TimeEntry } from "src/services/toggl/types.js";
 import { makeUpdater } from "src/goals/index.js";
+import makeDaystamp from "src/lib/makeDaystamp.js";
 
 async function getPrimeEntries(date: Date): Promise<TimeEntry[]> {
   const entries = await getTimeEntries({
@@ -42,7 +43,7 @@ async function updatePoint(
     projects: TogglProject[];
   }
 ) {
-  const daystamp = d.toISOString().split("T")[0];
+  const daystamp = makeDaystamp(d);
   const entries = await getPrimeEntries(d);
   const clientNames = await getPrimeClients({ entries, projects });
   const primeHours = getSumOfHours({ entries });
