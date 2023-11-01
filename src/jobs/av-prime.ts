@@ -3,7 +3,6 @@ import {
   getProjects,
   getTimeEntries,
 } from "../services/toggl/index.js";
-import { TOGGL_CLIENT_AV } from "../secrets.js";
 import dateParams from "../services/toggl/dateParams.js";
 import getWeekDates from "../lib/getWeekDates.js";
 import { getSumOfHours } from "../services/toggl/getSumOfHours.js";
@@ -40,15 +39,6 @@ async function getPrimeClients(date: Date): Promise<string[]> {
 async function updatePoint(d: Date) {
   const daystamp = d.toISOString().split("T")[0];
   const clientNames = await getPrimeClients(d);
-  const hasPrimeMatch = clientNames.includes(TOGGL_CLIENT_AV.value());
-
-  await createDatapoint("narthur", "audioprime", {
-    value: hasPrimeMatch ? 1 : 0,
-    daystamp,
-    requestid: daystamp,
-    comment: clientNames.join(", "),
-  });
-
   const primeHours = await getPrimeTime(d);
 
   await createDatapoint("narthur", "techtainment", {

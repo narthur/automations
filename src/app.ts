@@ -53,6 +53,7 @@ function _get(path: string, fn: Fn) {
 }
 
 _get("/", () => "Hello World!");
+
 _get("/cron/av-prime", avPrime);
 _get("/cron/gross", gross.update);
 _get("/cron/morning", morning);
