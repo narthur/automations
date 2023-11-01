@@ -60,7 +60,7 @@
       }
     },
     {
-      "files": ["*.d.ts", "*.types.ts", "types.ts"],
+      "files": ["*.d.ts", "*.types.ts", "types.ts", "**/types/**/*.ts"],
       "rules": {
         "max-lines": "off"
       }
