@@ -1,3 +1,3 @@
-import cmd from "./cmd.js";
+import cmd from "../lib/cmd.js";
 
 export default cmd("foo", () => "bar");
