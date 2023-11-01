@@ -1,7 +1,7 @@
 import getWeekDates from "src/lib/getWeekDates.js";
-import { createDatapoint } from "src/services/beeminder.js";
-import { DatapointInput } from "src/services/beeminder.types.js";
 import makeDaystamp from "src/lib/makeDaystamp.js";
+import createDatapoint from "src/services/beeminder/createDatapoint.js";
+import { DatapointInput } from "src/services/beeminder/types/datapointInput.js";
 
 type Options<T> = {
   user: string;

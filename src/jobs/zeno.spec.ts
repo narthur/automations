@@ -1,8 +1,9 @@
 import { describe, it, vi, beforeEach, afterEach, expect } from "vitest";
 import zeno from "./zeno.js";
-import { GoalExtended, getGoals } from "../services/beeminder.js";
 import { deleteMessage, sendMessage } from "../services/telegram/index.js";
 import { TelegramMessage } from "src/services/telegram/types/TelegramMessage.js";
+import getGoals from "src/services/beeminder/getGoals.js";
+import { GoalExtended } from "src/services/beeminder/types/goalExtended.js";
 
 describe("zeno", () => {
   beforeEach(() => {

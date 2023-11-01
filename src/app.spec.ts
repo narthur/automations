@@ -6,8 +6,8 @@ import { setWebhook } from "./services/telegram/index.js";
 import { getDueTasks } from "./services/taskratchet.js";
 import { getDocument, getFiles } from "./services/dynalist/index.js";
 import { afterEach } from "node:test";
-import { createDatapoint } from "./services/beeminder.js";
 import getTimeSummary from "./services/toggl/getTimeSummary.js";
+import createDatapoint from "./services/beeminder/createDatapoint.js";
 
 describe("index", () => {
   beforeEach(() => {

@@ -1,7 +1,7 @@
-import { getGoals } from "../services/beeminder.js";
 import { describe, it, expect, vi } from "vitest";
 import getBeemergencies from "./getBeemergencies.js";
-import { Goal } from "../services/beeminder.types.js";
+import { Goal } from "src/services/beeminder/types/goal.js";
+import getGoals from "src/services/beeminder/getGoals.js";
 
 describe("getBeemergencies", () => {
   it("pads beemergencies", async () => {

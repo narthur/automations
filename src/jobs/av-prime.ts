@@ -1,4 +1,3 @@
-import { createDatapoint } from "../services/beeminder.js";
 import {
   getClients,
   getProjects,
@@ -9,6 +8,7 @@ import dateParams from "../services/toggl/dateParams.js";
 import getWeekDates from "../lib/getWeekDates.js";
 import { getSumOfHours } from "../services/toggl/getSumOfHours.js";
 import { type TimeEntry } from "src/services/toggl/types.js";
+import createDatapoint from "src/services/beeminder/createDatapoint.js";
 
 async function getPrimeEntries(date: Date): Promise<TimeEntry[]> {
   const entries = await getTimeEntries({

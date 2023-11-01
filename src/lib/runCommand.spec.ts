@@ -1,8 +1,8 @@
 import { getPendingTasks } from "../services/taskratchet.js";
-import { getGoals } from "../services/beeminder.js";
 import runCommand from "./runCommand.js";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { getTimeEntries } from "src/services/toggl/index.js";
+import getGoals from "src/services/beeminder/getGoals.js";
 
 describe("runCommand", () => {
   beforeEach(() => {

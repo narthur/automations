@@ -1,4 +1,5 @@
-import { GoalExtended, getGoals } from "src/services/beeminder.js";
+import getGoals from "src/services/beeminder/getGoals.js";
+import { GoalExtended } from "src/services/beeminder/types/goalExtended.js";
 
 const TWO_WEEKS = 1_209_600;
 

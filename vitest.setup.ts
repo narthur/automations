@@ -8,13 +8,16 @@ import {
 import { deleteMessage, setWebhook } from "./src/services/telegram/index.js";
 import { getPendingTasks } from "./src/services/taskratchet.js";
 import { sendEmail } from "src/services/mailgun.js";
-import { getGoals } from "src/services/beeminder.js";
 import { getDocument, getFiles } from "src/services/dynalist/index.js";
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
+import getGoals from "src/services/beeminder/getGoals.js";
 
 vi.mock("axios");
 vi.mock("./src/lib/defineSecret");
 vi.mock("./src/services/beeminder");
+vi.mock("./src/services/beeminder/createDatapoint");
+vi.mock("./src/services/beeminder/getGoals");
+vi.mock("./src/services/beeminder/getGoal");
 vi.mock("./src/services/dynalist");
 vi.mock("./src/services/mailgun");
 vi.mock("./src/services/notion");

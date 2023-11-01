@@ -1,4 +1,4 @@
-import { getGoals } from "../services/beeminder.js";
+import getGoals from "src/services/beeminder/getGoals.js";
 import table from "text-table";
 
 export default async function getBeemergencies(): Promise<string> {

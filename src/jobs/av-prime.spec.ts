@@ -5,7 +5,7 @@ import {
   getProjects,
   getTimeEntries,
 } from "../services/toggl/index.js";
-import { createDatapoint } from "../services/beeminder.js";
+import createDatapoint from "src/services/beeminder/createDatapoint.js";
 
 const CLIENT_MATCH_ID = 3;
 const CLIENT_MISS_ID = 2;

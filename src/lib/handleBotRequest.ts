@@ -4,8 +4,8 @@ import runCommand from "./runCommand.js";
 import { tryWithRelay } from "../services/telegram/tryWithRelay.js";
 import { sendMessages } from "src/services/telegram/sendMessages.js";
 import express from "express";
-import { createDatapoint } from "src/services/beeminder.js";
 import getGptResponse from "src/services/openai/getGptResponse.js";
+import createDatapoint from "src/services/beeminder/createDatapoint.js";
 
 export default async function handleBotRequest(
   req: express.Request,
