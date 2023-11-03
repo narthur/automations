@@ -1,8 +1,8 @@
 import { getPendingTasks } from "../services/taskratchet.js";
 import runCommand from "./runCommand.js";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getTimeEntries } from "src/services/toggl/index.js";
 import getGoals from "src/services/beeminder/getGoals.js";
+import searchTimeEntries from "src/services/toggl/searchTimeEntries.js";
 
 describe("runCommand", () => {
   beforeEach(() => {
@@ -44,7 +44,7 @@ describe("runCommand", () => {
   it("generates invoices", async () => {
     await runCommand("/invoice");
 
-    expect(getTimeEntries).toBeCalled();
+    expect(searchTimeEntries).toBeCalled();
   });
 
   it("gets beetuning links", async () => {
