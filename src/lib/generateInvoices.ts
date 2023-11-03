@@ -7,7 +7,7 @@ import getBillingSummary from "src/services/toggl/getBillingSummary.js";
 const TIME_ZONE = "America/New_York";
 
 const line = ({ desc, hours }: { desc: string; hours: number }) =>
-  `${hours.toFixed(2)} | ${desc}`;
+  `${hours.toFixed(2)} | ${desc.replaceAll("<", "&lt;")}`;
 
 export default async function generateInvoices() {
   const utc = new Date(new Date().toUTCString());
