@@ -50,7 +50,11 @@ export default function searchTimeEntries(o: {
   return reports<ReturnType>(
     `workspaces/${o.workspaceId}/search/time_entries`,
     {
-      params: {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {
         billable: o.billable,
         client_ids: o.clientIds,
         description: o.description,
