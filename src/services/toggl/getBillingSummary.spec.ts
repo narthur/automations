@@ -213,4 +213,68 @@ describe("getBillingSummary", () => {
 
     await expect(() => run()).rejects.toThrow(/Client rate mismatch/);
   });
+
+  it("skips projects without a client", async () => {
+    vi.mocked(getProjects).mockResolvedValue([
+      {
+        id: 1,
+        name: "project1",
+        client_id: 3,
+        rate: 1,
+      },
+      {
+        id: 2,
+        name: "project2",
+        client_id: null,
+        rate: 1,
+      },
+    ] as any);
+
+    vi.mocked(getTimeSummary).mockResolvedValue({
+      groups: [
+        {
+          // project
+          id: 1,
+          sub_groups: [
+            {
+              // entry
+              id: 7,
+              title: "the_description",
+              seconds: 60 * 60 * 2,
+              rates: [
+                {
+                  billable_seconds: 60 * 60,
+                  hourly_rate_in_cents: 100,
+                  currency: "USD",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          // project
+          id: 2,
+          sub_groups: [
+            {
+              // entry
+              id: 7,
+              title: "the_description",
+              seconds: 60 * 60 * 2,
+              rates: [
+                {
+                  billable_seconds: 60 * 60,
+                  hourly_rate_in_cents: 200,
+                  currency: "USD",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    const summary = await run();
+
+    expect(summary).toHaveLength(1);
+  });
 });
