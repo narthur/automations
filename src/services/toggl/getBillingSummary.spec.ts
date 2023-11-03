@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import getBillingSummary from "./getBillingSummary.js";
-import searchTimeEntries from "./searchTimeEntries.js";
+import getTimeSummary from "./getTimeSummary.js";
 import { getClients, getProjects } from "./index.js";
 
 function run() {
@@ -28,7 +28,7 @@ describe("getBillingSummary", () => {
       },
     ] as any);
 
-    vi.mocked(searchTimeEntries).mockResolvedValue({
+    vi.mocked(getTimeSummary).mockResolvedValue({
       groups: [
         {
           // project
@@ -104,7 +104,7 @@ describe("getBillingSummary", () => {
       },
     ] as any);
 
-    vi.mocked(searchTimeEntries).mockResolvedValue({
+    vi.mocked(getTimeSummary).mockResolvedValue({
       groups: [
         {
           // project
@@ -168,7 +168,7 @@ describe("getBillingSummary", () => {
       },
     ] as any);
 
-    vi.mocked(searchTimeEntries).mockResolvedValue({
+    vi.mocked(getTimeSummary).mockResolvedValue({
       groups: [
         {
           // project

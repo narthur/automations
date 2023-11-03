@@ -1,5 +1,5 @@
+import getTimeSummary from "./getTimeSummary.js";
 import { getClients, getMe, getProjects } from "./index.js";
-import searchTimeEntries from "./searchTimeEntries.js";
 
 type ClientSummary = {
   clientId: number;
@@ -21,7 +21,7 @@ export default async function getBillingSummary({
   const { default_workspace_id: workspaceId } = await getMe();
 
   // projects > entries
-  const { groups } = await searchTimeEntries({
+  const { groups } = await getTimeSummary({
     workspaceId,
     startDate,
     endDate,
