@@ -11,6 +11,7 @@ import * as Sentry from "@sentry/node";
 import { ProfilingIntegration } from "@sentry/profiling-node";
 import * as dynanew from "./goals/dynanew.js";
 import * as dynadone from "./goals/dynadone.js";
+import * as billable from "./goals/billable.js";
 
 export const app = express();
 
@@ -59,6 +60,7 @@ _get("/cron/gross", gross.update);
 _get("/cron/morning", morning);
 _get("/cron/dynalist", dynanew.update);
 _get("/cron/dynadone", dynadone.update);
+_get("/cron/billable", billable.update);
 
 app.post("/toggl/hook", (req, res) => {
   // TODO: Validate events using TOGGL_SIGNING_SECRET
