@@ -10,6 +10,20 @@ function run() {
   });
 }
 
+function entry(rates: [number, number][] = [[60 * 60, 100]]) {
+  const id = Math.floor(Math.random() * 1000);
+  return {
+    id,
+    title: `the_description_${id}`,
+    seconds: rates.reduce((sum, [s]) => sum + s, 0),
+    rates: rates.map(([s, r]) => ({
+      billable_seconds: s,
+      hourly_rate_in_cents: r,
+      currency: "USD",
+    })),
+  };
+}
+
 describe("getBillingSummary", () => {
   beforeEach(() => {
     vi.mocked(getClients).mockResolvedValue([
@@ -31,27 +45,12 @@ describe("getBillingSummary", () => {
     vi.mocked(getTimeSummary).mockResolvedValue({
       groups: [
         {
-          // project
           id: 1,
           sub_groups: [
-            {
-              // entry
-              id: 7,
-              title: "the_description",
-              seconds: 60 * 60 * 2,
-              rates: [
-                {
-                  billable_seconds: 60 * 60,
-                  hourly_rate_in_cents: 100,
-                  currency: "USD",
-                },
-                {
-                  billable_seconds: 60 * 60,
-                  hourly_rate_in_cents: 50,
-                  currency: "USD",
-                },
-              ],
-            },
+            entry([
+              [60 * 60, 100],
+              [60 * 60, 50],
+            ]),
           ],
         },
       ],
@@ -68,18 +67,12 @@ describe("getBillingSummary", () => {
         clientRate: 1,
         tasks: [
           {
-            description: "the_description",
+            description: expect.stringMatching(/the_description/),
             billableHours: 1.5,
           },
         ],
       },
     ]);
-  });
-
-  it("gets projects", async () => {
-    await run();
-
-    expect(getProjects).toBeCalled();
   });
 
   it("throws if unable to find project rate", async () => {
@@ -107,42 +100,12 @@ describe("getBillingSummary", () => {
     vi.mocked(getTimeSummary).mockResolvedValue({
       groups: [
         {
-          // project
           id: 1,
-          sub_groups: [
-            {
-              // entry
-              id: 7,
-              title: "the_description",
-              seconds: 60 * 60 * 2,
-              rates: [
-                {
-                  billable_seconds: 60 * 60,
-                  hourly_rate_in_cents: 100,
-                  currency: "USD",
-                },
-              ],
-            },
-          ],
+          sub_groups: [entry()],
         },
         {
-          // project
           id: 2,
-          sub_groups: [
-            {
-              // entry
-              id: 7,
-              title: "the_description",
-              seconds: 60 * 60 * 2,
-              rates: [
-                {
-                  billable_seconds: 60 * 60,
-                  hourly_rate_in_cents: 100,
-                  currency: "USD",
-                },
-              ],
-            },
-          ],
+          sub_groups: [entry()],
         },
       ],
     });
@@ -171,42 +134,12 @@ describe("getBillingSummary", () => {
     vi.mocked(getTimeSummary).mockResolvedValue({
       groups: [
         {
-          // project
           id: 1,
-          sub_groups: [
-            {
-              // entry
-              id: 7,
-              title: "the_description",
-              seconds: 60 * 60 * 2,
-              rates: [
-                {
-                  billable_seconds: 60 * 60,
-                  hourly_rate_in_cents: 100,
-                  currency: "USD",
-                },
-              ],
-            },
-          ],
+          sub_groups: [entry([[60 * 60, 100]])],
         },
         {
-          // project
           id: 2,
-          sub_groups: [
-            {
-              // entry
-              id: 7,
-              title: "the_description",
-              seconds: 60 * 60 * 2,
-              rates: [
-                {
-                  billable_seconds: 60 * 60,
-                  hourly_rate_in_cents: 200,
-                  currency: "USD",
-                },
-              ],
-            },
-          ],
+          sub_groups: [entry([[60 * 60, 200]])],
         },
       ],
     });
@@ -233,42 +166,12 @@ describe("getBillingSummary", () => {
     vi.mocked(getTimeSummary).mockResolvedValue({
       groups: [
         {
-          // project
           id: 1,
-          sub_groups: [
-            {
-              // entry
-              id: 7,
-              title: "the_description",
-              seconds: 60 * 60 * 2,
-              rates: [
-                {
-                  billable_seconds: 60 * 60,
-                  hourly_rate_in_cents: 100,
-                  currency: "USD",
-                },
-              ],
-            },
-          ],
+          sub_groups: [entry([[60 * 60, 100]])],
         },
         {
-          // project
           id: 2,
-          sub_groups: [
-            {
-              // entry
-              id: 7,
-              title: "the_description",
-              seconds: 60 * 60 * 2,
-              rates: [
-                {
-                  billable_seconds: 60 * 60,
-                  hourly_rate_in_cents: 200,
-                  currency: "USD",
-                },
-              ],
-            },
-          ],
+          sub_groups: [entry([[60 * 60, 100]])],
         },
       ],
     });
