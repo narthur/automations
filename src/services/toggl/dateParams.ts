@@ -1,3 +1,5 @@
+import makeDaystamp from "src/lib/makeDaystamp.js";
+
 export default function dateParams(date?: Date) {
   if (!date) return {};
 
@@ -5,7 +7,7 @@ export default function dateParams(date?: Date) {
   tomorrow.setDate(tomorrow.getDate() + 1);
 
   return {
-    start_date: date.toISOString().split("T")[0],
-    end_date: tomorrow.toISOString().split("T")[0],
+    start_date: makeDaystamp(date),
+    end_date: makeDaystamp(tomorrow),
   };
 }
