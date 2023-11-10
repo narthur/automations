@@ -1,5 +1,6 @@
+import { afterEach,beforeEach, describe, expect, it, vi } from "vitest";
+
 import makeDaystamp from "./makeDaystamp.js";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 const NOW = new Date("2021-01-01T00:00:01-04:00");
 

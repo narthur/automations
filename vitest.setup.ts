@@ -1,17 +1,18 @@
+import getGoals from "src/services/beeminder/getGoals.js";
+import { getDocument, getFiles } from "src/services/dynalist/index.js";
+import { sendEmail } from "src/services/mailgun.js";
+import getTimeSummary from "src/services/toggl/getTimeSummary.js";
+import searchTimeEntries from "src/services/toggl/searchTimeEntries.js";
 import { beforeEach, vi } from "vitest";
+
+import { getPendingTasks } from "./src/services/taskratchet.js";
+import { deleteMessage, setWebhook } from "./src/services/telegram/index.js";
 import {
   getClients,
   getMe,
   getProjects,
   getTimeEntries,
 } from "./src/services/toggl/index.js";
-import { deleteMessage, setWebhook } from "./src/services/telegram/index.js";
-import { getPendingTasks } from "./src/services/taskratchet.js";
-import { sendEmail } from "src/services/mailgun.js";
-import { getDocument, getFiles } from "src/services/dynalist/index.js";
-import getTimeSummary from "src/services/toggl/getTimeSummary.js";
-import getGoals from "src/services/beeminder/getGoals.js";
-import searchTimeEntries from "src/services/toggl/searchTimeEntries.js";
 
 vi.mock("axios");
 vi.mock("./src/lib/defineSecret");

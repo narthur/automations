@@ -1,6 +1,7 @@
-import { beforeEach, describe, expect, it } from "vitest";
-import { addMessage, clearHistory, getMessages } from "./history.js";
 import { CreateChatCompletionRequestMessage } from "node_modules/openai/resources/chat/index.js";
+import { beforeEach, describe, expect, it } from "vitest";
+
+import { addMessage, clearHistory, getMessages } from "./history.js";
 
 describe("history", () => {
   beforeEach(() => {

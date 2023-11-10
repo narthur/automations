@@ -1,7 +1,9 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { app } from "./app.js";
 import "./cron.ts";
+
 import * as Sentry from "@sentry/node";
+import axios, { AxiosError, AxiosResponse } from "axios";
+
+import { app } from "./app.js";
 
 const PORT = process.env.PORT || 3000;
 

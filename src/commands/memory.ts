@@ -1,5 +1,6 @@
-import cmd from "../lib/cmd.js";
 import os from "os";
+
+import cmd from "../lib/cmd.js";
 
 export default cmd("memory", () => {
   const f = os.freemem();

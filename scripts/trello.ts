@@ -1,8 +1,9 @@
 // pnpm dlx tsx ./scripts/trello.ts
 
 import "dotenv/config";
-import * as trello from "src/services/trello/index.js";
+
 import { TRELLO_INC_BOARD_ID, TRELLO_INC_INBOX_LIST_ID } from "src/secrets.js";
+import * as trello from "src/services/trello/index.js";
 
 const secrets = {
   boardId: TRELLO_INC_BOARD_ID.value(),

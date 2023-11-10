@@ -1,7 +1,8 @@
-import { MAILGUN_API_KEY, MAILGUN_DOMAIN } from "../secrets.js";
 import FormData from "form-data";
 import Mailgun from "mailgun.js";
 import { parse } from "marked";
+
+import { MAILGUN_API_KEY, MAILGUN_DOMAIN } from "../secrets.js";
 
 const mailgun = new Mailgun.default(FormData);
 const client = mailgun.client({

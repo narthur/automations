@@ -1,7 +1,8 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { update } from "./dynadone.js";
-import getNodes from "src/services/dynalist/getNodes.js";
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
+import getNodes from "src/services/dynalist/getNodes.js";
+import { afterEach,beforeEach, describe, expect, it, vi } from "vitest";
+
+import { update } from "./dynadone.js";
 
 vi.mock("src/services/dynalist/getNodes");
 

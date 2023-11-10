@@ -1,8 +1,10 @@
 import {} from "node:test";
+
+import getBillingSummary from "src/services/toggl/getBillingSummary.js";
+import { afterEach,beforeEach, describe, expect, it, vi } from "vitest";
+
 import { sendEmail } from "../services/mailgun.js";
 import generateInvoices from "./generateInvoices.js";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import getBillingSummary from "src/services/toggl/getBillingSummary.js";
 
 vi.mock("../services/toggl/getBillingSummary");
 

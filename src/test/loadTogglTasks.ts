@@ -1,6 +1,7 @@
 import { vi } from "vitest";
-import { TogglTask } from "../services/toggl/types.js";
+
 import { getTasks } from "../services/toggl/index.js";
+import { TogglTask } from "../services/toggl/types.js";
 
 export default function loadTogglTasks(tasks: Partial<TogglTask>[]) {
   const data = tasks.map(

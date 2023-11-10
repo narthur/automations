@@ -1,8 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
-import getGptResponse from "./getGptResponse.js";
-import { getResponse } from "./index.js";
+
 import { MAX_MESSAGE_LENGTH } from "../../lib/splitMessages.js";
 import getGoals from "../beeminder/getGoals.js";
+import getGptResponse from "./getGptResponse.js";
+import { getResponse } from "./index.js";
 
 describe("getGptResponse", () => {
   it("should return a response", async () => {

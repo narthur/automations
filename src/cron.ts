@@ -1,10 +1,11 @@
 import { Cron } from "croner";
-import * as techtainment from "./goals/techtainment.js";
-import * as gross from "./goals/gross.js";
-import zeno from "./jobs/zeno.js";
-import * as dynanew from "./goals/dynanew.js";
-import * as dynadone from "./goals/dynadone.js";
+
 import * as billable from "./goals/billable.js";
+import * as dynadone from "./goals/dynadone.js";
+import * as dynanew from "./goals/dynanew.js";
+import * as gross from "./goals/gross.js";
+import * as techtainment from "./goals/techtainment.js";
+import zeno from "./jobs/zeno.js";
 
 const HALF_HOUR = "0 */30 * * * *" as const;
 const TEN_MINUTES = "0 */10 * * * *" as const;

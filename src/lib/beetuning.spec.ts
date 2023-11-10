@@ -1,7 +1,8 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import beetuning from "./beetuning.js";
-import { GoalExtended } from "src/services/beeminder/types/goalExtended.js";
 import getGoals from "src/services/beeminder/getGoals.js";
+import { GoalExtended } from "src/services/beeminder/types/goalExtended.js";
+import { afterEach,beforeEach, describe, expect, it, vi } from "vitest";
+
+import beetuning from "./beetuning.js";
 
 function loadGoals(goals: Partial<GoalExtended>[]) {
   vi.mocked(getGoals).mockResolvedValue(goals as any);

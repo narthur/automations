@@ -1,6 +1,7 @@
-import { getMe } from "src/services/toggl/index.js";
-import { makeUpdater } from "./index.js";
 import getProjectsSummary from "src/services/toggl/getProjectsSummary.js";
+import { getMe } from "src/services/toggl/index.js";
+
+import { makeUpdater } from "./index.js";
 
 export const update = makeUpdater({
   user: "narthur",

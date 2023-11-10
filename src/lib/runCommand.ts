@@ -1,18 +1,18 @@
-import { Command } from "./cmd.js";
-import foo from "../commands/foo.js";
-import uptime from "../commands/uptime.js";
-import time from "../commands/time.js";
-import date from "../commands/date.js";
-import reset from "../commands/reset.js";
 import beemergencies from "../commands/beemergencies.js";
 import beetuning from "../commands/beetuning.js";
-import taskratchet from "../commands/taskratchet.js";
-import roll from "../commands/roll.js";
-import memory from "../commands/memory.js";
-import invoice from "../commands/invoice.js";
-import selfcare from "../commands/selfcare.js";
+import date from "../commands/date.js";
+import foo from "../commands/foo.js";
 import help from "../commands/help.js";
+import invoice from "../commands/invoice.js";
+import memory from "../commands/memory.js";
+import reset from "../commands/reset.js";
+import roll from "../commands/roll.js";
+import selfcare from "../commands/selfcare.js";
+import taskratchet from "../commands/taskratchet.js";
+import time from "../commands/time.js";
 import today from "../commands/today.js";
+import uptime from "../commands/uptime.js";
+import { Command } from "./cmd.js";
 
 const commands: Command[] = [
   foo,

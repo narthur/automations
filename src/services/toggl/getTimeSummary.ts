@@ -1,6 +1,7 @@
-import { TogglTimeSummary } from "./types.js";
-import { reports } from "./index.js";
 import makeDaystamp from "src/lib/makeDaystamp.js";
+
+import { reports } from "./index.js";
+import { TogglTimeSummary } from "./types.js";
 
 export default function getTimeSummary(options: {
   workspaceId: number;

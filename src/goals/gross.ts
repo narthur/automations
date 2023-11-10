@@ -1,10 +1,11 @@
-import { getMe } from "../services/toggl/index.js";
+import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 import {
   TogglMe,
   TogglTimeSummaryEntry,
   TogglTimeSummaryGroup,
 } from "src/services/toggl/types.js";
-import getTimeSummary from "src/services/toggl/getTimeSummary.js";
+
+import { getMe } from "../services/toggl/index.js";
 import { makeUpdater } from "./index.js";
 
 const SECONDS_IN_HOUR = 3600;

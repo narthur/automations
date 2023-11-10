@@ -1,8 +1,9 @@
-import { getResponse } from "../services/openai/index.js";
-import { describe, it, expect, vi } from "vitest";
-import handleBotRequest from "./handleBotRequest.js";
-import { sendMessage } from "../services/telegram/index.js";
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
+import { describe, expect, it, vi } from "vitest";
+
+import { getResponse } from "../services/openai/index.js";
+import { sendMessage } from "../services/telegram/index.js";
+import handleBotRequest from "./handleBotRequest.js";
 
 function send(text: string) {
   return handleBotRequest(

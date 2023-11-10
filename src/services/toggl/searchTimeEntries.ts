@@ -1,6 +1,7 @@
 // https://developers.track.toggl.com/docs/reports/detailed_reports#post-search-time-entries
 
 import makeDaystamp from "src/lib/makeDaystamp.js";
+
 import { reports } from "./index.js";
 
 type ReturnType = {

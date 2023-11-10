@@ -1,13 +1,14 @@
+import { makeUpdater } from "src/goals/index.js";
+import makeDaystamp from "src/lib/makeDaystamp.js";
+import { type TimeEntry,TogglProject } from "src/services/toggl/types.js";
+
+import dateParams from "../services/toggl/dateParams.js";
+import { getSumOfHours } from "../services/toggl/getSumOfHours.js";
 import {
   getClients,
   getProjects,
   getTimeEntries,
 } from "../services/toggl/index.js";
-import dateParams from "../services/toggl/dateParams.js";
-import { getSumOfHours } from "../services/toggl/getSumOfHours.js";
-import { TogglProject, type TimeEntry } from "src/services/toggl/types.js";
-import { makeUpdater } from "src/goals/index.js";
-import makeDaystamp from "src/lib/makeDaystamp.js";
 
 async function getPrimeEntries(date: Date): Promise<TimeEntry[]> {
   const entries = await getTimeEntries({

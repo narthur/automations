@@ -1,16 +1,17 @@
-import express from "express";
-import * as techtainment from "src/goals/techtainment.js";
-import handleBotRequest from "./lib/handleBotRequest.js";
-import { setWebhook } from "./services/telegram/index.js";
-import { SENTRY_DSN, TELEGRAM_WEBHOOK_TOKEN } from "./secrets.js";
-import getFullUrl from "./lib/getFullUrl.js";
-import * as gross from "./goals/gross.js";
-import cors from "cors";
 import * as Sentry from "@sentry/node";
 import { ProfilingIntegration } from "@sentry/profiling-node";
-import * as dynanew from "./goals/dynanew.js";
-import * as dynadone from "./goals/dynadone.js";
+import cors from "cors";
+import express from "express";
+import * as techtainment from "src/goals/techtainment.js";
+
 import * as billable from "./goals/billable.js";
+import * as dynadone from "./goals/dynadone.js";
+import * as dynanew from "./goals/dynanew.js";
+import * as gross from "./goals/gross.js";
+import getFullUrl from "./lib/getFullUrl.js";
+import handleBotRequest from "./lib/handleBotRequest.js";
+import { SENTRY_DSN, TELEGRAM_WEBHOOK_TOKEN } from "./secrets.js";
+import { setWebhook } from "./services/telegram/index.js";
 
 export const app = express();
 

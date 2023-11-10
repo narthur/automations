@@ -1,10 +1,11 @@
-import { describe, it, expect, vi } from "vitest";
-import { getMe } from "../services/toggl/index.js";
-import { update } from "./gross.js";
 import uniq from "src/lib/uniq.js";
+import createDatapoint from "src/services/beeminder/createDatapoint.js";
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 import { TogglTimeSummaryGroup } from "src/services/toggl/types.js";
-import createDatapoint from "src/services/beeminder/createDatapoint.js";
+import { describe, expect, it, vi } from "vitest";
+
+import { getMe } from "../services/toggl/index.js";
+import { update } from "./gross.js";
 
 const SUB_GROUP = {
   id: null,

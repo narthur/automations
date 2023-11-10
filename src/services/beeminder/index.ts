@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
-import { ServerError } from "./types/serverError.js";
+
 import getAuths from "./getAuths.js";
+import { ServerError } from "./types/serverError.js";
 
 export function api<T>({
   user,

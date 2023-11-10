@@ -1,8 +1,9 @@
+import { z } from "zod";
+
 import {
   NOTION_DATABASE_ID_TODOS,
   NOTION_DATABASE_ID_TR_CARDS,
 } from "../secrets.js";
-import { z } from "zod";
 
 export const DATABASES = z
   .enum(["TASKRATCHET_CARDS", "TODOS"])

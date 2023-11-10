@@ -1,8 +1,9 @@
-import { sendEmail } from "../services/mailgun.js";
 import { addMonths, endOfMonth, format, startOfMonth } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
-import template from "./generateInvoices.template.js";
 import getBillingSummary from "src/services/toggl/getBillingSummary.js";
+
+import { sendEmail } from "../services/mailgun.js";
+import template from "./generateInvoices.template.js";
 
 const TIME_ZONE = "America/New_York";
 

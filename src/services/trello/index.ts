@@ -1,9 +1,10 @@
 import axios from "axios";
 import { TRELLO_API_KEY, TRELLO_API_TOKEN } from "src/secrets.js";
-import { TrelloCard } from "./types/TrelloCard.js";
-import { TrelloList } from "./types/TrelloList.js";
-import { TrelloCardInput } from "./types/TrelloCardInput.js";
+
 import { SearchInput } from "./types/SearchInput.js";
+import { TrelloCard } from "./types/TrelloCard.js";
+import { TrelloCardInput } from "./types/TrelloCardInput.js";
+import { TrelloList } from "./types/TrelloList.js";
 
 const client = axios.create({
   baseURL: "https://api.trello.com/1",

@@ -1,4 +1,7 @@
 import { AxiosRequestConfig } from "axios";
+import makeDaystamp from "src/lib/makeDaystamp.js";
+
+import client from "./client.js";
 import {
   TimeEntry,
   TogglClient,
@@ -7,8 +10,6 @@ import {
   TogglProjectSummaries,
   TogglTask,
 } from "./types.js";
-import client from "./client.js";
-import makeDaystamp from "src/lib/makeDaystamp.js";
 
 export function getProjects(options: AxiosRequestConfig = {}) {
   return api<TogglProject[]>("me/projects", options);

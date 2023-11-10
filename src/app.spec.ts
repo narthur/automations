@@ -1,12 +1,14 @@
-import { app } from "./app.js";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import request from "supertest";
-import { getTimeEntries } from "./services/toggl/index.js";
-import { setWebhook } from "./services/telegram/index.js";
-import { getDocument, getFiles } from "./services/dynalist/index.js";
 import { afterEach } from "node:test";
-import getTimeSummary from "./services/toggl/getTimeSummary.js";
+
+import request from "supertest";
+import { beforeEach,describe, expect, it, vi } from "vitest";
+
+import { app } from "./app.js";
 import createDatapoint from "./services/beeminder/createDatapoint.js";
+import { getDocument, getFiles } from "./services/dynalist/index.js";
+import { setWebhook } from "./services/telegram/index.js";
+import getTimeSummary from "./services/toggl/getTimeSummary.js";
+import { getTimeEntries } from "./services/toggl/index.js";
 
 describe("index", () => {
   beforeEach(() => {

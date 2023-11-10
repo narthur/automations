@@ -1,5 +1,6 @@
-import { graphql } from "./index.js";
 import type { GraphQlResponse } from "@octokit/graphql/dist-types/types.d.ts";
+
+import { graphql } from "./index.js";
 
 type Issue = {
   id: string;

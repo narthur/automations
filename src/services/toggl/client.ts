@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { TOGGL_API_TOKEN } from "../../secrets.js";
-
 import PQueue from "p-queue";
+
+import { TOGGL_API_TOKEN } from "../../secrets.js";
 
 const _client = axios.create({
   baseURL: "https://api.track.toggl.com",
