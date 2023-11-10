@@ -7,13 +7,17 @@ export default function isNotificationDue({
   now: number;
   window: number;
 }): boolean {
-  const zenoSchedule = zeno(window);
+  const z = zeno(window);
 
-  let next = zenoSchedule.next().value;
+  let next = z.next().value;
 
   while (due - next >= now) {
-    if (due - next >= now && due - next < now + window) return true;
-    next = zenoSchedule.next().value;
+    const afterStart = due - next >= now;
+    const beforeEnd = due - next < now + window;
+
+    if (afterStart && beforeEnd) return true;
+
+    next = z.next().value;
   }
 
   return false;
