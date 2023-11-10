@@ -5,7 +5,6 @@ import { setWebhook } from "./services/telegram/index.js";
 import { SENTRY_DSN, TELEGRAM_WEBHOOK_TOKEN } from "./secrets.js";
 import getFullUrl from "./lib/getFullUrl.js";
 import * as gross from "./goals/gross.js";
-import morning from "./jobs/morning.js";
 import cors from "cors";
 import * as Sentry from "@sentry/node";
 import { ProfilingIntegration } from "@sentry/profiling-node";
@@ -57,7 +56,6 @@ _get("/", () => "Hello World!");
 
 _get("/cron/techtainment", techtainment.update);
 _get("/cron/gross", gross.update);
-_get("/cron/morning", morning);
 _get("/cron/dynalist", dynanew.update);
 _get("/cron/dynadone", dynadone.update);
 _get("/cron/billable", billable.update);

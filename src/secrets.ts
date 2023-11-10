@@ -45,6 +45,3 @@ export const DYNALIST_TOKEN = d("DYNALIST_TOKEN");
 
 // GitHub
 export const GITHUB_TOKEN = d("GITHUB_TOKEN");
-
-// Misc
-export const MORNING_PROMPT = d("MORNING_PROMPT");

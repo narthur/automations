@@ -3,7 +3,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import request from "supertest";
 import { getTimeEntries } from "./services/toggl/index.js";
 import { setWebhook } from "./services/telegram/index.js";
-import { getDueTasks } from "./services/taskratchet.js";
 import { getDocument, getFiles } from "./services/dynalist/index.js";
 import { afterEach } from "node:test";
 import getTimeSummary from "./services/toggl/getTimeSummary.js";
@@ -80,15 +79,6 @@ describe("index", () => {
     expect(res.text).toBe("OK");
 
     expect(getTimeSummary).toBeCalled();
-  });
-
-  it("runs morning flow", async () => {
-    const res = await request(app).get("/cron/morning");
-
-    expect(res.status).toBe(200);
-    expect(res.text).toBe("OK");
-
-    expect(getDueTasks).toBeCalled();
   });
 
   it("gets dynalist files", async () => {
