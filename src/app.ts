@@ -63,10 +63,15 @@ _get("/cron/dynadone", dynadone.update);
 _get("/cron/billable", billable.update);
 
 app.post("/toggl/hook", (req, res) => {
-  // TODO: Validate events using TOGGL_SIGNING_SECRET
-  // https://developers.track.toggl.com/docs/webhooks_start/validating_received_events
-  console.log(req.body);
-  validateTogglRequest(req);
+  if (!validateTogglRequest(req)) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
+
+  void billable.update();
+  void gross.update();
+  void techtainment.update();
+
   res.send("OK");
 });
 

@@ -2,6 +2,7 @@ import crypto from "crypto";
 import express from "express";
 import { TOGGL_SIGNING_SECRET } from "src/secrets.js";
 
+// https://developers.track.toggl.com/docs/webhooks_start/validating_received_events
 export default function validateTogglRequest(req: express.Request) {
   const message = JSON.stringify(req.body);
   const signature = req.header("x-webhook-signature-256") || "";
