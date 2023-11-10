@@ -12,6 +12,7 @@ import getFullUrl from "./lib/getFullUrl.js";
 import handleBotRequest from "./lib/handleBotRequest.js";
 import { SENTRY_DSN, TELEGRAM_WEBHOOK_TOKEN } from "./secrets.js";
 import { setWebhook } from "./services/telegram/index.js";
+import validateTogglRequest from "./services/toggl/validateTogglRequest.js";
 
 export const app = express();
 
@@ -65,6 +66,7 @@ app.post("/toggl/hook", (req, res) => {
   // TODO: Validate events using TOGGL_SIGNING_SECRET
   // https://developers.track.toggl.com/docs/webhooks_start/validating_received_events
   console.log(req.body);
+  validateTogglRequest(req);
   res.send("OK");
 });
 
