@@ -68,6 +68,8 @@ app.post("/toggl/hook", (req, res) => {
     return;
   }
 
+  console.log("/toggl/hook", req.body);
+
   void billable.update();
   void gross.update();
   void techtainment.update();
