@@ -1,5 +1,6 @@
 import getTimeSummary from "./getTimeSummary.js";
-import { getClients, getMe, getProjects } from "./index.js";
+import { getClients, getMe } from "./index.js";
+import { getProjects } from "./getProjects.js";
 
 type ClientSummary = {
   clientId: number;

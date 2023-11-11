@@ -2,7 +2,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import getBillingSummary from "./getBillingSummary.js";
 import getTimeSummary from "./getTimeSummary.js";
-import { getClients, getProjects } from "./index.js";
+import { getClients } from "./index.js";
+import { getProjects } from "./getProjects.js";
 
 function run() {
   return getBillingSummary({

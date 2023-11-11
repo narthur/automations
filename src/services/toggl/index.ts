@@ -6,14 +6,9 @@ import {
   TimeEntry,
   TogglClient,
   TogglMe,
-  TogglProject,
   TogglProjectSummaries,
   TogglTask,
 } from "./types.js";
-
-export function getProjects(options: AxiosRequestConfig = {}) {
-  return api<TogglProject[]>("me/projects", options);
-}
 
 export function getTimeEntries(options: AxiosRequestConfig = {}) {
   return api<TimeEntry[]>("me/time_entries", options);
@@ -93,7 +88,10 @@ export function getProjectSummary(
   );
 }
 
-async function api<T>(p: string, o: AxiosRequestConfig = {}): Promise<T> {
+export async function api<T>(
+  p: string,
+  o: AxiosRequestConfig = {}
+): Promise<T> {
   return client(`api/v9/${p}`, o);
 }
 

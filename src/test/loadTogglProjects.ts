@@ -1,7 +1,7 @@
 import { __loadResponse } from "axios";
 import { vi } from "vitest";
 
-import { getProjects } from "../services/toggl/index.js";
+import { getProjects } from "src/services/toggl/getProjects.js";
 import { TogglProject } from "../services/toggl/types.js";
 
 export default function loadTogglProjects(

@@ -8,10 +8,12 @@ import * as billable from "./goals/billable.js";
 import * as dynadone from "./goals/dynadone.js";
 import * as dynanew from "./goals/dynanew.js";
 import * as gross from "./goals/gross.js";
+import createSummaryTask from "./lib/createSummaryTask.js";
 import getFullUrl from "./lib/getFullUrl.js";
 import handleBotRequest from "./lib/handleBotRequest.js";
 import { SENTRY_DSN, TELEGRAM_WEBHOOK_TOKEN } from "./secrets.js";
 import { setWebhook } from "./services/telegram/index.js";
+import event from "./services/toggl/schemas/event.js";
 import validateTogglRequest from "./services/toggl/validateTogglRequest.js";
 
 export const app = express();
@@ -73,6 +75,13 @@ app.post("/toggl/hook", (req, res) => {
   void billable.update();
   void gross.update();
   void techtainment.update();
+
+  // TODO: update schema to support all event types
+  const e = event.parse(req.body);
+
+  if (e.metadata.model === "time_entry") {
+    void createSummaryTask(e);
+  }
 
   res.send("OK");
 });

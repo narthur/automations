@@ -1,6 +1,7 @@
 import getGoals from "src/services/beeminder/getGoals.js";
 import { getDocument, getFiles } from "src/services/dynalist/index.js";
 import { sendEmail } from "src/services/mailgun.js";
+import { getProjects } from "src/services/toggl/getProjects.js";
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 import searchTimeEntries from "src/services/toggl/searchTimeEntries.js";
 import { beforeEach, vi } from "vitest";
@@ -10,26 +11,27 @@ import { deleteMessage, setWebhook } from "./src/services/telegram/index.js";
 import {
   getClients,
   getMe,
-  getProjects,
   getTimeEntries,
 } from "./src/services/toggl/index.js";
 
-vi.mock("axios");
 vi.mock("./src/lib/defineSecret");
 vi.mock("./src/services/beeminder");
 vi.mock("./src/services/beeminder/createDatapoint");
-vi.mock("./src/services/beeminder/getGoals");
-vi.mock("./src/services/beeminder/getGoal");
 vi.mock("./src/services/beeminder/getBeemergencies");
+vi.mock("./src/services/beeminder/getGoal");
+vi.mock("./src/services/beeminder/getGoals");
 vi.mock("./src/services/dynalist");
 vi.mock("./src/services/mailgun");
 vi.mock("./src/services/notion");
 vi.mock("./src/services/openai");
+vi.mock("./src/services/taskratchet");
 vi.mock("./src/services/telegram");
 vi.mock("./src/services/toggl");
+vi.mock("./src/services/toggl/getProject");
+vi.mock("./src/services/toggl/getProjects");
 vi.mock("./src/services/toggl/getTimeSummary");
 vi.mock("./src/services/toggl/searchTimeEntries");
-vi.mock("./src/services/taskratchet");
+vi.mock("axios");
 
 beforeEach(() => {
   vi.mocked(getTimeEntries).mockResolvedValue([]);
