@@ -16,7 +16,7 @@ export default async function createDatapoint(
   }).catch((e: AxiosError) => {
     if (
       e.response?.status === 422 &&
-      JSON.stringify(e.response).toLowerCase().includes("duplicate")
+      JSON.stringify(e.response.data).toLowerCase().includes("duplicate")
     ) {
       console.warn("Ignoring duplicate datapoint error");
       return;
