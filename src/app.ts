@@ -13,6 +13,7 @@ import * as gross from "./goals/gross.js";
 import createSummaryTask from "./lib/createSummaryTask.js";
 import getFullUrl from "./lib/getFullUrl.js";
 import handleBotRequest from "./lib/handleBotRequest.js";
+import makeDaystamp from "./lib/makeDaystamp.js";
 import { SENTRY_DSN, TELEGRAM_WEBHOOK_TOKEN } from "./secrets.js";
 import createDatapoint from "./services/beeminder/createDatapoint.js";
 import { setWebhook } from "./services/telegram/index.js";
@@ -75,9 +76,13 @@ app.post("/goals/tr-email-zero", (req, res) => {
     })
     .parse(req.body);
 
+  const daystamp = makeDaystamp();
+
   createDatapoint("narthur", "tr-email-zero", {
     value: data.count > 0 ? 0 : 1,
     comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
+    daystamp,
+    requestid: daystamp,
   })
     .then(() => res.send("OK"))
     .catch((e) => {
