@@ -32,12 +32,14 @@ type Task = {
   timezone: string;
 };
 
-export function getTasks() {
-  return getClient().get<Task[]>("/me/tasks");
+export function getTasks(): Promise<Task[]> {
+  return getClient()
+    .get<Task[]>("/me/tasks")
+    .then((r) => r.data);
 }
 
-export function getPendingTasks() {
-  return getTasks().then((r) => r.data.filter((t) => t.status === "pending"));
+export function getPendingTasks(): Promise<Task[]> {
+  return getTasks().then((d) => d.filter((t) => t.status === "pending"));
 }
 
 export function getDueTasks() {

@@ -17,7 +17,7 @@ export default async function createSummaryTask(event: {
   }
 
   const kv = `#togglId=${id}`;
-  const tasks = await getTasks().then((r) => r.data);
+  const tasks = await getTasks();
   const r = new RegExp(`${kv}$`);
   const match = tasks.find((t) => r.test(t.task));
 

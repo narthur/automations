@@ -20,9 +20,7 @@ const makeEvent = (payload: Record<string, unknown> = {}) => {
 
 describe("createSummaryTask", () => {
   beforeEach(() => {
-    vi.mocked(getTasks).mockResolvedValue({
-      data: [],
-    } as any);
+    vi.mocked(getTasks).mockResolvedValue([]);
 
     vi.mocked(getProject).mockResolvedValue({
       name: "the_project_name",
@@ -78,20 +76,18 @@ describe("createSummaryTask", () => {
   });
 
   it("does not create task if task already exists", async () => {
-    vi.mocked(getTasks).mockResolvedValue({
-      data: [
-        {
-          id: "1",
-          task: "the_description #togglId=1",
-          due: "2021-01-01T00:00:00.000Z",
-          due_timestamp: 0,
-          cents: 100,
-          complete: false,
-          status: "pending",
-          timezone: "America/New_York",
-        },
-      ],
-    } as any);
+    vi.mocked(getTasks).mockResolvedValue([
+      {
+        id: "1",
+        task: "the_description #togglId=1",
+        due: "2021-01-01T00:00:00.000Z",
+        due_timestamp: 0,
+        cents: 100,
+        complete: false,
+        status: "pending",
+        timezone: "America/New_York",
+      },
+    ] as any);
 
     await createSummaryTask(makeEvent());
 
