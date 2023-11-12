@@ -3,6 +3,7 @@ import { ProfilingIntegration } from "@sentry/profiling-node";
 import cors from "cors";
 import express from "express";
 import * as techtainment from "src/goals/techtainment.js";
+import z from "zod";
 
 // TODO: modify ./goals/* exports to allow for cleaner imports
 import * as billable from "./goals/billable.js";
@@ -13,6 +14,7 @@ import createSummaryTask from "./lib/createSummaryTask.js";
 import getFullUrl from "./lib/getFullUrl.js";
 import handleBotRequest from "./lib/handleBotRequest.js";
 import { SENTRY_DSN, TELEGRAM_WEBHOOK_TOKEN } from "./secrets.js";
+import createDatapoint from "./services/beeminder/createDatapoint.js";
 import { setWebhook } from "./services/telegram/index.js";
 import event from "./services/toggl/schemas/event.js";
 import validateTogglRequest from "./services/toggl/validateTogglRequest.js";
@@ -67,9 +69,21 @@ _get("/cron/dynadone", dynadone.update);
 _get("/cron/billable", billable.update);
 
 app.post("/goals/tr-email-zero", (req, res) => {
-  // TODO: implement
-  console.log("tr-email-zero", req.body);
-  res.send("OK");
+  const data = z
+    .object({
+      count: z.number(),
+    })
+    .parse(req.body);
+
+  createDatapoint("narthur", "tr-email-zero", {
+    value: data.count > 0 ? 0 : 1,
+    comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
+  })
+    .then(() => res.send("OK"))
+    .catch((e) => {
+      console.error(e);
+      res.status(500).send("Error");
+    });
 });
 
 // TODO: rename to /hooks/toggl
