@@ -4,6 +4,7 @@ import cors from "cors";
 import express from "express";
 import * as techtainment from "src/goals/techtainment.js";
 
+// TODO: modify ./goals/* exports to allow for cleaner imports
 import * as billable from "./goals/billable.js";
 import * as dynadone from "./goals/dynadone.js";
 import * as dynanew from "./goals/dynanew.js";
