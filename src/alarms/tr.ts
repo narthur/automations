@@ -3,6 +3,7 @@ import { getTasks } from "src/services/taskratchet.js";
 import { createAlarmTrigger } from "./index.js";
 
 export const send = createAlarmTrigger({
+  id: "tr",
   getItems: async () => {
     const tasks = await getTasks();
     return tasks.map((t) => ({

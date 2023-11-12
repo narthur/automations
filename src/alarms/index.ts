@@ -9,6 +9,7 @@ type Item = {
 };
 
 type Options = {
+  id: string;
   getItems: () => Promise<Item[]>;
 };
 
@@ -33,18 +34,24 @@ export function createAlarmTrigger(options: Options) {
       day: "numeric",
     });
     const isDueToday = nextDate === nowDate;
+    const isDueNow = isNotificationDue({
+      due: next.timestamp,
+      now: Date.now() / 1000,
+      window: 60,
+    });
 
-    const shouldNotify =
-      next &&
-      isDueToday &&
-      isNotificationDue({
-        due: next.timestamp,
-        now: Date.now() / 1000,
-        window: 60,
-      });
+    if (!next) {
+      console.info(`${options.id}: no next item`);
+      return;
+    }
 
-    if (!shouldNotify) {
-      console.log("no notification due");
+    if (!isDueToday) {
+      console.info(`${options.id}: not due today: ${nextDate} !== ${nowDate}`);
+      return;
+    }
+
+    if (!isDueNow) {
+      console.info(`${options.id}: not due now: ${next.timestamp}`);
       return;
     }
 
@@ -63,7 +70,7 @@ export function createAlarmTrigger(options: Options) {
         chat_id: last.chat.id,
         message_id: last.message_id,
       }).catch((e) => {
-        console.error("Failed to delete previous message", e);
+        console.error(`${options.id}: Failed to delete previous message`, e);
       });
     }
 
