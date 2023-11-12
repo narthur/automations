@@ -111,4 +111,16 @@ describe("tr", () => {
       })
     );
   });
+
+  it("does not send notifications if not due today", async () => {
+    vi.mocked(getTasks).mockResolvedValue([
+      {
+        due_timestamp: 60 * 2 ** 27,
+      },
+    ] as any);
+
+    await send();
+
+    expect(sendMessage).not.toBeCalled();
+  });
 });
