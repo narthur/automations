@@ -75,7 +75,7 @@ app.post("/hooks/email-zero", (req, res) => {
     })
     .parse(req.body);
 
-  createDatapoint("narthur", "tr-email-zero", {
+  createDatapoint("narthur", "email-zero", {
     value: data.count > 0 ? 0 : 1,
     comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
   })
@@ -111,7 +111,7 @@ app.post("/hooks/av-email-zero", (req, res) => {
     })
     .parse(req.body);
 
-  createDatapoint("narthur", "tr-email-zero", {
+  createDatapoint("narthur", "av-email-zero", {
     value: data.count > 0 ? 0 : 1,
     comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
   })
