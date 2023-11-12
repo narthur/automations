@@ -58,12 +58,14 @@ function _get(path: string, fn: Fn) {
 
 _get("/", () => "Hello World!");
 
+// TODO: rename to /goals/*
 _get("/cron/techtainment", techtainment.update);
 _get("/cron/gross", gross.update);
 _get("/cron/dynalist", dynanew.update);
 _get("/cron/dynadone", dynadone.update);
 _get("/cron/billable", billable.update);
 
+// TODO: rename to /hooks/toggl
 app.post("/toggl/hook", (req, res) => {
   if (!validateTogglRequest(req)) {
     res.status(401).send("Unauthorized");
@@ -86,10 +88,12 @@ app.post("/toggl/hook", (req, res) => {
   res.send("OK");
 });
 
+// TODO: rename to /hooks/telegram
 app.post("/bot/hook", (req, res) => {
   void handleBotRequest(req, res);
 });
 
+// TODO: rename to /hooks/telegram/init
 _get("/bot/init", (req) =>
   setWebhook({
     url: getFullUrl(req, "bot/hook"),
