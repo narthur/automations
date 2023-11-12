@@ -1,8 +1,8 @@
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
+import { getProjects } from "src/services/toggl/getProjects.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { getClients, getTimeEntries } from "../services/toggl/index.js";
-import { getProjects } from "src/services/toggl/getProjects.js";
 import { update } from "./techtainment.js";
 
 const CLIENT_MATCH_ID = 3;
