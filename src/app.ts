@@ -68,7 +68,43 @@ _get("/cron/dynalist", dynanew.update);
 _get("/cron/dynadone", dynadone.update);
 _get("/cron/billable", billable.update);
 
-app.post("/goals/tr-email-zero", (req, res) => {
+app.post("/hooks/email-zero", (req, res) => {
+  const data = z
+    .object({
+      count: z.number(),
+    })
+    .parse(req.body);
+
+  createDatapoint("narthur", "tr-email-zero", {
+    value: data.count > 0 ? 0 : 1,
+    comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
+  })
+    .then(() => res.send("OK"))
+    .catch((e) => {
+      console.error(e);
+      res.status(500).send("Error");
+    });
+});
+
+app.post("/hooks/tr-email-zero", (req, res) => {
+  const data = z
+    .object({
+      count: z.number(),
+    })
+    .parse(req.body);
+
+  createDatapoint("narthur", "tr-email-zero", {
+    value: data.count > 0 ? 0 : 1,
+    comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
+  })
+    .then(() => res.send("OK"))
+    .catch((e) => {
+      console.error(e);
+      res.status(500).send("Error");
+    });
+});
+
+app.post("/hooks/av-email-zero", (req, res) => {
   const data = z
     .object({
       count: z.number(),
