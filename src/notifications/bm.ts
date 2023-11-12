@@ -7,7 +7,7 @@ import { deleteMessage, sendMessage } from "../services/telegram/index.js";
 
 let last: TelegramMessage | null = null;
 
-export default async function zeno() {
+export async function send() {
   const now = Date.now() / 1000;
   const goals = await getGoals();
   const sorted = goals.sort((a, b) => a.losedate - b.losedate);
@@ -44,3 +44,7 @@ export default async function zeno() {
 
   last = m;
 }
+
+export default {
+  send,
+};

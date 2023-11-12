@@ -1,12 +1,12 @@
 import getGoals from "src/services/beeminder/getGoals.js";
 import { GoalExtended } from "src/services/beeminder/types/goalExtended.js";
 import { TelegramMessage } from "src/services/telegram/types/TelegramMessage.js";
-import { afterEach, beforeEach, describe, expect,it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { deleteMessage, sendMessage } from "../services/telegram/index.js";
-import zeno from "./zeno.js";
+import { send } from "./bm.js";
 
-describe("zeno", () => {
+describe("bm", () => {
   beforeEach(() => {
     vi.useFakeTimers();
 
@@ -26,7 +26,7 @@ describe("zeno", () => {
   });
 
   it("sends alerts", async () => {
-    await zeno();
+    await send();
 
     expect(sendMessage).toBeCalled();
   });
@@ -41,8 +41,8 @@ describe("zeno", () => {
 
     vi.mocked(sendMessage).mockResolvedValue(m);
 
-    await zeno();
-    await zeno();
+    await send();
+    await send();
 
     expect(deleteMessage).toBeCalled();
   });
@@ -50,6 +50,6 @@ describe("zeno", () => {
   it("recovers from failed delete", () => {
     vi.mocked(deleteMessage).mockRejectedValueOnce(new Error("foo"));
 
-    expect(zeno).not.toThrow();
+    expect(send).not.toThrow();
   });
 });
