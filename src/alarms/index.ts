@@ -45,6 +45,8 @@ export function createAlarmTrigger(options: Options) {
       return;
     }
 
+    console.info(`${options.id}: sending notification`);
+
     const due = new Date(next.timestamp * 1000).toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "numeric",
