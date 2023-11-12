@@ -66,9 +66,9 @@ _get("/cron/dynalist", dynanew.update);
 _get("/cron/dynadone", dynadone.update);
 _get("/cron/billable", billable.update);
 
-_get("/goals/tr-email-zero", () => {
+_get("/goals/tr-email-zero", (req) => {
   // TODO: implement
-  console.log("tr-email-zero");
+  console.log("tr-email-zero", req.body);
 });
 
 // TODO: rename to /hooks/toggl
