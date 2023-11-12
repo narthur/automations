@@ -1,4 +1,4 @@
-import { getTasks } from "src/services/taskratchet.js";
+import { getPendingTasks } from "src/services/taskratchet.js";
 import { deleteMessage, sendMessage } from "src/services/telegram/index.js";
 import { TelegramMessage } from "src/services/telegram/types/TelegramMessage.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -9,7 +9,7 @@ describe("tr", () => {
   beforeEach(() => {
     vi.useFakeTimers();
     vi.setSystemTime(0);
-    vi.mocked(getTasks).mockResolvedValue([
+    vi.mocked(getPendingTasks).mockResolvedValue([
       {
         due_timestamp: 0,
       },
@@ -23,7 +23,7 @@ describe("tr", () => {
   it("gets tasks", async () => {
     await send();
 
-    expect(getTasks).toBeCalled();
+    expect(getPendingTasks).toBeCalled();
   });
 
   it("sends to correct chat", async () => {
@@ -37,7 +37,7 @@ describe("tr", () => {
   });
 
   it("does not send notification if not due", async () => {
-    vi.mocked(getTasks).mockResolvedValue([
+    vi.mocked(getPendingTasks).mockResolvedValue([
       {
         due_timestamp: 600,
       },
@@ -49,7 +49,7 @@ describe("tr", () => {
   });
 
   it("notifies for next due task", async () => {
-    vi.mocked(getTasks).mockResolvedValue([
+    vi.mocked(getPendingTasks).mockResolvedValue([
       {
         task: "later",
         due_timestamp: 1,
@@ -70,7 +70,7 @@ describe("tr", () => {
   });
 
   it("includes due time", async () => {
-    vi.mocked(getTasks).mockResolvedValue([
+    vi.mocked(getPendingTasks).mockResolvedValue([
       {
         task: "sooner",
         due_timestamp: 0,
@@ -113,7 +113,7 @@ describe("tr", () => {
   });
 
   it("does not send notifications if not due today", async () => {
-    vi.mocked(getTasks).mockResolvedValue([
+    vi.mocked(getPendingTasks).mockResolvedValue([
       {
         due_timestamp: 60 * 2 ** 27,
       },
