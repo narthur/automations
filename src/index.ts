@@ -11,6 +11,14 @@ const PORT = process.env.PORT || 3000;
 axios.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
+    if (
+      error.response?.status === 422 &&
+      JSON.stringify(error.response.data).toLowerCase().includes("duplicate")
+    ) {
+      console.warn("Ignoring duplicate datapoint error");
+      return;
+    }
+
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
