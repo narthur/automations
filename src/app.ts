@@ -81,10 +81,7 @@ app.post("/hooks/email-zero", (req, res) => {
     comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
   })
     .then(() => res.send("OK"))
-    .catch((e: AxiosError) => {
-      console.error(e.message);
-      res.status(500).send(e.message);
-    });
+    .catch((e: AxiosError) => res.status(500).send(e.message));
 });
 
 app.post("/hooks/tr-email-zero", (req, res) => {
@@ -99,10 +96,7 @@ app.post("/hooks/tr-email-zero", (req, res) => {
     comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
   })
     .then(() => res.send("OK"))
-    .catch((e: AxiosError) => {
-      console.error(e.message);
-      res.status(500).send(e.message);
-    });
+    .catch((e: AxiosError) => res.status(500).send(e.message));
 });
 
 app.post("/hooks/av-email-zero", (req, res) => {
@@ -117,10 +111,7 @@ app.post("/hooks/av-email-zero", (req, res) => {
     comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
   })
     .then(() => res.send("OK"))
-    .catch((e: AxiosError) => {
-      console.error(e.message);
-      res.status(500).send(e.message);
-    });
+    .catch((e: AxiosError) => res.status(500).send(e.message));
 });
 
 // TODO: rename to /hooks/toggl
