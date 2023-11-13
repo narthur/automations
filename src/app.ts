@@ -79,7 +79,7 @@ app.post("/hooks/email-zero", (req, res) => {
 
   createBinaryDatapoint("narthur", "email-zero", {
     value: data.count > 0 ? 0 : 1,
-    comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
+    comment: `Emails: ${data.count} (${new Date().toLocaleString()})`,
   })
     .then(() => res.send("OK"))
     .catch((e: AxiosError) => res.status(500).send(e.message));
@@ -95,7 +95,7 @@ app.post("/hooks/tr-email-zero", (req, res) => {
 
   createBinaryDatapoint("narthur", "tr-email-zero", {
     value: data.count > 0 ? 0 : 1,
-    comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
+    comment: `Emails: ${data.count} (${new Date().toLocaleString()})`,
   })
     .then(() => res.send("OK"))
     .catch((e: AxiosError) => res.status(500).send(e.message));
@@ -111,7 +111,7 @@ app.post("/hooks/av-email-zero", (req, res) => {
 
   createBinaryDatapoint("narthur", "av-email-zero", {
     value: data.count > 0 ? 0 : 1,
-    comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
+    comment: `Emails: ${data.count} (${new Date().toLocaleString()})`,
   })
     .then(() => res.send("OK"))
     .catch((e: AxiosError) => res.status(500).send(e.message));
