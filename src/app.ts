@@ -69,6 +69,7 @@ _get("/cron/dynalist", dynanew.update);
 _get("/cron/dynadone", dynadone.update);
 _get("/cron/billable", billable.update);
 
+// TODO: rename to /goals/email-zero
 app.post("/hooks/email-zero", (req, res) => {
   const data = z
     .object({
@@ -84,6 +85,7 @@ app.post("/hooks/email-zero", (req, res) => {
     .catch((e: AxiosError) => res.status(500).send(e.message));
 });
 
+// TODO: rename to /goals/tr-email-zero
 app.post("/hooks/tr-email-zero", (req, res) => {
   const data = z
     .object({
@@ -99,6 +101,7 @@ app.post("/hooks/tr-email-zero", (req, res) => {
     .catch((e: AxiosError) => res.status(500).send(e.message));
 });
 
+// TODO: rename to /goals/av-email-zero
 app.post("/hooks/av-email-zero", (req, res) => {
   const data = z
     .object({
