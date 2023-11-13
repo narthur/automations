@@ -11,6 +11,10 @@ const PORT = process.env.PORT || 3000;
 axios.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
+    console.log(
+      "debug_output",
+      JSON.stringify(error.response?.data).toLowerCase()
+    );
     if (
       error.response?.status === 422 &&
       JSON.stringify(error.response.data).toLowerCase().includes("duplicate")
