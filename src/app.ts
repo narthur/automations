@@ -1,6 +1,5 @@
 import * as Sentry from "@sentry/node";
 import { ProfilingIntegration } from "@sentry/profiling-node";
-import { AxiosError } from "axios";
 import cors from "cors";
 import express from "express";
 import * as techtainment from "src/goals/techtainment.js";
@@ -20,7 +19,7 @@ import { setWebhook } from "./services/telegram/index.js";
 import event from "./services/toggl/schemas/event.js";
 import validateTogglRequest from "./services/toggl/validateTogglRequest.js";
 
-export const app = express();
+export const exp = express();
 
 Sentry.init({
   dsn: SENTRY_DSN.value(),
@@ -28,7 +27,7 @@ Sentry.init({
     // enable HTTP calls tracing
     new Sentry.Integrations.Http({ tracing: true }),
     // enable Express.js middleware tracing
-    new Sentry.Integrations.Express({ app }),
+    new Sentry.Integrations.Express({ app: exp }),
     new ProfilingIntegration(),
   ],
   // Performance Monitoring
@@ -39,12 +38,12 @@ Sentry.init({
 });
 
 // The request handler must be the first middleware on the app
-app.use(Sentry.Handlers.requestHandler());
+exp.use(Sentry.Handlers.requestHandler());
 
 // TracingHandler creates a trace for every incoming request
-app.use(Sentry.Handlers.tracingHandler());
+exp.use(Sentry.Handlers.tracingHandler());
 
-app.use(cors(), express.json());
+exp.use(cors(), express.json());
 
 type Fn = (
   req: express.Request,
@@ -52,69 +51,70 @@ type Fn = (
   next: express.NextFunction
 ) => unknown;
 
-function _get(path: string, fn: Fn) {
-  app.get(path, (req, res, next) => {
-    Promise.resolve(fn(req, res, next))
-      .then((d) => res.send(d || "OK"))
-      .catch(next);
-  });
+function createMethod(method: "get" | "post") {
+  return (path: string, fn: Fn) => {
+    exp[method](path, (req, res, next) => {
+      Promise.resolve(fn(req, res, next))
+        .then((d) => res.send(d || "OK"))
+        .catch(next);
+    });
+  };
 }
 
-_get("/", () => "Hello World!");
+const app = {
+  get: createMethod("get"),
+  post: createMethod("post"),
+};
+
+app.get("/", () => "Hello World!");
 
 // TODO: rename to /goals/*
-_get("/cron/techtainment", techtainment.update);
-_get("/cron/gross", gross.update);
-_get("/cron/dynalist", dynanew.update);
-_get("/cron/dynadone", dynadone.update);
-_get("/cron/billable", billable.update);
+app.get("/cron/techtainment", techtainment.update);
+app.get("/cron/gross", gross.update);
+app.get("/cron/dynalist", dynanew.update);
+app.get("/cron/dynadone", dynadone.update);
+app.get("/cron/billable", billable.update);
 
 // TODO: rename to /goals/email-zero
-app.post("/hooks/email-zero", (req, res) => {
+app.post("/hooks/email-zero", (req) => {
   const data = z
     .object({
       count: z.number(),
     })
     .parse(req.body);
 
-  createBinaryDatapoint("narthur", "email-zero", {
+  return createBinaryDatapoint("narthur", "email-zero", {
     value: data.count > 0 ? 0 : 1,
     comment: `Emails: ${data.count} (${new Date().toLocaleString()})`,
-  })
-    .then(() => res.send("OK"))
-    .catch((e: AxiosError) => res.status(500).send(e.message));
+  });
 });
 
 // TODO: rename to /goals/tr-email-zero
-app.post("/hooks/tr-email-zero", (req, res) => {
+app.post("/hooks/tr-email-zero", (req) => {
   const data = z
     .object({
       count: z.number(),
     })
     .parse(req.body);
 
-  createBinaryDatapoint("narthur", "tr-email-zero", {
+  return createBinaryDatapoint("narthur", "tr-email-zero", {
     value: data.count > 0 ? 0 : 1,
     comment: `Emails: ${data.count} (${new Date().toLocaleString()})`,
-  })
-    .then(() => res.send("OK"))
-    .catch((e: AxiosError) => res.status(500).send(e.message));
+  });
 });
 
 // TODO: rename to /goals/av-email-zero
-app.post("/hooks/av-email-zero", (req, res) => {
+app.post("/hooks/av-email-zero", (req) => {
   const data = z
     .object({
       count: z.number(),
     })
     .parse(req.body);
 
-  createBinaryDatapoint("narthur", "av-email-zero", {
+  return createBinaryDatapoint("narthur", "av-email-zero", {
     value: data.count > 0 ? 0 : 1,
     comment: `Emails: ${data.count} (${new Date().toLocaleString()})`,
-  })
-    .then(() => res.send("OK"))
-    .catch((e: AxiosError) => res.status(500).send(e.message));
+  });
 });
 
 // TODO: rename to /hooks/toggl
@@ -136,17 +136,13 @@ app.post("/toggl/hook", (req, res) => {
   if (e.metadata.model === "time_entry") {
     void createSummaryTask(e);
   }
-
-  res.send("OK");
 });
 
 // TODO: rename to /hooks/telegram
-app.post("/bot/hook", (req, res) => {
-  void handleBotRequest(req, res);
-});
+app.post("/bot/hook", handleBotRequest);
 
 // TODO: rename to /hooks/telegram/init
-_get("/bot/init", (req) =>
+app.get("/bot/init", (req) =>
   setWebhook({
     url: getFullUrl(req, "bot/hook"),
     secret_token: TELEGRAM_WEBHOOK_TOKEN.value(),
@@ -154,4 +150,4 @@ _get("/bot/init", (req) =>
 );
 
 // The error handler must be registered before any other error middleware and after all controllers
-app.use(Sentry.Handlers.errorHandler());
+exp.use(Sentry.Handlers.errorHandler());

@@ -3,7 +3,7 @@ import "./cron.ts";
 import * as Sentry from "@sentry/node";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-import { app } from "./app.js";
+import { exp } from "./app.js";
 
 const PORT = process.env.PORT || 3000;
 
@@ -34,4 +34,4 @@ axios.interceptors.response.use(
   }
 );
 
-app.listen(PORT, () => console.info(`Listening at http://localhost:${PORT}`));
+exp.listen(PORT, () => console.info(`Listening at http://localhost:${PORT}`));

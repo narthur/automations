@@ -1,9 +1,9 @@
 import { afterEach } from "node:test";
 
 import request from "supertest";
-import { beforeEach,describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { app } from "./app.js";
+import { exp } from "./app.js";
 import createDatapoint from "./services/beeminder/createDatapoint.js";
 import { getDocument, getFiles } from "./services/dynalist/index.js";
 import { setWebhook } from "./services/telegram/index.js";
@@ -30,21 +30,21 @@ describe("index", () => {
   });
 
   it("runs", async () => {
-    const res = await request(app).get("/");
+    const res = await request(exp).get("/");
 
     expect(res.status).toBe(200);
     expect(res.text).toBe("Hello World!");
   });
 
   it("runs techtainment", async () => {
-    const res = await request(app).get("/cron/techtainment");
+    const res = await request(exp).get("/cron/techtainment");
 
     expect(res.status).toBe(200);
     expect(getTimeEntries).toHaveBeenCalled();
   });
 
   it("has bot hook", async () => {
-    const res = await request(app)
+    const res = await request(exp)
       .post("/bot/hook")
       .set(
         "x-telegram-bot-api-secret-token",
@@ -67,7 +67,7 @@ describe("index", () => {
   });
 
   it("has bot init", async () => {
-    const res = await request(app).get("/bot/init");
+    const res = await request(exp).get("/bot/init");
 
     expect(res.status).toBe(200);
 
@@ -75,7 +75,7 @@ describe("index", () => {
   });
 
   it("runs gross", async () => {
-    const res = await request(app).get("/cron/gross");
+    const res = await request(exp).get("/cron/gross");
 
     expect(res.status).toBe(200);
     expect(res.text).toBe("OK");
@@ -84,13 +84,13 @@ describe("index", () => {
   });
 
   it("gets dynalist files", async () => {
-    await request(app).get("/cron/dynalist");
+    await request(exp).get("/cron/dynalist");
 
     expect(getFiles).toBeCalled();
   });
 
   it("gets dynalist documents", async () => {
-    await request(app).get("/cron/dynalist");
+    await request(exp).get("/cron/dynalist");
 
     expect(getDocument).toBeCalledWith({
       file_id: "the_id",
@@ -107,7 +107,7 @@ describe("index", () => {
       ],
     } as any);
 
-    await request(app).get("/cron/dynalist");
+    await request(exp).get("/cron/dynalist");
 
     expect(getDocument).not.toBeCalled();
   });
@@ -123,7 +123,7 @@ describe("index", () => {
       ],
     } as any);
 
-    await request(app).get("/cron/dynalist");
+    await request(exp).get("/cron/dynalist");
 
     expect(createDatapoint).toBeCalledWith("narthur", "dynanew", {
       value: 1,
@@ -133,19 +133,19 @@ describe("index", () => {
   });
 
   it("updates datapoints for past week", async () => {
-    await request(app).get("/cron/dynalist");
+    await request(exp).get("/cron/dynalist");
 
     expect(createDatapoint).toBeCalledTimes(7);
   });
 
   it("only gets each document once", async () => {
-    await request(app).get("/cron/dynalist");
+    await request(exp).get("/cron/dynalist");
 
     expect(getDocument).toBeCalledTimes(1);
   });
 
   it("runs dynadone", async () => {
-    const res = await request(app).get("/cron/dynadone");
+    const res = await request(exp).get("/cron/dynadone");
 
     expect(res.status).toBe(200);
     expect(res.text).toBe("OK");
