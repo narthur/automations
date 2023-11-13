@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/node";
 import { ProfilingIntegration } from "@sentry/profiling-node";
+import { AxiosError } from "axios";
 import cors from "cors";
 import express from "express";
 import * as techtainment from "src/goals/techtainment.js";
@@ -80,9 +81,9 @@ app.post("/hooks/email-zero", (req, res) => {
     comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
   })
     .then(() => res.send("OK"))
-    .catch((e) => {
-      console.error(e);
-      res.status(500).send("Error");
+    .catch((e: AxiosError) => {
+      console.error(e.message);
+      res.status(500).send(e.message);
     });
 });
 
@@ -98,9 +99,9 @@ app.post("/hooks/tr-email-zero", (req, res) => {
     comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
   })
     .then(() => res.send("OK"))
-    .catch((e) => {
-      console.error(e);
-      res.status(500).send("Error");
+    .catch((e: AxiosError) => {
+      console.error(e.message);
+      res.status(500).send(e.message);
     });
 });
 
@@ -116,9 +117,9 @@ app.post("/hooks/av-email-zero", (req, res) => {
     comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
   })
     .then(() => res.send("OK"))
-    .catch((e) => {
-      console.error(e);
-      res.status(500).send("Error");
+    .catch((e: AxiosError) => {
+      console.error(e.message);
+      res.status(500).send(e.message);
     });
 });
 
