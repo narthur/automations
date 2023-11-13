@@ -15,7 +15,7 @@ import createSummaryTask from "./lib/createSummaryTask.js";
 import getFullUrl from "./lib/getFullUrl.js";
 import handleBotRequest from "./lib/handleBotRequest.js";
 import { SENTRY_DSN, TELEGRAM_WEBHOOK_TOKEN } from "./secrets.js";
-import createDatapoint from "./services/beeminder/createDatapoint.js";
+import createBinaryDatapoint from "./services/beeminder/createBinaryDatapoint.js";
 import { setWebhook } from "./services/telegram/index.js";
 import event from "./services/toggl/schemas/event.js";
 import validateTogglRequest from "./services/toggl/validateTogglRequest.js";
@@ -77,7 +77,7 @@ app.post("/hooks/email-zero", (req, res) => {
     })
     .parse(req.body);
 
-  createDatapoint("narthur", "email-zero", {
+  createBinaryDatapoint("narthur", "email-zero", {
     value: data.count > 0 ? 0 : 1,
     comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
   })
@@ -93,7 +93,7 @@ app.post("/hooks/tr-email-zero", (req, res) => {
     })
     .parse(req.body);
 
-  createDatapoint("narthur", "tr-email-zero", {
+  createBinaryDatapoint("narthur", "tr-email-zero", {
     value: data.count > 0 ? 0 : 1,
     comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
   })
@@ -109,7 +109,7 @@ app.post("/hooks/av-email-zero", (req, res) => {
     })
     .parse(req.body);
 
-  createDatapoint("narthur", "av-email-zero", {
+  createBinaryDatapoint("narthur", "av-email-zero", {
     value: data.count > 0 ? 0 : 1,
     comment: `Emails: ${data.count} (${new Date().toLocaleDateString()})`,
   })
