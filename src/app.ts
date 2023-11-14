@@ -55,7 +55,7 @@ function createMethod(method: "get" | "post") {
   return (path: string, fn: Fn) => {
     exp[method](path, (req, res, next) => {
       Promise.resolve(fn(req, res, next))
-        .then((d) => d !== null && res.send(d || "OK"))
+        .then((d) => res.send(d || "OK"))
         .catch(next);
     });
   };
@@ -120,10 +120,10 @@ app.post("/hooks/av-email-zero", (req) => {
 app.post("/hooks/toggl", (req, res) => {
   if (!validateTogglRequest(req)) {
     res.status(401).send("Unauthorized");
-    return null;
+    return;
   }
 
-  res.send("OK");
+  console.log("/toggl/hook", req.body);
 
   void billable.update();
   void gross.update();
@@ -135,8 +135,6 @@ app.post("/hooks/toggl", (req, res) => {
   if (e.metadata.model === "time_entry") {
     void createSummaryTask(e);
   }
-
-  return null;
 });
 
 // TODO: rename to /hooks/telegram
