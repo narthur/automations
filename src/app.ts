@@ -129,11 +129,10 @@ app.post("/hooks/toggl", (req, res) => {
   void gross.update();
   void techtainment.update();
 
-  // TODO: update schema to support all event types
-  const e = event.parse(req.body);
+  const result = event.safeParse(req.body);
 
-  if (e.metadata.model === "time_entry") {
-    void createSummaryTask(e);
+  if (result.success && result.data.metadata.model === "time_entry") {
+    void createSummaryTask(result.data);
   }
 });
 

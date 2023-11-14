@@ -1,5 +1,7 @@
 import z from "zod";
 
+// TODO: update schema to support all event types
+
 const schema = z.object({
   event_id: z.number(),
   created_at: z.string(),
