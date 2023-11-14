@@ -55,7 +55,7 @@ function createMethod(method: "get" | "post") {
   return (path: string, fn: Fn) => {
     exp[method](path, (req, res, next) => {
       Promise.resolve(fn(req, res, next))
-        .then((d) => res.send(d || "OK"))
+        .then((d) => d !== null && res.send(d || "OK"))
         .catch(next);
     });
   };
@@ -117,14 +117,13 @@ app.post("/hooks/av-email-zero", (req) => {
   });
 });
 
-// TODO: rename to /hooks/toggl
-app.post("/toggl/hook", (req, res) => {
+app.post("/hooks/toggl", (req, res) => {
   if (!validateTogglRequest(req)) {
     res.status(401).send("Unauthorized");
-    return;
+    return null;
   }
 
-  console.log("/toggl/hook", req.body);
+  res.send("OK");
 
   void billable.update();
   void gross.update();
@@ -136,6 +135,8 @@ app.post("/toggl/hook", (req, res) => {
   if (e.metadata.model === "time_entry") {
     void createSummaryTask(e);
   }
+
+  return null;
 });
 
 // TODO: rename to /hooks/telegram
