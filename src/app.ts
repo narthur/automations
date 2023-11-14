@@ -123,16 +123,27 @@ app.post("/hooks/toggl", (req, res) => {
     return;
   }
 
-  console.log("/toggl/hook", req.body);
+  const validationResult = z
+    .object({
+      validation_code: z.string(),
+    })
+    .safeParse(req.body);
+
+  if (validationResult.success) {
+    // https://developers.track.toggl.com/docs/webhooks_start/url_endpoint_validation/index.html
+    return {
+      validation_code: validationResult.data.validation_code,
+    };
+  }
 
   void billable.update();
   void gross.update();
   void techtainment.update();
 
-  const result = event.safeParse(req.body);
+  const eventResult = event.safeParse(req.body);
 
-  if (result.success && result.data.metadata.model === "time_entry") {
-    void createSummaryTask(result.data);
+  if (eventResult.success && eventResult.data.metadata.model === "time_entry") {
+    void createSummaryTask(eventResult.data);
   }
 });
 
