@@ -12,6 +12,6 @@ export default defineConfig({
   }),
   integrations: [sentry()],
   server: {
-    port: process.env.PORT || 3000
+    port: parseInt(process.env.PORT) || 3000
   }
 });
