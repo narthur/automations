@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance } from "axios";
 
-import { TASKRATCHET_API_TOKEN, TASKRATCHET_USER_ID } from "../secrets.js";
+import env from "../lib/env.js";
 
 let client: AxiosInstance;
 
@@ -12,10 +12,12 @@ function getClient() {
       baseURL: "https://api.taskratchet.com/api1",
     });
 
-    client.defaults.headers.common["X-Taskratchet-Userid"] =
-      TASKRATCHET_USER_ID.value();
-    client.defaults.headers.common["X-Taskratchet-Token"] =
-      TASKRATCHET_API_TOKEN.value();
+    client.defaults.headers.common["X-Taskratchet-Userid"] = env(
+      "TASKRATCHET_USER_ID"
+    );
+    client.defaults.headers.common["X-Taskratchet-Token"] = env(
+      "TASKRATCHET_API_TOKEN"
+    );
   }
 
   return client;

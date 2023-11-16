@@ -2,12 +2,12 @@
 
 import "dotenv/config";
 
-import { TRELLO_INC_BOARD_ID, TRELLO_INC_INBOX_LIST_ID } from "src/secrets.js";
+import env from "src/lib/env.js";
 import * as trello from "src/services/trello/index.js";
 
 const secrets = {
-  boardId: TRELLO_INC_BOARD_ID.value(),
-  inboxId: TRELLO_INC_INBOX_LIST_ID.value(),
+  boardId: env("TRELLO_INC_BOARD_ID"),
+  inboxId: env("TRELLO_INC_INBOX_LIST_ID"),
 };
 
 // const result = await trello.getBoardCards(secrets.boardId);
@@ -18,7 +18,7 @@ const secrets = {
 //   desc: "#source=https://github.com/beeminder/blog/issues/414"
 //   urlSource: "https://github.com/beeminder/blog/issues/414",
 // });
-const result = await trello.getListCards(secrets.inboxId);
+const result = await trello.getListCards(secrets.inboxId || "");
 
 console.dir(result, {
   depth: null,

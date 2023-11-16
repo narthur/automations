@@ -1,5 +1,3 @@
-import "./src/cron.ts";
-
 import node from "@astrojs/node";
 import sentry from "@sentry/astro";
 import { defineConfig } from "astro/config";
@@ -8,10 +6,7 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   output: "server",
   adapter: node({
-    mode: "standalone",
+    mode: "middleware",
   }),
   integrations: [sentry()],
-  server: {
-    port: parseInt(process.env.PORT) || 3000
-  }
 });

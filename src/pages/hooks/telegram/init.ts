@@ -1,12 +1,12 @@
 import type { APIContext } from "astro";
+import env from "src/lib/env";
 import getFullUrl from "src/lib/getFullUrl";
-import { TELEGRAM_WEBHOOK_TOKEN } from "src/secrets";
 import { setWebhook } from "src/services/telegram";
 
 export async function GET({ request }: APIContext) {
   return await setWebhook({
     url: getFullUrl(request, "bot/hook"),
-    secret_token: TELEGRAM_WEBHOOK_TOKEN.value(),
+    secret_token: env("TELEGRAM_WEBHOOK_TOKEN"),
   })
     .then(() => new Response("OK"))
     .catch(

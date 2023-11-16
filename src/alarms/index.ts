@@ -1,5 +1,5 @@
+import env from "src/lib/env.js";
 import isNotificationDue from "src/lib/isNotificationDue.js";
-import { TELEGRAM_CHAT_ID } from "src/secrets.js";
 import { deleteMessage, sendMessage } from "src/services/telegram/index.js";
 import { type TelegramMessage } from "src/services/telegram/types/TelegramMessage.js";
 
@@ -52,8 +52,14 @@ export function createAlarmTrigger(options: Options) {
       minute: "numeric",
     });
 
+    const chat_id = env("TELEGRAM_CHAT_ID");
+
+    if (!chat_id) {
+      throw new Error("TELEGRAM_CHAT_ID is not set");
+    }
+
     const m = await sendMessage({
-      chat_id: TELEGRAM_CHAT_ID.value(),
+      chat_id,
       text: `🚨 Due by ${due}: ${next.name}`,
     });
 

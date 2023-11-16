@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DYNALIST_TOKEN } from "src/secrets.js";
+import env from "src/lib/env.js";
 
 import {
   type DynalistFile,
@@ -92,7 +92,7 @@ function makeRoute<T extends Record<string, unknown>, D = unknown>(
       },
       data: {
         ...params,
-        token: DYNALIST_TOKEN.value(),
+        token: env("DYNALIST_TOKEN"),
       },
     });
 

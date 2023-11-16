@@ -6,7 +6,7 @@ import {
 } from "@notionhq/client/build/src/api-endpoints.js";
 import { z } from "zod";
 
-import { NOTION_API_KEY } from "../secrets.js";
+import env from "../lib/env.js";
 import { DATABASES } from "./notion.helpers.js";
 
 type QueryDatabaseOptions = {
@@ -18,7 +18,7 @@ let client: Client | null = null;
 function getNotion() {
   if (!client) {
     client = new Client({
-      auth: NOTION_API_KEY.value(),
+      auth: env("NOTION_API_KEY"),
     });
   }
 

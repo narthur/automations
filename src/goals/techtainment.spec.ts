@@ -28,7 +28,7 @@ describe("av-prime", () => {
     vi.mocked(getClients).mockResolvedValue([
       {
         id: CLIENT_MATCH_ID,
-        name: "__SECRET_TOGGL_CLIENT_AV__",
+        name: "__TOGGL_CLIENT_AV_VALUE__",
       } as any,
     ]);
   });

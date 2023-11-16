@@ -1,11 +1,16 @@
 import crypto from "crypto";
-import { TOGGL_SIGNING_SECRET } from "src/secrets.js";
+import env from "src/lib/env.js";
 
 // https://developers.track.toggl.com/docs/webhooks_start/validating_received_events
 export default function validateTogglRequest(req: Request) {
   const message = JSON.stringify(req.body);
   const signature = req.headers.get("x-webhook-signature-256") || "";
-  const secret = TOGGL_SIGNING_SECRET.value();
+  const secret = env("TOGGL_SIGNING_SECRET");
+
+  if (!secret) {
+    throw new Error("TOGGL_SIGNING_SECRET not set");
+  }
+
   const hmac = crypto.createHmac("sha256", secret).setEncoding("hex");
 
   hmac.update(message);

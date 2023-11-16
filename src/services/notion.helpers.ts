@@ -1,18 +1,22 @@
 import { z } from "zod";
 
-import {
-  NOTION_DATABASE_ID_TODOS,
-  NOTION_DATABASE_ID_TR_CARDS,
-} from "../secrets.js";
+import env from "../lib/env.js";
 
 export const DATABASES = z
   .enum(["TASKRATCHET_CARDS", "TODOS"])
   .transform((val) => {
+    const trCards = env("NOTION_DATABASE_ID_TR_CARDS");
+    const todos = env("NOTION_DATABASE_ID_TODOS");
+
+    if (!trCards || !todos) {
+      throw new Error("Missing database ID");
+    }
+
     switch (val) {
       case "TASKRATCHET_CARDS":
-        return NOTION_DATABASE_ID_TR_CARDS.value();
+        return trCards;
       case "TODOS":
-        return NOTION_DATABASE_ID_TODOS.value();
+        return todos;
       default:
         throw new Error("Invalid database");
     }

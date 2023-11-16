@@ -22,13 +22,14 @@
   },
   "compileOnSave": true,
   "include": [
-    "src",
-    "scripts",
-    "vite.config.ts",
-    "vitest.setup.ts",
-    "vitest.global.ts",
+    "./src",
+    "./scripts",
+    "./vite.config.ts",
+    "./vitest.setup.ts",
+    "./vitest.global.ts",
     "__mocks__",
-    "astro.config.mjs"
+    "./astro.config.mjs",
+    "./run-server.mjs"
   ],
   "ts-node": {
     "esm": true,

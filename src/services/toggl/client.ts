@@ -1,13 +1,13 @@
 import axios, { type AxiosRequestConfig } from "axios";
 import PQueue from "p-queue";
 
-import { TOGGL_API_TOKEN } from "../../secrets.js";
+import env from "../../lib/env.js";
 
 const _client = axios.create({
   baseURL: "https://api.track.toggl.com",
 });
 
-const token = TOGGL_API_TOKEN.value();
+const token = env("TOGGL_API_TOKEN");
 const auth = Buffer.from(`${token}:api_token`).toString("base64");
 
 _client.defaults.headers.common.Authorization = `Basic ${auth}`;

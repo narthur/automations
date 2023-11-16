@@ -14,7 +14,7 @@ import {
   getTimeEntries,
 } from "./src/services/toggl/index.js";
 
-vi.mock("./src/lib/defineSecret");
+vi.mock("./src/lib/env");
 vi.mock("./src/services/beeminder");
 vi.mock("./src/services/beeminder/createDatapoint");
 vi.mock("./src/services/beeminder/getBeemergencies");

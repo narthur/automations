@@ -1,4 +1,4 @@
-import { describe, expect,it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { addDocument } from "../services/notion.js";
 import { getFunctionDefinitions, getFunctionResponse } from "./gptFns.js";
@@ -32,7 +32,7 @@ describe("gptFns", () => {
 
     expect(addDocument).toBeCalledWith(
       expect.objectContaining({
-        database: "__SECRET_NOTION_DATABASE_ID_TODOS__",
+        database: "__NOTION_DATABASE_ID_TODOS_VALUE__",
       })
     );
   });

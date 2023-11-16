@@ -31,7 +31,7 @@ describe("tr", () => {
 
     expect(sendMessage).toBeCalledWith(
       expect.objectContaining({
-        chat_id: "__SECRET_TELEGRAM_CHAT_ID__",
+        chat_id: "__TELEGRAM_CHAT_ID_VALUE__",
       })
     );
   });

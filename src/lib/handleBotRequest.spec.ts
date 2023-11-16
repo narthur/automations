@@ -12,7 +12,7 @@ function send(text: string) {
         get: (key: string) =>
           ({
             "x-telegram-bot-api-secret-token":
-              "__SECRET_TELEGRAM_WEBHOOK_TOKEN__",
+              "__TELEGRAM_WEBHOOK_TOKEN_VALUE__",
           }[key]),
       },
       body: {
@@ -21,7 +21,7 @@ function send(text: string) {
             id: "chat_id",
           },
           from: {
-            id: "__SECRET_TELEGRAM_ALLOWED_USER__",
+            id: "__TELEGRAM_ALLOWED_USER_VALUE__",
           },
           text,
         },

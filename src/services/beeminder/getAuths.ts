@@ -1,4 +1,4 @@
-import { BM_AUTHS } from "src/secrets.js";
+import env from "src/lib/env.js";
 
 function parse(auth: string): [string, string] {
   const [u, t] = auth.split(":");
@@ -9,7 +9,12 @@ function parse(auth: string): [string, string] {
 }
 
 export default function getAuths(): Record<string, string> {
-  const rawAuths = BM_AUTHS.value();
+  const rawAuths = env("BM_AUTHS");
+
+  if (!rawAuths?.length) {
+    return {};
+  }
+
   const entries = rawAuths.split(",").map(parse);
 
   return Object.fromEntries(entries);

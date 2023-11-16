@@ -1,17 +1,17 @@
 import type { APIContext } from "astro";
+import env from "src/lib/env.js";
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
 import getGptResponse from "src/services/openai/getGptResponse.js";
 import { sendMessages } from "src/services/telegram/sendMessages.js";
 import { type TelegramUpdate } from "src/services/telegram/types/TelegramUpdate.js";
 
-import { TELEGRAM_ALLOWED_USER, TELEGRAM_WEBHOOK_TOKEN } from "../secrets.js";
 import { tryWithRelay } from "../services/telegram/tryWithRelay.js";
 import runCommand from "./runCommand.js";
 
 export default async function handleBotRequest({ request: req }: APIContext) {
   const isTelegram =
     req.headers.get("x-telegram-bot-api-secret-token") ===
-    TELEGRAM_WEBHOOK_TOKEN.value();
+    env("TELEGRAM_WEBHOOK_TOKEN");
 
   if (!isTelegram) {
     return new Response("Forbidden", { status: 403 });
@@ -27,7 +27,7 @@ export default async function handleBotRequest({ request: req }: APIContext) {
 
   const { text, from, chat } = message;
 
-  const isAllowedUser = String(from?.id) === TELEGRAM_ALLOWED_USER.value();
+  const isAllowedUser = String(from?.id) === env("TELEGRAM_ALLOWED_USER");
 
   if (!isAllowedUser) {
     return new Response("Forbidden", { status: 403 });

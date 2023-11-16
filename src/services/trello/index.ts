@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TRELLO_API_KEY, TRELLO_API_TOKEN } from "src/secrets.js";
+import env from "src/lib/env.js";
 
 import { type SearchInput } from "./types/SearchInput.js";
 import { type TrelloCard } from "./types/TrelloCard.js";
@@ -12,8 +12,8 @@ const client = axios.create({
 
 function getAuth() {
   return {
-    key: TRELLO_API_KEY.value(),
-    token: TRELLO_API_TOKEN.value(),
+    key: env("TRELLO_API_KEY"),
+    token: env("TRELLO_API_TOKEN"),
   };
 }
 

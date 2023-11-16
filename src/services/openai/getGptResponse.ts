@@ -2,9 +2,9 @@ import {
   type ChatCompletionMessage,
   type ChatCompletionMessageParam,
 } from "openai/resources/chat/index.js";
+import env from "src/lib/env.js";
 import { getFunctionDefinitions, getFunctionResponse } from "src/lib/gptFns.js";
 import { addMessage, getMessages } from "src/lib/history.js";
-import { OPENAI_PROMPT } from "src/secrets.js";
 
 import splitMessages from "../../lib/splitMessages.js";
 import { getResponse } from "../../services/openai/index.js";
@@ -24,10 +24,16 @@ export default async function getGptResponse(
   prompt: string
 ): Promise<string[]> {
   console.info("getting openai response");
+  const systemPrompt = env("OPENAI_PROMPT");
+
+  if (!systemPrompt) {
+    throw new Error("OPENAI_PROMPT env var not set");
+  }
+
   const messages: Array<ChatCompletionMessageParam> = [
     {
       role: "system",
-      content: OPENAI_PROMPT.value(),
+      content: systemPrompt,
     },
     ...getMessages(),
     {
@@ -42,7 +48,9 @@ export default async function getGptResponse(
   const raw = await getResponse(messages, getFunctionDefinitions());
   if (!raw) throw new Error("no response from openai");
   console.info("parsing openai response");
+
   const content = (await getFunctionResponse(raw)) || raw.content || "";
+
   if (hasFunctionCall(raw)) {
     addMessage({
       role: "assistant",
