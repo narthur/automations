@@ -24,7 +24,7 @@
   "include": [
     "./src",
     "./scripts",
-    "./vite.config.ts",
+    "vitest.config.ts",
     "./vitest.setup.ts",
     "./vitest.global.ts",
     "__mocks__",
