@@ -1,4 +1,4 @@
-import "./cron.ts";
+import "./src/cron.ts";
 
 import node from "@astrojs/node";
 import sentry from "@sentry/astro";
