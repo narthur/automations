@@ -1,7 +1,7 @@
-import { CallbackGame } from "./CallbackGame.js";
-import { LoginUrl } from "./LoginUrl.js";
-import { SwitchInlineQueryChosenChat } from "./SwitchInlineQueryChosenChat.js";
-import { WebAppInfo } from "./WebAppInfo.js";
+import { type CallbackGame } from "./CallbackGame.js";
+import { type LoginUrl } from "./LoginUrl.js";
+import { type SwitchInlineQueryChosenChat } from "./SwitchInlineQueryChosenChat.js";
+import { type WebAppInfo } from "./WebAppInfo.js";
 
 export type InlineKeyboardButton = {
   text: string; // Label text on the button

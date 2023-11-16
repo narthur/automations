@@ -1,4 +1,4 @@
-import { KeyboardButton } from "./KeyboardButton.js";
+import { type KeyboardButton } from "./KeyboardButton.js";
 
 export type ReplyKeyboardMarkup = {
   // Array of button rows, each represented by an Array of KeyboardButton objects

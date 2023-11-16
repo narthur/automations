@@ -1,7 +1,7 @@
 import { makeUpdater } from "src/goals/index.js";
 import makeDaystamp from "src/lib/makeDaystamp.js";
 import { getProjects } from "src/services/toggl/getProjects.js";
-import { type TimeEntry, TogglProject } from "src/services/toggl/types.js";
+import { type TimeEntry, type TogglProject } from "src/services/toggl/types.js";
 
 import dateParams from "../services/toggl/dateParams.js";
 import { getSumOfHours } from "../services/toggl/getSumOfHours.js";
@@ -27,7 +27,12 @@ async function getPrimeClients({
   const projectIds = [...new Set(entries.map((e) => e.project_id))];
   const primeProjects = projects.filter((p) => projectIds.includes(p.id));
   const clientIds = [...new Set(primeProjects.map((p) => p.client_id))];
-  const workspaceId = entries[0].workspace_id;
+  const workspaceId = entries[0]?.workspace_id;
+
+  if (!workspaceId) {
+    throw new Error("Failed to get workspace ID");
+  }
+
   const clients = await getClients(workspaceId);
 
   return clients.filter((c) => clientIds.includes(c.id)).map((c) => c.name);

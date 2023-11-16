@@ -1,4 +1,4 @@
-import { ChatAdministratorRights } from "./ChatAdministratorRights.js";
+import { type ChatAdministratorRights } from "./ChatAdministratorRights.js";
 
 export type KeyboardButtonRequestChat = {
   // Signed 32-bit identifier of the request, which will be received back in the ChatShared object.

@@ -2,7 +2,7 @@ import { __loadResponse } from "axios";
 import { vi } from "vitest";
 
 import { getTimeEntries } from "../services/toggl/index.js";
-import { TimeEntry } from "../services/toggl/types.js";
+import { type TimeEntry } from "../services/toggl/types.js";
 
 const PROJECTS = [
   {
@@ -20,7 +20,7 @@ const PROJECTS = [
 export default function loadTimeEntries(entries: Partial<TimeEntry>[]) {
   const data = entries.map((e): Partial<TimeEntry> => {
     return {
-      project_id: PROJECTS[0].id,
+      project_id: PROJECTS[0]!.id,
       duration: 3600,
       start: "2022-08-10T16:50:07+00:00",
       ...e,

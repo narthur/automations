@@ -1,5 +1,5 @@
 import getGoals from "src/services/beeminder/getGoals.js";
-import { Goal } from "src/services/beeminder/types/goal.js";
+import { type Goal } from "src/services/beeminder/types/goal.js";
 import { describe, expect, it, vi } from "vitest";
 
 import getBeemergencySummary from "./getBeemergencySummary.js";

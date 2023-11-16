@@ -1,4 +1,4 @@
-import { Datapoint } from "./datapoint.js";
+import { type Datapoint } from "./datapoint.js";
 
 export type Goal = {
   /**

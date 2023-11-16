@@ -1,4 +1,4 @@
-import { CreateChatCompletionRequestMessage } from "node_modules/openai/resources/chat/index.js";
+import type { CreateChatCompletionRequestMessage } from "openai/resources/chat/completions.mjs";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { addMessage, clearHistory, getMessages } from "./history.js";
@@ -44,6 +44,6 @@ describe("history", () => {
 
     const messages = getMessages();
 
-    expect(messages[0].content).toBe("foo");
+    expect(messages[0]?.content).toBe("foo");
   });
 });

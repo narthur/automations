@@ -1,6 +1,6 @@
 import {
-  ChatCompletionCreateParams,
-  ChatCompletionMessage,
+  type ChatCompletionCreateParams,
+  type ChatCompletionMessage,
 } from "openai/resources/chat/index.js";
 import z from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
@@ -36,8 +36,9 @@ export async function getFunctionResponse(
   if (!name) return false;
   try {
     console.info("calling function", name);
-    if (!(name in FUNCTIONS)) throw new Error(`Function ${name} not found`);
-    return FUNCTIONS[name].parseAsync(JSON.parse(args));
+    const fn = FUNCTIONS[name];
+    if (!fn) throw new Error(`Function ${name} not found`);
+    return fn.parseAsync(JSON.parse(args));
   } catch (e) {
     console.error(e);
     return `Error calling function ${String(name)}`;
@@ -47,7 +48,7 @@ export async function getFunctionResponse(
 export function getFunctionDefinitions(): ChatCompletionCreateParams.Function[] {
   return Object.entries(FUNCTIONS).map(([name, fn]) => ({
     name,
-    description: fn._def.description,
+    description: fn._def.description || "",
     parameters: zodToJsonSchema(fn._def.schema),
   }));
 }

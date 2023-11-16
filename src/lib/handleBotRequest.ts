@@ -1,32 +1,28 @@
-import express from "express";
+import type { APIContext } from "astro";
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
 import getGptResponse from "src/services/openai/getGptResponse.js";
 import { sendMessages } from "src/services/telegram/sendMessages.js";
-import { TelegramUpdate } from "src/services/telegram/types/TelegramUpdate.js";
+import { type TelegramUpdate } from "src/services/telegram/types/TelegramUpdate.js";
 
 import { TELEGRAM_ALLOWED_USER, TELEGRAM_WEBHOOK_TOKEN } from "../secrets.js";
 import { tryWithRelay } from "../services/telegram/tryWithRelay.js";
 import runCommand from "./runCommand.js";
 
-export default async function handleBotRequest(
-  req: express.Request,
-  res: express.Response
-) {
+export default async function handleBotRequest({ request: req }: APIContext) {
   const isTelegram =
-    req.headers["x-telegram-bot-api-secret-token"] ===
+    req.headers.get("x-telegram-bot-api-secret-token") ===
     TELEGRAM_WEBHOOK_TOKEN.value();
 
   if (!isTelegram) {
-    res.status(403).send("Forbidden");
-    return;
+    return new Response("Forbidden", { status: 403 });
   }
 
-  const update = req.body as TelegramUpdate;
+  // TODO: Use zod to validate this
+  const update = req.body as unknown as TelegramUpdate;
   const message = "message" in update ? update.message : undefined;
 
   if (!message?.text) {
-    res.status(200).send("OK");
-    return;
+    return new Response("OK");
   }
 
   const { text, from, chat } = message;
@@ -34,8 +30,7 @@ export default async function handleBotRequest(
   const isAllowedUser = String(from?.id) === TELEGRAM_ALLOWED_USER.value();
 
   if (!isAllowedUser) {
-    res.status(403).send("Forbidden");
-    return;
+    return new Response("Forbidden", { status: 403 });
   }
 
   await tryWithRelay(chat.id, async () => {
@@ -46,5 +41,5 @@ export default async function handleBotRequest(
     await sendMessages(chat.id, texts);
   });
 
-  res.status(200).send("OK");
+  return new Response("OK");
 }

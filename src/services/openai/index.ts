@@ -1,8 +1,8 @@
 import OpenAI from "openai";
 import {
-  ChatCompletionCreateParams,
-  ChatCompletionMessage,
-  ChatCompletionMessageParam,
+  type ChatCompletionCreateParams,
+  type ChatCompletionMessage,
+  type ChatCompletionMessageParam,
 } from "openai/resources/chat/index.js";
 
 import { OPENAI_SECRET_KEY } from "../../secrets.js";
@@ -25,8 +25,8 @@ function getOpenAi() {
 
 export async function getResponse(
   messages: Array<ChatCompletionMessageParam>,
-  functions?: Array<ChatCompletionCreateParams.Function>
-): Promise<ChatCompletionMessage> {
+  functions: Array<ChatCompletionCreateParams.Function> = []
+): Promise<ChatCompletionMessage | undefined> {
   console.info(
     "function messages:",
     messages.filter((m) => m.role === "function")
@@ -43,5 +43,5 @@ export async function getResponse(
   });
 
   console.info("returning first openai completion message");
-  return completion.choices[0].message;
+  return completion.choices[0]?.message;
 }

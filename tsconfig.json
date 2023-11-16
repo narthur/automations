@@ -1,6 +1,6 @@
 {
+  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "module": "NodeNext",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noEmit": true,
@@ -13,7 +13,12 @@
     "types": ["vitest/importMeta"],
     "paths": {
       "src/*": ["./src/*"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "@astrojs/ts-plugin"
+      }
+    ]
   },
   "compileOnSave": true,
   "include": [
@@ -22,7 +27,8 @@
     "vite.config.ts",
     "vitest.setup.ts",
     "vitest.global.ts",
-    "__mocks__"
+    "__mocks__",
+    "astro.config.mjs"
   ],
   "ts-node": {
     "esm": true,

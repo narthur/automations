@@ -1,7 +1,7 @@
-import { KeyboardButtonPollType } from "./KeyboardButtonPollType.js";
-import { KeyboardButtonRequestChat } from "./KeyboardButtonRequestChat.js";
-import { KeyboardButtonRequestUser } from "./KeyboardButtonRequestUser.js";
-import { WebAppInfo } from "./WebAppInfo.js";
+import { type KeyboardButtonPollType } from "./KeyboardButtonPollType.js";
+import { type KeyboardButtonRequestChat } from "./KeyboardButtonRequestChat.js";
+import { type KeyboardButtonRequestUser } from "./KeyboardButtonRequestUser.js";
+import { type WebAppInfo } from "./WebAppInfo.js";
 
 export type KeyboardButton = {
   // Text of the button. If none of the optional fields are used, it will be sent as a message when the button is pressed

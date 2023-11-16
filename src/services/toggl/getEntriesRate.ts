@@ -1,5 +1,5 @@
 import uniq from "../../lib/uniq.js";
-import { TimeEntry, TogglProject } from "./types.js";
+import { type TimeEntry, type TogglProject } from "./types.js";
 
 export default function getEntriesRate({
   timeEntries,

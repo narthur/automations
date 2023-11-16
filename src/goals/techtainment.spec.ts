@@ -14,6 +14,7 @@ describe("av-prime", () => {
         tags: ["prime"],
         project_id: 1,
         duration: 3600 / 2,
+        workspace_id: 1,
       } as any,
     ]);
 

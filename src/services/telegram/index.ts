@@ -1,12 +1,12 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 
 import { TELEGRAM_API_TOKEN } from "../../secrets.js";
-import { ForceReply } from "./types/ForceReply.js";
-import { InlineKeyboardMarkup } from "./types/InlineKeyboardMarkup.js";
-import { ReplyKeyboardMarkup } from "./types/ReplyKeyboardMarkup.js";
-import { ReplyKeyboardRemove } from "./types/ReplyKeyboardRemove.js";
-import { TelegramMessage } from "./types/TelegramMessage.js";
-import { TelegramResponse } from "./types/TelegramResponse.js";
+import { type ForceReply } from "./types/ForceReply.js";
+import { type InlineKeyboardMarkup } from "./types/InlineKeyboardMarkup.js";
+import { type ReplyKeyboardMarkup } from "./types/ReplyKeyboardMarkup.js";
+import { type ReplyKeyboardRemove } from "./types/ReplyKeyboardRemove.js";
+import { type TelegramMessage } from "./types/TelegramMessage.js";
+import { type TelegramResponse } from "./types/TelegramResponse.js";
 
 // https://core.telegram.org/bots/api#setwebhook
 export function setWebhook(data: {

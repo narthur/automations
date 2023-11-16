@@ -6,10 +6,14 @@ import { sendMessage } from "../services/telegram/index.js";
 import handleBotRequest from "./handleBotRequest.js";
 
 function send(text: string) {
-  return handleBotRequest(
-    {
+  return handleBotRequest({
+    request: {
       headers: {
-        "x-telegram-bot-api-secret-token": "__SECRET_TELEGRAM_WEBHOOK_TOKEN__",
+        get: (key: string) =>
+          ({
+            "x-telegram-bot-api-secret-token":
+              "__SECRET_TELEGRAM_WEBHOOK_TOKEN__",
+          }[key]),
       },
       body: {
         message: {
@@ -22,13 +26,8 @@ function send(text: string) {
           text,
         },
       },
-    } as any,
-    {
-      status: () => ({
-        send: () => {},
-      }),
-    } as any
-  );
+    },
+  } as any);
 }
 
 describe("handleBotRequest", () => {

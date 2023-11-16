@@ -1,7 +1,7 @@
-import { AxiosRequestConfig } from "axios";
+import { type AxiosRequestConfig } from "axios";
 
 import { api } from "./index.js";
-import { TogglProject } from "./types.js";
+import { type TogglProject } from "./types.js";
 
 export function getProject(
   workspaceId: number,

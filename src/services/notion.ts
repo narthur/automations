@@ -1,8 +1,8 @@
 import { Client } from "@notionhq/client";
 import {
-  CreatePageResponse,
-  QueryDatabaseParameters,
-  QueryDatabaseResponse,
+  type CreatePageResponse,
+  type QueryDatabaseParameters,
+  type QueryDatabaseResponse,
 } from "@notionhq/client/build/src/api-endpoints.js";
 import { z } from "zod";
 

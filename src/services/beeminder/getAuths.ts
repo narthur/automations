@@ -2,6 +2,9 @@ import { BM_AUTHS } from "src/secrets.js";
 
 function parse(auth: string): [string, string] {
   const [u, t] = auth.split(":");
+  if (!u || !t) {
+    throw new Error(`Invalid auth: ${auth}`);
+  }
   return [u, t];
 }
 

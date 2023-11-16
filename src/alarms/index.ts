@@ -1,7 +1,7 @@
 import isNotificationDue from "src/lib/isNotificationDue.js";
 import { TELEGRAM_CHAT_ID } from "src/secrets.js";
 import { deleteMessage, sendMessage } from "src/services/telegram/index.js";
-import { TelegramMessage } from "src/services/telegram/types/TelegramMessage.js";
+import { type TelegramMessage } from "src/services/telegram/types/TelegramMessage.js";
 
 type Item = {
   name: string;

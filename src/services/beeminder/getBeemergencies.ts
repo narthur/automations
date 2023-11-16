@@ -1,5 +1,5 @@
 import getGoals from "./getGoals.js";
-import { GoalExtended } from "./types/goalExtended.js";
+import { type GoalExtended } from "./types/goalExtended.js";
 
 export default async function getBeemergencies(): Promise<GoalExtended[]> {
   const goals = await getGoals();

@@ -1,8 +1,8 @@
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 import {
-  TogglMe,
-  TogglTimeSummaryEntry,
-  TogglTimeSummaryGroup,
+  type TogglMe,
+  type TogglTimeSummaryEntry,
+  type TogglTimeSummaryGroup,
 } from "src/services/toggl/types.js";
 
 import { getMe } from "../services/toggl/index.js";
@@ -39,7 +39,7 @@ async function getDateUpdate(date: Date, me: TogglMe) {
   });
 
   const sums = groups.map((group) => [group.id, sumUser(group, me)]);
-  const value = sums.reduce((acc, [, sum]) => acc + sum, 0);
+  const value = sums.reduce((acc, [, sum]) => acc + (sum ?? 0), 0);
   const comment = `updated ${new Date().toLocaleString()}: ${JSON.stringify(
     sums
   )}`;

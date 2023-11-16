@@ -1,5 +1,5 @@
 import FormData from "form-data";
-import Mailgun from "mailgun.js";
+import Mailgun, { type MessagesSendResult } from "mailgun.js";
 import { parse } from "marked";
 
 import { MAILGUN_API_KEY, MAILGUN_DOMAIN } from "../secrets.js";
@@ -20,7 +20,7 @@ export async function sendEmail({
   markdown: string;
   subject: string;
   from?: string;
-}): Promise<Mailgun.MessagesSendResult> {
+}): Promise<MessagesSendResult> {
   console.info("Sending email", { recipients, subject });
   return client.messages.create(MAILGUN_DOMAIN.value(), {
     from: `Nathan Arthur <${from}>`,

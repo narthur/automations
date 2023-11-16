@@ -1,4 +1,7 @@
-import { CreateChatCompletionRequestMessage } from "openai/resources/chat/index.js";
+import {
+  type ChatCompletionMessageParam,
+  type CreateChatCompletionRequestMessage,
+} from "openai/resources/chat/index.js";
 
 const history: Array<CreateChatCompletionRequestMessage> = [];
 
@@ -10,16 +13,19 @@ export function addMessage(message: CreateChatCompletionRequestMessage) {
 const TOKEN_LIMIT = 3000;
 const CHAR_LIMIT = TOKEN_LIMIT * 4;
 
-export function getMessages() {
+export function getMessages(): ChatCompletionMessageParam[] {
   const subset = [];
   let charCount = 0;
   let i = history.length - 1;
 
-  while (i >= 0 && charCount + (history[i].content || "").length < CHAR_LIMIT) {
+  while (
+    i >= 0 &&
+    charCount + (history[i]?.content || "").length < CHAR_LIMIT
+  ) {
     const message = history[i];
-    const content = message.content || "";
+    const content = message?.content || "";
     charCount += content.length;
-    subset.unshift(message);
+    message && subset.unshift(message);
     i--;
   }
 

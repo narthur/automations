@@ -12,7 +12,7 @@ import taskratchet from "../commands/taskratchet.js";
 import time from "../commands/time.js";
 import today from "../commands/today.js";
 import uptime from "../commands/uptime.js";
-import { Command } from "./cmd.js";
+import { type Command } from "./cmd.js";
 
 const commands: Command[] = [
   foo,

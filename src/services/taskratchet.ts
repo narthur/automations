@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { type AxiosInstance } from "axios";
 
 import { TASKRATCHET_API_TOKEN, TASKRATCHET_USER_ID } from "../secrets.js";
 

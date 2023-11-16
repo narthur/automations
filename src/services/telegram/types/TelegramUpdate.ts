@@ -1,4 +1,4 @@
-import { TelegramMessage } from "./TelegramMessage.js";
+import { type TelegramMessage } from "./TelegramMessage.js";
 
 export type TelegramUpdate = {
   update_id: number;

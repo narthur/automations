@@ -1,7 +1,7 @@
 import makeDaystamp from "src/lib/makeDaystamp.js";
 
 import createDatapoint from "./createDatapoint.js";
-import { DatapointInput } from "./types/datapointInput.js";
+import { type DatapointInput } from "./types/datapointInput.js";
 
 export default function createBinaryDatapoint(
   user: string,

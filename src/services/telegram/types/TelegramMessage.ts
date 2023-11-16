@@ -1,5 +1,5 @@
-import { TelegramChat } from "./TelegramChat.js";
-import { TelegramUser } from "./TelegramUser.js";
+import { type TelegramChat } from "./TelegramChat.js";
+import { type TelegramUser } from "./TelegramUser.js";
 
 export type TelegramMessage = {
   message_id: number;

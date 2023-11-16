@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 import PQueue from "p-queue";
 
 import { TOGGL_API_TOKEN } from "../../secrets.js";

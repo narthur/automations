@@ -1,6 +1,6 @@
 import {
-  ChatCompletionMessage,
-  ChatCompletionMessageParam,
+  type ChatCompletionMessage,
+  type ChatCompletionMessageParam,
 } from "openai/resources/chat/index.js";
 import { getFunctionDefinitions, getFunctionResponse } from "src/lib/gptFns.js";
 import { addMessage, getMessages } from "src/lib/history.js";

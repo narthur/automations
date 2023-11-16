@@ -1,6 +1,6 @@
 import getGoals from "src/services/beeminder/getGoals.js";
-import { GoalExtended } from "src/services/beeminder/types/goalExtended.js";
-import { afterEach,beforeEach, describe, expect, it, vi } from "vitest";
+import { type GoalExtended } from "src/services/beeminder/types/goalExtended.js";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import beetuning from "./beetuning.js";
 

@@ -1,4 +1,4 @@
-import { Goal } from "./types/goal.js";
+import { type Goal } from "./types/goal.js";
 
 export default function isGoal(obj: unknown): obj is Goal {
   if (typeof obj !== "object") return false;

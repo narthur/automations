@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 
 import { api } from "./index.js";
-import { DatapointInput } from "./types/datapointInput.js";
+import { type DatapointInput } from "./types/datapointInput.js";
 
 export default async function createDatapoint(
   user: string,

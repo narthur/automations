@@ -1,7 +1,7 @@
 import getAuths from "./getAuths.js";
 import { api } from "./index.js";
-import { Goal } from "./types/goal.js";
-import { GoalExtended } from "./types/goalExtended.js";
+import { type Goal } from "./types/goal.js";
+import { type GoalExtended } from "./types/goalExtended.js";
 
 export default async function getGoals(): Promise<GoalExtended[]> {
   const auths = getAuths();

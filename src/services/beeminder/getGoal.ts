@@ -1,6 +1,6 @@
 import { api } from "./index.js";
 import isGoal from "./isGoal.js";
-import { Goal } from "./types/goal.js";
+import { type Goal } from "./types/goal.js";
 
 export default async function getGoal(
   user: string,

@@ -1,13 +1,13 @@
-import { AxiosRequestConfig } from "axios";
+import { type AxiosRequestConfig } from "axios";
 import makeDaystamp from "src/lib/makeDaystamp.js";
 
 import client from "./client.js";
 import {
-  TimeEntry,
-  TogglClient,
-  TogglMe,
-  TogglProjectSummaries,
-  TogglTask,
+  type TimeEntry,
+  type TogglClient,
+  type TogglMe,
+  type TogglProjectSummaries,
+  type TogglTask,
 } from "./types.js";
 
 export function getTimeEntries(options: AxiosRequestConfig = {}) {

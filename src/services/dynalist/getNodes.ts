@@ -1,5 +1,5 @@
 import { getDocument, getFiles } from "./index.js";
-import { DynalistNode } from "./types.js";
+import { type DynalistNode } from "./types.js";
 
 const getNodes = async (): Promise<DynalistNode[]> => {
   const { files } = await getFiles();
