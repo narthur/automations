@@ -10,6 +10,10 @@ import { POST } from "./toggl";
 
 vi.mock("../../services/toggl/validateTogglRequest");
 
+const eventFixture = createFixture(event, {
+  seed: 1,
+});
+
 describe("hooks/toggl", () => {
   beforeEach(() => {
     vi.mocked(validateTogglRequest).mockResolvedValue(true);
@@ -34,20 +38,16 @@ describe("hooks/toggl", () => {
   });
 
   it("creates summary task", async () => {
-    const fixture = createFixture(event, {
-      seed: 1,
-    });
-
     const request = new Request("https://example.com/hooks/toggl", {
       method: "POST",
       body: JSON.stringify({
-        ...fixture,
+        ...eventFixture,
         metadata: {
-          ...fixture.metadata,
+          ...eventFixture.metadata,
           model: "time_entry",
         },
         payload: {
-          ...fixture.payload,
+          ...eventFixture.payload,
           stop: "2021-08-01T00:00:00Z",
         },
       }),

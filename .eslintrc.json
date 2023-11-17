@@ -21,7 +21,12 @@
   "ignorePatterns": [
     "/lib/**/*" // Ignore built files.
   ],
-  "plugins": ["@typescript-eslint", "import", "simple-import-sort"],
+  "plugins": [
+    "@typescript-eslint",
+    "import",
+    "simple-import-sort",
+    "check-file"
+  ],
   "rules": {
     "import/no-unresolved": 0,
     "simple-import-sort/imports": "error",
@@ -32,6 +37,12 @@
         "max": 100,
         "skipBlankLines": true,
         "skipComments": true
+      }
+    ],
+    "check-file/filename-blocklist": [
+      "error",
+      {
+        "**/pages/**/!(_)*.spec.*": "_*.spec.*"
       }
     ]
   },
