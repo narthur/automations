@@ -1,69 +1,40 @@
 import { makeUpdater } from "src/goals/index.js";
-import makeDaystamp from "src/lib/makeDaystamp.js";
-import { getProjects } from "src/services/toggl/getProjects.js";
-import { type TimeEntry, type TogglProject } from "src/services/toggl/types.js";
+import getProjectsSummary, {
+  type TogglProjectSummary,
+} from "src/services/toggl/getProjectsSummary.js";
+import { type TogglMe } from "src/services/toggl/types.js";
 
-import dateParams from "../services/toggl/dateParams.js";
-import { getSumOfHours } from "../services/toggl/getSumOfHours.js";
-import { getClients, getTimeEntries } from "../services/toggl/index.js";
-
-async function getPrimeEntries(date: Date): Promise<TimeEntry[]> {
-  const entries = await getTimeEntries({
-    params: dateParams(date),
-  });
-
-  return entries.filter((e) => e.tags.includes("prime"));
-}
-
-async function getPrimeClients({
-  entries,
-  projects,
-}: {
-  entries: TimeEntry[];
-  projects: TogglProject[];
-}): Promise<string[]> {
-  if (!entries.length) return [];
-
-  const projectIds = [...new Set(entries.map((e) => e.project_id))];
-  const primeProjects = projects.filter((p) => projectIds.includes(p.id));
-  const clientIds = [...new Set(primeProjects.map((p) => p.client_id))];
-  const workspaceId = entries[0]?.workspace_id;
-
-  if (!workspaceId) {
-    throw new Error("Failed to get workspace ID");
-  }
-
-  const clients = await getClients(workspaceId);
-
-  return clients.filter((c) => clientIds.includes(c.id)).map((c) => c.name);
-}
-
-async function updatePoint(
-  d: Date,
-  {
-    projects,
-  }: {
-    projects: TogglProject[];
-  }
-) {
-  const daystamp = makeDaystamp(d);
-  const entries = await getPrimeEntries(d);
-  const clientNames = await getPrimeClients({ entries, projects });
-  const primeHours = getSumOfHours({ entries });
-
-  return {
-    value: primeHours * -2,
-    daystamp,
-    requestid: daystamp,
-    comment: clientNames.join(", "),
-  };
-}
+import { getMe } from "../services/toggl/index.js";
 
 export const update = makeUpdater({
   user: "narthur",
   goal: "techtainment",
-  getSharedData: async () => ({
-    projects: await getProjects(),
-  }),
-  getDateUpdate: updatePoint,
+  getSharedData: getMe,
+  getDateUpdate: async (d: Date, me: TogglMe) => {
+    const projects = await getProjectsSummary({
+      workspaceId: me.default_workspace_id,
+      start: d,
+      end: d,
+    });
+
+    const max = projects
+      .filter((p) => p.user_id === me.id)
+      .reduce<TogglProjectSummary | undefined>(
+        (max, p) => (p.tracked_seconds > (max?.tracked_seconds ?? 0) ? p : max),
+        projects[0]
+      );
+
+    const hours = max ? max.tracked_seconds / 3600 : 0;
+
+    return {
+      value: hours * -2,
+      comment: max
+        ? `Tracked ${hours} hours on project ${max.project_id}`
+        : "No projects tracked",
+    };
+  },
 });
+
+export default {
+  update,
+};

@@ -2,7 +2,7 @@ import makeDaystamp from "src/lib/makeDaystamp.js";
 
 import { reports } from "./index.js";
 
-type TogglProjectSummary = {
+export type TogglProjectSummary = {
   user_id: number;
   project_id: number;
   tracked_seconds: number;

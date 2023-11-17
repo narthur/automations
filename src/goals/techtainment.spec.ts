@@ -1,62 +1,25 @@
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
-import { getProjects } from "src/services/toggl/getProjects.js";
+import getProjectsSummary from "src/services/toggl/getProjectsSummary.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getClients, getTimeEntries } from "../services/toggl/index.js";
+import { getMe } from "../services/toggl/index.js";
 import { update } from "./techtainment.js";
 
-const CLIENT_MATCH_ID = 3;
-
-describe("av-prime", () => {
+describe("techtainment", () => {
   beforeEach(() => {
-    vi.mocked(getTimeEntries).mockResolvedValue([
+    vi.mocked(getMe).mockResolvedValue({
+      id: 1,
+      default_workspace_id: 7,
+    } as any);
+
+    vi.mocked(getProjectsSummary).mockResolvedValue([
       {
-        tags: ["prime"],
+        user_id: 1,
         project_id: 1,
-        duration: 3600 / 2,
-        workspace_id: 1,
-      } as any,
+        tracked_seconds: 3600,
+        billable_seconds: 3600,
+      },
     ]);
-
-    vi.mocked(getProjects).mockResolvedValue([
-      {
-        id: 1,
-        client_id: CLIENT_MATCH_ID,
-      } as any,
-    ]);
-
-    vi.mocked(getClients).mockResolvedValue([
-      {
-        id: CLIENT_MATCH_ID,
-        name: "__TOGGL_CLIENT_AV_VALUE__",
-      } as any,
-    ]);
-  });
-
-  it("does not get clients if no prime entries", async () => {
-    vi.mocked(getTimeEntries).mockResolvedValue([
-      {
-        tags: [],
-        project_id: 1,
-      } as any,
-    ]);
-
-    await update();
-
-    expect(getClients).not.toHaveBeenCalled();
-  });
-
-  it("sets start and end dates", async () => {
-    await update();
-
-    expect(getTimeEntries).toHaveBeenCalledWith(
-      expect.objectContaining({
-        params: {
-          start_date: expect.stringMatching(/^\d\d\d\d-\d\d-\d\d$/),
-          end_date: expect.stringMatching(/^\d\d\d\d-\d\d-\d\d$/),
-        },
-      })
-    );
   });
 
   it("sets daystamp", async () => {
@@ -93,25 +56,87 @@ describe("av-prime", () => {
     );
   });
 
-  it("calculates techtainment value correctly", async () => {
+  it("gets projects summary", async () => {
+    await update();
+
+    expect(getProjectsSummary).toBeCalled();
+  });
+
+  it("gets me", async () => {
+    await update();
+
+    expect(getMe).toBeCalled();
+  });
+
+  it("uses me.default_workspace_id as workspace ID", async () => {
+    await update();
+
+    expect(getProjectsSummary).toHaveBeenCalledWith(
+      expect.objectContaining({
+        workspaceId: 7,
+      })
+    );
+  });
+
+  it("uses getProjectsSummary to calculate value", async () => {
     await update();
 
     expect(createDatapoint).toHaveBeenCalledWith(
       expect.anything(),
       "techtainment",
-      expect.objectContaining({ value: -1 })
+      expect.objectContaining({
+        value: -2,
+      })
     );
   });
 
-  it("only gets time entries once per day", async () => {
+  it("only uses project with highest tracked seconds", async () => {
+    vi.mocked(getProjectsSummary).mockResolvedValue([
+      {
+        user_id: 1,
+        project_id: 1,
+        tracked_seconds: 3600,
+        billable_seconds: 3600,
+      },
+      {
+        user_id: 1,
+        project_id: 2,
+        tracked_seconds: 7200,
+        billable_seconds: 7200,
+      },
+    ]);
+
     await update();
 
-    expect(getTimeEntries).toHaveBeenCalledTimes(7);
+    expect(createDatapoint).toHaveBeenCalledWith(
+      expect.anything(),
+      "techtainment",
+      expect.objectContaining({
+        value: -4,
+      })
+    );
   });
 
-  it("only gets projects once", async () => {
+  it("includes project id in comment", async () => {
     await update();
 
-    expect(getProjects).toHaveBeenCalledTimes(1);
+    expect(createDatapoint).toHaveBeenCalledWith(
+      expect.anything(),
+      "techtainment",
+      expect.objectContaining({
+        comment: expect.stringContaining("1"),
+      })
+    );
+  });
+
+  it("uses date object to get projects summary", async () => {
+    await update();
+
+    expect(getProjectsSummary).toHaveBeenCalledWith(
+      expect.objectContaining({
+        start: expect.any(Date),
+        end: expect.any(Date),
+      })
+    );
   });
 });
