@@ -5,7 +5,7 @@ import { POST } from "./av-email-zero";
 
 describe("email-zero", () => {
   it("creates datapoint", async () => {
-    const request = new Request("https://example.com/goals/email-zero", {
+    const request = new Request("https://example.com/goals/av-email-zero", {
       method: "POST",
       body: JSON.stringify({
         count: 0,
