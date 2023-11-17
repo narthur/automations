@@ -1,3 +1,4 @@
+import createDatapoint from "src/services/beeminder/createDatapoint.js";
 import getGoals from "src/services/beeminder/getGoals.js";
 import { getDocument, getFiles } from "src/services/dynalist/index.js";
 import { sendEmail } from "src/services/mailgun.js";
@@ -39,6 +40,7 @@ beforeEach(() => {
   vi.mocked(deleteMessage).mockResolvedValue({});
   vi.mocked(getPendingTasks).mockResolvedValue([]);
   vi.mocked(setWebhook).mockResolvedValue({});
+  vi.mocked(createDatapoint).mockResolvedValue(undefined);
   vi.mocked(sendEmail).mockResolvedValue({} as any);
   vi.mocked(getClients).mockResolvedValue([]);
   vi.mocked(getGoals).mockResolvedValue([]);

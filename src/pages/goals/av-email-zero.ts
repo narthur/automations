@@ -2,16 +2,17 @@ import type { APIContext } from "astro";
 import createBinaryDatapoint from "src/services/beeminder/createBinaryDatapoint";
 import { z } from "zod";
 
-export async function POST(context: APIContext) {
-  const data = z
+export async function POST({ request }: APIContext) {
+  const json: unknown = await request.json();
+  const { count } = z
     .object({
       count: z.number(),
     })
-    .parse(context.request.body);
+    .parse(json);
 
   return await createBinaryDatapoint("narthur", "av-email-zero", {
-    value: data.count > 0 ? 0 : 1,
-    comment: `Emails: ${data.count} (${new Date().toLocaleString()})`,
+    value: count > 0 ? 0 : 1,
+    comment: `Emails: ${count} (${new Date().toLocaleString()})`,
   })
     .then(() => new Response("OK"))
     .catch(
