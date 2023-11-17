@@ -18,18 +18,18 @@ export async function POST({ request }: APIContext) {
 
   const json: unknown = JSON.parse(message);
 
-  const validationResult = z
+  const challenge = z
     .object({
       validation_code: z.string(),
     })
     .safeParse(json);
 
-  if (validationResult.success) {
+  if (challenge.success) {
     // https://developers.track.toggl.com/docs/webhooks_start/url_endpoint_validation/index.html
     return new Response(
       JSON.stringify(
         {
-          validation_code: validationResult.data.validation_code,
+          validation_code: challenge.data.validation_code,
         },
         null,
         2
