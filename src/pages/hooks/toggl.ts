@@ -2,18 +2,21 @@ import type { APIContext } from "astro";
 import * as billable from "src/goals/billable.js";
 import createSummaryTask from "src/lib/createSummaryTask.js";
 import event from "src/services/toggl/schemas/event";
-import validateTogglRequest from "src/services/toggl/validateTogglRequest";
+import validateSignature from "src/services/toggl/validateSignature.js";
 import { z } from "zod";
 
 import * as gross from "../../goals/gross.js";
 import * as techtainment from "../../goals/techtainment.js";
 
 export async function POST({ request }: APIContext) {
-  if (!(await validateTogglRequest(request))) {
+  const message = await request.text();
+  const signature = request.headers.get("x-webhook-signature-256") || "";
+
+  if (!validateSignature(message, signature)) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const json: unknown = await request.json();
+  const json: unknown = JSON.parse(message);
 
   const validationResult = z
     .object({
