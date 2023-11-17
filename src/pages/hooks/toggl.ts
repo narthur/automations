@@ -27,13 +27,9 @@ export async function POST({ request }: APIContext) {
   if (challenge.success) {
     // https://developers.track.toggl.com/docs/webhooks_start/url_endpoint_validation/index.html
     return new Response(
-      JSON.stringify(
-        {
-          validation_code: challenge.data.validation_code,
-        },
-        null,
-        2
-      )
+      JSON.stringify({
+        validation_code: challenge.data.validation_code,
+      })
     );
   }
 
