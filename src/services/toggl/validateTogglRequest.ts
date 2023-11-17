@@ -2,8 +2,8 @@ import crypto from "crypto";
 import env from "src/lib/env.js";
 
 // https://developers.track.toggl.com/docs/webhooks_start/validating_received_events
-export default function validateTogglRequest(req: Request) {
-  const message = JSON.stringify(req.body);
+export default async function validateTogglRequest(req: Request) {
+  const message = await req.text();
   const signature = req.headers.get("x-webhook-signature-256") || "";
   const secret = env("TOGGL_SIGNING_SECRET");
 

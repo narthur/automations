@@ -8,16 +8,18 @@ import { z } from "zod";
 import * as gross from "../../goals/gross.js";
 import * as techtainment from "../../goals/techtainment.js";
 
-export function POST({ request }: APIContext) {
-  if (!validateTogglRequest(request)) {
+export async function POST({ request }: APIContext) {
+  if (!(await validateTogglRequest(request))) {
     return new Response("Unauthorized", { status: 401 });
   }
+
+  const json: unknown = await request.json();
 
   const validationResult = z
     .object({
       validation_code: z.string(),
     })
-    .safeParse(request.body);
+    .safeParse(json);
 
   if (validationResult.success) {
     // https://developers.track.toggl.com/docs/webhooks_start/url_endpoint_validation/index.html
@@ -36,7 +38,7 @@ export function POST({ request }: APIContext) {
   void gross.update();
   void techtainment.update();
 
-  const eventResult = event.safeParse(request.body);
+  const eventResult = event.safeParse(json);
 
   if (eventResult.success && eventResult.data.metadata.model === "time_entry") {
     void createSummaryTask(eventResult.data);
