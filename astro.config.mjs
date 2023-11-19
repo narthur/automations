@@ -9,4 +9,9 @@ export default defineConfig({
     mode: "middleware",
   }),
   integrations: [sentry()],
+  vite: {
+    build: {
+      sourcemap: true,
+    }
+  }
 });
