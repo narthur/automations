@@ -1,23 +1,68 @@
-import { describe, expect, it } from "vitest";
+import env from "src/lib/env";
+import message from "src/services/telegram/schemas/message";
+import user from "src/services/telegram/schemas/user";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { createFixture } from "zod-fixture";
 
 import { POST } from "./telegram";
 
+const messageFixture = createFixture(message, {
+  seed: 1,
+});
+
+const userFixture = createFixture(user, {
+  seed: 1,
+});
+
 describe("telegram", () => {
+  beforeEach(() => {
+    vi.mocked(env).mockImplementation(
+      (k) =>
+        ({
+          [k]: "another_value",
+          TELEGRAM_WEBHOOK_TOKEN: "the_token",
+          TELEGRAM_ALLOWED_USER: "7",
+        }[k])
+    );
+  });
+
   it("has bot hook", async () => {
+    // const request = new Request("https://example.com/hooks/telegram", {
+    //   method: "POST",
+    //   headers: {
+    //     "x-telegram-bot-api-secret-token": "__TELEGRAM_WEBHOOK_TOKEN_VALUE__",
+    //   },
+    //   body: JSON.stringify({
+    //     message: {
+    //       text: "hello world",
+    //       from: {
+    //         id: "__TELEGRAM_ALLOWED_USER_VALUE__",
+    //       },
+    //       chat: {
+    //         id: "the_chat_id",
+    //       },
+    //     },
+    //   }),
+    // });
+
     const request = new Request("https://example.com/hooks/telegram", {
       method: "POST",
       headers: {
-        "x-telegram-bot-api-secret-token": "__TELEGRAM_WEBHOOK_TOKEN_VALUE__",
+        "x-telegram-bot-api-secret-token": "the_token",
       },
       body: JSON.stringify({
+        update_id: 1,
         message: {
-          text: "hello world",
-          from: {
-            id: "__TELEGRAM_ALLOWED_USER_VALUE__",
-          },
+          ...messageFixture,
           chat: {
-            id: "the_chat_id",
+            ...messageFixture.chat,
+            id: 7,
           },
+          from: {
+            ...userFixture,
+            id: 7,
+          },
+          text: "hello world",
         },
       }),
     });

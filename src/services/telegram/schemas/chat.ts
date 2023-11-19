@@ -52,7 +52,7 @@ const schema: z.ZodType<TelegramChat> = z.object({
   join_by_request: z.boolean().optional(),
   description: z.string().optional(),
   invite_link: z.string().optional(),
-  pinned_message: z.optional(message),
+  pinned_message: z.lazy(() => message.optional()),
   permissions: z.unknown().optional(),
   slow_mode_delay: z.number().optional(),
   message_auto_delete_time: z.number().optional(),
