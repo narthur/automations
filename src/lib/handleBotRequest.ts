@@ -14,6 +14,9 @@ export default async function handleBotRequest({ request: req }: APIContext) {
     env("TELEGRAM_WEBHOOK_TOKEN");
 
   if (!isTelegram) {
+    console.error("Unauthorized request to Telegram webhook", {
+      headers: req.headers,
+    });
     return new Response("Forbidden", { status: 403 });
   }
 
@@ -22,6 +25,7 @@ export default async function handleBotRequest({ request: req }: APIContext) {
   const message = "message" in update ? update.message : undefined;
 
   if (!message?.text) {
+    console.warn("No text in message", { message });
     return new Response("OK");
   }
 
@@ -30,6 +34,10 @@ export default async function handleBotRequest({ request: req }: APIContext) {
   const isAllowedUser = String(from?.id) === env("TELEGRAM_ALLOWED_USER");
 
   if (!isAllowedUser) {
+    console.error("Unauthorized request to Telegram webhook", {
+      from,
+      chat,
+    });
     return new Response("Forbidden", { status: 403 });
   }
 
