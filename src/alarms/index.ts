@@ -1,7 +1,7 @@
 import env from "src/lib/env.js";
 import isNotificationDue from "src/lib/isNotificationDue.js";
 import { deleteMessage, sendMessage } from "src/services/telegram/index.js";
-import { type TelegramMessage } from "src/services/telegram/types/TelegramMessage.js";
+import { type TelegramMessage } from "src/services/telegram/schemas/message.js";
 
 type Item = {
   name: string;

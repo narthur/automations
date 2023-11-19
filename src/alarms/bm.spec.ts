@@ -1,6 +1,6 @@
 import getGoals from "src/services/beeminder/getGoals.js";
 import { type GoalExtended } from "src/services/beeminder/types/goalExtended.js";
-import { type TelegramMessage } from "src/services/telegram/types/TelegramMessage.js";
+import { type TelegramMessage } from "src/services/telegram/schemas/message.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { deleteMessage, sendMessage } from "../services/telegram/index.js";
