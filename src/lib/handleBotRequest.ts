@@ -2,8 +2,8 @@ import type { APIContext } from "astro";
 import env from "src/lib/env.js";
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
 import getGptResponse from "src/services/openai/getGptResponse.js";
+import { messageUpdate } from "src/services/telegram/schemas/update";
 import { sendMessages } from "src/services/telegram/sendMessages.js";
-import { type TelegramUpdate } from "src/services/telegram/types/TelegramUpdate.js";
 
 import { tryWithRelay } from "../services/telegram/tryWithRelay.js";
 import runCommand from "./runCommand.js";
@@ -20,9 +20,20 @@ export default async function handleBotRequest({ request: req }: APIContext) {
     return new Response("Forbidden", { status: 403 });
   }
 
-  // TODO: Use zod to validate this
-  const update = req.body as unknown as TelegramUpdate;
-  const message = "message" in update ? update.message : undefined;
+  const json: unknown = await req.json();
+  const result = messageUpdate.safeParse(json);
+
+  if (!result.success) {
+    console.error("Invalid request to Telegram webhook", {
+      error: result.error,
+    });
+    return new Response("Bad Request", { status: 400 });
+  }
+
+  const message =
+    result.success && "message" in result.data
+      ? result.data.message
+      : undefined;
 
   if (!message?.text) {
     console.warn("No text in message", { message });

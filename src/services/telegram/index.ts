@@ -1,11 +1,11 @@
 import axios, { type AxiosRequestConfig } from "axios";
 
 import env from "../../lib/env.js";
+import type { TelegramMessage } from "./schemas/message.js";
 import { type ForceReply } from "./types/ForceReply.js";
 import { type InlineKeyboardMarkup } from "./types/InlineKeyboardMarkup.js";
 import { type ReplyKeyboardMarkup } from "./types/ReplyKeyboardMarkup.js";
 import { type ReplyKeyboardRemove } from "./types/ReplyKeyboardRemove.js";
-import { type TelegramMessage } from "./types/TelegramMessage.js";
 import { type TelegramResponse } from "./types/TelegramResponse.js";
 
 // https://core.telegram.org/bots/api#setwebhook

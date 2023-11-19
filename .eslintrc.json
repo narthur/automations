@@ -73,7 +73,13 @@
       }
     },
     {
-      "files": ["*.d.ts", "*.types.ts", "types.ts", "**/types/**/*.ts"],
+      "files": [
+        "*.d.ts",
+        "*.types.ts",
+        "types.ts",
+        "**/types/**/*.ts",
+        "**/schemas/**/*.ts"
+      ],
       "rules": {
         "max-lines": "off"
       }

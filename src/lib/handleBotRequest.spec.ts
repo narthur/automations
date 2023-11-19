@@ -1,36 +1,62 @@
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
-import { describe, expect, it, vi } from "vitest";
+import message from "src/services/telegram/schemas/message.js";
+import user from "src/services/telegram/schemas/user.js";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { createFixture } from "zod-fixture";
 
 import { getResponse } from "../services/openai/index.js";
 import { sendMessage } from "../services/telegram/index.js";
+import env from "./env.js";
 import handleBotRequest from "./handleBotRequest.js";
 
+const messageFixture = createFixture(message, {
+  seed: 1,
+});
+
+const userFixture = createFixture(user, {
+  seed: 1,
+});
+
 function send(text: string) {
-  return handleBotRequest({
-    request: {
-      headers: {
-        get: (key: string) =>
-          ({
-            "x-telegram-bot-api-secret-token":
-              "__TELEGRAM_WEBHOOK_TOKEN_VALUE__",
-          }[key]),
-      },
-      body: {
-        message: {
-          chat: {
-            id: "chat_id",
-          },
-          from: {
-            id: "__TELEGRAM_ALLOWED_USER_VALUE__",
-          },
-          text,
-        },
-      },
+  const request = new Request("https://example.com/hooks/telegram", {
+    method: "POST",
+    headers: {
+      "x-telegram-bot-api-secret-token": "the_token",
     },
+    body: JSON.stringify({
+      update_id: 1,
+      message: {
+        ...messageFixture,
+        chat: {
+          ...messageFixture.chat,
+          id: 7,
+        },
+        from: {
+          ...userFixture,
+          id: 7,
+        },
+        text,
+      },
+    }),
+  });
+
+  return handleBotRequest({
+    request,
   } as any);
 }
 
 describe("handleBotRequest", () => {
+  beforeEach(() => {
+    vi.mocked(env).mockImplementation(
+      (k) =>
+        ({
+          [k]: "another_value",
+          TELEGRAM_WEBHOOK_TOKEN: "the_token",
+          TELEGRAM_ALLOWED_USER: "7",
+        }[k])
+    );
+  });
+
   it("sends error messages to the user", async () => {
     vi.mocked(getResponse).mockRejectedValue(new Error("test error"));
 
