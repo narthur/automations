@@ -15,4 +15,15 @@ describe("init", () => {
 
     expect(setWebhook).toBeCalled();
   });
+
+  it("uses request host in webhook url", async () => {
+    const request = new Request("https://example.com/hooks/telegram/init", {
+      method: "GET",
+    });
+
+    const res = await GET({ request } as any);
+    const text = await res.text();
+
+    expect(text).toMatch(/https:\/\/example.com\/hooks\/telegram$/);
+  });
 });
