@@ -27,24 +27,6 @@ describe("telegram", () => {
   });
 
   it("has bot hook", async () => {
-    // const request = new Request("https://example.com/hooks/telegram", {
-    //   method: "POST",
-    //   headers: {
-    //     "x-telegram-bot-api-secret-token": "__TELEGRAM_WEBHOOK_TOKEN_VALUE__",
-    //   },
-    //   body: JSON.stringify({
-    //     message: {
-    //       text: "hello world",
-    //       from: {
-    //         id: "__TELEGRAM_ALLOWED_USER_VALUE__",
-    //       },
-    //       chat: {
-    //         id: "the_chat_id",
-    //       },
-    //     },
-    //   }),
-    // });
-
     const request = new Request("https://example.com/hooks/telegram", {
       method: "POST",
       headers: {
