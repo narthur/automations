@@ -1,3 +1,4 @@
+import alarm from "../commands/alarm.js";
 import beemergencies from "../commands/beemergencies.js";
 import beetuning from "../commands/beetuning.js";
 import date from "../commands/date.js";
@@ -15,6 +16,7 @@ import uptime from "../commands/uptime.js";
 import { type Command } from "./cmd.js";
 
 const commands: Command[] = [
+  alarm,
   foo,
   uptime,
   time,
