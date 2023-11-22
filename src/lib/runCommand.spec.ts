@@ -1,6 +1,8 @@
 import getGoals from "src/services/beeminder/getGoals.js";
+import { sendMessage } from "src/services/telegram/index.js";
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import waitForExpect from "wait-for-expect";
 
 import { getPendingTasks } from "../services/taskratchet.js";
 import runCommand from "./runCommand.js";
@@ -57,6 +59,14 @@ describe("runCommand", () => {
   it("has test alarm command", async () => {
     const r = await runCommand("/alarm");
 
-    expect(r).toEqual([expect.stringContaining("🚨")]);
+    expect(r).toEqual([expect.stringContaining("Test alarm scheduled")]);
+  });
+
+  it("sends alarm message", async () => {
+    await runCommand("/alarm");
+
+    await waitForExpect(() => {
+      expect(sendMessage).toBeCalled();
+    });
   });
 });
