@@ -1,6 +1,7 @@
 import { type AxiosRequestConfig } from "axios";
-import { type TogglTask } from "./types.js";
+
 import { api } from "./index.js";
+import { type TogglTask } from "./types.js";
 
 export function getTasks(
   workspaceId: number,

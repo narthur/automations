@@ -1,6 +1,6 @@
+import { getTasks } from "src/services/toggl/getTasks.js";
 import { vi } from "vitest";
 
-import { getTasks } from "src/services/toggl/getTasks.js";
 import { type TogglTask } from "../services/toggl/types.js";
 
 export default function loadTogglTasks(tasks: Partial<TogglTask>[]) {

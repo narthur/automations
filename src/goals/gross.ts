@@ -1,11 +1,10 @@
+import { runQuery } from "src/services/index.js";
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 import {
-  type TogglMe,
   type TogglTimeSummaryEntry,
   type TogglTimeSummaryGroup,
 } from "src/services/toggl/types.js";
 
-import { getMe } from "src/services/toggl/getMe.js";
 import { makeUpdater } from "./index.js";
 
 const SECONDS_IN_HOUR = 3600;
@@ -23,36 +22,53 @@ function sumEntries(entries: TogglTimeSummaryEntry[]): number {
   return entries.reduce((acc, entry) => acc + sumRates(entry.rates), 0);
 }
 
-function sumUser(user: TogglTimeSummaryGroup, me: TogglMe): number {
+function sumUser(
+  user: TogglTimeSummaryGroup,
+  me: {
+    id: string;
+  }
+): number {
   const entries = user?.sub_groups ?? [];
-  const multiplier = user.id === me.id ? 1 : 0.3;
+  const multiplier = user.id.toString() === me.id ? 1 : 0.3;
   return sumEntries(entries) * multiplier;
-}
-
-async function getDateUpdate(date: Date, me: TogglMe) {
-  const { groups } = await getTimeSummary({
-    workspaceId: me.default_workspace_id,
-    startDate: date,
-    endDate: date,
-    billable: true,
-    grouping: "users",
-  });
-
-  const sums = groups.map((group) => [group.id, sumUser(group, me)]);
-  const value = sums.reduce((acc, [, sum]) => acc + (sum ?? 0), 0);
-  const comment = `updated ${new Date().toLocaleString()}: ${JSON.stringify(
-    sums
-  )}`;
-
-  return {
-    value,
-    comment,
-  };
 }
 
 export const update = makeUpdater({
   user: "narthur",
   goal: "gross",
-  getSharedData: getMe,
-  getDateUpdate,
+  getSharedData: () => {
+    return runQuery<{
+      togglMe: {
+        id: string;
+        default_workspace_id: number;
+      };
+    }>(`
+    query {
+      togglMe {
+        id
+        default_workspace_id
+      }
+    }
+    `);
+  },
+  getDateUpdate: async (date, { togglMe }) => {
+    const { groups } = await getTimeSummary({
+      workspaceId: togglMe.default_workspace_id,
+      startDate: date,
+      endDate: date,
+      billable: true,
+      grouping: "users",
+    });
+
+    const sums = groups.map((group) => [group.id, sumUser(group, togglMe)]);
+    const value = sums.reduce((acc, [, sum]) => acc + (sum ?? 0), 0);
+    const comment = `updated ${new Date().toLocaleString()}: ${JSON.stringify(
+      sums
+    )}`;
+
+    return {
+      value,
+      comment,
+    };
+  },
 });

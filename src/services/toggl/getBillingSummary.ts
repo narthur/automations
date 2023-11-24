@@ -1,5 +1,5 @@
+import { runQuery } from "../index.js";
 import { getClients } from "./getClients.js";
-import { getMe } from "./getMe.js";
 import { getProjects } from "./getProjects.js";
 import getTimeSummary from "./getTimeSummary.js";
 
@@ -20,18 +20,26 @@ export default async function getBillingSummary({
   startDate: Date;
   endDate: Date;
 }): Promise<Array<ClientSummary>> {
-  const { default_workspace_id: workspaceId } = await getMe();
+  const { togglMe } = await runQuery<{
+    togglMe: { default_workspace_id: number };
+  }>(`
+  query {
+    togglMe {
+      default_workspace_id
+    }
+  }
+  `);
 
   // projects > entries
   const { groups } = await getTimeSummary({
-    workspaceId,
+    workspaceId: togglMe.default_workspace_id,
     startDate,
     endDate,
     billable: true,
   });
 
   const projects = await getProjects();
-  const clients = await getClients(workspaceId);
+  const clients = await getClients(togglMe.default_workspace_id);
 
   const summaries = groups
     .filter((g) => {

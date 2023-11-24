@@ -1,7 +1,9 @@
+import graphql from "@rollup/plugin-graphql";
 import path from "path";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
+  plugins: [graphql()],
   test: {
     root: __dirname,
     globalSetup: "./vitest.global.ts",

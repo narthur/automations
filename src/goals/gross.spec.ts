@@ -1,10 +1,10 @@
 import uniq from "src/lib/uniq.js";
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
+import me from "src/services/toggl/resolvers/me.js";
 import { type TogglTimeSummaryGroup } from "src/services/toggl/types.js";
 import { describe, expect, it, vi } from "vitest";
 
-import { getMe } from "src/services/toggl/getMe.js";
 import { update } from "./gross.js";
 
 const SUB_GROUP = {
@@ -67,7 +67,7 @@ describe("gross", () => {
   });
 
   it("sums main user entries", async () => {
-    vi.mocked(getMe).mockResolvedValue({
+    vi.mocked(me).mockResolvedValue({
       id: 3,
       default_workspace_id: 1,
     } as any);
@@ -88,7 +88,7 @@ describe("gross", () => {
   });
 
   it("sums sub user entries", async () => {
-    vi.mocked(getMe).mockResolvedValue({
+    vi.mocked(me).mockResolvedValue({
       id: 3,
       default_workspace_id: 1,
     } as any);
@@ -112,11 +112,11 @@ describe("gross", () => {
   it("gets me only once", async () => {
     await update();
 
-    expect(getMe).toBeCalledTimes(1);
+    expect(me).toBeCalledTimes(1);
   });
 
   it("sums multiple sub_groups", async () => {
-    vi.mocked(getMe).mockResolvedValue({
+    vi.mocked(me).mockResolvedValue({
       id: 3,
       default_workspace_id: 1,
     } as any);
