@@ -1,5 +1,5 @@
 import getProjectsSummary from "src/services/toggl/getProjectsSummary.js";
-import { getMe } from "src/services/toggl/index.js";
+import { getMe } from "src/services/toggl/getMe.js";
 
 import { makeUpdater } from "./index.js";
 

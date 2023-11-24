@@ -4,7 +4,7 @@ import getProjectsSummary, {
 } from "src/services/toggl/getProjectsSummary.js";
 import { type TogglMe } from "src/services/toggl/types.js";
 
-import { getMe } from "../services/toggl/index.js";
+import { getMe } from "src/services/toggl/getMe.js";
 
 export const update = makeUpdater({
   user: "narthur",

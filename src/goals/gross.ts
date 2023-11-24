@@ -5,7 +5,7 @@ import {
   type TogglTimeSummaryGroup,
 } from "src/services/toggl/types.js";
 
-import { getMe } from "../services/toggl/index.js";
+import { getMe } from "src/services/toggl/getMe.js";
 import { makeUpdater } from "./index.js";
 
 const SECONDS_IN_HOUR = 3600;

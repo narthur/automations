@@ -1,7 +1,7 @@
 import { __loadResponse } from "axios";
+import { getTimeEntries } from "src/services/toggl/getTimeEntries.js";
 import { vi } from "vitest";
 
-import { getTimeEntries } from "../services/toggl/index.js";
 import { type TimeEntry } from "../services/toggl/types.js";
 
 const PROJECTS = [

@@ -2,7 +2,7 @@ import createDatapoint from "src/services/beeminder/createDatapoint.js";
 import getProjectsSummary from "src/services/toggl/getProjectsSummary.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getMe } from "../services/toggl/index.js";
+import { getMe } from "src/services/toggl/getMe.js";
 import { update } from "./techtainment.js";
 
 describe("techtainment", () => {

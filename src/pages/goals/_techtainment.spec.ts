@@ -1,4 +1,4 @@
-import { getMe } from "src/services/toggl";
+import { getMe } from "src/services/toggl/getMe";
 import getProjectsSummary from "src/services/toggl/getProjectsSummary";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
