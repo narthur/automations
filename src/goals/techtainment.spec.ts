@@ -1,13 +1,13 @@
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
 import getProjectsSummary from "src/services/toggl/getProjectsSummary.js";
+import me from "src/services/toggl/resolvers/me.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getMe } from "src/services/toggl/getMe.js";
 import { update } from "./techtainment.js";
 
 describe("techtainment", () => {
   beforeEach(() => {
-    vi.mocked(getMe).mockResolvedValue({
+    vi.mocked(me).mockResolvedValue({
       id: 1,
       default_workspace_id: 7,
     } as any);
@@ -65,7 +65,7 @@ describe("techtainment", () => {
   it("gets me", async () => {
     await update();
 
-    expect(getMe).toBeCalled();
+    expect(me).toBeCalled();
   });
 
   it("uses me.default_workspace_id as workspace ID", async () => {

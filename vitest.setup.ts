@@ -3,16 +3,16 @@ import getGoals from "src/services/beeminder/getGoals.js";
 import { getDocument, getFiles } from "src/services/dynalist/index.js";
 import { sendEmail } from "src/services/mailgun.js";
 import { getClients } from "src/services/toggl/getClients.js";
-import { getMe } from "src/services/toggl/getMe.js";
 import { getProjects } from "src/services/toggl/getProjects.js";
 import getProjectsSummary from "src/services/toggl/getProjectsSummary.js";
-import { getTimeEntries } from "src/services/toggl/getTimeEntries.js";
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
+import entries from "src/services/toggl/resolvers/entries.js";
 import searchTimeEntries from "src/services/toggl/searchTimeEntries.js";
 import { beforeEach, vi } from "vitest";
 
 import { getPendingTasks, getTasks } from "./src/services/taskratchet.js";
 import { deleteMessage, setWebhook } from "./src/services/telegram/index.js";
+import me from "./src/services/toggl/resolvers/me.js";
 
 vi.mock("./src/lib/env");
 vi.mock("./src/services/beeminder");
@@ -28,17 +28,17 @@ vi.mock("./src/services/taskratchet");
 vi.mock("./src/services/telegram");
 vi.mock("./src/services/toggl");
 vi.mock("./src/services/toggl/getClients");
-vi.mock("./src/services/toggl/getMe");
+vi.mock("./src/services/toggl/resolvers/me");
 vi.mock("./src/services/toggl/getProject");
 vi.mock("./src/services/toggl/getProjects");
 vi.mock("./src/services/toggl/getProjectsSummary");
-vi.mock("./src/services/toggl/getTimeEntries");
+vi.mock("./src/services/toggl/resolvers/entries");
 vi.mock("./src/services/toggl/getTimeSummary");
 vi.mock("./src/services/toggl/searchTimeEntries");
 vi.mock("axios");
 
 beforeEach(() => {
-  vi.mocked(getTimeEntries).mockResolvedValue([]);
+  vi.mocked(entries).mockResolvedValue([]);
   vi.mocked(getProjects).mockResolvedValue([]);
   vi.mocked(deleteMessage).mockResolvedValue({});
   vi.mocked(getPendingTasks).mockResolvedValue([]);
@@ -55,7 +55,7 @@ beforeEach(() => {
   vi.mocked(getDocument).mockResolvedValue({
     nodes: [],
   } as any);
-  vi.mocked(getMe).mockResolvedValue({
+  vi.mocked(me).mockResolvedValue({
     default_workspace_id: 1,
   } as any);
   vi.mocked(getTimeSummary).mockResolvedValue({

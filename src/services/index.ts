@@ -1,5 +1,7 @@
-import { makeExecutableSchema } from "@graphql-tools/schema";
+import { makeExecutableSchema, mergeSchemas } from "@graphql-tools/schema";
 import { graphql } from "graphql";
+
+import toggl from "./toggl/schema";
 
 const typeDefs = `
   type Query {
@@ -13,14 +15,16 @@ const resolvers = {
   },
 };
 
-const schema = makeExecutableSchema({
+const base = makeExecutableSchema({
   typeDefs,
   resolvers,
 });
 
-export const runQuery = async (query: string) => {
+export const runQuery = async <T>(query: string): Promise<T> => {
   return graphql({
-    schema,
+    schema: mergeSchemas({
+      schemas: [base, toggl],
+    }),
     source: query,
-  });
+  }) as Promise<T>;
 };

@@ -29,7 +29,8 @@
     "./vitest.global.ts",
     "__mocks__",
     "./astro.config.mjs",
-    "./run-server.mjs"
+    "./run-server.mjs",
+    "./codegen.ts"
   ],
   "ts-node": {
     "esm": true,
