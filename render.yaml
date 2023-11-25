@@ -5,5 +5,5 @@ services:
     region: ohio
     plan: starter
     # WORKAROUND: https://community.render.com/t/support-pnpm-8-6/12513/2
-    buildCommand: npm i -g pnpm && pnpm install && pnpm build
+    buildCommand: npm i -g pnpm && pnpm install
     startCommand: pnpm start

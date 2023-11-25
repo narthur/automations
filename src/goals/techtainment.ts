@@ -1,36 +1,24 @@
 import { makeUpdater } from "src/goals/index.js";
-import { runQuery } from "src/services";
 import getProjectsSummary, {
   type TogglProjectSummary,
 } from "src/services/toggl/getProjectsSummary.js";
+import { type TogglMe } from "src/services/toggl/types.js";
+
+import { getMe } from "src/services/toggl/getMe.js";
 
 export const update = makeUpdater({
   user: "narthur",
   goal: "techtainment",
-  getSharedData: () => {
-    return runQuery<{
-      togglMe: {
-        id: string;
-        default_workspace_id: number;
-      };
-    }>(`
-    query {
-      togglMe {
-        id
-        default_workspace_id
-      }
-    }
-    `);
-  },
-  getDateUpdate: async (d, { togglMe }) => {
+  getSharedData: getMe,
+  getDateUpdate: async (d: Date, me: TogglMe) => {
     const projects = await getProjectsSummary({
-      workspaceId: togglMe.default_workspace_id,
+      workspaceId: me.default_workspace_id,
       start: d,
       end: d,
     });
 
     const max = projects
-      .filter((p) => p.user_id.toString() === togglMe.id)
+      .filter((p) => p.user_id === me.id)
       .reduce<TogglProjectSummary | undefined>(
         (max, p) => (p.tracked_seconds > (max?.tracked_seconds ?? 0) ? p : max),
         projects[0]
