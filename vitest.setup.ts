@@ -11,7 +11,7 @@ import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 import searchTimeEntries from "src/services/toggl/searchTimeEntries.js";
 import { beforeEach, vi } from "vitest";
 
-import { getPendingTasks, getTasks } from "./src/services/taskratchet.js";
+import { getPendingTasks, getTasks } from "./src/services/taskratchet/index.js";
 import { deleteMessage, setWebhook } from "./src/services/telegram/index.js";
 
 vi.mock("./src/lib/env");

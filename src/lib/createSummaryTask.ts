@@ -1,4 +1,4 @@
-import { createTask, getTasks } from "src/services/taskratchet.js";
+import { createTask, getTasks } from "src/services/taskratchet/index.js";
 import { getProject } from "src/services/toggl/getProject.js";
 
 export default async function createSummaryTask(event: {

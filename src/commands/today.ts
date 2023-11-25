@@ -1,5 +1,5 @@
 import getBeemergencies from "src/services/beeminder/getBeemergencies.js";
-import { getDueTasks } from "src/services/taskratchet.js";
+import { getDueTasks } from "src/services/taskratchet/index.js";
 
 import cmd from "../lib/cmd.js";
 

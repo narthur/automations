@@ -16,9 +16,10 @@
     "checkAll": "vitest run && pnpm checkTs && pnpm lint",
     "dev": "export $(cat .env) && astro dev",
     "start": "tsx run-server.mjs",
-    "build": "astro check && astro build",
+    "build": "./scripts/openapi.sh && astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "codegen": "./scripts/openapi.sh"
   },
   "repository": {
     "type": "git",
@@ -71,6 +72,7 @@
     "eslint-plugin-check-file": "^2.6.2",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
+    "openapi-typescript-codegen": "^0.25.0",
     "wait-for-expect": "^3.0.2",
     "zod-fixture": "^2.5.0"
   },

@@ -1,0 +1,213 @@
+openapi: 3.0.0
+info:
+  title: TaskRatchet API
+  version: 1.0.0
+servers:
+  - url: https://api.taskratchet.com/api1/
+security:
+  - user_id: []
+  - token: []
+paths:
+  /me:
+    get:
+      summary: Get your profile data
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+    put:
+      summary: Update your profile data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: User's full name
+                email:
+                  type: string
+                  description: User's email address
+                timezone:
+                  type: string
+                  description: User's timezone; for valid values, see GET timezones
+                new_password:
+                  type: string
+                  description: New password
+                integrations:
+                  type: object
+                  description: User's integration settings; currently only Beeminder
+              required:
+                - name
+                - email
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+  /me/tasks:
+    get:
+      summary: Get all your tasks
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+    post:
+      summary: Create a new task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+  /me/tasks/{task_id}:
+    get:
+      summary: Get a specific task
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          description: ID of the specific task
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+    put:
+      summary: Update a specific task
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          description: ID of the specific task
+          schema:
+            type: string
+            requestBody:
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/Task"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+  /status:
+    get:
+      summary: Get API status details
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  utc_now:
+                    type: string
+                    description: The current UTC time of the API server instance
+  /timezones:
+    get:
+      summary: Get valid timezone values
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+components:
+  securitySchemes:
+    user_id:
+      type: apiKey
+      in: header
+      name: X-Taskratchet-Userid
+    token:
+      type: apiKey
+      in: header
+      name: X-Taskratchet-Token
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Task's unique identifier
+        task:
+          type: string
+          description: Task's title
+        due:
+          type: string
+          description: Task's timezone-agnostic due string
+        due_timestamp:
+          type: number
+          description: Task's precise due time, taking the user's current timezone into account
+        cents:
+          type: number
+          description: Task's stakes
+        complete:
+          type: boolean
+          description: Whether or not the task has been completed
+        status:
+          type: string
+          description: One of "complete", "expired", or "pending"
+        timezone:
+          type: string
+          description: The user's current timezone
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The account's unique identifier
+        name:
+          type: string
+          description: User's full name
+        email:
+          type: string
+          description: User's email address
+        timezone:
+          type: string
+          description: User's current account timezone
+        cards:
+          type: array
+          description: List of user's payment methods
+          items:
+            type: string
+        integrations:
+          type: object
+          description: User's integration settings; currently only Beeminder
+          properties:
+            beeminder:
+              type: object
+              properties:
+                user:
+                  type: string
+                goal_new_tasks:
+                  type: string

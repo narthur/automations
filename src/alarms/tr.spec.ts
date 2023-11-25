@@ -1,4 +1,4 @@
-import { getPendingTasks } from "src/services/taskratchet.js";
+import { getPendingTasks } from "src/services/taskratchet/index.js";
 import { deleteMessage, sendMessage } from "src/services/telegram/index.js";
 import { type TelegramMessage } from "src/services/telegram/schemas/message.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";

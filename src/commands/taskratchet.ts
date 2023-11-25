@@ -1,4 +1,4 @@
-import { getPendingTasks } from "src/services/taskratchet.js";
+import { getPendingTasks } from "src/services/taskratchet/index.js";
 
 import cmd from "../lib/cmd.js";
 

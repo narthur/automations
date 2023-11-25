@@ -1,4 +1,4 @@
-import { createTask, getTasks } from "src/services/taskratchet.js";
+import { createTask, getTasks } from "src/services/taskratchet/index.js";
 import { getProject } from "src/services/toggl/getProject.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 

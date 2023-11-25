@@ -4,7 +4,7 @@ import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import waitForExpect from "wait-for-expect";
 
-import { getPendingTasks } from "../services/taskratchet.js";
+import { getPendingTasks } from "../services/taskratchet/index.js";
 import runCommand from "./runCommand.js";
 
 describe("runCommand", () => {

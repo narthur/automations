@@ -1,6 +1,6 @@
 import getBeemergencies from "src/services/beeminder/getBeemergencies.js";
-import { getDueTasks } from "src/services/taskratchet.js";
-import { describe,expect, it } from "vitest";
+import { getDueTasks } from "src/services/taskratchet/index.js";
+import { describe, expect, it } from "vitest";
 
 import runCommand from "../lib/runCommand.js";
 

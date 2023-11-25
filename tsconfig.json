@@ -3,11 +3,13 @@
   "compilerOptions": {
     "noImplicitReturns": true,
     "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
     "noEmit": true,
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "lib": ["dom"],
     "baseUrl": "./",
     "resolveJsonModule": true,
     "types": ["vitest/importMeta"],
