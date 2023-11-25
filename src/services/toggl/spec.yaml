@@ -1,0 +1,422 @@
+openapi: 3.0.0
+info:
+  title: Toggl API
+  version: 1.0.0
+servers:
+  - url: https://api.track.toggl.com/api/v9/
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    Client:
+      type: object
+      properties:
+        archived:
+          type: boolean
+          description: IsArchived is true if the client is archived
+        at:
+          type: string
+          description: When was the last update
+        id:
+          type: integer
+          description: Client ID
+        name:
+          type: string
+          description: Client name
+        server_deleted_at:
+          type: string
+          description: When was the client deleted from server; null if not deleted
+        wid:
+          type: integer
+          description: Workspace ID
+    Project:
+      type: object
+      properties:
+        active:
+          type: boolean
+          description: Whether the project is active or archived
+        actual_hours:
+          type: integer
+          nullable: true
+        actual_seconds:
+          type: integer
+          nullable: true
+        at:
+          type: string
+          description: Last updated date
+        auto_estimates:
+          type: boolean
+          nullable: true
+          description: Whether estimates are based on task hours, premium feature
+        billable:
+          type: boolean
+          nullable: true
+          description: Whether the project is billable, premium feature
+        cid:
+          type: integer
+          description: Client ID legacy field
+        client_id:
+          type: integer
+          nullable: true
+        color:
+          type: string
+        created_at:
+          type: string
+        currency:
+          type: string
+          nullable: true
+          description: Currency, premium feature
+        current_period:
+          type: object
+          properties: {}
+          description: Current project period, premium feature (models.RecurringPeriod)
+        end_date:
+          type: string
+        estimated_hours:
+          type: integer
+          nullable: true
+        estimated_seconds:
+          type: integer
+          nullable: true
+        first_time_entry:
+          type: string
+          description: First time entry for this project. Only included if it was requested with with_first_time_entry
+        fixed_fee:
+          type: integer
+          description: Fixed fee, premium feature
+        id:
+          type: integer
+          description: Project ID
+        is_private:
+          type: boolean
+          description: Whether the project is private
+        name:
+          type: string
+          description: Project name
+        rate:
+          type: integer
+          description: Hourly rate
+        rate_last_updated:
+          type: string
+          nullable: true
+          description: Last date for rate change
+        recurring:
+          type: boolean
+          description: Whether the project is recurring, premium feature
+        recurring_parameters:
+          type: array
+          items:
+            type: object
+            properties: {}
+          description: Project recurring parameters, premium feature. Array of models.RecurringProjectParameters
+        server_deleted_at:
+          type: string
+          nullable: true
+          description: Deletion date
+        start_date:
+          type: string
+        template:
+          type: boolean
+          nullable: true
+          description: Whether the project is used as template, premium feature
+        wid:
+          type: integer
+        workspace_id:
+          type: integer
+    Tag:
+      type: object
+      properties:
+        at:
+          type: string
+          description: When was created/last modified
+        deleted_at:
+          type: string
+          description: When was deleted
+        id:
+          type: integer
+          description: Tag ID
+        name:
+          type: string
+          description: Tag name
+        workspace_id:
+          type: integer
+          description: Workspace ID
+    Task:
+      type: object
+      properties:
+        active:
+          type: boolean
+          description: False when the task has been done
+        at:
+          type: string
+          description: When the task was created/last modified
+        estimated_seconds:
+          type: integer
+          nullable: true
+          description: Estimation time for this task in seconds
+        id:
+          type: integer
+          description: Task ID
+        name:
+          type: string
+          description: Task name
+        project_id:
+          type: integer
+          description: Project ID
+        recurring:
+          type: boolean
+          description: Whether the task is recurring
+        server_deleted_at:
+          type: string
+          nullable: true
+          description: When the task was deleted
+        tracked_seconds:
+          type: integer
+          description: The value tracked_seconds is in milliseconds, not in seconds.
+        user_id:
+          type: integer
+          nullable: true
+          description: Task assignee, if available
+        workspace_id:
+          type: integer
+          description: Workspace ID
+    TimeEntry:
+      type: object
+      properties:
+        at:
+          type: string
+          description: When the time entry was last updated
+        billable:
+          type: boolean
+          description: Whether the time entry is billable
+        description:
+          type: string
+          nullable: true
+          description: Time Entry description, null if not provided at creation/update
+        duration:
+          type: integer
+          description: Time entry duration. For running entries should be negative, preferable -1
+        duronly:
+          type: boolean
+          description: Used to create a TE with a duration but without a stop time, this field is deprecated for GET endpoints where the value will always be true.
+        id:
+          type: integer
+          description: Time entry ID
+        pid:
+          type: integer
+          description: Project ID, legacy field
+        project_id:
+          type: integer
+          nullable: true
+          description: Project ID. Can be null if project was not provided or project was later deleted
+        server_deleted_at:
+          type: string
+          nullable: true
+          description: When the time entry was deleted, null if not deleted
+        start:
+          type: string
+          description: Start time in UTC
+        stop:
+          type: string
+          description: Stop time in UTC, can be null if it's still running or created with "duration" and "duronly" fields
+        tag_ids:
+          type: array
+          items:
+            type: integer
+          description: Tag IDs, null if tags were not provided or were later deleted
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tag names, null if tags were not provided or were later deleted
+        task_id:
+          type: integer
+          nullable: true
+          description: Task ID. Can be null if task was not provided or project was later deleted
+        tid:
+          type: integer
+          description: Task ID, legacy field
+        uid:
+          type: integer
+          description: Time Entry creator ID, legacy field
+        wid:
+          type: integer
+          description: Workspace ID, legacy field
+        workspace_id:
+          type: integer
+          description: Workspace ID
+    Workspace:
+      type: object
+      properties:
+        admin:
+          type: boolean
+        api_token:
+          type: string
+        at:
+          type: string
+        business_ws:
+          type: boolean
+        csv_upload:
+          type: object
+          properties: {}
+          description: models.CsvUpload
+        default_hourly_rate:
+          type: integer
+        default_currency:
+          type: string
+        ical_enabled:
+          type: boolean
+        ical_url:
+          type: string
+        id:
+          type: integer
+        logo_url:
+          type: string
+        max_data_retention_days:
+          type: integer
+          description: How far back free workspaces can access data.
+        name:
+          type: string
+        only_admins_may_create_projects:
+          type: boolean
+        only_admins_may_create_tags:
+          type: boolean
+        only_admins_see_billable_rates:
+          type: boolean
+        only_admins_see_team_dashboard:
+          type: boolean
+        organization_id:
+          type: integer
+        premium:
+          type: boolean
+        profile:
+          type: integer
+        projects_billable_by_default:
+          type: boolean
+        rate_last_updated:
+          type: string
+        reports_collapse:
+          type: boolean
+        role:
+          type: string
+        rounding:
+          type: integer
+        rounding_minutes:
+          type: integer
+        server_deleted_at:
+          type: string
+        subscription:
+          type: object
+          properties: {}
+          description: models.Subscription
+        suspended_at:
+          type: string
+        te_constraints:
+          type: object
+          properties: {}
+          description: models.TimeEntryConstraints
+        working_hours_in_minutes:
+          type: integer
+    UserResponse:
+      type: object
+      properties:
+        api_token:
+          type: string
+          description: User's API token. Will be omitted if empty
+        at:
+          type: string
+        beginning_of_week:
+          type: integer
+        clients:
+          type: array
+          description: Clients, null if with_related_data was not set to true or if the user does not have any clients
+          items:
+            $ref: "#/components/schemas/Client"
+        country_id:
+          type: integer
+        created_at:
+          type: string
+        default_workspace_id:
+          type: integer
+        email:
+          type: string
+        fullname:
+          type: string
+        has_password:
+          type: boolean
+        id:
+          type: integer
+        image_url:
+          type: string
+        intercom_hash:
+          type: string
+          description: will be omitted if empty
+        oauth_providers:
+          type: array
+          items:
+            type: string
+        openid_email:
+          type: string
+        openid_enabled:
+          type: boolean
+        options:
+          type: object
+          description: will be omitted if empty
+          additonialProperties:
+            type: object
+        projects:
+          type: array
+          description: Projects, null if with_related_data was not set to true or if the user does not have any projects
+          items:
+            $ref: "#/components/schemas/Project"
+        tags:
+          type: array
+          description: Tags, null if with_related_data was not set to true or if the user does not have any tags
+          items:
+            $ref: "#/components/schemas/Tag"
+        tasks:
+          type: array
+          description: Tasks, null if with_related_data was not set to true or if the user does not have any tasks
+          items:
+            $ref: "#/components/schemas/Task"
+        time_entries:
+          type: array
+          description: Time entries, null if with_related_data was not set to true or if the user does not have any time entries
+          items:
+            $ref: "#/components/schemas/TimeEntry"
+        timezone:
+          type: string
+        updated_at:
+          type: string
+        workspaces:
+          type: array
+          description: Workspaces, null if with_related_data was not set to true or if the user does not have any workspaces
+          items:
+            ref: "#/components/schemas/Workspace"
+security:
+  - basicAuth: []
+paths:
+  /me:
+    get:
+      summary: Returns details for the current user.
+      parameters:
+        - name: with_related_data
+          in: query
+          description: Retrieve user related data (clients, projects, tasks, tags, workspaces, time entries, etc.)
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "403":
+          description: User does not have access to this resource.
+        "404":
+          description: could not load user data
+        "500":
+          description: Internal Server Error
