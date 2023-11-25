@@ -10,12 +10,6 @@ export default defineConfig({
     setupFiles: ["./vitest.setup.ts"],
     clearMocks: true,
     include: ["./src/**/*.spec.ts"],
-    server: {
-      deps: {
-        // WORKAROUND: https://github.com/graphql/graphql-js/issues/2801#issuecomment-1758428498
-        fallbackCJS: true,
-      },
-    },
   },
   resolve: {
     alias: [
