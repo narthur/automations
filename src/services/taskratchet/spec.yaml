@@ -103,11 +103,11 @@ paths:
           description: ID of the specific task
           schema:
             type: string
-            requestBody:
-              content:
-                application/json:
-                  schema:
-                    $ref: "#/components/schemas/Task"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
       responses:
         "200":
           description: Successful response
