@@ -1,0 +1,107 @@
+put:
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric workspace ID
+      schema:
+        type: integer
+    - name: time_entry_id
+      in: path
+      description: The time entry ID
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            billable:
+              type: boolean
+              description: Whether the time entry is marked as billable, optional, default false
+            created_with:
+              type: string
+              description: Must be provided when creating a time entry and should identify the service/application used to create it
+            description:
+              type: string
+              description: Time entry description, optional
+            duration:
+              type: integer
+              description: Time entry duration. For running entries should be negative, preferable -1
+            duronly:
+              type: boolean
+              description: "Deprecated: Used to create a time entry with a duration but without a stop time. This parameter can be ignored."
+            pid:
+              type: integer
+              description: Project ID, legacy field
+            project_id:
+              type: integer
+              description: Project ID, optional
+            start:
+              type: string
+              description: "Start time in UTC, required for creation. Format: 2006-01-02T15:04:05Z"
+            start_date:
+              type: string
+              description: 'If provided during creation, the date part will take precedence over the date part of "start". Format: 2006-11-07'
+            stop:
+              type: string
+              description: Stop time in UTC, can be omitted if it's still running or created with "duration". If "stop" and "duration" are provided, values must be consistent (start + duration == stop)
+            tag_action:
+              type: string
+              description: Can be "add" or "delete". Used when updating an existing time entry
+            tag_ids:
+              type: array
+              items:
+                type: integer
+              description: IDs of tags to add/remove
+            tags:
+              type: array
+              items:
+                type: string
+              description: Names of tags to add/remove. If name does not exist as tag, one will be created automatically
+            task_id:
+              type: integer
+              description: Task ID, optional
+            tid:
+              type: integer
+              description: Task ID, legacy field
+            uid:
+              type: integer
+              description: Time Entry creator ID, legacy field
+            user_id:
+              type: integer
+              description: Time Entry creator ID, if omitted will use the requester user ID
+            wid:
+              type: integer
+              description: Workspace ID, legacy field
+            workspace_id:
+              type: integer
+              description: Workspace ID, required
+  responses:
+    "200":
+      description: Successful response
+      schema:
+        $ref: "../../../../../schemas/TimeEntry.yaml"
+    "403":
+      description: User does not have access to this resource.
+    "500":
+      description: Internal Server Error
+deleted:
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric workspace ID
+      schema:
+        type: integer
+    - name: time_entry_id
+      in: path
+      description: The time entry ID
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Returns only status code.
+    "403":
+      description: User does not have access to this resource.
+    "500":
+      description: Internal Server Error

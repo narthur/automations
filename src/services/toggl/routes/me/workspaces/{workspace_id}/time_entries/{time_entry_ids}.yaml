@@ -1,0 +1,56 @@
+patch:
+  description: "In short: http://tools.ietf.org/html/rfc6902 and http://tools.ietf.org/html/rfc6901 with some additions. Patch will be executed partially when there are errors with some records. No transaction, no rollback."
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      schema:
+        type: integer
+    - name: time_entry_ids
+      in: path
+      description: "Numeric IDs of time_entries, separated by comma. E.g.: 204301830,202700150,202687559. The limit is 100 IDs per request."
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: array
+          description: Array of batch operations
+          items:
+            type: object
+            properties:
+              op:
+                type: string
+                description: Operation (add/remove/replace)
+              path:
+                type: string
+                description: The path to the entity to patch (e.g. /description)
+              value:
+                description: The new value for the entity in path.
+  responses:
+    "200":
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              failure:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: The ID for which the patch operation failed.
+                    message:
+                      type: string
+                      description: The operation failure reason.
+              success:
+                type: array
+                description: The IDs for which the patch was succesful.
+                items:
+                  type: integer
+    "500":
+      description: Internal Server Error

@@ -1,0 +1,36 @@
+get:
+  description: Lists latest time entries.
+  parameters:
+    - name: since
+      in: query
+      description: Get entries modified since this date using UNIX timestamp, including deleted ones.
+      schema:
+        type: integer
+    - name: before
+      in: query
+      description: Get entries with start time, before given date (YYYY-MM-DD) or with time in RFC3339 format.
+      schema:
+        type: string
+    - name: start_date
+      in: query
+      description: Get entries with start time, from start_date YYYY-MM-DD or with time in RFC3339 format. To be used with end_date.
+      schema:
+        type: string
+    - name: end_date
+      in: query
+      description: Get entries with start time, until end_date YYYY-MM-DD or with time in RFC3339 format. To be used with start_date.
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../schemas/TimeEntry.yaml"
+    "403":
+      description: User does not have access to this resource.
+    "500":
+      description: Internal Server Error

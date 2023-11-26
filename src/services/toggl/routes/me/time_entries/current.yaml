@@ -1,0 +1,15 @@
+get:
+  description: Load running time entry for user ID.
+  responses:
+    "200":
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/TimeEntry.yaml"
+    "403":
+      description: User does not have access to this resource.
+    "404":
+      description: Resource not found
+    "500":
+      description: Internal Server Error

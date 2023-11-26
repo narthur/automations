@@ -1,0 +1,30 @@
+patch:
+  description: Stops a workspace time entry.
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      schema:
+        type: integer
+    - name: time_entry_id
+      in: path
+      description: Numeric ID of the time entry
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: The stopped workspace TimeEntry.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../schemas/TimeEntry.yaml"
+    "400":
+      description: Invalid or missing time_entry_id
+    "403":
+      description: User does not have access to this resource.
+    "404":
+      description: Time entry not found
+    "409":
+      description: Time entry is already stopped
+    "500":
+      description: Internal Server Error

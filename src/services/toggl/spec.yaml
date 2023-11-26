@@ -46,3 +46,15 @@ paths:
     $ref: "routes/workspaces/{workspace_id}/preferences.yaml"
   /me/reset_token:
     $ref: "routes/me/reset_token.yaml"
+  /me/time_entries:
+    $ref: "routes/me/time_entries.yaml"
+  /me/time_entries/current:
+    $ref: "routes/me/time_entries/current.yaml"
+  /me/workspaces/{workspace_id}/time_entries:
+    $ref: "routes/me/workspaces/{workspace_id}/time_entries.yaml"
+  /me/workspaces/{workspace_id}/time_entries/{time_entry_ids}:
+    $ref: "routes/me/workspaces/{workspace_id}/time_entries/{time_entry_ids}.yaml"
+  /me/workspaces/{workspace_id}/time_entries/{time_entry_id}:
+    $ref: "routes/me/workspaces/{workspace_id}/time_entries/{time_entry_id}.yaml"
+  /workspaces/{workspace_id}/time_entries/{time_entry_id}/stop:
+    $ref: "routes/workspaces/{workspace_id}/time_entries/{time_entry_id}/stop.yaml"
