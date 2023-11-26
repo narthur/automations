@@ -1,0 +1,10 @@
+get:
+  description: Returns map indexed by workspace ID where each map element contains workspace admins list, members count and groups count.
+  responses:
+    "200":
+      # TODO: Add schema
+      description: Successful operation.
+    "403":
+      description: Forbidden
+    "404":
+      description: Resource can not be found

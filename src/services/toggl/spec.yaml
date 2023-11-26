@@ -66,3 +66,7 @@ paths:
     $ref: "routes/organizations/{organization_id}/users.yaml"
   /organizations/{organization_id}/users/{organization_user_id}:
     $ref: "routes/organizations/{organization_id}/users/{organization_user_id}.yaml"
+  /organizations/{organization_id}/workspaces/statistics:
+    $ref: "routes/organizations/{organization_id}/workspaces/statistics.yaml"
+  /organizations/{organization_id}/workspaces/{workspace_id}/assignments:
+    $ref: "routes/organizations/{organization_id}/workspaces/{workspace_id}/assignments.yaml"

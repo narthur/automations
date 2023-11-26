@@ -1,0 +1,50 @@
+put:
+  description: Assign or remove users to/from a workspace or to/from groups belonging to said workspace.
+  parameters:
+    - name: organization_id
+      description: Numeric ID of the organization
+      in: path
+      required: true
+      schema:
+        type: integer
+    - name: workspace_id
+      description: Numeric ID of the workspace within the organization
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            group_id:
+              type: integer
+            joined:
+              type: boolean
+            operation:
+              type: string
+            user_id:
+              type: integer
+  responses:
+    "200":
+      description: OK
+    "400":
+      description: |
+        Possible error messages:
+        * Invalid JSON input
+        * Invalid organization ID.
+        * Nothing to change.
+        * Field operation can contain only 'add' or 'remove'.
+        * Cannot send user_id and group_id in the same element.
+        * One of user_id or group_id is required.
+        * Invalid user_id.
+        * Cannot remove workspace owner.
+        * Cannot remove paying user.
+        * Invalid group_id.
+        * Invalid workspace ID.
+    "403":
+      description: Operation Forbidden
+    "500":
+      description: Internal Server Error
