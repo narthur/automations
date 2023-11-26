@@ -1,0 +1,64 @@
+type: object
+properties:
+  at:
+    type: string
+    description: When the time entry was last updated
+  billable:
+    type: boolean
+    description: Whether the time entry is billable
+  description:
+    type: string
+    nullable: true
+    description: Time Entry description, null if not provided at creation/update
+  duration:
+    type: integer
+    description: Time entry duration. For running entries should be negative, preferable -1
+  duronly:
+    type: boolean
+    description: Used to create a TE with a duration but without a stop time, this field is deprecated for GET endpoints where the value will always be true.
+  id:
+    type: integer
+    description: Time entry ID
+  pid:
+    type: integer
+    description: Project ID, legacy field
+  project_id:
+    type: integer
+    nullable: true
+    description: Project ID. Can be null if project was not provided or project was later deleted
+  server_deleted_at:
+    type: string
+    nullable: true
+    description: When the time entry was deleted, null if not deleted
+  start:
+    type: string
+    description: Start time in UTC
+  stop:
+    type: string
+    description: Stop time in UTC, can be null if it's still running or created with "duration" and "duronly" fields
+  tag_ids:
+    type: array
+    items:
+      type: integer
+    description: Tag IDs, null if tags were not provided or were later deleted
+  tags:
+    type: array
+    items:
+      type: string
+    description: Tag names, null if tags were not provided or were later deleted
+  task_id:
+    type: integer
+    nullable: true
+    description: Task ID. Can be null if task was not provided or project was later deleted
+  tid:
+    type: integer
+    description: Task ID, legacy field
+  uid:
+    type: integer
+    description: Time Entry creator ID, legacy field
+  wid:
+    type: integer
+    description: Workspace ID, legacy field
+  workspace_id:
+    type: integer
+    description: Workspace ID

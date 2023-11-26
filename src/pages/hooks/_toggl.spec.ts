@@ -1,6 +1,6 @@
 import { createTask } from "src/services/taskratchet";
 import { getProject } from "src/services/toggl/getProject";
-import event from "src/services/toggl/schemas/event";
+import event from "src/services/toggl/zod/event";
 import validateSignature from "src/services/toggl/validateSignature";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import waitForExpect from "wait-for-expect";

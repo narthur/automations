@@ -1,7 +1,7 @@
 import type { APIContext } from "astro";
 import * as billable from "src/goals/billable.js";
 import createSummaryTask from "src/lib/createSummaryTask.js";
-import event from "src/services/toggl/schemas/event";
+import event from "src/services/toggl/zod/event.js";
 import validateSignature from "src/services/toggl/validateSignature.js";
 import { z } from "zod";
 

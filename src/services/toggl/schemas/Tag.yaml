@@ -1,0 +1,17 @@
+type: object
+properties:
+  at:
+    type: string
+    description: When was created/last modified
+  deleted_at:
+    type: string
+    description: When was deleted
+  id:
+    type: integer
+    description: Tag ID
+  name:
+    type: string
+    description: Tag name
+  workspace_id:
+    type: integer
+    description: Workspace ID

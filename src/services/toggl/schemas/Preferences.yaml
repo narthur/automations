@@ -1,0 +1,195 @@
+type: object
+properties:
+  alpha_features:
+    type: array
+    description: will be omitted if empty
+    items:
+      type: object
+      properties:
+        alpha_feature_id:
+          type: integer
+          description: Feature ID
+        code:
+          type: string
+          description: Feature code
+        deleted_at:
+          type: string
+          nullable: true
+          description: Time of deletion, omitted if empty
+        description:
+          type: string
+          nullable: true
+          description: Feature description, omitted if empty
+        enabled:
+          type: boolean
+          description: Whether the feature is enabled
+  calendar_visible_hours_end:
+    type: integer
+  calendar_visible_hours_start:
+    type: integer
+  collapseDetailedReportEntries:
+    type: boolean
+    description: will be omitted if empty
+  collapseTimeEntries:
+    type: boolean
+    description: will be omitted if empty
+  date_format:
+    type: string
+  decimal_separator:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  displayDensity:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  distinctRates:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  duration_format:
+    type: string
+  duration_format_on_timer_duration_field:
+    type: boolean
+  firstSeenBusinessPromo:
+    type: integer
+    nullable: true
+    description: will be omitted if empty
+  hide_keyboard_shortcut:
+    type: boolean
+    description: will be omitted if empty
+  keyboard_increment_timer_page:
+    type: integer
+  keyboard_shortcuts_enabled:
+    type: boolean
+    description: will be omitted if empty
+  manualEntryMode:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  manualMode:
+    type: boolean
+    description: will be omitted if empty
+  manualModeOverlaySeen:
+    type: boolean
+    description: will be omitted if empty
+  offlineMode:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  pg_time_zone_name:
+    type: string
+  projectDashboardActivityMode:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  record_timeline:
+    type: boolean
+  reportRounding:
+    type: boolean
+    description: will be omitted if empty
+  reportRoundingDirection:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  reportRoundingStepInMinutes:
+    type: integer
+    nullable: true
+    description: will be omitted if empty
+  reportsHideWeekends:
+    type: boolean
+    description: will be omitted if empty
+  seenFollowModal:
+    type: boolean
+    description: will be omitted if empty
+  seenFooterPopup:
+    type: boolean
+    description: will be omitted if empty
+  seenProjectDashboardOverlay:
+    type: boolean
+    description: will be omitted if empty
+  seenTogglButtonModal:
+    type: boolean
+    description: will be omitted if empty
+  send_product_emails:
+    type: boolean
+  send_timer_notifications:
+    type: boolean
+  send_weekly_report:
+    type: boolean
+  showTimeInTitle:
+    type: boolean
+    description: will be omitted if empty
+  show_timeline_in_day_view:
+    type: boolean
+    description: will be omitted if empty
+  show_total_billable_hours:
+    type: boolean
+    description: will be omitted if empty
+  show_weekend_on_timer_page:
+    type: boolean
+    description: will be omitted if empty
+  snowballReportRounding:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  stack_times_on_manual_mode_after:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  summaryReportAmounts:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  summaryReportDistinctRates:
+    type: boolean
+    description: will be omitted if empty
+  summaryReportGrouping:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  summaryReportSortAsc:
+    type: boolean
+    description: will be omitted if empty
+  summaryReportSortField:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  summaryReportSubGrouping:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  theme:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  timeofday_format:
+    type: string
+  timerView:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  timerViewMobile:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  toSAcceptNeeded:
+    type: boolean
+  visibleFooter:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  webTimeEntryStarted:
+    type: boolean
+    description: will be omitted if empty
+  webTimeEntryStopped:
+    type: boolean
+    description: will be omitted if empty
+  weeklyReportGrouping:
+    type: string
+    nullable: true
+    description: will be omitted if empty
+  weeklyReportValueToShow:
+    type: string
+    nullable: true
+    description: will be omitted if empty

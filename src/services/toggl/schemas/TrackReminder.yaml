@@ -1,0 +1,27 @@
+type: object
+properties:
+  created_at:
+    type: string
+    description: Reminder creation time
+  frequency:
+    type: integer
+    description: Frequency of the reminder in days, should be either 1 or 7
+  group_ids:
+    type: array
+    items:
+      type: integer
+    description: Groups IDs to send the reminder to
+  reminder_id:
+    type: integer
+    description: Reminder ID
+  threshold:
+    type: integer
+    description: Threshold is the number of hours after which the reminder will be sent
+  user_ids:
+    type: array
+    items:
+      type: integer
+    description: User IDs to send the reminder to
+  workspace_id:
+    type: integer
+    description: Workspace ID

@@ -1,0 +1,124 @@
+type: object
+properties:
+  admin:
+    type: boolean
+  api_token:
+    type: string
+  at:
+    type: string
+  business_ws:
+    type: boolean
+  csv_upload:
+    type: object
+    properties:
+      at:
+        type: string
+      log_id:
+        type: integer
+    description: models.CsvUpload
+  default_hourly_rate:
+    type: integer
+  default_currency:
+    type: string
+  ical_enabled:
+    type: boolean
+  ical_url:
+    type: string
+  id:
+    type: integer
+  logo_url:
+    type: string
+  max_data_retention_days:
+    type: integer
+    description: How far back free workspaces can access data.
+  name:
+    type: string
+  only_admins_may_create_projects:
+    type: boolean
+  only_admins_may_create_tags:
+    type: boolean
+  only_admins_see_billable_rates:
+    type: boolean
+  only_admins_see_team_dashboard:
+    type: boolean
+  organization_id:
+    type: integer
+  premium:
+    type: boolean
+  profile:
+    type: integer
+  projects_billable_by_default:
+    type: boolean
+  rate_last_updated:
+    type: string
+  reports_collapse:
+    type: boolean
+  role:
+    type: string
+  rounding:
+    type: integer
+  rounding_minutes:
+    type: integer
+  server_deleted_at:
+    type: string
+  subscription:
+    type: object
+    properties:
+      auto_renew:
+        type: boolean
+      card_details:
+        type: object
+        properties: {}
+        description: models.CardDetails
+      company_id:
+        type: integer
+      contact_detail:
+        type: object
+        properties: {}
+        description: models.ContactDetail
+      created_at:
+        type: string
+      currency:
+        type: string
+      customer_id:
+        type: integer
+      deleted_at:
+        type: string
+      last_pricing_plan_id:
+        type: integer
+      organization_id:
+        type: integer
+      payment_details:
+        type: object
+        properties: {}
+        description: models.PaymentDetail
+      pricing_plan_id:
+        type: integer
+      renewal_at:
+        type: string
+      subscription_id:
+        type: integer
+      subscription_period:
+        type: object
+        properties: {}
+        description: models.Period
+      workspace_id:
+        type: integer
+    description: models.Subscription
+  suspended_at:
+    type: string
+  te_constraints:
+    type: object
+    properties:
+      description_present:
+        type: boolean
+      project_present:
+        type: boolean
+      tag_present:
+        type: boolean
+      task_present:
+        type: boolean
+      time_entry_constraints_enabled:
+        type: boolean
+  working_hours_in_minutes:
+    type: integer

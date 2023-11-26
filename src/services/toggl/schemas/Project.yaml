@@ -1,0 +1,118 @@
+type: object
+properties:
+  active:
+    type: boolean
+    description: Whether the project is active or archived
+  actual_hours:
+    type: integer
+    nullable: true
+  actual_seconds:
+    type: integer
+    nullable: true
+  at:
+    type: string
+    description: Last updated date
+  auto_estimates:
+    type: boolean
+    nullable: true
+    description: Whether estimates are based on task hours, premium feature
+  billable:
+    type: boolean
+    nullable: true
+    description: Whether the project is billable, premium feature
+  cid:
+    type: integer
+    description: Client ID legacy field
+  client_id:
+    type: integer
+    nullable: true
+  color:
+    type: string
+  created_at:
+    type: string
+  currency:
+    type: string
+    nullable: true
+    description: Currency, premium feature
+  current_period:
+    type: object
+    properties:
+      end_date:
+        type: string
+      start_date:
+        type: string
+    description: Current project period, premium feature (models.RecurringPeriod)
+  end_date:
+    type: string
+  estimated_hours:
+    type: integer
+    nullable: true
+  estimated_seconds:
+    type: integer
+    nullable: true
+  first_time_entry:
+    type: string
+    description: First time entry for this project. Only included if it was requested with with_first_time_entry
+  fixed_fee:
+    type: integer
+    description: Fixed fee, premium feature
+  id:
+    type: integer
+    description: Project ID
+  is_private:
+    type: boolean
+    description: Whether the project is private
+  name:
+    type: string
+    description: Project name
+  rate:
+    type: integer
+    description: Hourly rate
+  rate_last_updated:
+    type: string
+    nullable: true
+    description: Last date for rate change
+  recurring:
+    type: boolean
+    description: Whether the project is recurring, premium feature
+  recurring_parameters:
+    type: array
+    items:
+      type: object
+      properties:
+        custom_period:
+          type: integer
+          nullable: true
+          description: Custom period, used when "period" field is "custom"
+        estimated_seconds:
+          type: integer
+          nullable: true
+          description: Estimated seconds
+        parameter_end_date:
+          type: string
+          nullable: true
+          description: Recurring end date
+        parameter_start_date:
+          type: string
+          description: Recurring start date
+        period:
+          type: string
+          description: Period
+        project_start_date:
+          type: string
+          description: Project start date
+    description: Project recurring parameters, premium feature. Array of models.RecurringProjectParameters
+  server_deleted_at:
+    type: string
+    nullable: true
+    description: Deletion date
+  start_date:
+    type: string
+  template:
+    type: boolean
+    nullable: true
+    description: Whether the project is used as template, premium feature
+  wid:
+    type: integer
+  workspace_id:
+    type: integer

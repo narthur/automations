@@ -9,765 +9,6 @@ components:
     basicAuth:
       type: http
       scheme: basic
-  schemas:
-    Client:
-      type: object
-      properties:
-        archived:
-          type: boolean
-          description: IsArchived is true if the client is archived
-        at:
-          type: string
-          description: When was the last update
-        id:
-          type: integer
-          description: Client ID
-        name:
-          type: string
-          description: Client name
-        server_deleted_at:
-          type: string
-          description: When was the client deleted from server; null if not deleted
-        wid:
-          type: integer
-          description: Workspace ID
-    Project:
-      type: object
-      properties:
-        active:
-          type: boolean
-          description: Whether the project is active or archived
-        actual_hours:
-          type: integer
-          nullable: true
-        actual_seconds:
-          type: integer
-          nullable: true
-        at:
-          type: string
-          description: Last updated date
-        auto_estimates:
-          type: boolean
-          nullable: true
-          description: Whether estimates are based on task hours, premium feature
-        billable:
-          type: boolean
-          nullable: true
-          description: Whether the project is billable, premium feature
-        cid:
-          type: integer
-          description: Client ID legacy field
-        client_id:
-          type: integer
-          nullable: true
-        color:
-          type: string
-        created_at:
-          type: string
-        currency:
-          type: string
-          nullable: true
-          description: Currency, premium feature
-        current_period:
-          type: object
-          properties:
-            end_date:
-              type: string
-            start_date:
-              type: string
-          description: Current project period, premium feature (models.RecurringPeriod)
-        end_date:
-          type: string
-        estimated_hours:
-          type: integer
-          nullable: true
-        estimated_seconds:
-          type: integer
-          nullable: true
-        first_time_entry:
-          type: string
-          description: First time entry for this project. Only included if it was requested with with_first_time_entry
-        fixed_fee:
-          type: integer
-          description: Fixed fee, premium feature
-        id:
-          type: integer
-          description: Project ID
-        is_private:
-          type: boolean
-          description: Whether the project is private
-        name:
-          type: string
-          description: Project name
-        rate:
-          type: integer
-          description: Hourly rate
-        rate_last_updated:
-          type: string
-          nullable: true
-          description: Last date for rate change
-        recurring:
-          type: boolean
-          description: Whether the project is recurring, premium feature
-        recurring_parameters:
-          type: array
-          items:
-            type: object
-            properties:
-              custom_period:
-                type: integer
-                nullable: true
-                description: Custom period, used when "period" field is "custom"
-              estimated_seconds:
-                type: integer
-                nullable: true
-                description: Estimated seconds
-              parameter_end_date:
-                type: string
-                nullable: true
-                description: Recurring end date
-              parameter_start_date:
-                type: string
-                description: Recurring start date
-              period:
-                type: string
-                description: Period
-              project_start_date:
-                type: string
-                description: Project start date
-          description: Project recurring parameters, premium feature. Array of models.RecurringProjectParameters
-        server_deleted_at:
-          type: string
-          nullable: true
-          description: Deletion date
-        start_date:
-          type: string
-        template:
-          type: boolean
-          nullable: true
-          description: Whether the project is used as template, premium feature
-        wid:
-          type: integer
-        workspace_id:
-          type: integer
-    Tag:
-      type: object
-      properties:
-        at:
-          type: string
-          description: When was created/last modified
-        deleted_at:
-          type: string
-          description: When was deleted
-        id:
-          type: integer
-          description: Tag ID
-        name:
-          type: string
-          description: Tag name
-        workspace_id:
-          type: integer
-          description: Workspace ID
-    Task:
-      type: object
-      properties:
-        active:
-          type: boolean
-          description: False when the task has been done
-        at:
-          type: string
-          description: When the task was created/last modified
-        estimated_seconds:
-          type: integer
-          nullable: true
-          description: Estimation time for this task in seconds
-        id:
-          type: integer
-          description: Task ID
-        name:
-          type: string
-          description: Task name
-        project_id:
-          type: integer
-          description: Project ID
-        recurring:
-          type: boolean
-          description: Whether the task is recurring
-        server_deleted_at:
-          type: string
-          nullable: true
-          description: When the task was deleted
-        tracked_seconds:
-          type: integer
-          description: The value tracked_seconds is in milliseconds, not in seconds.
-        user_id:
-          type: integer
-          nullable: true
-          description: Task assignee, if available
-        workspace_id:
-          type: integer
-          description: Workspace ID
-    TimeEntry:
-      type: object
-      properties:
-        at:
-          type: string
-          description: When the time entry was last updated
-        billable:
-          type: boolean
-          description: Whether the time entry is billable
-        description:
-          type: string
-          nullable: true
-          description: Time Entry description, null if not provided at creation/update
-        duration:
-          type: integer
-          description: Time entry duration. For running entries should be negative, preferable -1
-        duronly:
-          type: boolean
-          description: Used to create a TE with a duration but without a stop time, this field is deprecated for GET endpoints where the value will always be true.
-        id:
-          type: integer
-          description: Time entry ID
-        pid:
-          type: integer
-          description: Project ID, legacy field
-        project_id:
-          type: integer
-          nullable: true
-          description: Project ID. Can be null if project was not provided or project was later deleted
-        server_deleted_at:
-          type: string
-          nullable: true
-          description: When the time entry was deleted, null if not deleted
-        start:
-          type: string
-          description: Start time in UTC
-        stop:
-          type: string
-          description: Stop time in UTC, can be null if it's still running or created with "duration" and "duronly" fields
-        tag_ids:
-          type: array
-          items:
-            type: integer
-          description: Tag IDs, null if tags were not provided or were later deleted
-        tags:
-          type: array
-          items:
-            type: string
-          description: Tag names, null if tags were not provided or were later deleted
-        task_id:
-          type: integer
-          nullable: true
-          description: Task ID. Can be null if task was not provided or project was later deleted
-        tid:
-          type: integer
-          description: Task ID, legacy field
-        uid:
-          type: integer
-          description: Time Entry creator ID, legacy field
-        wid:
-          type: integer
-          description: Workspace ID, legacy field
-        workspace_id:
-          type: integer
-          description: Workspace ID
-    Workspace:
-      type: object
-      properties:
-        admin:
-          type: boolean
-        api_token:
-          type: string
-        at:
-          type: string
-        business_ws:
-          type: boolean
-        csv_upload:
-          type: object
-          properties:
-            at:
-              type: string
-            log_id:
-              type: integer
-          description: models.CsvUpload
-        default_hourly_rate:
-          type: integer
-        default_currency:
-          type: string
-        ical_enabled:
-          type: boolean
-        ical_url:
-          type: string
-        id:
-          type: integer
-        logo_url:
-          type: string
-        max_data_retention_days:
-          type: integer
-          description: How far back free workspaces can access data.
-        name:
-          type: string
-        only_admins_may_create_projects:
-          type: boolean
-        only_admins_may_create_tags:
-          type: boolean
-        only_admins_see_billable_rates:
-          type: boolean
-        only_admins_see_team_dashboard:
-          type: boolean
-        organization_id:
-          type: integer
-        premium:
-          type: boolean
-        profile:
-          type: integer
-        projects_billable_by_default:
-          type: boolean
-        rate_last_updated:
-          type: string
-        reports_collapse:
-          type: boolean
-        role:
-          type: string
-        rounding:
-          type: integer
-        rounding_minutes:
-          type: integer
-        server_deleted_at:
-          type: string
-        subscription:
-          type: object
-          properties:
-            auto_renew:
-              type: boolean
-            card_details:
-              type: object
-              properties: {}
-              description: models.CardDetails
-            company_id:
-              type: integer
-            contact_detail:
-              type: object
-              properties: {}
-              description: models.ContactDetail
-            created_at:
-              type: string
-            currency:
-              type: string
-            customer_id:
-              type: integer
-            deleted_at:
-              type: string
-            last_pricing_plan_id:
-              type: integer
-            organization_id:
-              type: integer
-            payment_details:
-              type: object
-              properties: {}
-              description: models.PaymentDetail
-            pricing_plan_id:
-              type: integer
-            renewal_at:
-              type: string
-            subscription_id:
-              type: integer
-            subscription_period:
-              type: object
-              properties: {}
-              description: models.Period
-            workspace_id:
-              type: integer
-          description: models.Subscription
-        suspended_at:
-          type: string
-        te_constraints:
-          type: object
-          properties:
-            description_present:
-              type: boolean
-            project_present:
-              type: boolean
-            tag_present:
-              type: boolean
-            task_present:
-              type: boolean
-            time_entry_constraints_enabled:
-              type: boolean
-        working_hours_in_minutes:
-          type: integer
-    Organization:
-      type: object
-      properties:
-        admin:
-          type: boolean
-          description: Whether the requester is an admin of the organization
-        at:
-          type: string
-          description: Organization's last modification date
-        created_at:
-          type: string
-          description: Organization's creation date
-        id:
-          type: integer
-          description: Organization ID
-        is_multi_workspace_enabled:
-          type: boolean
-          description: Is true when the organization option is_multi_workspace_enabled is set
-        is_unified:
-          type: boolean
-        max_data_retention_days:
-          type: integer
-          description: How far back free workspaces in this org can access data.
-        max_workspaces:
-          type: integer
-          description: Maximum number of workspaces allowed for the organization
-        name:
-          type: string
-          description: Organization Name
-        owner:
-          type: boolean
-          description: Whether the requester is a the owner of the organization
-        payment_methods:
-          type: string
-          description: Organization's subscription payment methods. Omitted if empty.
-        pricing_plan_id:
-          type: integer
-          description: Organization plan ID
-        server_deleted_at:
-          type: string
-          nullable: true
-          description: Organization's delete date
-        suspended_at:
-          type: string
-          description: Whether the organization is currently suspended
-        trial_info:
-          type: object
-          properties:
-            last_pricing_plan_id:
-              type: integer
-              nullable: true
-              description: What was the previous plan before the trial
-            next_payment_date:
-              type: string
-              nullable: true
-              description: When the trial payment is due
-            trial:
-              type: boolean
-              description: Whether the organization's subscription is currently on trial
-            trial_available:
-              type: boolean
-              description: When a trial is available for this organization
-            trial_end_date:
-              type: string
-              nullable: true
-              description: When the trial ends
-        user_count:
-          type: integer
-          description: Number of organization users
-    TrackReminder:
-      type: object
-      properties:
-        created_at:
-          type: string
-          description: Reminder creation time
-        frequency:
-          type: integer
-          description: Frequency of the reminder in days, should be either 1 or 7
-        group_ids:
-          type: array
-          items:
-            type: integer
-          description: Groups IDs to send the reminder to
-        reminder_id:
-          type: integer
-          description: Reminder ID
-        threshold:
-          type: integer
-          description: Threshold is the number of hours after which the reminder will be sent
-        user_ids:
-          type: array
-          items:
-            type: integer
-          description: User IDs to send the reminder to
-        workspace_id:
-          type: integer
-          description: Workspace ID
-    Preferences:
-      type: object
-      properties:
-        alpha_features:
-          type: array
-          description: will be omitted if empty
-          items:
-            type: object
-            properties:
-              alpha_feature_id:
-                type: integer
-                description: Feature ID
-              code:
-                type: string
-                description: Feature code
-              deleted_at:
-                type: string
-                nullable: true
-                description: Time of deletion, omitted if empty
-              description:
-                type: string
-                nullable: true
-                description: Feature description, omitted if empty
-              enabled:
-                type: boolean
-                description: Whether the feature is enabled
-        calendar_visible_hours_end:
-          type: integer
-        calendar_visible_hours_start:
-          type: integer
-        collapseDetailedReportEntries:
-          type: boolean
-          description: will be omitted if empty
-        collapseTimeEntries:
-          type: boolean
-          description: will be omitted if empty
-        date_format:
-          type: string
-        decimal_separator:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        displayDensity:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        distinctRates:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        duration_format:
-          type: string
-        duration_format_on_timer_duration_field:
-          type: boolean
-        firstSeenBusinessPromo:
-          type: integer
-          nullable: true
-          description: will be omitted if empty
-        hide_keyboard_shortcut:
-          type: boolean
-          description: will be omitted if empty
-        keyboard_increment_timer_page:
-          type: integer
-        keyboard_shortcuts_enabled:
-          type: boolean
-          description: will be omitted if empty
-        manualEntryMode:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        manualMode:
-          type: boolean
-          description: will be omitted if empty
-        manualModeOverlaySeen:
-          type: boolean
-          description: will be omitted if empty
-        offlineMode:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        pg_time_zone_name:
-          type: string
-        projectDashboardActivityMode:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        record_timeline:
-          type: boolean
-        reportRounding:
-          type: boolean
-          description: will be omitted if empty
-        reportRoundingDirection:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        reportRoundingStepInMinutes:
-          type: integer
-          nullable: true
-          description: will be omitted if empty
-        reportsHideWeekends:
-          type: boolean
-          description: will be omitted if empty
-        seenFollowModal:
-          type: boolean
-          description: will be omitted if empty
-        seenFooterPopup:
-          type: boolean
-          description: will be omitted if empty
-        seenProjectDashboardOverlay:
-          type: boolean
-          description: will be omitted if empty
-        seenTogglButtonModal:
-          type: boolean
-          description: will be omitted if empty
-        send_product_emails:
-          type: boolean
-        send_timer_notifications:
-          type: boolean
-        send_weekly_report:
-          type: boolean
-        showTimeInTitle:
-          type: boolean
-          description: will be omitted if empty
-        show_timeline_in_day_view:
-          type: boolean
-          description: will be omitted if empty
-        show_total_billable_hours:
-          type: boolean
-          description: will be omitted if empty
-        show_weekend_on_timer_page:
-          type: boolean
-          description: will be omitted if empty
-        snowballReportRounding:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        stack_times_on_manual_mode_after:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        summaryReportAmounts:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        summaryReportDistinctRates:
-          type: boolean
-          description: will be omitted if empty
-        summaryReportGrouping:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        summaryReportSortAsc:
-          type: boolean
-          description: will be omitted if empty
-        summaryReportSortField:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        summaryReportSubGrouping:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        theme:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        timeofday_format:
-          type: string
-        timerView:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        timerViewMobile:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        toSAcceptNeeded:
-          type: boolean
-        visibleFooter:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        webTimeEntryStarted:
-          type: boolean
-          description: will be omitted if empty
-        webTimeEntryStopped:
-          type: boolean
-          description: will be omitted if empty
-        weeklyReportGrouping:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-        weeklyReportValueToShow:
-          type: string
-          nullable: true
-          description: will be omitted if empty
-    UserResponse:
-      type: object
-      properties:
-        api_token:
-          type: string
-          description: User's API token. Will be omitted if empty
-        at:
-          type: string
-        beginning_of_week:
-          type: integer
-        clients:
-          type: array
-          description: Clients, null if with_related_data was not set to true or if the user does not have any clients
-          items:
-            $ref: "#/components/schemas/Client"
-        country_id:
-          type: integer
-        created_at:
-          type: string
-        default_workspace_id:
-          type: integer
-        email:
-          type: string
-        fullname:
-          type: string
-        has_password:
-          type: boolean
-        id:
-          type: integer
-        image_url:
-          type: string
-        intercom_hash:
-          type: string
-          description: will be omitted if empty
-        oauth_providers:
-          type: array
-          items:
-            type: string
-        openid_email:
-          type: string
-        openid_enabled:
-          type: boolean
-        options:
-          type: object
-          properties:
-            additionalProperties:
-              type: object
-              properties: {}
-          description: will be omitted if empty
-        projects:
-          type: array
-          description: Projects, null if with_related_data was not set to true or if the user does not have any projects
-          items:
-            $ref: "#/components/schemas/Project"
-        tags:
-          type: array
-          description: Tags, null if with_related_data was not set to true or if the user does not have any tags
-          items:
-            $ref: "#/components/schemas/Tag"
-        tasks:
-          type: array
-          description: Tasks, null if with_related_data was not set to true or if the user does not have any tasks
-          items:
-            $ref: "#/components/schemas/Task"
-        time_entries:
-          type: array
-          description: Time entries, null if with_related_data was not set to true or if the user does not have any time entries
-          items:
-            $ref: "#/components/schemas/TimeEntry"
-        timezone:
-          type: string
-        updated_at:
-          type: string
-        workspaces:
-          type: array
-          description: Workspaces, null if with_related_data was not set to true or if the user does not have any workspaces
-          items:
-            $ref: "#/components/schemas/Workspace"
 security:
   - basicAuth: []
 paths:
@@ -786,7 +27,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserResponse"
+                $ref: "schemas/User.yaml"
         "403":
           description: User does not have access to this resource.
         "404":
@@ -903,7 +144,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Client"
+                  $ref: "schemas/Client.yaml"
         "500":
           description: Internal Server Error
   /me/features:
@@ -980,7 +221,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Organization"
+                  $ref: "schemas/Organization.yaml"
         "500":
           description: Internal Server Error
   /me/projects:
@@ -1005,7 +246,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Project"
+                  $ref: "schemas/Project.yaml"
         "400":
           description: Invalid include_archived value
         "403":
@@ -1039,7 +280,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Project"
+                  $ref: "schemas/Project.yaml"
         "403":
           description: Operation Forbidden
         "500":
@@ -1061,7 +302,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Tag"
+                  $ref: "schemas/Tag.yaml"
         "403":
           description: User does not have access to this resource.
         "500":
@@ -1088,7 +329,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Task"
+                  $ref: "schemas/Task.yaml"
         "400":
           description: Invalid include_not_active value
         "403":
@@ -1106,7 +347,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/TrackReminder"
+                  $ref: "schemas/TrackReminder.yaml"
         "403":
           description: User does not have access to this resource.
         "500":
@@ -1140,7 +381,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Workspace"
+                  $ref: "schemas/Workspace.yaml"
         "403":
           description: User does not have access to this resource.
         "500":
@@ -1154,7 +395,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Preferences"
+                $ref: "schemas/Preferences.yaml"
         "403":
           description: User does not have access to this resource.
         "500":
@@ -1165,7 +406,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Preferences"
+              $ref: "schemas/Preferences.yaml"
       responses:
         "200":
           description: Successful operation
@@ -1197,7 +438,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Preferences"
+                $ref: "schemas/Preferences.yaml"
         "400":
           description: Invalid client value
         "403":
@@ -1217,7 +458,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Preferences"
+              $ref: "schemas/Preferences.yaml"
       responses:
         "200":
           description: Successful operation

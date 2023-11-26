@@ -1,0 +1,20 @@
+type: object
+properties:
+  archived:
+    type: boolean
+    description: IsArchived is true if the client is archived
+  at:
+    type: string
+    description: When was the last update
+  id:
+    type: integer
+    description: Client ID
+  name:
+    type: string
+    description: Client name
+  server_deleted_at:
+    type: string
+    description: When was the client deleted from server; null if not deleted
+  wid:
+    type: integer
+    description: Workspace ID

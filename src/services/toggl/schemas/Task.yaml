@@ -1,0 +1,38 @@
+type: object
+properties:
+  active:
+    type: boolean
+    description: False when the task has been done
+  at:
+    type: string
+    description: When the task was created/last modified
+  estimated_seconds:
+    type: integer
+    nullable: true
+    description: Estimation time for this task in seconds
+  id:
+    type: integer
+    description: Task ID
+  name:
+    type: string
+    description: Task name
+  project_id:
+    type: integer
+    description: Project ID
+  recurring:
+    type: boolean
+    description: Whether the task is recurring
+  server_deleted_at:
+    type: string
+    nullable: true
+    description: When the task was deleted
+  tracked_seconds:
+    type: integer
+    description: The value tracked_seconds is in milliseconds, not in seconds.
+  user_id:
+    type: integer
+    nullable: true
+    description: Task assignee, if available
+  workspace_id:
+    type: integer
+    description: Workspace ID
