@@ -1,0 +1,50 @@
+get:
+  parameters:
+    - name: organization_id
+      in: path
+      description: Numeric ID of the organization
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Successful response
+      content:
+        application/json:
+          $ref: "../../schemas/Organization.yaml"
+    "404":
+      description: |
+        Possible error messages:
+        * Invalid organization ID
+        * User not part of organization
+put:
+  description: Updates an existing organization
+  parameters:
+    - name: organization_id
+      in: path
+      description: Numeric ID of the organization
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              description: The name of the organization
+  responses:
+    "200":
+      description: OK
+    "400":
+      description: |
+        Possible error messages:
+        * Invalid JSON input
+        * Invalid organization ID
+        * At least one field is required
+        * field 'name' cannot be empty
+        * organization name too long, maximum length is 140
+    "403":
+      description: Operation Forbidden
+    "500":
+      description: Internal Server Error

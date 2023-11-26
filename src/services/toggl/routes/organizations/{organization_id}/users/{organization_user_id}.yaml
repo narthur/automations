@@ -1,0 +1,70 @@
+put:
+  description: Changes a single organization-user.
+  parameters:
+    - name: organization_id
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+            groups:
+              type: array
+              items:
+                type: integer
+            inactive:
+              type: boolean
+            name:
+              type: string
+            organization_admin:
+              type: boolean
+            workspaces:
+              type: array
+              items:
+                type: object
+                properties:
+                  admin:
+                    type: boolean
+                  inactive:
+                    type: boolean
+                  name:
+                    type: string
+                  role:
+                    type: string
+                  workspace_id:
+                    type: integer
+  responses:
+    "200":
+      description: OK
+    "400":
+      description: |
+        Possible error messages:
+        * Missing or invalid organization_id.
+        * User does not exist in the organization.
+        * At least one field is required.
+        * Field 'name' cannot be empty.
+        * Missing e-mail.
+        * Invalid e-mail: '...'
+        * Email already exists.
+        * Group '...' is not in Organization '...'.
+        * Workspace '...' is not in Organization '...'.
+        * Cannot remove admin privileges from owner.
+        * Cannot deactivate owner.
+        * Cannot remove admin privileges from paying user.
+        * Cannot deactivate paying user.
+        * User has multiple organizations.
+    "403":
+      description: Operation forbidden.
+    "404":
+      description: |
+        Possible error messages:
+        * Invalid organization user ID.
+        * Failed to load user data.
+    "500":
+      description: Internal server error.

@@ -58,3 +58,11 @@ paths:
     $ref: "routes/me/workspaces/{workspace_id}/time_entries/{time_entry_id}.yaml"
   /workspaces/{workspace_id}/time_entries/{time_entry_id}/stop:
     $ref: "routes/workspaces/{workspace_id}/time_entries/{time_entry_id}/stop.yaml"
+  /organizations:
+    $ref: "routes/organizations.yaml"
+  /organizations/{organization_id}:
+    $ref: "routes/organizations/{organization_id}.yaml"
+  /organizations/{organization_id}/users:
+    $ref: "routes/organizations/{organization_id}/users.yaml"
+  /organizations/{organization_id}/users/{organization_user_id}:
+    $ref: "routes/organizations/{organization_id}/users/{organization_user_id}.yaml"

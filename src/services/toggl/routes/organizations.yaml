@@ -1,0 +1,43 @@
+post:
+  description: Creates a new organization with a single workspace and assigns current user as the organization owner
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Organization name
+            workspace_name:
+              type: string
+              description: Workspace name
+  responses:
+    "200":
+      description: Organization and workspace IDs
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              workspace_id:
+                type: integer
+              workspace_name:
+                type: string
+    "400":
+      description: |
+        Possible error messages:
+        * Invalid JSON input
+        * Field 'name' cannot be empty.
+        * organization name too long, maximum length is 140
+        * workspace name must contain non-space characters
+        * workspace name must be provided
+        * workspace name must not be longer than 140
+    "403":
+      description: Operation Forbidden
+    "500":
+      description: Internal Server Error
