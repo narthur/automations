@@ -1,0 +1,9 @@
+post:
+  summary: Resets the API token for the current user.
+  responses:
+    "200":
+      description: Successful response
+    "403":
+      description: User does not have access to this resource.
+    "500":
+      description: Internal Server Error

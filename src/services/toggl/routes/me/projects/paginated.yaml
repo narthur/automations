@@ -1,0 +1,31 @@
+get:
+  summary: Returns a paginated list of projects for the current user.
+  parameters:
+    - name: start_project_id
+      in: query
+      description: ID of the project to start from
+      schema:
+        type: integer
+    - name: since
+      in: query
+      description: Retrieve projects modified since this date using UNIX timestamp, including deleted ones.
+      schema:
+        type: integer
+    - name: per_page
+      in: query
+      description: Number of projects to return per page, default 201.
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../../schemas/Project.yaml"
+    "403":
+      description: Operation Forbidden
+    "500":
+      description: Internal Server Error

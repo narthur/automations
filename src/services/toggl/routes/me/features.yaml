@@ -1,0 +1,29 @@
+get:
+  summary: Returns a list of features for the current user.
+  responses:
+    "200":
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                features:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
+                      feature_id:
+                        type: integer
+                      name:
+                        type: string
+                workspace_id:
+                  type: integer
+    "403":
+      description: Operation Forbidden
+    "500":
+      description: Internal Server Error

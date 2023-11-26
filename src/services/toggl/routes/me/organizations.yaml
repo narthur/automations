@@ -1,0 +1,13 @@
+get:
+  summary: Returns a list of organizations for the current user.
+  responses:
+    "200":
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../schemas/Organization.yaml"
+    "500":
+      description: Internal Server Error

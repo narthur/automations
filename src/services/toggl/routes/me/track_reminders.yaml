@@ -1,0 +1,15 @@
+get:
+  summary: Returns a list of track reminders for the current user.
+  responses:
+    "200":
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../schemas/TrackReminder.yaml"
+    "403":
+      description: User does not have access to this resource.
+    "500":
+      description: Internal Server Error

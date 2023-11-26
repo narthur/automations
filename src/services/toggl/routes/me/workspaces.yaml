@@ -1,0 +1,21 @@
+get:
+  summary: Returns a list of workspaces for the current user.
+  parameters:
+    - name: since
+      in: query
+      description: Retrieve workspaces created/modified/deleted since this date using UNIX timestamp, including the dates a workspace member got added, removed or updated in the workspace.
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../schemas/Workspace.yaml"
+    "403":
+      description: User does not have access to this resource.
+    "500":
+      description: Internal Server Error

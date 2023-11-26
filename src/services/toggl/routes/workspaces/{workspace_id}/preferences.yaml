@@ -1,0 +1,87 @@
+get:
+  summary: Get the preferences for a given workspace.
+  parameters:
+    - name: workspace_id
+      in: path
+      required: true
+      description: Workspace ID
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              logo:
+                type: string
+    "400":
+      description: Workspace not found
+    "403":
+      description: User does not have access to this resource.
+    "500":
+      description: Internal Server Error
+post:
+  summary: Update the preferences for a given workspace.
+  parameters:
+    - name: workspace_id
+      in: path
+      required: true
+      description: Workspace ID
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            annual-master-campaign-2018:
+              type: string
+              description: Legacy field
+            inc_tos_accepted_at:
+              type: string
+              description: Time of acceptance of the terms of service
+            inc_tos_accepted_by:
+              type: integer
+              description: User ID who accepted the terms of service
+            initial_pricing_plan:
+              type: integer
+              description: Pricing plan ID
+            january-2018-campaign:
+              type: boolean
+              description: Legacy field
+            master_signup:
+              type: boolean
+              description: Legacy field
+            report_locked_at:
+              type: string
+              description: Date on which "Lock Time Entries" feature was enabled
+            single_sign_on:
+              type: boolean
+              description: Whether SSO is enabled for this workspace
+            sso_requested_at:
+              type: string
+              description: Date on which SSO was requested
+  responses:
+    "200":
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              logo:
+                type: string
+    "400":
+      description: |
+        Possible error messages:
+        * Workspace not found
+        * The field is not writable
+        * Admin permissions required
+    "403":
+      description: User does not have access to this resource.
+    "500":
+      description: Internal Server Error

@@ -1,0 +1,28 @@
+get:
+  summary: Returns a list of projects for the current user.
+  parameters:
+    - name: include_archived
+      in: query
+      description: Whether to include archived projects
+      schema:
+        type: string
+    - name: since
+      in: query
+      description: Retrieve projects modified since this date using UNIX timestamp, including deleted ones.
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../schemas/Project.yaml"
+    "400":
+      description: Invalid include_archived value
+    "403":
+      description: Operation Forbidden
+    "500":
+      description: Internal Server Error

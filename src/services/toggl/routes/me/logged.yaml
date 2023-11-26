@@ -1,0 +1,7 @@
+get:
+  summary: Used to check if authentication works.
+  responses:
+    "200":
+      description: Successful response
+    "500":
+      description: Internal Server Error

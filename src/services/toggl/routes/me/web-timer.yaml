@@ -1,0 +1,11 @@
+get:
+  summary: Get web timer.
+  responses:
+    "200":
+      description: Successful operation
+    "403":
+      description: Operation Forbidden
+    "404":
+      description: Resource can not be found
+    "500":
+      description: Internal Server Error

@@ -1,0 +1,35 @@
+get:
+  summary: Returns user preferences and alpha features. The list of alpha features contains a full list of feature codes (every feature that exists in database) and the enabled flag specifying if that feature should be enabled or disabled for the user.
+  responses:
+    "200":
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/Preferences.yaml"
+    "403":
+      description: User does not have access to this resource.
+    "500":
+      description: Internal Server Error
+post:
+  summary: With this endpoint, preferences can be modified and alpha features can be enabled or disabled.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../schemas/Preferences.yaml"
+  responses:
+    "200":
+      description: Successful operation
+    "400":
+      description: |
+        Possible error messages:
+        * Cannot set value for ToSAcceptNeeded
+        * Invalid feature code(s)
+        * Missing data
+        * Value in date_format is invalid
+        * Value in timeofday_format is invalid
+    "403":
+      description: User does not have access to this resource.
+    "500":
+      description: Internal Server Error
