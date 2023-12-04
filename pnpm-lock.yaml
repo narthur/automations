@@ -100,6 +100,9 @@ devDependencies:
   '@types/text-table':
     specifier: ^0.2.3
     version: 0.2.3
+  '@types/turndown':
+    specifier: ^5.0.4
+    version: 5.0.4
   dotenv:
     specifier: ^16.3.1
     version: 16.3.1
@@ -115,6 +118,9 @@ devDependencies:
   openapi-typescript-codegen:
     specifier: ^0.25.0
     version: 0.25.0
+  turndown:
+    specifier: ^7.1.2
+    version: 7.1.2
   wait-for-expect:
     specifier: ^3.0.2
     version: 3.0.2
@@ -1395,6 +1401,10 @@ packages:
     resolution: {integrity: sha512-MUW7DN7e178wJ2dB9rHuhwUWRUJGrl8fCng37BEWV0r2r5VpzkRFRiMfnX6sjXlu4tMn41lrjzsVh/z1XrKc+A==}
     dev: true
 
+  /@types/turndown@5.0.4:
+    resolution: {integrity: sha512-28GI33lCCkU4SGH1GvjDhFgOVr+Tym4PXGBIU1buJUa6xQolniPArtUT+kv42RR2N9MsMLInkr904Aq+ESHBJg==}
+    dev: true
+
   /@types/unist@2.0.8:
     resolution: {integrity: sha512-d0XxK3YTObnWVp6rZuev3c49+j4Lo8g4L1ZRm9z5L0xpoZycUPshHgczK5gsUMaZOstjVYYi09p5gYvUtfChYw==}
     dev: false
@@ -2514,6 +2524,10 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       esutils: 2.0.3
+
+  /domino@2.1.6:
+    resolution: {integrity: sha512-3VdM/SXBZX2omc9JF9nOPCtDaYQ67BGp5CoLpIQlO2KCAPETs8TcDHacF26jXadGbvUteZzRTeos2fhID5+ucQ==}
+    dev: true
 
   /dotenv@16.3.1:
     resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
@@ -6083,6 +6097,12 @@ packages:
       safe-buffer: 5.2.1
     dev: false
     optional: true
+
+  /turndown@7.1.2:
+    resolution: {integrity: sha512-ntI9R7fcUKjqBP6QU8rBK2Ehyt8LAzt3UBT9JR9tgo6GtuKvyUzpayWmeMKJw1DPdXzktvtIT8m2mVXz+bL/Qg==}
+    dependencies:
+      domino: 2.1.6
+    dev: true
 
   /type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}

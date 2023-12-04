@@ -1,0 +1,17 @@
+post:
+  description: User connected with invitation is marked as joined, email is sent to the inviter.
+  parameters:
+    - in: path
+      name: invitation_code
+      required: true
+      schema:
+        type: string
+  responses:
+    "200":
+      description: OK
+    "403":
+      description: Operation Forbidden
+    "404":
+      description: Invalid invitation code
+    "500":
+      description: Internal Server Error

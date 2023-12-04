@@ -70,3 +70,9 @@ paths:
     $ref: "routes/organizations/{organization_id}/workspaces/statistics.yaml"
   /organizations/{organization_id}/workspaces/{workspace_id}/assignments:
     $ref: "routes/organizations/{organization_id}/workspaces/{workspace_id}/assignments.yaml"
+  /organizations/invitations/{invitation_code}/accept:
+    $ref: "routes/organizations/invitations/{invitation_code}/accept.yaml"
+  /organizations/invitations/{invitation_code}/reject:
+    $ref: "routes/organizations/invitations/{invitation_code}/reject.yaml"
+  /organizations/{organization_id}/invitations:
+    $ref: "routes/organizations/{organization_id}/invitations.yaml"

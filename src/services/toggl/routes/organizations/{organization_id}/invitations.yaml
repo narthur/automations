@@ -1,0 +1,29 @@
+post:
+  description: Creates a new invitation for the user.
+  parameters:
+    - in: path
+      name: organization_id
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            emails:
+              type: array
+              items:
+                type: string
+            workspaces:
+              type: array
+              items:
+                type: object
+                properties:
+                  admin:
+                    type: boolean
+                  role:
+                    type: string
+                  workspace_id:
+                    type: integer

@@ -1,4 +1,4 @@
-// pnpm dlx tsx ./scripts/trello.ts
+// pnpm tsx ./scripts/trello.ts
 
 import "dotenv/config";
 
