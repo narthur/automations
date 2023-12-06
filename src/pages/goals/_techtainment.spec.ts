@@ -1,12 +1,12 @@
+import { getMe } from "src/services/toggl/getMe";
 import getProjectsSummary from "src/services/toggl/getProjectsSummary";
-import me from "src/services/toggl/resolvers/me";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { GET } from "./techtainment";
 
 describe("techtainment", () => {
   beforeEach(() => {
-    vi.mocked(me).mockResolvedValue({
+    vi.mocked(getMe).mockResolvedValue({
       id: 1,
       default_workspace_id: 7,
     } as any);

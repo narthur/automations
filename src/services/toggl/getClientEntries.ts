@@ -1,6 +1,4 @@
-import type { TimeEntry } from "src/__generated__/graphql.js";
-
-import { type TogglProject } from "./types.js";
+import { type TimeEntry, type TogglProject } from "./types.js";
 
 export default function getClientEntries(
   clientId: number,
@@ -8,7 +6,7 @@ export default function getClientEntries(
   projects: TogglProject[]
 ): TimeEntry[] {
   return entries.filter((e) => {
-    const p = projects.find((p) => p.id === e.projectId);
+    const p = projects.find((p) => p.id === e.project_id);
     return e.billable && p?.client_id === clientId;
   });
 }

@@ -1,9 +1,9 @@
 services:
-  - type: web
-    name: automations
-    runtime: node
-    region: ohio
-    plan: starter
-    # WORKAROUND: https://community.render.com/t/support-pnpm-8-6/12513/2
-    buildCommand: npm i -g pnpm && pnpm install && pnpm build
-    startCommand: npm i -g pnpm && pnpm start
+    - type: web
+      name: automations
+      runtime: node
+      region: ohio
+      plan: starter
+      # WORKAROUND: https://community.render.com/t/support-pnpm-8-6/12513/2
+      buildCommand: npm i -g pnpm && pnpm install && pnpm build
+      startCommand: npm i -g pnpm && pnpm start

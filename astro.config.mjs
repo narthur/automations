@@ -1,5 +1,4 @@
 import node from "@astrojs/node";
-import graphql from '@rollup/plugin-graphql';
 import sentry from "@sentry/astro";
 import { defineConfig } from "astro/config";
 
@@ -11,7 +10,6 @@ export default defineConfig({
   }),
   integrations: [sentry()],
   vite: {
-    plugins: [graphql()],
     build: {
       sourcemap: true,
     }

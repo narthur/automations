@@ -1,4 +1,4 @@
-import type { TimeEntry } from "src/__generated__/graphql";
+import { type TimeEntry } from "./types.js";
 
 export function getSumOfHours({
   entries,

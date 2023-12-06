@@ -1,7 +1,6 @@
 import makeDaystamp from "src/lib/makeDaystamp.js";
-
-import { reports } from "./index.js";
 import { type TogglProjectSummaries } from "./types.js";
+import { reports } from "./index.js";
 
 export function getProjectSummary(
   workspaceId: number,
