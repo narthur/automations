@@ -37,7 +37,9 @@ export default async function getBillingSummary({
     .filter((g) => {
       const project = projects.find((p) => p.id === g.id);
       if (!project) {
-        throw new Error(`No project found for id ${g.id}`);
+        throw new Error(
+          `No project found for id ${g.id}: ${JSON.stringify(g)}`
+        );
       }
       return project.client_id;
     })
