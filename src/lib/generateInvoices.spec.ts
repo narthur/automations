@@ -1,7 +1,7 @@
 import {} from "node:test";
 
 import getBillingSummary from "src/services/toggl/getBillingSummary.js";
-import { afterEach,beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { sendEmail } from "../services/mailgun.js";
 import generateInvoices from "./generateInvoices.js";
@@ -102,5 +102,15 @@ describe("invoice_cron", () => {
     await generateInvoices();
 
     expectBodyContains("Total Due | $1.00");
+  });
+
+  it("sends invoices to taskratchet email", async () => {
+    await generateInvoices();
+
+    expect(sendEmail).toBeCalledWith(
+      expect.objectContaining({
+        recipients: ["nathan@taskratchet.com"],
+      })
+    );
   });
 });
