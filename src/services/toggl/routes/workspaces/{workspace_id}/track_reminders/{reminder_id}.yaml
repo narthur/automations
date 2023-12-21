@@ -1,0 +1,98 @@
+put:
+  summary: Updates a workspace tracking reminder
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      required: true
+      schema:
+        type: integer
+    - name: reminder_id
+      in: path
+      description: Reminder ID
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            frequency:
+              type: integer
+              description: Frequency of the reminder in days; should be either 1 or 7
+            group_ids:
+              type: array
+              items:
+                type: integer
+              description: Group IDs to send the reminder to; can be omitted if user_ids are provided
+            threshold:
+              type: number
+              description: Threshold is the number of hours after which the reminder will be sent
+            user_ids:
+              type: array
+              items:
+                type: integer
+              description: User IDs to send the reminder to; can be omitted if group_ids are provided
+  responses:
+    "200":
+      description: Successfully updated the workspace tracking reminder.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              created_at:
+                type: string
+                format: date-time
+                description: Reminder creation time
+              frequency:
+                type: integer
+                description: Frequency of the reminder in days; should be either 1 or 7
+              group_ids:
+                type: array
+                items:
+                  type: integer
+                description: Group IDs to send the reminder to
+              reminder_id:
+                type: integer
+                description: Reminder ID
+              threshold:
+                type: integer
+                description: Threshold is the number of hours after which the reminder will be sent
+              user_ids:
+                type: array
+                items:
+                  type: integer
+                description: User IDs to send the reminder to
+              workspace_id:
+                type: integer
+                description: Workspace ID
+    "403":
+      description: User does not have access to this resource
+    "500":
+      description: Internal Server Error
+delete:
+  summary: Deletes a workspace tracking reminder
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      required: true
+      schema:
+        type: integer
+    - name: reminder_id
+      in: path
+      description: Reminder ID
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Successfully deleted the track reminder. The response body is empty.
+    "403":
+      description: User does not have access to this resource
+    "500":
+      description: Internal Server Error

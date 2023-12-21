@@ -27,3 +27,50 @@ post:
                     type: string
                   workspace_id:
                     type: integer
+  responses:
+    "200":
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    invitation_id:
+                      type: integer
+                    invite_url:
+                      type: string
+                    organization_id:
+                      type: integer
+                    recipient_id:
+                      type: integer
+                    sender_id:
+                      type: integer
+              messages:
+                type: array
+                items:
+                  type: string
+
+    "400":
+      description: |
+        Possible error messages:
+        * Invalid JSON input
+        * Invalid organization id
+        * at least one email is required
+        * at least one workspace is required
+        * Missing e-mail
+        * Invalid e-mail: '...'
+        * invalid workspace ID
+        * Active user limit is 5. Upgrade to add more active users
+        * Invitation limit reached (please try again later; or upgrade)
+        * User with e-mail '...' is already an inactive member of the organization
+    "403":
+      description: Operation Forbidden
+    "500":
+      description: Internal Server Error

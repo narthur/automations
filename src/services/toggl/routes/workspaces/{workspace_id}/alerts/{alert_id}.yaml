@@ -1,0 +1,23 @@
+delete:
+  summary: Handles DELETE alert requests
+  description: Handles DELETE alert requests.
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric Workspace ID
+      required: true
+      schema:
+        type: integer
+    - name: alert_id
+      in: path
+      description: Numeric Alert ID
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Successful operation
+    "403":
+      description: Alert not found or not accessible
+    "500":
+      description: Internal Server Error

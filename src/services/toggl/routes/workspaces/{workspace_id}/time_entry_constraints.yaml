@@ -1,0 +1,33 @@
+get:
+  summary: Get the time entry constraints for a given workspace
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Successfully retrieved the time entry constraints.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              description_present:
+                type: boolean
+              project_present:
+                type: boolean
+              tag_present:
+                type: boolean
+              task_present:
+                type: boolean
+              time_entry_constraints_enabled:
+                type: boolean
+    "400":
+      description: Workspace not found
+    "403":
+      description: User does not have access to this resource
+    "500":
+      description: Internal Server Error

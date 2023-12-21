@@ -1,0 +1,50 @@
+get:
+  summary: Returns list of groups in a workspace within an organization
+  parameters:
+    - name: organization_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    - name: workspace_id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: List of groups in a workspace
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                at:
+                  type: string
+                group_id:
+                  type: integer
+                name:
+                  type: string
+                users:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      avatar_url:
+                        type: string
+                      joined:
+                        type: boolean
+                      name:
+                        type: string
+                      user_id:
+                        type: integer
+                workspaces:
+                  type: array
+                  items:
+                    type: integer
+    "403":
+      description: User does not have access to this resource
+    "404":
+      description: Resource not found

@@ -1,0 +1,51 @@
+post:
+  summary: Handles POST alert requests
+  description: Handles POST alert requests.
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric Workspace ID
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Successful Alert Creation
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+              id:
+                type: integer
+              object_type:
+                type: integer
+              project_id:
+                type: integer
+              receiver_groups:
+                type: string
+              receiver_roles:
+                type: string
+              receiver_users:
+                type: string
+              receivers:
+                type: integer
+              source_kind:
+                type: string
+              threshold:
+                type: integer
+              threshold_type:
+                type: string
+              thresholds:
+                type: string
+                description: Using pq types is a workaround to enable reading postgres arrays into go types we should wrap these pq types to avoid polluting our domain
+              wid:
+                type: integer
+    "400":
+      description: Bad Request. Possible errors can be invalid workspace ID, source kind can't be blank, project can't be blank, project not supported for this source kind, threshold type can't be blank, thresholds can't be blank, receivers can't be blank, alert type out of range, receiver type out of range, threshold out of range, source kind out of range, threshold type out of range, receiver role out of range
+    "500":
+      description: Internal Server Error

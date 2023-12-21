@@ -1,0 +1,115 @@
+get:
+  summary: List of groups in organization with user and workspace assignments
+  parameters:
+    - name: organization_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    - name: name
+      in: query
+      required: false
+      schema:
+        type: string
+    - name: workspace
+      in: query
+      required: false
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                at:
+                  type: string
+                group_id:
+                  type: integer
+                name:
+                  type: string
+                users:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      avatar_url:
+                        type: string
+                      joined:
+                        type: boolean
+                      name:
+                        type: string
+                      user_id:
+                        type: integer
+                workspaces:
+                  type: array
+                  items:
+                    type: integer
+    "400":
+      description: Invalid Parameters
+post:
+  summary: Create a Group in organization
+  parameters:
+    - name: organization_id
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Group name
+            users:
+              type: array
+              items:
+                type: integer
+              description: Group users, optional
+            workspaces:
+              type: array
+              items:
+                type: integer
+              description: Group workspaces, optional
+  responses:
+    "200":
+      description: Returns the created group data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              at:
+                type: string
+              group_id:
+                type: integer
+              name:
+                type: string
+              users:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    avatar_url:
+                      type: string
+                    joined:
+                      type: boolean
+                    name:
+                      type: string
+                    user_id:
+                      type: integer
+              workspaces:
+                type: array
+                items:
+                  type: integer
+    "400":
+      description: Invalid input parameters/parameters not met
+    "403":
+      description: User does not have access to this resource

@@ -1,0 +1,34 @@
+get:
+  summary: Returns workspace admins list, members count and groups count
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric Workspace ID
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Successfully retrieved the statistics.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              admins:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    user_id:
+                      type: integer
+              groups_count:
+                type: integer
+              members_count:
+                type: integer
+    "403":
+      description: User does not have access to this resource.
+    "500":
+      description: Internal Server Error.

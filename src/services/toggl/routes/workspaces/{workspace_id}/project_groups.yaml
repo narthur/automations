@@ -1,0 +1,64 @@
+get:
+  summary: Get project groups for given workspace
+  parameters:
+    - name: workspace_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    - name: project_ids
+      in: query
+      required: true
+      schema:
+        type: string
+      description: Project IDs separated by comma
+  responses:
+    "200":
+      description: Returns a list of project groups for given workspace
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                group_id:
+                  type: integer
+                id:
+                  type: integer
+                pid:
+                  type: integer
+                wid:
+                  type: integer
+    "403":
+      description: User does not have access to this resource
+    "500":
+      description: Internal Server Error
+post:
+  summary: Adds group to project for given workspace
+  parameters:
+    - name: workspace_id
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            group_id:
+              type: integer
+              description: ID of the group to be added to the project
+            project_id:
+              type: integer
+              description: ID of the project where the group is to be added
+  responses:
+    "200":
+      description: Group successfully added to the project
+    "403":
+      description: User does not have access to this resource
+    "500":
+      description: Internal Server Error

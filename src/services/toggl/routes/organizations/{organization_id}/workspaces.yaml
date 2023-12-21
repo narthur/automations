@@ -1,0 +1,96 @@
+post:
+  parameters:
+    - name: organization_id
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            admins:
+              type: array
+              items:
+                type: integer
+              description: List of admins, optional
+            default_currency:
+              type: string
+              description: Default currency, optional, only for existing WS, initial value will be 'USD'
+            default_hourly_rate:
+              type: number
+              description: The default hourly rate, optional, only for existing WS, initial value will be 0.0
+            initial_pricing_plan:
+              type: integer
+              description: Subscription plan for the workspace, deprecated
+            name:
+              type: string
+              description: Workspace name
+            only_admins_may_create_projects:
+              type: boolean
+              description: Only admins will be able to create projects, optional, only for existing WS, initial value will be false
+            only_admins_may_create_tags:
+              type: boolean
+              description: Only admins will be able to create tags, optional, only for existing WS, initial value will be false
+            only_admins_see_billable_rates:
+              type: boolean
+              description: Whether only admins will be able to see billable rates, optional, only for existing WS, initial value will be false
+            only_admins_see_team_dashboard:
+              type: boolean
+              description: Only admins will be able to see the team dashboard, optional, only for existing WS, initial value will be false
+            projects_billable_by_default:
+              type: boolean
+              description: Whether projects will be set as billable by default, optional, initial value will be true
+            rate_change_mode:
+              type: string
+              description: Rate change mode, optional, only for existing WS. Can be "start-today", "override-current", "override-all"
+            reports_collapse:
+              type: boolean
+              description: Whether reports should be collapsed by default, optional, only for existing WS, initial value will be true
+            rounding:
+              type: integer
+              description: Default rounding, optional, only for existing WS
+            rounding_minutes:
+              type: integer
+              description: Default rounding in minutes, optional, only for existing WS
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/Workspace.yaml"
+    "400":
+      description: |
+        Bad Request. Possible errors:
+        * JSON is not valid
+        * workspace name must contain non-space characters
+        * workspace name must not be nil
+        * workspace name must not be longer than 140
+        * another workspace with same name exists in organization
+        * user can have a maximum of 100 workspaces
+        * Multiple workspaces are not enabled in this organization
+        * Organization {name} can have a maximum of {amount} workspaces
+        * User with id {id} does not exist
+        * User {userID} not exists in the workspace
+    "402":
+      description: |
+        Payment Required. Possible errors:
+        * Must be a premium user to use default_hourly_rate
+        * restricting tag management to administrators requires a premium subscription
+        * Must be a premium user to use default_currency
+        * Must be a premium user to use rounding_minutes
+        * Must be a premium user to use only_admins_see_billable_rates
+        * Must be a premium user to use projects_billable_by_default
+        * Must be a premium user to use rounding
+    "403":
+      description: Forbidden
+    "404":
+      description: |
+        Not found. Possible errors:
+        * Organization not found/accessible
+        * Workspace not found/accessible
+        * organization owner not found"

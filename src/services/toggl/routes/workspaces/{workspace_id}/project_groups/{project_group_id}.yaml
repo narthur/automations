@@ -1,0 +1,20 @@
+delete:
+  summary: Remove project group for a given workspace
+  parameters:
+    - name: workspace_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    - name: project_group_id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Successful operation
+    "403":
+      description: User does not have access to this resource
+    "500":
+      description: Internal Server Error

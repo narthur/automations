@@ -1,0 +1,22 @@
+put:
+  description: Resend invitation email to user.
+  parameters:
+    - in: path
+      name: invitation_code
+      required: true
+      schema:
+        type: string
+    - in: path
+      name: organization_id
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: OK
+    "400":
+      description: Organization ID and invitation organization ID mismatch
+    "404":
+      description: Invitation code not found
+    "500":
+      description: Internal Server Error

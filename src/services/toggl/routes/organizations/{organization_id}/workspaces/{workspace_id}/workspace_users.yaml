@@ -1,0 +1,111 @@
+get:
+  summary: List of users who belong to given workspace
+  description: Returns any users who belong to the workspace directly or through at least one group.
+  parameters:
+    - name: organization_id
+      in: path
+      description: Numeric ID of the organization
+      required: true
+      schema:
+        type: integer
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace within the organization
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Successful Operation
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                active:
+                  type: boolean
+                admin:
+                  type: boolean
+                at:
+                  type: string
+                avatar_file_name:
+                  type: string
+                email:
+                  type: string
+                group_ids:
+                  type: array
+                  items:
+                    type: integer
+                id:
+                  type: integer
+                inactive:
+                  type: boolean
+                invitation_code:
+                  type: string
+                invite_url:
+                  type: string
+                is_direct:
+                  type: boolean
+                labour_cost:
+                  type: integer
+                name:
+                  type: string
+                organization_admin:
+                  type: boolean
+                rate:
+                  type: number
+                rate_last_updated:
+                  type: string
+                role:
+                  type: string
+                timezone:
+                  type: string
+                user_id:
+                  type: integer
+                working_hours_in_minutes:
+                  type: integer
+                workspace_admin:
+                  type: boolean
+                workspace_id:
+                  type: integer
+    "403":
+      description: Forbidden
+    "404":
+      description: Not Found
+patch:
+  summary: Changes the users in a workspace
+  description: Changes the users in a workspace (currently deletion only)
+  parameters:
+    - name: organization_id
+      in: path
+      description: Numeric ID of the organization
+      required: true
+      schema:
+        type: integer
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace within the organization
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    description: Workspace user IDs to be deleted
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            delete:
+              type: array
+              items:
+                type: integer
+  responses:
+    "200":
+      description: Successful Operation
+    "400":
+      description: "Bad Request. Possible errors: JSON is not valid, At least one workspace user ID must be supplied, Workspace user IDs must be unique, Wrong workspace user IDs"
+    "403":
+      description: Forbidden

@@ -76,3 +76,35 @@ paths:
     $ref: "routes/organizations/invitations/{invitation_code}/reject.yaml"
   /organizations/{organization_id}/invitations:
     $ref: "routes/organizations/{organization_id}/invitations.yaml"
+  /organizations/{organization_id}/invitations/{invitation_code}/resend:
+    $ref: "routes/organizations/{organization_id}/invitations/{invitation_code}/resend.yaml"
+  /organizations/{organization_id}/groups:
+    $ref: "routes/organizations/{organization_id}/groups.yaml"
+  /organizations/{organization_id}/groups/{group_id}:
+    $ref: "routes/organizations/{organization_id}/groups/{group_id}.yaml"
+  /organizations/{organization_id}/workspaces/{workspace_id}/groups:
+    $ref: "routes/organizations/{organization_id}/workspaces/{workspace_id}/groups.yaml"
+  /workspaces/{workspace_id}/project_groups:
+    $ref: "routes/workspaces/{workspace_id}/project_groups.yaml"
+  /workspaces/{workspace_id}/project_groups/{project_group_id}:
+    $ref: "routes/workspaces/{workspace_id}/project_groups/{project_group_id}.yaml"
+  /organizations/{organization_id}/workspaces:
+    $ref: "routes/organizations/{organization_id}/workspaces.yaml"
+  /organizations/{organization_id}/workspaces/{workspace_id}/workspace_users:
+    $ref: "routes/organizations/{organization_id}/workspaces/{workspace_id}/workspace_users.yaml"
+  /workspaces:
+    $ref: "routes/workspaces.yaml"
+  /workspaces/{workspace_id}:
+    $ref: "routes/workspaces/{workspace_id}.yaml"
+  /workspaces/{workspace_id}/alerts:
+    $ref: "routes/workspaces/{workspace_id}/alerts.yaml"
+  /workspaces/{workspace_id}/alerts/{alert_id}:
+    $ref: "routes/workspaces/{workspace_id}/alerts/{alert_id}.yaml"
+  /workspaces/{workspace_id}/statistics:
+    $ref: "routes/workspaces/{workspace_id}/statistics.yaml"
+  /workspaces/{workspace_id}/time_entry_constraints:
+    $ref: "routes/workspaces/{workspace_id}/time_entry_constraints.yaml"
+  /workspaces/{workspace_id}/track_reminders:
+    $ref: "routes/workspaces/{workspace_id}/track_reminders.yaml"
+  /workspaces/{workspace_id}/track_reminders/{reminder_id}:
+    $ref: "routes/workspaces/{workspace_id}/track_reminders/{reminder_id}.yaml"
