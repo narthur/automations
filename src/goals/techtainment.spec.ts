@@ -1,9 +1,35 @@
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
-import getProjectsSummary from "src/services/toggl/getProjectsSummary.js";
+import { getMe } from "src/services/toggl/getMe.js";
+import getTimeSummary from "src/services/toggl/getTimeSummary.js";
+import type { TogglTimeSummaryGroup } from "src/services/toggl/types.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getMe } from "src/services/toggl/getMe.js";
 import { update } from "./techtainment.js";
+
+const SUB_GROUP = {
+  id: null,
+  title: "the_title",
+  seconds: 3600,
+  rates: [
+    {
+      billable_seconds: 3600,
+      hourly_rate_in_cents: 100,
+      currency: "USD",
+    },
+  ],
+};
+
+function loadTimeSummary(group: Partial<TogglTimeSummaryGroup> = {}) {
+  vi.mocked(getTimeSummary).mockResolvedValue({
+    groups: [
+      {
+        id: 3,
+        sub_groups: [],
+        ...group,
+      },
+    ],
+  });
+}
 
 describe("techtainment", () => {
   beforeEach(() => {
@@ -12,14 +38,9 @@ describe("techtainment", () => {
       default_workspace_id: 7,
     } as any);
 
-    vi.mocked(getProjectsSummary).mockResolvedValue([
-      {
-        user_id: 1,
-        project_id: 1,
-        tracked_seconds: 3600,
-        billable_seconds: 3600,
-      },
-    ]);
+    loadTimeSummary({
+      sub_groups: [SUB_GROUP],
+    });
   });
 
   it("sets daystamp", async () => {
@@ -56,26 +77,10 @@ describe("techtainment", () => {
     );
   });
 
-  it("gets projects summary", async () => {
-    await update();
-
-    expect(getProjectsSummary).toBeCalled();
-  });
-
   it("gets me", async () => {
     await update();
 
     expect(getMe).toBeCalled();
-  });
-
-  it("uses me.default_workspace_id as workspace ID", async () => {
-    await update();
-
-    expect(getProjectsSummary).toHaveBeenCalledWith(
-      expect.objectContaining({
-        workspaceId: 7,
-      })
-    );
   });
 
   it("uses getProjectsSummary to calculate value", async () => {
@@ -90,21 +95,30 @@ describe("techtainment", () => {
     );
   });
 
-  it("only uses project with highest tracked seconds", async () => {
-    vi.mocked(getProjectsSummary).mockResolvedValue([
-      {
-        user_id: 1,
-        project_id: 1,
-        tracked_seconds: 3600,
-        billable_seconds: 3600,
-      },
-      {
-        user_id: 1,
-        project_id: 2,
-        tracked_seconds: 7200,
-        billable_seconds: 7200,
-      },
-    ]);
+  it("does not specify billable when getting time summary", async () => {
+    await update();
+
+    expect(getTimeSummary).not.toHaveBeenCalledWith(
+      expect.objectContaining({
+        billable: expect.anything(),
+      })
+    );
+  });
+
+  it("only retrieves summary for me", async () => {
+    await update();
+
+    expect(getTimeSummary).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userIds: [1],
+      })
+    );
+  });
+
+  it("uses summary to calculate value", async () => {
+    loadTimeSummary({
+      sub_groups: [SUB_GROUP, SUB_GROUP],
+    });
 
     await update();
 
@@ -113,29 +127,6 @@ describe("techtainment", () => {
       "techtainment",
       expect.objectContaining({
         value: -4,
-      })
-    );
-  });
-
-  it("includes project id in comment", async () => {
-    await update();
-
-    expect(createDatapoint).toHaveBeenCalledWith(
-      expect.anything(),
-      "techtainment",
-      expect.objectContaining({
-        comment: expect.stringContaining("1"),
-      })
-    );
-  });
-
-  it("uses date object to get projects summary", async () => {
-    await update();
-
-    expect(getProjectsSummary).toHaveBeenCalledWith(
-      expect.objectContaining({
-        start: expect.any(Date),
-        end: expect.any(Date),
       })
     );
   });
