@@ -1,8 +1,9 @@
-import getProjectsSummary from "src/services/toggl/getProjectsSummary.js";
 import { getMe } from "src/services/toggl/getMe.js";
+import getProjectsSummary from "src/services/toggl/getProjectsSummary.js";
 
 import { makeUpdater } from "./index.js";
 
+// TODO: Make sure this is only tracking my own time, not Luke's
 export const update = makeUpdater({
   user: "narthur",
   goal: "billable",

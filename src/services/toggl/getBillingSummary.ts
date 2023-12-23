@@ -37,7 +37,9 @@ export default async function getBillingSummary({
     .filter((g) => {
       const project = projects.find((p) => p.id === g.id);
       if (!project) {
-        throw new Error(`No project found for id ${g.id}`);
+        throw new Error(
+          `No project found for id ${g.id}: ${JSON.stringify(g)}`
+        );
       }
       return project.client_id;
     })
@@ -45,17 +47,27 @@ export default async function getBillingSummary({
       const project = projects.find((p) => p.id === g.id);
 
       if (!project) {
-        throw new Error(`No project found for id ${g.id}`);
+        throw new Error(
+          `No project found for id ${g.id}: ${JSON.stringify(g)}`
+        );
       }
 
       if (!project.client_id) {
-        throw new Error(`No client found for project id ${project.id}`);
+        throw new Error(
+          `No client found for project id ${project.id}: ${JSON.stringify(
+            project
+          )}`
+        );
       }
 
       const client = clients.find((c) => c.id === project.client_id);
 
       if (!client) {
-        throw new Error(`No client found for id ${project.client_id}`);
+        throw new Error(
+          `No client found for client id ${project.client_id}: ${JSON.stringify(
+            project
+          )}`
+        );
       }
 
       const tasks = g.sub_groups.map((e) => {

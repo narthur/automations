@@ -1,3 +1,4 @@
+import { getMe } from "src/services/toggl/getMe.js";
 import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 import {
   type TogglMe,
@@ -5,7 +6,6 @@ import {
   type TogglTimeSummaryGroup,
 } from "src/services/toggl/types.js";
 
-import { getMe } from "src/services/toggl/getMe.js";
 import { makeUpdater } from "./index.js";
 
 const SECONDS_IN_HOUR = 3600;
@@ -25,6 +25,8 @@ function sumEntries(entries: TogglTimeSummaryEntry[]): number {
 
 function sumUser(user: TogglTimeSummaryGroup, me: TogglMe): number {
   const entries = user?.sub_groups ?? [];
+  // TODO: Stop hardcoding this and use Toggl-tracked
+  // labor cost instead
   const multiplier = user.id === me.id ? 1 : 0.3;
   return sumEntries(entries) * multiplier;
 }

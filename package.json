@@ -55,7 +55,7 @@
     "p-queue": "^7.4.1",
     "telegramify-markdown": "^1.1.0",
     "text-table": "^0.2.0",
-    "tsx": "^4.1.2",
+    "tsx": "^4.6.2",
     "typescript": "^5.2.2",
     "vite": "^4.4.10",
     "vitest": "^0.34.6",

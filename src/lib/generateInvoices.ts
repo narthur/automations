@@ -29,6 +29,7 @@ export default async function generateInvoices() {
 
       await sendEmail({
         subject: `${c.clientName}: Invoice for ${format(start, "MMMM yyyy")}`,
+        recipients: ["nathan@taskratchet.com"],
         markdown: template({
           start_date: format(start, "yyyy-MM-dd"),
           end_date: format(end, "yyyy-MM-dd"),

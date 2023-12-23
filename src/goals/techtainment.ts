@@ -1,36 +1,26 @@
 import { makeUpdater } from "src/goals/index.js";
-import getProjectsSummary, {
-  type TogglProjectSummary,
-} from "src/services/toggl/getProjectsSummary.js";
-import { type TogglMe } from "src/services/toggl/types.js";
-
 import { getMe } from "src/services/toggl/getMe.js";
+import getTimeSummary from "src/services/toggl/getTimeSummary";
+import { type TogglMe } from "src/services/toggl/types.js";
 
 export const update = makeUpdater({
   user: "narthur",
   goal: "techtainment",
   getSharedData: getMe,
   getDateUpdate: async (d: Date, me: TogglMe) => {
-    const projects = await getProjectsSummary({
+    const { groups } = await getTimeSummary({
       workspaceId: me.default_workspace_id,
-      start: d,
-      end: d,
+      startDate: d,
+      endDate: d,
+      grouping: "users",
+      userIds: [me.id],
     });
 
-    const max = projects
-      .filter((p) => p.user_id === me.id)
-      .reduce<TogglProjectSummary | undefined>(
-        (max, p) => (p.tracked_seconds > (max?.tracked_seconds ?? 0) ? p : max),
-        projects[0]
-      );
-
-    const hours = max ? max.tracked_seconds / 3600 : 0;
+    const entries = groups[0]?.sub_groups ?? [];
+    const hours = entries.reduce((acc, entry) => acc + entry.seconds / 3600, 0);
 
     return {
       value: hours * -2,
-      comment: max
-        ? `Tracked ${hours} hours on project ${max.project_id}`
-        : "No projects tracked",
     };
   },
 });
