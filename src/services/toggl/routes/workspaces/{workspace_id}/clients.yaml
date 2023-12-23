@@ -1,0 +1,74 @@
+get:
+  summary: List clients from workspace
+  operationId: listClients
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      required: true
+      schema:
+        type: integer
+    - name: status
+      in: query
+      description: Use 'active', 'archived', or 'both' to filter clients. If not provided, only active clients are returned.
+      required: false
+      schema:
+        type: string
+    - name: name
+      in: query
+      description: Filter by client name in a case insensitive manner
+      required: false
+      schema:
+        type: string
+  responses:
+    "200":
+      description: An array of clients
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../../schemas/Client.yaml"
+    "400":
+      description: Client status is invalid
+    "403":
+      description: Forbidden
+    "500":
+      description: Internal Server Error
+post:
+  summary: Create workspace client
+  operationId: createClient
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    description: Information for the new client
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Client name
+            wid:
+              type: string
+              description: Workspace ID
+  responses:
+    "200":
+      description: A new client object is created
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/Client.yaml"
+    "400":
+      description: Client name maximum length is {max_client_length} or Client name cannot be empty
+    "403":
+      description: Forbidden
+    "500":
+      description: Internal Server Error

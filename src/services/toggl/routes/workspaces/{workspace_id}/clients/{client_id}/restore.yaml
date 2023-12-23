@@ -1,0 +1,45 @@
+post:
+  summary: Restores client and all related or specified projects from the given workspace
+  operationId: restoreClient
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      required: true
+      schema:
+        type: integer
+    - name: client_id
+      in: path
+      description: Numeric ID of the client
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    description: List of projects to restore and whether to restore all projects
+    required: false
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            projects:
+              type: array
+              items:
+                type: integer
+            restore_all_projects:
+              type: boolean
+  responses:
+    "200":
+      description: Returns the restored client
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../schemas/Client.yaml"
+    "400":
+      description: Bad Request
+    "403":
+      description: Forbidden
+    "404":
+      description: No client with ID {client_id} was found
+    "500":
+      description: Internal Server Error

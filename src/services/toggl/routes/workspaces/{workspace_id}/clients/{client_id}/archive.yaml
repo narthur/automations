@@ -1,0 +1,41 @@
+post:
+  summary: Archives a workspace client and related projects
+  operationId: archiveClient
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      required: true
+      schema:
+        type: integer
+    - name: client_id
+      in: path
+      description: Numeric ID of the client
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Projects that were archived with the client
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: Project ID
+                name:
+                  type: string
+                  description: Project name
+                archived:
+                  type: boolean
+                  description: Whether the project is archived
+    "403":
+      description: Forbidden
+    "404":
+      description: No client with ID {client_id} was found
+    "500":
+      description: Internal Server Error

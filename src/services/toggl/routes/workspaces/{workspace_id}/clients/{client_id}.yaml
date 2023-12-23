@@ -1,0 +1,99 @@
+get:
+  summary: Load client from workspace
+  operationId: loadClient
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      required: true
+      schema:
+        type: integer
+    - name: client_id
+      in: path
+      description: Numeric ID of the client
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: A client object is loaded
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../schemas/Client.yaml"
+    "403":
+      description: Forbidden
+    "404":
+      description: No client with ID {client_id} was found
+    "500":
+      description: Internal Server Error
+put:
+  summary: Update workspace client
+  operationId: updateClient
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      required: true
+      schema:
+        type: integer
+    - name: client_id
+      in: path
+      description: Numeric ID of the client
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    description: Client information to be updated
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Client name
+            wid:
+              type: integer
+              description: Workspace ID
+  responses:
+    "200":
+      description: Successfully updated client
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../schemas/Client.yaml"
+    "400":
+      description: "Problem with supplied data. Possible error messages: 'Client name maximum length is {max_client_length}', 'Client name cannot be empty'"
+    "403":
+      description: Forbidden
+    "404":
+      description: Client doesn't exist in the workspace
+    "500":
+      description: Internal Server Error
+delete:
+  summary: Delete workspace client
+  operationId: deleteClient
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      required: true
+      schema:
+        type: integer
+    - name: client_id
+      in: path
+      description: Numeric ID of the client
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Successful operation
+    "403":
+      description: Forbidden
+    "404":
+      description: No client with ID {client_id} was found
+    "500":
+      description: Internal Server Error

@@ -116,3 +116,11 @@ paths:
     $ref: "routes/workspaces/{workspace_id}/users/{user_id}/lost_password.yaml"
   /workspaces/{workspace_id}/workspace_users/{workspace_user_id}:
     $ref: "routes/workspaces/{workspace_id}/workspace_users/{workspace_user_id}.yaml"
+  /workspaces/{workspace_id}/clients:
+    $ref: "routes/workspaces/{workspace_id}/clients.yaml"
+  /workspaces/{workspace_id}/clients/{client_id}:
+    $ref: "routes/workspaces/{workspace_id}/clients/{client_id}.yaml"
+  /workspaces/{workspace_id}/clients/{client_id}/archive:
+    $ref: "routes/workspaces/{workspace_id}/clients/{client_id}/archive.yaml"
+  /workspaces/{workspace_id}/clients/{client_id}/restore:
+    $ref: "routes/workspaces/{workspace_id}/clients/{client_id}/restore.yaml"
