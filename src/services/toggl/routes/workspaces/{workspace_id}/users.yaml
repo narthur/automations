@@ -1,0 +1,66 @@
+get:
+  summary: Get workspace users
+  operationId: getWorkspaceUsers
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                active:
+                  type: boolean
+                admin:
+                  type: boolean
+                at:
+                  type: string
+                avatar_file_name:
+                  type: string
+                email:
+                  type: string
+                group_ids:
+                  type: array
+                  items:
+                    type: integer
+                id:
+                  type: integer
+                inactive:
+                  type: boolean
+                invitation_code:
+                  type: string
+                invite_url:
+                  type: string
+                labour_cost:
+                  type: integer
+                name:
+                  type: string
+                rate:
+                  type: number
+                rate_last_updated:
+                  type: string
+                role:
+                  type: string
+                timezone:
+                  type: string
+                uid:
+                  type: integer
+                wid:
+                  type: integer
+                working_hours_in_minutes:
+                  type: integer
+
+    "403":
+      description: User does not have access to this resource
+
+    "500":
+      description: Internal Server Error

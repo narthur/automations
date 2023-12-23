@@ -1,0 +1,37 @@
+put:
+  summary: Update workspace user
+  operationId: updateWorkspaceUser
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      required: true
+      schema:
+        type: integer
+    - name: user_id
+      in: path
+      description: Numeric ID of the user
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    description: User data to be updated
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            # TODO: You must enter the properties that can be modified here
+
+  responses:
+    "200":
+      description: Successful operation
+    "400":
+      description: Bad Request
+    "403":
+      description: User does not have access to this resource
+    "404":
+      description: Not Found
+    "500":
+      description: Internal Server Error

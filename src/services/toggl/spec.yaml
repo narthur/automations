@@ -108,3 +108,11 @@ paths:
     $ref: "routes/workspaces/{workspace_id}/track_reminders.yaml"
   /workspaces/{workspace_id}/track_reminders/{reminder_id}:
     $ref: "routes/workspaces/{workspace_id}/track_reminders/{reminder_id}.yaml"
+  /workspaces/{workspace_id}/users:
+    $ref: "routes/workspaces/{workspace_id}/users.yaml"
+  /workspaces/{workspace_id}/users/{user_id}:
+    $ref: "routes/workspaces/{workspace_id}/users/{user_id}.yaml"
+  /workspaces/{workspace_id}/users/{user_id}/lost_password:
+    $ref: "routes/workspaces/{workspace_id}/users/{user_id}/lost_password.yaml"
+  /workspaces/{workspace_id}/workspace_users/{workspace_user_id}:
+    $ref: "routes/workspaces/{workspace_id}/workspace_users/{workspace_user_id}.yaml"

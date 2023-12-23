@@ -1,0 +1,83 @@
+put:
+  summary: Update workspace user
+  operationId: updateWorkspaceUser
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      required: true
+      schema:
+        type: integer
+    - name: workspace_user_id
+      in: path
+      description: Numeric ID of the workspace user
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    description: Workspace user data to be updated
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            admin:
+              type: boolean
+            inactive:
+              type: boolean
+            labour_cost:
+              type: integer
+              description: Paid feature
+            postedFields:
+              type: array
+              items:
+                type: string
+              description: For explicit NULL-s, add field name here
+            rate:
+              type: number
+              description: Paid feature
+            rate_change_mode:
+              type: string
+              description: Paid feature
+              enum: [admin, user, projectlead, teamlead]
+            role:
+              type: string
+              description: 'Allowed inputs: "admin", "user", "projectlead", and "teamlead"'
+            working_hours_in_minutes:
+              type: integer
+              description: Paid feature
+  responses:
+    "200":
+      description: Successful operation
+    "400":
+      description: "Possible error messages: Workspace not found/accessible, User not found, Workspace user not found/accessible by user, Working hours must be positive or null"
+    "403":
+      description: User does not have access to this resource
+    "500":
+      description: Internal Server Error
+delete:
+  summary: Remove user from workspace
+  operationId: deleteUserFromWorkspace
+  parameters:
+    - name: workspace_id
+      in: path
+      description: Numeric ID of the workspace
+      required: true
+      schema:
+        type: integer
+    - name: workspace_user_id
+      in: path
+      description: Numeric ID of the workspace user
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: OK
+    "400":
+      description: Bad Request
+    "403":
+      description: Workspace user is not found or accessible
+    "500":
+      description: Internal Server Error
