@@ -1,7 +1,5 @@
 import type { APIContext } from "astro";
 import * as billable from "src/goals/billable.js";
-import createSummaryTask from "src/lib/createSummaryTask.js";
-import event from "src/services/toggl/schemas/event";
 import validateSignature from "src/services/toggl/validateSignature.js";
 import { z } from "zod";
 
@@ -34,12 +32,6 @@ export async function POST({ request }: APIContext) {
 
   void billable.update();
   void gross.update();
-
-  const eventResult = event.safeParse(json);
-
-  if (eventResult.success && eventResult.data.metadata.model === "time_entry") {
-    void createSummaryTask(eventResult.data);
-  }
 
   return new Response("OK");
 }
