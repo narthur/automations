@@ -10,10 +10,16 @@ export const update = makeUpdater({
     getDatapoints("narthur", "active", {
       count: 7,
     }),
-  getDateUpdate: (d: Date, points: Datapoint[]) =>
-    points.find((p) => p.daystamp === makeDaystamp(d).replaceAll("-", "")) ?? {
-      value: 0,
-    },
+  getDateUpdate: (d: Date, points: Datapoint[]) => {
+    const p = points.find(
+      (p) => p.daystamp === makeDaystamp(d).replaceAll("-", "")
+    );
+    const h = (p?.value ?? 0) / 60;
+
+    return {
+      value: -h * 2,
+    };
+  },
 });
 
 export default {

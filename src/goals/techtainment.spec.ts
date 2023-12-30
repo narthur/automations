@@ -12,12 +12,12 @@ describe("techtainment", () => {
       {
         id: "1",
         daystamp: "20210101",
-        value: 3,
+        value: 60,
       },
       {
         id: "1",
         daystamp: "20210102",
-        value: 5,
+        value: 120,
       },
     ] as any);
   });
@@ -29,7 +29,7 @@ describe("techtainment", () => {
       expect.anything(),
       "techtainment",
       expect.objectContaining({
-        value: 3,
+        value: -2,
       })
     );
   });
@@ -42,7 +42,7 @@ describe("techtainment", () => {
       "techtainment",
       expect.objectContaining({
         requestid: "2021-01-02",
-        value: 5,
+        value: -4,
       })
     );
   });
