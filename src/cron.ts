@@ -15,7 +15,7 @@ const MINUTE = "0 * * * * *" as const;
 new Cron(HALF_HOUR, billable.update);
 new Cron(HALF_HOUR, dynadone.update);
 new Cron(HALF_HOUR, dynanew.update);
-new Cron(HALF_HOUR, techtainment.update);
 new Cron(MINUTE, bm.send);
 new Cron(MINUTE, tr.send);
 new Cron(TEN_MINUTES, gross.update);
+new Cron(TEN_MINUTES, techtainment.update);

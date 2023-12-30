@@ -7,7 +7,10 @@ type Options<T> = {
   user: string;
   goal: string;
   getSharedData: () => Promise<T> | T;
-  getDateUpdate: (date: Date, sharedData: T) => Promise<DatapointInput>;
+  getDateUpdate: (
+    date: Date,
+    sharedData: T
+  ) => DatapointInput | Promise<DatapointInput>;
 };
 
 export function makeUpdater<T>({

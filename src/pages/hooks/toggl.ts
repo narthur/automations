@@ -6,7 +6,6 @@ import validateSignature from "src/services/toggl/validateSignature.js";
 import { z } from "zod";
 
 import * as gross from "../../goals/gross.js";
-import * as techtainment from "../../goals/techtainment.js";
 
 export async function POST({ request }: APIContext) {
   const message = await request.text();
@@ -35,7 +34,6 @@ export async function POST({ request }: APIContext) {
 
   void billable.update();
   void gross.update();
-  void techtainment.update();
 
   const eventResult = event.safeParse(json);
 

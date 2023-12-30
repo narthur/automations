@@ -18,6 +18,7 @@ vi.mock("./src/lib/env");
 vi.mock("./src/services/beeminder");
 vi.mock("./src/services/beeminder/createDatapoint");
 vi.mock("./src/services/beeminder/getBeemergencies");
+vi.mock("./src/services/beeminder/getDatapoints");
 vi.mock("./src/services/beeminder/getGoal");
 vi.mock("./src/services/beeminder/getGoals");
 vi.mock("./src/services/dynalist");

@@ -1,5 +1,5 @@
+import getDatapoints from "src/services/beeminder/getDatapoints";
 import { getMe } from "src/services/toggl/getMe";
-import getTimeSummary from "src/services/toggl/getTimeSummary";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { GET } from "./techtainment";
@@ -15,6 +15,6 @@ describe("techtainment", () => {
   it("runs techtainment", async () => {
     await GET();
 
-    expect(getTimeSummary).toHaveBeenCalled();
+    expect(getDatapoints).toHaveBeenCalled();
   });
 });
