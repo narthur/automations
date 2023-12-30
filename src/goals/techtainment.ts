@@ -6,7 +6,10 @@ import type { Datapoint } from "src/services/beeminder/types/datapoint";
 export const update = makeUpdater({
   user: "narthur",
   goal: "techtainment",
-  getSharedData: () => getDatapoints("narthur", "active"),
+  getSharedData: () =>
+    getDatapoints("narthur", "active", {
+      count: 7,
+    }),
   getDateUpdate: (d: Date, points: Datapoint[]) =>
     points.find((p) => p.daystamp === makeDaystamp(d).replaceAll("-", "")) ?? {
       value: 0,

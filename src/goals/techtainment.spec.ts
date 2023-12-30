@@ -22,12 +22,6 @@ describe("techtainment", () => {
     ] as any);
   });
 
-  it('gets "active" datapoints', async () => {
-    await update();
-
-    expect(getDatapoints).toBeCalled();
-  });
-
   it("uses point value", async () => {
     await update();
 
@@ -49,6 +43,18 @@ describe("techtainment", () => {
       expect.objectContaining({
         requestid: "2021-01-02",
         value: 5,
+      })
+    );
+  });
+
+  it("only gets last 7 datapoints", async () => {
+    await update();
+
+    expect(getDatapoints).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.objectContaining({
+        count: 7,
       })
     );
   });
