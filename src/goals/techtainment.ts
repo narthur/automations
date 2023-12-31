@@ -1,15 +1,18 @@
 import { makeUpdater } from "src/goals/index.js";
 import makeDaystamp from "src/lib/makeDaystamp";
 import getDatapoints from "src/services/beeminder/getDatapoints";
+import refreshGoal from "src/services/beeminder/refreshGoal";
 import type { Datapoint } from "src/services/beeminder/types/datapoint";
 
 export const update = makeUpdater({
   user: "narthur",
   goal: "techtainment",
-  getSharedData: () =>
-    getDatapoints("narthur", "active", {
+  getSharedData: async () => {
+    await refreshGoal("narthur", "active");
+    return getDatapoints("narthur", "active", {
       count: 7,
-    }),
+    });
+  },
   getDateUpdate: (d: Date, points: Datapoint[]) => {
     const p = points.find(
       (p) => p.daystamp === makeDaystamp(d).replaceAll("-", "")

@@ -1,5 +1,6 @@
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
 import getDatapoints from "src/services/beeminder/getDatapoints.js";
+import refreshGoal from "src/services/beeminder/refreshGoal.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { update } from "./techtainment.js";
@@ -57,5 +58,11 @@ describe("techtainment", () => {
         count: 7,
       })
     );
+  });
+
+  it("refreshes active", async () => {
+    await update();
+
+    expect(refreshGoal).toBeCalled();
   });
 });

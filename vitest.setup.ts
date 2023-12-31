@@ -21,6 +21,7 @@ vi.mock("./src/services/beeminder/getBeemergencies");
 vi.mock("./src/services/beeminder/getDatapoints");
 vi.mock("./src/services/beeminder/getGoal");
 vi.mock("./src/services/beeminder/getGoals");
+vi.mock("./src/services/beeminder/refreshGoal");
 vi.mock("./src/services/dynalist");
 vi.mock("./src/services/mailgun");
 vi.mock("./src/services/notion");
