@@ -8,16 +8,24 @@ export const update = makeUpdater({
   user: "narthur",
   goal: "techtainment",
   getSharedData: async () => {
+    await refreshGoal("narthur", "zone");
     await refreshGoal("narthur", "active");
-    return getDatapoints("narthur", "active", {
+
+    const options = {
       count: 7,
-    });
+    };
+
+    return [
+      ...(await getDatapoints("narthur", "zone", options)),
+      ...(await getDatapoints("narthur", "active", options)),
+    ];
   },
   getDateUpdate: (d: Date, points: Datapoint[]) => {
-    const p = points.find(
-      (p) => p.daystamp === makeDaystamp(d).replaceAll("-", "")
-    );
-    const h = (p?.value ?? 0) / 60;
+    const ds = makeDaystamp(d).replaceAll("-", "");
+    const sum = points
+      .filter((p) => p.daystamp === ds)
+      .reduce((acc, p) => acc + p.value, 0);
+    const h = sum / 60;
 
     return {
       value: -h * 2,

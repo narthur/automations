@@ -30,7 +30,7 @@ describe("techtainment", () => {
       expect.anything(),
       "techtainment",
       expect.objectContaining({
-        value: -2,
+        value: -4,
       })
     );
   });
@@ -43,7 +43,7 @@ describe("techtainment", () => {
       "techtainment",
       expect.objectContaining({
         requestid: "2021-01-02",
-        value: -4,
+        value: -8,
       })
     );
   });
@@ -64,5 +64,21 @@ describe("techtainment", () => {
     await update();
 
     expect(refreshGoal).toBeCalled();
+  });
+
+  it('gets "zone" datapoints', async () => {
+    await update();
+
+    expect(getDatapoints).toHaveBeenCalledWith(
+      "narthur",
+      "zone",
+      expect.anything()
+    );
+  });
+
+  it("refreshes zone", async () => {
+    await update();
+
+    expect(refreshGoal).toHaveBeenCalledWith("narthur", "zone");
   });
 });
