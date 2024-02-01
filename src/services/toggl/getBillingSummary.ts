@@ -97,6 +97,10 @@ export default async function getBillingSummary({
     (acc, summary) => {
       const existing = acc[summary.clientId];
 
+      if (summary.clientRate === null) {
+        return acc;
+      }
+
       if (!existing) {
         acc[summary.clientId] = summary;
         return acc;

@@ -182,4 +182,38 @@ describe("getBillingSummary", () => {
 
     expect(summary).toHaveLength(1);
   });
+
+  it('skips projects without a "rate"', async () => {
+    vi.mocked(getProjects).mockResolvedValue([
+      {
+        id: 1,
+        name: "project1",
+        client_id: 3,
+        rate: 1,
+      },
+      {
+        id: 2,
+        name: "project2",
+        client_id: 3,
+        rate: null,
+      },
+    ] as any);
+
+    vi.mocked(getTimeSummary).mockResolvedValue({
+      groups: [
+        {
+          id: 1,
+          sub_groups: [entry([[60 * 60, 100]])],
+        },
+        {
+          id: 2,
+          sub_groups: [entry([[60 * 60, 100]])],
+        },
+      ],
+    });
+
+    const summary = await run();
+
+    expect(summary).toHaveLength(1);
+  });
 });
