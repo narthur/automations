@@ -103,9 +103,14 @@ export default async function getBillingSummary({
       }
 
       if (existing.clientRate !== summary.clientRate) {
-        throw new Error(
-          `Client rate mismatch for client ${summary.clientName} (${summary.clientId}): ${existing.clientRate} !== ${summary.clientRate}`
-        );
+        throw new Error(`
+Client rate mismatch for client ${summary.clientName} (${summary.clientId}):
+${existing.clientRate} !== ${summary.clientRate}
+Summary:
+${JSON.stringify(summary)}
+Existing:
+${JSON.stringify(existing)}
+`);
       }
 
       existing.tasks.push(...summary.tasks);
