@@ -326,7 +326,9 @@ export type Goal = {
   lanewidth: number;
 
   /**
-   * Seconds by which your deadline differs from midnight. Negative is before midnight, positive is after midnight. Allowed range is -17*3600 to 6*3600 (7am to 6am).
+   * Seconds by which your deadline differs from midnight. Negative is
+   * before midnight, positive is after midnight. Allowed range is
+   * -17*3600 to 6*3600 (7am to 6am).
    */
   deadline: number;
 

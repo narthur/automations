@@ -1,4 +1,5 @@
 import createDatapoint from "src/services/beeminder/createDatapoint";
+import getGoal from "src/services/beeminder/getGoal";
 import { getDocument, getFiles } from "src/services/dynalist";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -8,6 +9,10 @@ describe("dynanew", () => {
   beforeEach(() => {
     vi.useFakeTimers();
     vi.setSystemTime(0);
+
+    vi.mocked(getGoal).mockResolvedValue({
+      deadline: 0,
+    } as any);
 
     vi.mocked(getFiles).mockResolvedValue({
       files: [

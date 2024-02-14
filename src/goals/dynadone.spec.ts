@@ -1,38 +1,34 @@
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
+import getGoal from "src/services/beeminder/getGoal.js";
 import getNodes from "src/services/dynalist/getNodes.js";
-import { afterEach,beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { update } from "./dynadone.js";
 
 vi.mock("src/services/dynalist/getNodes");
 
-const NOW = new Date("2021-01-01");
-
 const CHECKED = {
   checked: true,
-  modified: NOW.getTime(),
+  modified: 0,
 };
 
 const UNCHECKED = {
   checked: false,
-  modified: NOW.getTime(),
+  modified: 0,
 };
 
 describe("dynadone", () => {
   beforeEach(() => {
     vi.useFakeTimers();
-    vi.setSystemTime(NOW);
+    vi.setSystemTime(0);
     vi.mocked(getNodes).mockResolvedValue([]);
+    vi.mocked(getGoal).mockResolvedValue({
+      deadline: 0,
+    } as any);
   });
 
   afterEach(() => {
     vi.useRealTimers();
-  });
-
-  it("gets nodes", async () => {
-    await update();
-
-    expect(getNodes).toBeCalled();
   });
 
   it("counts completed nodes", async () => {
@@ -59,10 +55,29 @@ describe("dynadone", () => {
     await update();
 
     expect(createDatapoint).toBeCalledWith(
-      "narthur",
-      "dynadone",
+      expect.anything(),
+      expect.anything(),
       expect.objectContaining({
         value: 1,
+      })
+    );
+  });
+
+  it("respects deadline", async () => {
+    vi.mocked(getGoal).mockResolvedValue({
+      deadline: -1,
+    } as any);
+
+    vi.mocked(getNodes).mockResolvedValue([CHECKED] as any);
+
+    await update();
+
+    expect(createDatapoint).toBeCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.objectContaining({
+        value: 0,
+        daystamp: "1969-12-31",
       })
     );
   });

@@ -1,4 +1,5 @@
 import createDatapoint from "src/services/beeminder/createDatapoint";
+import getGoal from "src/services/beeminder/getGoal";
 import { getDocument, getFiles } from "src/services/dynalist";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -6,6 +7,10 @@ import { GET } from "./dynadone";
 
 describe("dynadone", () => {
   beforeEach(() => {
+    vi.mocked(getGoal).mockResolvedValue({
+      deadline: 0,
+    } as any);
+
     vi.mocked(getFiles).mockResolvedValue({
       files: [
         {
