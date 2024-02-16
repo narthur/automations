@@ -1,7 +1,7 @@
-import type { APIContext } from "astro";
+import { update } from "../../goals/gross";
 
-export function POST(context: APIContext) {
-  console.log({ context });
+export async function POST() {
+  await update();
 
   return new Response("OK");
 }
