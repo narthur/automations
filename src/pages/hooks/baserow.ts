@@ -1,0 +1,5 @@
+import type { APIContext } from "astro";
+
+export function POST(context: APIContext) {
+  console.log({ context });
+}
