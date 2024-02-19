@@ -4,7 +4,6 @@ import beetuning from "../commands/beetuning.js";
 import date from "../commands/date.js";
 import foo from "../commands/foo.js";
 import help from "../commands/help.js";
-import invoice from "../commands/invoice.js";
 import memory from "../commands/memory.js";
 import reset from "../commands/reset.js";
 import roll from "../commands/roll.js";
@@ -27,7 +26,6 @@ const commands: Command[] = [
   taskratchet,
   roll,
   memory,
-  invoice,
   selfcare,
   today,
   help,

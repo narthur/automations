@@ -1,6 +1,5 @@
 import getGoals from "src/services/beeminder/getGoals.js";
 import { sendMessage } from "src/services/telegram/index.js";
-import getTimeSummary from "src/services/toggl/getTimeSummary.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import waitForExpect from "wait-for-expect";
 
@@ -42,12 +41,6 @@ describe("runCommand", () => {
     await runCommand("/taskratchet pending");
 
     expect(getPendingTasks).toBeCalled();
-  });
-
-  it("generates invoices", async () => {
-    await runCommand("/invoice");
-
-    expect(getTimeSummary).toBeCalled();
   });
 
   it("gets beetuning links", async () => {
