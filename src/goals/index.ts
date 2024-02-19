@@ -6,7 +6,7 @@ import { type DatapointInput } from "src/services/beeminder/types/datapointInput
 type Options<T> = {
   user: string;
   goal: string;
-  getSharedData: () => Promise<T> | T;
+  getSharedData?: () => Promise<T> | T;
   getDateUpdate: (
     date: Date,
     sharedData: T
@@ -21,10 +21,10 @@ export function makeUpdater<T>({
 }: Options<T>) {
   return async function update() {
     const dates = getWeekDates();
-    const shared = await getSharedData();
+    const shared = await getSharedData?.();
     const points = await Promise.all(
       dates.map(async (d) => {
-        const point = await getDateUpdate(d, shared);
+        const point = await getDateUpdate(d, shared as T);
         const daystamp = makeDaystamp(d);
         return {
           ...point,
