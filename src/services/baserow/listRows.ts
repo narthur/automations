@@ -20,19 +20,26 @@ export async function listRows<T>(
   tableId: number,
   options: ListRowsOptions = {}
 ) {
+  const params = {
+    userFieldNames: true,
+    ...options,
+    filters: JSON.stringify(options.filters),
+  };
+
+  const query = Object.entries(params)
+    .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
+    .join("&");
+
   const result = await fetch(
-    `https://${env("BASEROW_DOMAIN")}/api/database/rows/table/${tableId}/`,
+    `https://${env(
+      "BASEROW_DOMAIN"
+    )}/api/database/rows/table/${tableId}/?${query}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Token ${env("BASEROW_DATABASE_TOKEN")}`,
       },
-      body: JSON.stringify({
-        userFieldNames: true,
-        ...options,
-        filters: JSON.stringify(options.filters),
-      }),
     }
   );
 
