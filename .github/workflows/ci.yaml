@@ -2,7 +2,7 @@ name: CI
 on:
   push:
 env:
-  NODE_VERSION: 18
+  NODE_VERSION: 20.11.0
   PNPM_VERSION: 8.6.9
 jobs:
   lint:
