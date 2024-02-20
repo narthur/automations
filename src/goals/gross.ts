@@ -1,7 +1,16 @@
+import { configure, listRows } from "baserow-sdk";
+import env from "src/lib/env.js";
 import { TABLES } from "src/services/baserow/constants.js";
-import { listRows } from "src/services/baserow/listRows.js";
 
 import { makeUpdater } from "./index.js";
+
+configure({
+  baseUrl: env("BASEROW_DOMAIN"),
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Token ${env("BASEROW_DATABASE_TOKEN")}`,
+  },
+});
 
 function formatDateString(date: Date, tz: string): string {
   const year = date.getFullYear();

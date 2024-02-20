@@ -1,6 +1,6 @@
+import { listRows } from "baserow-sdk";
 import uniq from "src/lib/uniq.js";
 import { TABLES } from "src/services/baserow/constants.js";
-import { listRows } from "src/services/baserow/listRows.js";
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 

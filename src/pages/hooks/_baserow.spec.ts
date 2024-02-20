@@ -1,4 +1,4 @@
-import { listRows } from "src/services/baserow/listRows";
+import { listRows } from "baserow-sdk";
 import createDatapoint from "src/services/beeminder/createDatapoint";
 import { describe, expect, it, vi } from "vitest";
 
