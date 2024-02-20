@@ -1,10 +1,22 @@
 import uniq from "src/lib/uniq.js";
+import { TABLES } from "src/services/baserow/constants.js";
+import { listRows } from "src/services/baserow/listRows.js";
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { update } from "./gross.js";
 
 describe("gross", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2024-01-01T12:00:00Z"));
+    vi.mocked(listRows).mockResolvedValue([]);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("sets requestid to daystamp", async () => {
     await update();
 
@@ -26,5 +38,42 @@ describe("gross", () => {
     const count = uniq(daystamps).length;
 
     expect(count).toBe(7);
+  });
+
+  it("gets entries", async () => {
+    await update();
+
+    expect(listRows).toBeCalledWith(
+      TABLES.Entries,
+      expect.objectContaining({
+        filters: expect.objectContaining({
+          filters: expect.arrayContaining([
+            {
+              type: "date_equal",
+              field: "End",
+              value: "America/Detroit?2024-01-01",
+            },
+          ]),
+        }),
+      })
+    );
+  });
+
+  it("sums value from net field", async () => {
+    vi.mocked(listRows).mockResolvedValue([
+      { Net: "1.00" },
+      { Net: "2.00" },
+      { Net: "3.00" },
+    ]);
+
+    await update();
+
+    expect(createDatapoint).toBeCalledWith(
+      "narthur",
+      "gross",
+      expect.objectContaining({
+        value: 6,
+      })
+    );
   });
 });

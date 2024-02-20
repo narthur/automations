@@ -8,6 +8,7 @@ import { getPendingTasks, getTasks } from "./src/services/taskratchet.js";
 import { deleteMessage, setWebhook } from "./src/services/telegram/index.js";
 
 vi.mock("./src/lib/env");
+vi.mock("./src/services/baserow/listRows");
 vi.mock("./src/services/beeminder");
 vi.mock("./src/services/beeminder/createDatapoint");
 vi.mock("./src/services/beeminder/getBeemergencies");
