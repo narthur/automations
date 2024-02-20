@@ -49,6 +49,6 @@ export async function sendEmail({
     to: recipients,
     subject,
     text: markdown,
-    html: parse(markdown),
+    html: await parse(markdown),
   });
 }

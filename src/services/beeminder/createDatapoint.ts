@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 
 import { api } from "./index.js";
 import { type DatapointInput } from "./types/datapointInput.js";

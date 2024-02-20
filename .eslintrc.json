@@ -44,6 +44,13 @@
       {
         "**/pages/**/!(_)*.spec.*": "_*.spec.*"
       }
+    ],
+    "@typescript-eslint/consistent-type-imports": [
+      "warn",
+      {
+        "prefer": "type-imports",
+        "disallowTypeAnnotations": true
+      }
     ]
   },
   "overrides": [

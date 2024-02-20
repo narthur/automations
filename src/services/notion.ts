@@ -4,10 +4,10 @@ import {
   type QueryDatabaseParameters,
   type QueryDatabaseResponse,
 } from "@notionhq/client/build/src/api-endpoints.js";
-import { z } from "zod";
+import type { z } from "zod";
 
 import env from "../lib/env.js";
-import { DATABASES } from "./notion.helpers.js";
+import type { DATABASES } from "./notion.helpers.js";
 
 type QueryDatabaseOptions = {
   auth?: string;
