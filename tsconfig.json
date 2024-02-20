@@ -3,6 +3,7 @@
   "compilerOptions": {
     "noImplicitReturns": true,
     "noUnusedLocals": true,
+    "downlevelIteration": true,
     "noEmit": true,
     "sourceMap": true,
     "strict": true,

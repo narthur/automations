@@ -27,7 +27,7 @@ export async function listRows<T>(
   };
 
   const query = Object.entries(params)
-    .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
+    .map(([k, v]) => `${k}=${encodeURIComponent(JSON.stringify(v))}`)
     .join("&");
 
   const result = await fetch(
