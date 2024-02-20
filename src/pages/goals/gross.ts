@@ -5,7 +5,7 @@ export async function GET() {
     .then(() => new Response("OK"))
     .catch((e) => {
       console.error(e);
-      new Response(JSON.stringify(e, null, 2), {
+      return new Response(JSON.stringify(e, null, 2), {
         status: 500,
       });
     });
