@@ -43,7 +43,7 @@ dependencies:
     version: 1.6.7
   baserow-sdk:
     specifier: github:narthur/baserow-sdk
-    version: github.com/narthur/baserow-sdk/38fad8df4d0225a4a56370a46507dab4436e4891(openapi-types@12.1.3)
+    version: github.com/narthur/baserow-sdk/6cad3d1c540e1c556908898e76ea0a3bd36b9f6e(openapi-types@12.1.3)
   croner:
     specifier: ^8.0.1
     version: 8.0.1
@@ -7394,9 +7394,9 @@ packages:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: false
 
-  github.com/narthur/baserow-sdk/38fad8df4d0225a4a56370a46507dab4436e4891(openapi-types@12.1.3):
-    resolution: {tarball: https://codeload.github.com/narthur/baserow-sdk/tar.gz/38fad8df4d0225a4a56370a46507dab4436e4891}
-    id: github.com/narthur/baserow-sdk/38fad8df4d0225a4a56370a46507dab4436e4891
+  github.com/narthur/baserow-sdk/6cad3d1c540e1c556908898e76ea0a3bd36b9f6e(openapi-types@12.1.3):
+    resolution: {tarball: https://codeload.github.com/narthur/baserow-sdk/tar.gz/6cad3d1c540e1c556908898e76ea0a3bd36b9f6e}
+    id: github.com/narthur/baserow-sdk/6cad3d1c540e1c556908898e76ea0a3bd36b9f6e
     name: baserow-sdk
     version: 1.0.0
     prepare: true
