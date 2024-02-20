@@ -49,14 +49,9 @@ describe("gross", () => {
         filters: expect.objectContaining({
           filters: expect.arrayContaining([
             {
-              type: "date_before",
+              type: "date_equal",
               field: "End",
               value: "America/Detroit?2024-01-02",
-            },
-            {
-              type: "date_after_or_equal",
-              field: "End",
-              value: "America/Detroit?2024-01-01",
             },
           ]),
         }),

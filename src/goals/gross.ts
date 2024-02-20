@@ -11,12 +11,6 @@ function formatDateString(date: Date, tz: string): string {
   return `${tz}?${year}-${month}-${day}`;
 }
 
-function getPreviousDay(date: Date): Date {
-  const prevDay = new Date(date);
-  prevDay.setDate(date.getDate() - 1);
-  return prevDay;
-}
-
 export const update = makeUpdater({
   user: "narthur",
   goal: "gross",
@@ -25,18 +19,15 @@ export const update = makeUpdater({
       Net: string; // "0.00"
     }>(TABLES.Entries, {
       filters: {
+        filter_type: "AND",
         filters: [
           {
-            type: "date_before",
+            type: "date_equal",
             field: "End",
             value: formatDateString(date, "America/Detroit"),
           },
-          {
-            type: "date_after_or_equal",
-            field: "End",
-            value: formatDateString(getPreviousDay(date), "America/Detroit"),
-          },
         ],
+        groups: [],
       },
     });
 
