@@ -9,7 +9,7 @@ import { update } from "./gross.js";
 describe("gross", () => {
   beforeEach(() => {
     vi.useFakeTimers();
-    vi.setSystemTime(new Date("2024-01-01T12:00:00Z"));
+    vi.setSystemTime(new Date("2024-01-02T12:00:00Z"));
     vi.mocked(listRows).mockResolvedValue([]);
   });
 
@@ -49,7 +49,12 @@ describe("gross", () => {
         filters: expect.objectContaining({
           filters: expect.arrayContaining([
             {
-              type: "date_equal",
+              type: "date_before",
+              field: "End",
+              value: "America/Detroit?2024-01-02",
+            },
+            {
+              type: "date_after_or_equal",
               field: "End",
               value: "America/Detroit?2024-01-01",
             },
