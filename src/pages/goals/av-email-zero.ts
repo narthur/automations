@@ -15,10 +15,10 @@ export async function POST({ request }: APIContext) {
     comment: `Emails: ${count} (${new Date().toLocaleString()})`,
   })
     .then(() => new Response("OK"))
-    .catch(
-      (e) =>
-        new Response(JSON.stringify(e, null, 2), {
-          status: 500,
-        })
-    );
+    .catch((e) => {
+      console.error(e);
+      return new Response(JSON.stringify(e, null, 2), {
+        status: 500,
+      });
+    });
 }

@@ -1,7 +1,9 @@
-import { update } from "../../goals/gross";
+import * as bm from "../../goals/bm";
+import * as gross from "../../goals/gross";
 
 export async function POST() {
-  await update();
+  await gross.update();
+  await bm.update();
 
   return new Response("OK");
 }
