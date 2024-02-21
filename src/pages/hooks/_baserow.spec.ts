@@ -4,6 +4,8 @@ import { describe, expect, it, vi } from "vitest";
 
 import { POST } from "./baserow";
 
+vi.mock("../../goals/bm");
+
 describe("baserow webhook", () => {
   it("updates gross goal", async () => {
     vi.mocked(listRows).mockResolvedValue([]);
