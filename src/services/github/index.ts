@@ -4,7 +4,7 @@ import env from "src/lib/env.js";
 // https://github.com/octokit/graphql.js/
 
 _graphql.defaults({
-  authorization: `token ${env("GITHUB_TOKEN")}`,
+  Authorization: `bearer ${env("GITHUB_TOKEN")}`,
 });
 
 export const graphql = _graphql;
