@@ -1,4 +1,5 @@
 import type { GraphQlResponse } from "node_modules/@octokit/graphql/dist-types/types.js";
+import z from "zod";
 
 import { graphql } from "./index.js";
 
@@ -27,8 +28,35 @@ type ResponseType = {
   };
 };
 
-export default function getBmBlogIssues(): GraphQlResponse<ResponseType> {
-  return graphql(`
+const schema = z.object({
+  data: z.object({
+    repository: z.object({
+      issues: z.object({
+        nodes: z.array(
+          z.object({
+            id: z.string(),
+            title: z.string(),
+            url: z.string(),
+            createdAt: z.string(),
+            body: z.string(),
+            labels: z.object({
+              nodes: z.array(
+                z.object({
+                  id: z.string(),
+                  name: z.string(),
+                  description: z.string(),
+                })
+              ),
+            }),
+          })
+        ),
+      }),
+    }),
+  }),
+});
+
+export default async function getBmBlogIssues(): GraphQlResponse<ResponseType> {
+  const result = await graphql(`
     {
       repository(owner: "beeminder", name: "blog") {
         issues(
@@ -55,4 +83,6 @@ export default function getBmBlogIssues(): GraphQlResponse<ResponseType> {
       }
     }
   `);
+
+  return schema.parse(result);
 }
