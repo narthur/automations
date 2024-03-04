@@ -7,11 +7,9 @@ import syncIssues from "./syncIssues";
 
 function loadIssues(nodes: any[]): void {
   vi.mocked(getBmBlogIssues).mockResolvedValue({
-    data: {
-      repository: {
-        issues: {
-          nodes,
-        },
+    repository: {
+      issues: {
+        nodes,
       },
     },
   } as any);

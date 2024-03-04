@@ -5,7 +5,7 @@ import getBmBlogIssues from "src/services/github/getBmBlogIssues";
 
 export default async function syncIssues() {
   const response = await getBmBlogIssues();
-  const issues = response.data.repository.issues.nodes;
+  const issues = response.repository.issues.nodes;
 
   for (const issue of issues) {
     const matches = await listRows(TABLES.Tasks, {

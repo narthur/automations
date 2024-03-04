@@ -19,38 +19,34 @@ type Issue = {
 };
 
 type ResponseType = {
-  data: {
-    repository: {
-      issues: {
-        nodes: Issue[];
-      };
+  repository: {
+    issues: {
+      nodes: Issue[];
     };
   };
 };
 
 const schema = z.object({
-  data: z.object({
-    repository: z.object({
-      issues: z.object({
-        nodes: z.array(
-          z.object({
-            id: z.string(),
-            title: z.string(),
-            url: z.string(),
-            createdAt: z.string(),
-            body: z.string(),
-            labels: z.object({
-              nodes: z.array(
-                z.object({
-                  id: z.string(),
-                  name: z.string(),
-                  description: z.string(),
-                })
-              ),
-            }),
-          })
-        ),
-      }),
+  repository: z.object({
+    issues: z.object({
+      nodes: z.array(
+        z.object({
+          id: z.string(),
+          title: z.string(),
+          url: z.string(),
+          createdAt: z.string(),
+          body: z.string(),
+          labels: z.object({
+            nodes: z.array(
+              z.object({
+                id: z.string(),
+                name: z.string(),
+                description: z.string(),
+              })
+            ),
+          }),
+        })
+      ),
     }),
   }),
 });
