@@ -84,5 +84,10 @@ export default async function getBmBlogIssues(): GraphQlResponse<ResponseType> {
     }
   `);
 
-  return schema.parse(result);
+  try {
+    return schema.parse(result);
+  } catch (e) {
+    console.dir(result, { depth: null });
+    throw e;
+  }
 }
