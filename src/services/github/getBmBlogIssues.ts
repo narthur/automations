@@ -1,4 +1,4 @@
-import type { GraphQlResponse } from "@octokit/graphql/dist-types/types.d.ts";
+import type { GraphQlResponse } from "node_modules/@octokit/graphql/dist-types/types.js";
 
 import { graphql } from "./index.js";
 
