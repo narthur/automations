@@ -9,6 +9,7 @@ export default async function syncIssues() {
 
   for (const issue of issues) {
     const { results } = await baserow.listRows(TABLES.Tasks, {
+      size: 1,
       filters: makeFilters([
         {
           type: "equal",
