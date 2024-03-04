@@ -19,9 +19,9 @@ const options = {
 
 new Cron(HALF_HOUR, options, dynadone.update);
 new Cron(HALF_HOUR, options, dynanew.update);
+new Cron(HALF_HOUR, options, syncIssues);
 new Cron(MINUTE, options, bm.send);
 new Cron(MINUTE, options, tr.send);
 new Cron(TEN_MINUTES, options, bmGoal.update);
 new Cron(TEN_MINUTES, options, gross.update);
-new Cron(TEN_MINUTES, options, syncIssues);
 new Cron(TEN_MINUTES, options, techtainment.update);
