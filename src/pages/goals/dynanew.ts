@@ -1,4 +1,4 @@
-import { update } from "src/goals/dynanew.js";
+import { update } from "src/jobs/goals/dynanew.js";
 
 export async function GET() {
   return await update()

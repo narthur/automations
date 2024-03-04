@@ -1,4 +1,4 @@
-import { update } from "src/goals/gross.js";
+import { update } from "src/jobs/goals/gross.js";
 
 export async function GET() {
   return await update()

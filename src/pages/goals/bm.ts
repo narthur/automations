@@ -1,4 +1,4 @@
-import { update } from "src/goals/bm.js";
+import { update } from "src/jobs/goals/bm.js";
 
 export async function GET() {
   return await update()

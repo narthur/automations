@@ -1,4 +1,4 @@
-import { update } from "src/goals/dynadone.js";
+import { update } from "src/jobs/goals/dynadone.js";
 
 export async function GET() {
   return await update()

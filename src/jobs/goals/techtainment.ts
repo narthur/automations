@@ -1,4 +1,4 @@
-import { makeUpdater } from "src/goals/index.js";
+import { makeUpdater } from "src/jobs/goals/index.js";
 import makeDaystamp from "src/lib/makeDaystamp";
 import getDatapoints from "src/services/beeminder/getDatapoints";
 import refreshGoal from "src/services/beeminder/refreshGoal";

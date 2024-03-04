@@ -1,5 +1,5 @@
-import * as bm from "../../goals/bm";
-import * as gross from "../../goals/gross";
+import * as bm from "../../jobs/goals/bm";
+import * as gross from "../../jobs/goals/gross";
 
 export async function POST() {
   await gross.update();

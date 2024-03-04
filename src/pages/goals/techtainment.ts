@@ -1,4 +1,4 @@
-import { update } from "src/goals/techtainment.js";
+import { update } from "src/jobs/goals/techtainment.js";
 
 export async function GET() {
   return await update()

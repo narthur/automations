@@ -3,7 +3,7 @@ import { type GoalExtended } from "src/services/beeminder/types/goalExtended.js"
 import { type TelegramMessage } from "src/services/telegram/schemas/message.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { deleteMessage, sendMessage } from "../services/telegram/index.js";
+import { deleteMessage, sendMessage } from "../../services/telegram/index.js";
 import { send } from "./bm.js";
 
 describe("bm", () => {
