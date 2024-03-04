@@ -176,4 +176,20 @@ describe("syncIssues", () => {
       })
     );
   });
+
+  it("sets Name field to issue title", async () => {
+    vi.mocked(baserow.listRows).mockResolvedValue({
+      results: [],
+    } as any);
+    loadIssues([{ title: "the_title" }]);
+
+    await syncIssues();
+
+    expect(baserow.addRow).toBeCalledWith(
+      TABLES.Tasks,
+      expect.objectContaining({
+        Name: "the_title",
+      })
+    );
+  });
 });

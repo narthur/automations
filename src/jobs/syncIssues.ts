@@ -25,7 +25,7 @@ export default async function syncIssues() {
 
     await baserow.addRow(TABLES.Tasks, {
       Source: issue.url,
-      Title: issue.title,
+      Name: issue.title,
       Status: "Pending",
       Project: ["Beeminder Blog"],
       Notes: issue.body,
