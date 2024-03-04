@@ -1,6 +1,6 @@
-import { listRows } from "baserow-sdk";
 import uniq from "src/lib/uniq.js";
 import { TABLES } from "src/services/baserow/constants.js";
+import baserow from "src/services/baserow/index.js";
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -10,7 +10,9 @@ describe("gross", () => {
   beforeEach(() => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2024-01-02T12:00:00Z"));
-    vi.mocked(listRows).mockResolvedValue([]);
+    vi.mocked(baserow.listRows).mockResolvedValue({
+      results: [],
+    } as any);
   });
 
   afterEach(() => {
@@ -43,7 +45,7 @@ describe("gross", () => {
   it("gets entries", async () => {
     await update();
 
-    expect(listRows).toBeCalledWith(
+    expect(baserow.listRows).toBeCalledWith(
       TABLES.Entries,
       expect.objectContaining({
         filters: expect.objectContaining({
@@ -60,11 +62,9 @@ describe("gross", () => {
   });
 
   it("sums value from net field", async () => {
-    vi.mocked(listRows).mockResolvedValue([
-      { Net: "1.00" },
-      { Net: "2.00" },
-      { Net: "3.00" },
-    ]);
+    vi.mocked(baserow.listRows).mockResolvedValue({
+      results: [{ Net: "1.00" }, { Net: "2.00" }, { Net: "3.00" }],
+    } as any);
 
     await update();
 

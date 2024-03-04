@@ -1,4 +1,4 @@
-import { listRows } from "baserow-sdk";
+import baserow from "src/services/baserow";
 import { TABLES } from "src/services/baserow/constants";
 import getEntriesByDate from "src/services/baserow/getEntriesByDate";
 
@@ -20,7 +20,7 @@ export const update = makeUpdater({
   user: "narthur",
   goal: "bm",
   getSharedData: async () => {
-    const rates = await listRows<Rate>(TABLES.Rates);
+    const { results: rates } = await baserow.listRows<Rate>(TABLES.Rates);
     const clientRate = rates
       .filter((r) => r.Clients.some((c) => c.value === CLIENT))
       .sort((a, b) => parseFloat(b.Rate) - parseFloat(a.Rate))[0];
@@ -40,8 +40,8 @@ export const update = makeUpdater({
     throw new Error("No base rate found");
   },
   getDateUpdate: async (date, baseRate) => {
-    const entries = await getEntriesByDate(date);
-    const hours = entries
+    const { results } = await getEntriesByDate(date);
+    const hours = results
       .filter((e) => e.Client.some((c) => c.value === CLIENT))
       .reduce(
         (acc, entry) =>

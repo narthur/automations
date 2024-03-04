@@ -1,3 +1,4 @@
+import baserow from "src/services/baserow/index.js";
 import createDatapoint from "src/services/beeminder/createDatapoint.js";
 import getGoals from "src/services/beeminder/getGoals.js";
 import { getDocument, getFiles } from "src/services/dynalist/index.js";
@@ -38,5 +39,8 @@ beforeEach(() => {
   } as any);
   vi.mocked(getDocument).mockResolvedValue({
     nodes: [],
+  } as any);
+  vi.mocked(baserow.listRows).mockResolvedValue({
+    results: [],
   } as any);
 });

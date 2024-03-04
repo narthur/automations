@@ -1,4 +1,4 @@
-import { addRow, listRows } from "baserow-sdk";
+import baserow from "src/services/baserow";
 import { TABLES } from "src/services/baserow/constants";
 import makeFilters from "src/services/baserow/makeFilters";
 import getBmBlogIssues from "src/services/github/getBmBlogIssues";
@@ -8,7 +8,7 @@ export default async function syncIssues() {
   const issues = response.repository.issues.nodes;
 
   for (const issue of issues) {
-    const matches = await listRows(TABLES.Tasks, {
+    const { results } = await baserow.listRows(TABLES.Tasks, {
       filters: makeFilters([
         {
           type: "equal",
@@ -18,11 +18,11 @@ export default async function syncIssues() {
       ]),
     });
 
-    if (matches.length > 0) {
+    if (results.length > 0) {
       continue;
     }
 
-    await addRow(TABLES.Tasks, {
+    await baserow.addRow(TABLES.Tasks, {
       Source: issue.url,
       Title: issue.title,
       Status: "Pending",

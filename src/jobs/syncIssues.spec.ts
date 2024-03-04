@@ -1,4 +1,4 @@
-import { addRow, listRows } from "baserow-sdk";
+import baserow from "src/services/baserow";
 import { TABLES } from "src/services/baserow/constants";
 import getBmBlogIssues from "src/services/github/getBmBlogIssues";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -17,7 +17,9 @@ function loadIssues(nodes: any[]): void {
 
 describe("syncIssues", () => {
   beforeEach(() => {
-    vi.mocked(listRows).mockResolvedValue([]);
+    vi.mocked(baserow.listRows).mockResolvedValue({
+      results: [],
+    } as any);
     loadIssues([{ url: "the_issue_url" }]);
   });
 
@@ -30,7 +32,7 @@ describe("syncIssues", () => {
   it("looks for existing row", async () => {
     await syncIssues();
 
-    expect(listRows).toBeCalledWith(
+    expect(baserow.listRows).toBeCalledWith(
       TABLES.Tasks,
       expect.objectContaining({
         filters: expect.objectContaining({
@@ -47,37 +49,45 @@ describe("syncIssues", () => {
   });
 
   it("creates row if not found", async () => {
-    vi.mocked(listRows).mockResolvedValue([]);
+    vi.mocked(baserow.listRows).mockResolvedValue({
+      results: [],
+    } as any);
 
     await syncIssues();
 
-    expect(addRow).toBeCalled();
+    expect(baserow.addRow).toBeCalled();
   });
 
   it("does not create row if found", async () => {
-    vi.mocked(listRows).mockResolvedValue([{}]);
+    vi.mocked(baserow.listRows).mockResolvedValue({
+      results: [{}],
+    } as any);
 
     await syncIssues();
 
-    expect(addRow).not.toBeCalled();
+    expect(baserow.addRow).not.toBeCalled();
   });
 
   it("creates one row per issue", async () => {
-    vi.mocked(listRows).mockResolvedValue([]);
+    vi.mocked(baserow.listRows).mockResolvedValue({
+      results: [],
+    } as any);
     loadIssues([{ url: "issue1" }, { url: "issue2" }]);
 
     await syncIssues();
 
-    expect(addRow).toBeCalledTimes(2);
+    expect(baserow.addRow).toBeCalledTimes(2);
   });
 
   it('sets "Source" field to issue url', async () => {
-    vi.mocked(listRows).mockResolvedValue([]);
+    vi.mocked(baserow.listRows).mockResolvedValue({
+      results: [],
+    } as any);
     loadIssues([{ url: "issue1" }]);
 
     await syncIssues();
 
-    expect(addRow).toBeCalledWith(
+    expect(baserow.addRow).toBeCalledWith(
       TABLES.Tasks,
       expect.objectContaining({
         Source: "issue1",
@@ -86,21 +96,25 @@ describe("syncIssues", () => {
   });
 
   it("checks for existing rows for each issue", async () => {
-    vi.mocked(listRows).mockResolvedValue([{}]);
+    vi.mocked(baserow.listRows).mockResolvedValue({
+      results: [{}],
+    } as any);
     loadIssues([{ url: "issue1" }, { url: "issue2" }]);
 
     await syncIssues();
 
-    expect(listRows).toBeCalledTimes(2);
+    expect(baserow.listRows).toBeCalledTimes(2);
   });
 
   it("uses issue url when looking for existing rows", async () => {
-    vi.mocked(listRows).mockResolvedValue([]);
+    vi.mocked(baserow.listRows).mockResolvedValue({
+      results: [],
+    } as any);
     loadIssues([{ url: "issue1" }]);
 
     await syncIssues();
 
-    expect(listRows).toBeCalledWith(
+    expect(baserow.listRows).toBeCalledWith(
       TABLES.Tasks,
       expect.objectContaining({
         filters: expect.objectContaining({
@@ -117,12 +131,14 @@ describe("syncIssues", () => {
   });
 
   it("creates new rows with status Pending", async () => {
-    vi.mocked(listRows).mockResolvedValue([]);
+    vi.mocked(baserow.listRows).mockResolvedValue({
+      results: [],
+    } as any);
     loadIssues([{ url: "issue1" }]);
 
     await syncIssues();
 
-    expect(addRow).toBeCalledWith(
+    expect(baserow.addRow).toBeCalledWith(
       TABLES.Tasks,
       expect.objectContaining({
         Status: "Pending",
@@ -131,12 +147,14 @@ describe("syncIssues", () => {
   });
 
   it("sets Notes field to issue body", async () => {
-    vi.mocked(listRows).mockResolvedValue([]);
+    vi.mocked(baserow.listRows).mockResolvedValue({
+      results: [],
+    } as any);
     loadIssues([{ body: "the_body" }]);
 
     await syncIssues();
 
-    expect(addRow).toBeCalledWith(
+    expect(baserow.addRow).toBeCalledWith(
       TABLES.Tasks,
       expect.objectContaining({
         Notes: "the_body",
@@ -145,11 +163,13 @@ describe("syncIssues", () => {
   });
 
   it('sets Project field to "Beeminder Blog"', async () => {
-    vi.mocked(listRows).mockResolvedValue([]);
+    vi.mocked(baserow.listRows).mockResolvedValue({
+      results: [],
+    } as any);
 
     await syncIssues();
 
-    expect(addRow).toBeCalledWith(
+    expect(baserow.addRow).toBeCalledWith(
       TABLES.Tasks,
       expect.objectContaining({
         Project: ["Beeminder Blog"],

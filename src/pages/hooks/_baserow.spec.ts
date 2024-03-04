@@ -1,4 +1,4 @@
-import { listRows } from "baserow-sdk";
+import baserow from "src/services/baserow";
 import { TABLES } from "src/services/baserow/constants";
 import createDatapoint from "src/services/beeminder/createDatapoint";
 import { describe, expect, it, vi } from "vitest";
@@ -9,17 +9,21 @@ vi.mock("../../goals/bm");
 
 describe("baserow webhook", () => {
   it("updates gross goal", async () => {
-    vi.mocked(listRows).mockImplementation((tableId: number) => {
+    vi.mocked(baserow.listRows).mockImplementation((tableId: number): any => {
       if (tableId === TABLES.Rates) {
-        return Promise.resolve([
-          {
-            Rate: "100",
-            Clients: [],
-            Projects: [],
-          },
-        ]);
+        return Promise.resolve({
+          results: [
+            {
+              Rate: "100",
+              Clients: [],
+              Projects: [],
+            },
+          ],
+        });
       }
-      return Promise.resolve([]);
+      return Promise.resolve({
+        results: [],
+      });
     });
 
     await POST();

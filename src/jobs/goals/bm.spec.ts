@@ -1,4 +1,4 @@
-import { listRows } from "baserow-sdk";
+import baserow from "src/services/baserow";
 import { TABLES } from "src/services/baserow/constants";
 import createDatapoint from "src/services/beeminder/createDatapoint";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -21,16 +21,22 @@ function mockResults({
   entries?: Record<string, unknown>[];
   rates?: Record<string, unknown>[];
 } = {}) {
-  vi.mocked(listRows).mockImplementation((tableId: number) => {
+  vi.mocked(baserow.listRows).mockImplementation((tableId: number): any => {
     if (tableId === TABLES.Entries) {
-      return Promise.resolve(entries);
+      return Promise.resolve({
+        results: entries,
+      });
     }
 
     if (tableId === TABLES.Rates) {
-      return Promise.resolve(rates.map(rate));
+      return Promise.resolve({
+        results: rates.map(rate),
+      });
     }
 
-    return Promise.resolve([]);
+    return Promise.resolve({
+      results: [],
+    });
   });
 }
 
@@ -42,7 +48,7 @@ describe("bm", () => {
   it("filters entries", async () => {
     await update();
 
-    expect(listRows).toBeCalledWith(TABLES.Entries, {
+    expect(baserow.listRows).toBeCalledWith(TABLES.Entries, {
       filters: expect.anything(),
     });
   });
