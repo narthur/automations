@@ -3,10 +3,6 @@
   "type": "module",
   "version": "1.0.0",
   "description": "",
-  "engines": {
-    "node": "20",
-    "pnpm": "8"
-  },
   "main": "src/index.ts",
   "scripts": {
     "test": "vitest --segfault-retry=3",
