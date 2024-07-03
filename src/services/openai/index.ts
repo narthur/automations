@@ -7,9 +7,7 @@ import {
 
 import env from "../../lib/env.js";
 
-// upgrade to gpt-4-0613 when it's available
-// const MODEL = "gpt-3.5-turbo-0613";
-const MODEL = "gpt-4";
+const MODEL = "gpt-4o";
 
 let openai: OpenAI | undefined;
 
