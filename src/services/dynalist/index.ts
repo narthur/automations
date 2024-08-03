@@ -4,6 +4,7 @@ import env from "src/lib/env.js";
 import {
   type DynalistFile,
   type DynalistNode,
+  type NodeAction,
   type Ok,
   type Res,
 } from "./types.js";
@@ -59,7 +60,7 @@ export const getDocumentUpdates = makeRoute<
 
 export const updateDocument = makeRoute<{
   file_id: string;
-  changes: unknown;
+  changes: NodeAction[];
 }>("doc/edit");
 
 export const addToInbox = makeRoute<{

@@ -2,9 +2,8 @@ import { Cron } from "croner";
 
 import bm from "./jobs/alarms/bm.js";
 import tr from "./jobs/alarms/tr.js";
+import dynaSnooze from "./jobs/dynaSnooze.js";
 import * as bmGoal from "./jobs/goals/bm.js";
-import * as dynadone from "./jobs/goals/dynadone.js";
-import * as dynanew from "./jobs/goals/dynanew.js";
 import * as gross from "./jobs/goals/gross.js";
 import * as techtainment from "./jobs/goals/techtainment.js";
 import syncIssues from "./jobs/syncIssues.js";
@@ -17,8 +16,7 @@ const options = {
   catch: (e: unknown) => console.error(e),
 };
 
-new Cron(HALF_HOUR, options, dynadone.update);
-new Cron(HALF_HOUR, options, dynanew.update);
+new Cron(HALF_HOUR, options, dynaSnooze);
 new Cron(HALF_HOUR, options, syncIssues);
 new Cron(MINUTE, options, bm.send);
 new Cron(MINUTE, options, tr.send);

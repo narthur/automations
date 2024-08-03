@@ -39,3 +39,40 @@ export type DynalistNode = {
   checked?: boolean;
   checkbox?: boolean;
 };
+
+export type NodeAction = NodeInsert | NodeEdit | NodeMove | NodeDelete;
+
+export type NodeInsert = {
+  action: "insert";
+  parent_id: string;
+  index: number;
+  content: string;
+  note?: string;
+  checked?: boolean;
+  checkbox?: boolean;
+  heading?: 0 | 1 | 2 | 3;
+  color?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+};
+
+export type NodeEdit = {
+  action: "edit";
+  node_id: string;
+  content?: string;
+  note?: string;
+  checked?: boolean;
+  checkbox?: boolean;
+  heading?: 0 | 1 | 2 | 3;
+  color?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+};
+
+export type NodeMove = {
+  action: "move";
+  node_id: string;
+  parent_id: string;
+  index: number;
+};
+
+export type NodeDelete = {
+  action: "delete";
+  node_id: string;
+};
