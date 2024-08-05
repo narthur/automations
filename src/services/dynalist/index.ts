@@ -1,25 +1,12 @@
-import axios from "axios";
-import env from "src/lib/env.js";
-
+import makeRoute from "./makeRoute.js";
 import {
   type DynalistFile,
   type DynalistNode,
   type NodeAction,
-  type Ok,
-  type Res,
 } from "./types.js";
 
 // API docs:
 // https://apidocs.dynalist.io/
-
-// Setting Axios client defaults:
-// https://axios-http.com/docs/config_defaults
-// https://stackoverflow.com/a/59050108/937377
-
-const client = axios.create({
-  baseURL: "https://dynalist.io/api/v1",
-  method: "post",
-});
 
 export const getFiles = makeRoute<
   Record<string, never>,
@@ -27,11 +14,19 @@ export const getFiles = makeRoute<
     root_file_id: string;
     files: DynalistFile[];
   }
->("file/list");
+>({
+  route: "file/list",
+  minTime: 10000, // 6 requests per minute
+  maxConcurrent: 10,
+});
 
 export const updateFile = makeRoute<{
   changes: unknown;
-}>("file/edit");
+}>({
+  route: "file/edit",
+  minTime: 1000, // 60 requests per minute
+  maxConcurrent: 50,
+});
 
 export const getDocument = makeRoute<
   {
@@ -45,7 +40,11 @@ export const getDocument = makeRoute<
     nodes: DynalistNode[];
     version: number;
   }
->("doc/read");
+>({
+  route: "doc/read",
+  minTime: 2000, // 30 requests per minute
+  maxConcurrent: 100,
+});
 
 export const getDocumentUpdates = makeRoute<
   {
@@ -56,12 +55,20 @@ export const getDocumentUpdates = makeRoute<
     _msg: string;
     versions: Record<string, number>;
   }
->("doc/check_for_updates");
+>({
+  route: "doc/check_for_updates",
+  minTime: 1000, // 60 requests per minute
+  maxConcurrent: 50,
+});
 
 export const updateDocument = makeRoute<{
   file_id: string;
   changes: NodeAction[];
-}>("doc/edit");
+}>({
+  route: "doc/edit",
+  minTime: 1000, // 60 requests per minute
+  maxConcurrent: 20,
+});
 
 export const addToInbox = makeRoute<{
   index: number;
@@ -71,37 +78,18 @@ export const addToInbox = makeRoute<{
   checkbox?: boolean;
   heading?: 0 | 1 | 2 | 3;
   color?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
-}>("inbox/add");
+}>({
+  route: "inbox/add",
+  minTime: 1000, // 60 requests per minute
+  maxConcurrent: 20,
+});
 
 export const uploadFile = makeRoute<{
   filename: string;
   content_type: string;
   data: string; // base64 encoded
-}>("file/upload");
-
-function isOk<T>(r: Record<string, unknown>): r is Ok<T> & { _code: "OK" } {
-  return new String(r._code).toLowerCase() === "ok";
-}
-
-function makeRoute<T extends Record<string, unknown>, D = unknown>(
-  route: string
-): (params?: T) => Promise<D> {
-  return async (params): Promise<D> => {
-    const { data } = await client<Res<D>>(route, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: {
-        ...params,
-        token: env("DYNALIST_TOKEN"),
-      },
-    });
-
-    if (!isOk<D>(data)) {
-      console.log(data);
-      throw new Error(data._msg);
-    }
-
-    return data;
-  };
-}
+}>({
+  route: "file/upload",
+  minTime: 30000, // 2 requests per minute
+  maxConcurrent: 5,
+});

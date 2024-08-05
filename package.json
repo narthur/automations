@@ -40,6 +40,7 @@
     "astro": "^4.4.1",
     "axios": "^1.6.7",
     "baserow-sdk": "github:narthur/baserow-sdk",
+    "bottleneck": "^2.19.5",
     "croner": "^8.0.1",
     "date-fns": "^3.3.1",
     "date-fns-tz": "^2.0.0",
