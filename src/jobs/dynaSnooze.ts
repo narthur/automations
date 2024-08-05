@@ -1,6 +1,8 @@
-import { updateDocument } from "src/services/dynalist";
-import getNodes, { type AugmentedNode } from "src/services/dynalist/getNodes";
-import type { NodeEdit } from "src/services/dynalist/types";
+import getNodes, {
+  type AugmentedNode,
+} from "src/services/dynalist/getNodes.js";
+import { updateDocument } from "src/services/dynalist/index.js";
+import type { NodeEdit } from "src/services/dynalist/types.js";
 
 function getEdit(node: AugmentedNode): NodeEdit | null {
   const matches = node.content.match(/#snooze=(\d{4}-\d{2}-\d{2})/);

@@ -1,8 +1,10 @@
-import { updateDocument } from "src/services/dynalist";
-import getNodes, { type AugmentedNode } from "src/services/dynalist/getNodes";
+import getNodes, {
+  type AugmentedNode,
+} from "src/services/dynalist/getNodes.js";
+import { updateDocument } from "src/services/dynalist/index.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import dynaSnooze from "./dynaSnooze";
+import dynaSnooze from "./dynaSnooze.js";
 
 vi.mock("src/services/dynalist/getNodes");
 

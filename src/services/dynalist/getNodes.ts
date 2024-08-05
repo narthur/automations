@@ -1,7 +1,7 @@
 import { getDocument, getFiles } from "./index.js";
 import { type DynalistNode } from "./types.js";
 
-type AugmentedNode = DynalistNode & {
+export type AugmentedNode = DynalistNode & {
   file_id: string;
 };
 

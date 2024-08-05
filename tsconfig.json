@@ -4,6 +4,7 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "downlevelIteration": true,
+    "allowSyntheticDefaultImports": true,
     "noEmit": true,
     "sourceMap": true,
     "strict": true,
