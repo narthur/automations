@@ -1,11 +1,12 @@
-import getClient from "./getClient.js";
-import deleteVectorStore from "./deleteVectorStore.js";
-import { Uploadable } from "openai/uploads.mjs";
+import type { Uploadable } from "openai/uploads.mjs";
+
 import deleteAllFiles from "./deleteAllFiles.js";
+import deleteVectorStore from "./deleteVectorStore.js";
+import getClient from "./getClient.js";
 
 export default async function replaceVectoryStore(
   storeName: string,
-  files: Uploadable[],
+  files: Uploadable[]
 ) {
   const c = getClient();
 
