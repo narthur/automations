@@ -2,7 +2,7 @@ import type { Uploadable } from "openai/uploads.mjs";
 
 import getClient from "./getClient";
 
-export default async function addFile(options: { file: Uploadable }) {
+export default async function addFile(file: Uploadable) {
   const c = getClient();
   const assistantId = process.env.OPENAI_ASSISTANT_ID;
 
@@ -18,6 +18,6 @@ export default async function addFile(options: { file: Uploadable }) {
   }
 
   await c.beta.vectorStores.fileBatches.uploadAndPoll(storeId, {
-    files: [options.file],
+    files: [file],
   });
 }
