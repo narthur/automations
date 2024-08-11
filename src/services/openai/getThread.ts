@@ -1,3 +1,4 @@
+import type { TextContentBlock } from "openai/resources/beta/threads/messages.mjs";
 import type { Thread } from "openai/resources/beta/threads/threads";
 import { toFile } from "openai/uploads.mjs";
 
@@ -23,7 +24,12 @@ export async function resetThread() {
     const transcript = messages.data
       .map((m) => {
         const time = new Date(m.created_at).toLocaleString();
-        return `${m.role} at ${time}:\n\n${m.content.join("\n\n")}`;
+        const textContents: TextContentBlock[] =
+          m.content.filter<TextContentBlock>(
+            (c): c is TextContentBlock => c.type === "text"
+          );
+        const texts: string[] = textContents.map((c) => c.text.value);
+        return `${m.role} at ${time}:\n\n${texts.join("\n\n")}`;
       })
       .join("\n\n\n");
 
