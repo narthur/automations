@@ -1,12 +1,24 @@
 import type { APIContext } from "astro";
 import env from "src/lib/env.js";
-import createDatapoint from "src/services/beeminder/createDatapoint.js";
 import getGptResponse from "src/services/openai/getGptResponse.js";
 import { messageUpdate } from "src/services/telegram/schemas/update";
 import { sendMessages } from "src/services/telegram/sendMessages.js";
 
 import { tryWithRelay } from "../services/telegram/tryWithRelay.js";
 import runCommand from "./runCommand.js";
+import splitMessages from "./splitMessages.js";
+
+async function getResponse(text: string): Promise<Promise<string[]>> {
+  const commandResponse = await runCommand(text);
+
+  if (commandResponse) {
+    return commandResponse;
+  }
+
+  const gptResponse = await getGptResponse(text);
+
+  return splitMessages(gptResponse);
+}
 
 export default async function handleBotRequest({ request: req }: APIContext) {
   const isTelegram =
@@ -53,10 +65,7 @@ export default async function handleBotRequest({ request: req }: APIContext) {
   }
 
   await tryWithRelay(chat.id, async () => {
-    await createDatapoint("narthur", "mia", {
-      value: text.length,
-    });
-    const texts = (await runCommand(text)) || (await getGptResponse(text));
+    const texts = await getResponse(text);
     await sendMessages(chat.id, texts);
   });
 

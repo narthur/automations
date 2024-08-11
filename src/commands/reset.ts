@@ -1,8 +1,8 @@
-import { clearHistory } from "src/lib/history.js";
+import { resetThread } from "src/services/openai/getThread.js";
 
 import cmd from "../lib/cmd.js";
 
-export default cmd("reset", () => {
-  clearHistory();
-  return "Internal memory cleared";
+export default cmd("reset", async () => {
+  await resetThread();
+  return "Conversation reset";
 });

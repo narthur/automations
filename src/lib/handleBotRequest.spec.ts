@@ -1,10 +1,9 @@
-import createDatapoint from "src/services/beeminder/createDatapoint.js";
+import getGptResponse from "src/services/openai/getGptResponse.js";
 import message from "src/services/telegram/schemas/message.js";
 import user from "src/services/telegram/schemas/user.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createFixture } from "zod-fixture";
 
-import { getResponse } from "../services/openai/index.js";
 import { sendMessage } from "../services/telegram/index.js";
 import env from "./env.js";
 import handleBotRequest from "./handleBotRequest.js";
@@ -58,7 +57,7 @@ describe("handleBotRequest", () => {
   });
 
   it("sends error messages to the user", async () => {
-    vi.mocked(getResponse).mockRejectedValue(new Error("test error"));
+    vi.mocked(getGptResponse).mockRejectedValue(new Error("test error"));
 
     await send("test");
 
@@ -66,7 +65,7 @@ describe("handleBotRequest", () => {
   });
 
   it("splits long errors", async () => {
-    vi.mocked(getResponse).mockRejectedValue(
+    vi.mocked(getGptResponse).mockRejectedValue(
       new Error("test error".repeat(1000))
     );
 
@@ -83,18 +82,6 @@ describe("handleBotRequest", () => {
     expect(sendMessage).toBeCalledWith(
       expect.objectContaining({
         text: expect.stringContaining("bar"),
-      })
-    );
-  });
-
-  it("sends incoming message lengths to beeminder", async () => {
-    await send("test");
-
-    expect(createDatapoint).toBeCalledWith(
-      "narthur",
-      "mia",
-      expect.objectContaining({
-        value: 4,
       })
     );
   });
