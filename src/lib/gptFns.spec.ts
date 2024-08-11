@@ -28,6 +28,7 @@ describe("gptFns", () => {
           content: "content",
         }),
       },
+      refusal: null,
     });
 
     expect(addDocument).toBeCalledWith(

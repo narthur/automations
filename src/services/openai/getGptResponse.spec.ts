@@ -10,6 +10,7 @@ describe("getGptResponse", () => {
     vi.mocked(getResponse).mockResolvedValue({
       role: "assistant",
       content: "Hello world!",
+      refusal: null,
     });
 
     const response = await getGptResponse("");
@@ -36,6 +37,7 @@ describe("getGptResponse", () => {
     vi.mocked(getResponse).mockResolvedValue({
       role: "assistant",
       content: "a".repeat(MAX_MESSAGE_LENGTH + 1),
+      refusal: null,
     });
 
     const response = await getGptResponse("");
@@ -47,6 +49,7 @@ describe("getGptResponse", () => {
     vi.mocked(getResponse).mockResolvedValue({
       role: "assistant",
       content: "a\nb",
+      refusal: null,
     });
 
     const response = await getGptResponse("");
@@ -63,6 +66,7 @@ describe("getGptResponse", () => {
         name: "getBeemergencies",
         arguments: "{}",
       },
+      refusal: null,
     });
 
     await getGptResponse("");
