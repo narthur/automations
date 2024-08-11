@@ -1,68 +1,40 @@
-import {
-  type ChatCompletionMessage,
-  type ChatCompletionMessageParam,
-} from "openai/resources/chat/index.js";
-import env from "src/lib/env.js";
-import { getFunctionDefinitions, getFunctionResponse } from "src/lib/gptFns.js";
-import { addMessage, getMessages } from "src/lib/history.js";
+import type OpenAI from "openai";
+import type { AssistantStreamEvents } from "openai/lib/AssistantStream";
 
-import splitMessages from "../../lib/splitMessages.js";
-import { getResponse } from "../../services/openai/index.js";
+import getClient from "./getClient.js";
+import { getThread } from "./getThread.js";
 
-function hasFunctionCall(
-  message: ChatCompletionMessage
-): message is ChatCompletionMessage & {
-  function_call: {
-    name: string;
-    arguments: string;
-  };
-} {
-  return Boolean(message.function_call);
+export async function addMessage(
+  body: OpenAI.Beta.Threads.Messages.MessageCreateParams
+) {
+  const c = getClient();
+  const t = await getThread();
+
+  await c.beta.threads.messages.create(t.id, body);
 }
 
-export default async function getGptResponse(
-  prompt: string
-): Promise<string[]> {
-  console.info("getting openai response");
-  const systemPrompt = env("OPENAI_PROMPT");
+export default async function getGptResponse(message: string): Promise<string> {
+  const c = getClient();
+  const t = await getThread();
 
-  if (!systemPrompt) {
-    throw new Error("OPENAI_PROMPT env var not set");
-  }
-
-  const messages: Array<ChatCompletionMessageParam> = [
-    {
-      role: "system",
-      content: systemPrompt,
-    },
-    ...getMessages(),
-    {
-      role: "user",
-      content: prompt,
-    },
-  ];
-  addMessage({
+  await addMessage({
     role: "user",
-    content: prompt,
+    content: message,
   });
-  const raw = await getResponse(messages, getFunctionDefinitions());
-  if (!raw) throw new Error("no response from openai");
-  console.info("parsing openai response");
 
-  const content = (await getFunctionResponse(raw)) || raw.content || "";
+  const r = c.beta.threads.runs.stream(t.id, {
+    assistant_id: process.env.OPENAI_ASSISTANT_ID || "",
+  });
 
-  if (hasFunctionCall(raw)) {
-    addMessage({
-      role: "assistant",
-      name: raw.function_call?.name,
-      content,
-      function_call: raw.function_call,
+  return new Promise((resolve) => {
+    const event: keyof AssistantStreamEvents = "textDone";
+    r.on(event, (text) => {
+      const t = text.value;
+      const c = t.replaceAll(/【.*?】/g, "");
+      const r = text.annotations.length
+        ? `\n\n(${text.annotations.length} documents referenced)`
+        : "";
+      return resolve(`${c}${r}`);
     });
-  } else {
-    addMessage({
-      role: "assistant",
-      content,
-    });
-  }
-  return splitMessages(content);
+  });
 }
