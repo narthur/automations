@@ -143,7 +143,57 @@ describe("techtainment", () => {
       expect.anything(),
       "techtainment",
       expect.objectContaining({
-        value: (1000 * 0.5 * -1) / 60 / 60,
+        value: -0.14,
+      })
+    );
+  });
+
+  it("limits value precision", async () => {
+    loadDatapoints([
+      {
+        slug: "steps",
+        points: [
+          {
+            id: "1",
+            daystamp: "20210101",
+            value: 1000,
+          },
+        ],
+      },
+    ]);
+
+    await update();
+
+    expect(createDatapoint).toHaveBeenCalledWith(
+      expect.anything(),
+      "techtainment",
+      expect.objectContaining({
+        value: -0.14,
+      })
+    );
+  });
+
+  it("limits precision in comment", async () => {
+    loadDatapoints([
+      {
+        slug: "steps",
+        points: [
+          {
+            id: "1",
+            daystamp: "20210101",
+            value: 1000,
+          },
+        ],
+      },
+    ]);
+
+    await update();
+
+    expect(createDatapoint).toHaveBeenCalledWith(
+      expect.anything(),
+      "techtainment",
+      expect.objectContaining({
+        comment: expect.stringContaining("0.14"),
       })
     );
   });

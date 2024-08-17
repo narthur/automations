@@ -33,10 +33,12 @@ export const update = makeUpdater({
     const ar = -ah * 2;
     const zr = -zh * 2;
     const sr = -ss / (2 * 60 * 60);
+    const tr = ar + +zr + sr;
+    const ps = (n: number) => Number(n.toFixed(2));
 
     return {
-      value: ar + +zr + sr,
-      comment: `active: ${ar}, zone: ${zr}, steps: ${sr}`,
+      value: ps(tr),
+      comment: `active: ${ps(ar)}, zone: ${ps(zr)}, steps: ${ps(sr)}`,
     };
   },
 });
