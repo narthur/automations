@@ -4,32 +4,35 @@ import getDatapoints from "src/services/beeminder/getDatapoints";
 import refreshGoal from "src/services/beeminder/refreshGoal";
 import type { Datapoint } from "src/services/beeminder/types/datapoint";
 
+const sources = ["zone", "active", "steps"] as const;
+
+type Shared = Record<(typeof sources)[number], Datapoint[]>;
+
 export const update = makeUpdater({
   user: "narthur",
   goal: "techtainment",
   getSharedData: async () => {
-    await refreshGoal("narthur", "zone");
-    await refreshGoal("narthur", "active");
+    await Promise.all(sources.map((g) => refreshGoal("narthur", g)));
 
-    const options = {
-      count: 7,
-    };
-
-    return [
-      ...(await getDatapoints("narthur", "zone", options)),
-      ...(await getDatapoints("narthur", "active", options)),
-    ];
+    return sources.reduce(
+      async (acc, g) => ({
+        ...(await acc),
+        [g]: await getDatapoints("narthur", g, { count: 7 }),
+      }),
+      Promise.resolve({} as Shared)
+    );
   },
-  getDateUpdate: (d: Date, points: Datapoint[]) => {
+  getDateUpdate: (d: Date, { zone, active, steps }: Shared) => {
     const ds = makeDaystamp(d).replaceAll("-", "");
-    const sum = points
+    const as = [...zone, ...active]
       .filter((p) => p.daystamp === ds)
       .reduce((acc, p) => acc + p.value, 0);
-    const h = sum / 60;
+    const ss = steps.find((p) => p.daystamp === ds)?.value ?? 0;
+    const ah = as / 60;
+    const ar = -ah * 2;
+    const sr = -ss / (2 * 60 * 60);
 
-    return {
-      value: -h * 2,
-    };
+    return { value: ar + sr };
   },
 });
 
