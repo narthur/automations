@@ -28,11 +28,10 @@ export const update = makeUpdater({
     const ar = (dv(active) * -2) / 60;
     const zr = (dv(zone) * -2) / 60;
     const sr = -dv(steps) / (2 * 60 * 60);
-    const tr = ar + zr + sr;
     const ps = (n: number) => Number(n.toFixed(2));
 
     return {
-      value: ps(tr),
+      value: ps(ar + zr + sr),
       comment: `active: ${ps(ar)}, zone: ${ps(zr)}, steps: ${ps(sr)}`,
     };
   },
