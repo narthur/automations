@@ -24,15 +24,10 @@ export const update = makeUpdater({
   },
   getDateUpdate: (d: Date, { zone, active, steps }: Shared) => {
     const ds = makeDaystamp(d).replaceAll("-", "");
-    const pf = (p: Datapoint[]) => p.filter((p) => p.daystamp === ds);
-    const as = pf(zone).reduce((acc, p) => acc + p.value, 0);
-    const zs = pf(active).reduce((acc, p) => acc + p.value, 0);
-    const ss = steps.find((p) => p.daystamp === ds)?.value ?? 0;
-    const ah = as / 60;
-    const zh = zs / 60;
-    const ar = -ah * 2;
-    const zr = -zh * 2;
-    const sr = -ss / (2 * 60 * 60);
+    const dv = (p: Datapoint[]) => p.find((p) => p.daystamp === ds)?.value ?? 0;
+    const ar = (dv(active) * -2) / 60;
+    const zr = (dv(zone) * -2) / 60;
+    const sr = -dv(steps) / (2 * 60 * 60);
     const tr = ar + zr + sr;
     const ps = (n: number) => Number(n.toFixed(2));
 
