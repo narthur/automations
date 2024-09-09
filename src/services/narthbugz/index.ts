@@ -33,6 +33,7 @@ export type Project = {
   Status: {
     value: string;
   };
+  Snoozed: boolean;
 };
 
 export async function getProjects(): Promise<Project[]> {

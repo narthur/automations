@@ -13,24 +13,35 @@ describe("ppdReport", () => {
         Status: {
           value: "Proposal",
         },
+        Snoozed: false,
       },
       {
         Name: "Project 1",
         Status: {
           value: "Execution",
         },
+        Snoozed: false,
       },
       {
         Name: "Project 2",
         Status: {
           value: "Complete",
         },
+        Snoozed: false,
       },
       {
         Name: "Project 3",
         Status: {
           value: "Never",
         },
+        Snoozed: false,
+      },
+      {
+        Name: "Project 4",
+        Status: {
+          value: "Proposal",
+        },
+        Snoozed: true,
       },
     ]);
   });
@@ -57,5 +68,11 @@ describe("ppdReport", () => {
     const output = await run();
 
     expect(output).not.toContain("Project 2");
+  });
+
+  it('does not output "Snoozed" projects', async () => {
+    const output = await run();
+
+    expect(output).not.toContain("Project 4");
   });
 });
