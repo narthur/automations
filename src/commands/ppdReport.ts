@@ -7,8 +7,13 @@ const command: Command = cmd("report", async () => {
   const pending = projects.filter((p) => {
     return p.Status.value !== "Never" && p.Status.value !== "Complete";
   });
+  const groups = Object.groupBy(pending, (p) => p.Status.value);
 
-  return pending.map((p) => `${p.Name} - ${p.Status.value}`).join("\n");
+  return Object.entries(groups)
+    .map(([status, projects]) => {
+      return `${status}:\n${projects?.map((p) => `  - ${p.Name}`).join("\n")}`;
+    })
+    .join("\n\n");
 });
 
 export default command;

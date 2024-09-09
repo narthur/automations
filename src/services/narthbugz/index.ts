@@ -28,7 +28,7 @@ const client = axios.create({
 | /users/:id/entries     | ✅  |  ?   |   -    |  -  |
 */
 
-type Project = {
+export type Project = {
   Name: string;
   Status: {
     value: string;
