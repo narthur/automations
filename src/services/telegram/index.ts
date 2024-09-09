@@ -63,7 +63,10 @@ async function api<T>(p: string, o: AxiosRequestConfig = {}): Promise<T> {
   const t = env("TELEGRAM_API_TOKEN");
   const u = `https://api.telegram.org/bot${t}/${p}`;
 
-  const r = await axios<TelegramResponse<T>>(u, o).catch((err) => {
+  const r = await axios<TelegramResponse<T>>(u, {
+    validateStatus: () => true, // Don't throw on non-2xx status codes
+    ...o,
+  }).catch((err) => {
     console.error("Error while calling Telegram API", {
       endpoint: p,
       url: u,
