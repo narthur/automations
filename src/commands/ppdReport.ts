@@ -12,10 +12,11 @@ type Column = {
 const columns: Column[] = [
   {
     key: "Name",
-    format: (v) => String(v).substring(0, 15),
+    format: (v) => String(v).substring(0, 10),
   },
   {
     key: "Last Tracked",
+    head: "Tracked",
     format: (v) => (v ? new Date(String(v)).toLocaleDateString() : "-"),
   },
   {
@@ -38,6 +39,7 @@ const columns: Column[] = [
   {
     key: "Remaining",
     head: "Left",
+    format: (v) => String(Number(v)),
   },
   {
     key: "Price",
