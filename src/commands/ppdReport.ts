@@ -25,7 +25,7 @@ const command: Command = cmd("report", async () => {
 
   return Object.entries(groups)
     .map(([status, projects]) => {
-      const d = projects?.map((p) => columns.map((c) => p[c]));
+      const d = projects?.map((p) => columns.map((c) => p[c] || "-"));
       const t = d && table([columns, ...d]);
       return `${status}:\n<pre>${t}</pre>`;
     })

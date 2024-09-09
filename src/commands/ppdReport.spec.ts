@@ -87,4 +87,14 @@ describe("ppdReport", () => {
 
     expect(output).not.toContain("Project 4");
   });
+
+  it("supports null values", async () => {
+    vi.mocked(getProjects).mockResolvedValue([
+      p({
+        "Last Tracked": null,
+      }),
+    ]);
+
+    await run();
+  });
 });

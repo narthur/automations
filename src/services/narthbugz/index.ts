@@ -34,7 +34,7 @@ export type Project = {
     value: string;
   };
   Snoozed: boolean;
-  "Last Tracked": string;
+  "Last Tracked": string | null;
   "Billable Rate": number;
   "Effective Rate": number;
   Estimated: number;
