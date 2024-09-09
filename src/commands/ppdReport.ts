@@ -11,6 +11,7 @@ type Column = {
 const columns: Column[] = [
   {
     key: "Name",
+    format: (v) => String(v).substring(0, 15),
   },
   {
     key: "Last Tracked",
