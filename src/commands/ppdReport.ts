@@ -27,7 +27,7 @@ const command: Command = cmd("report", async () => {
     .map(([status, projects]) => {
       const d = projects?.map((p) => columns.map((c) => p[c] || "-"));
       const t = d && table([columns, ...d]);
-      return `${status}:\n<pre>${t}</pre>`;
+      return `${status}:\n\`\`\`${t}\`\`\``;
     })
     .join("\n\n");
 });
