@@ -5,6 +5,7 @@ import table from "text-table";
 
 type Column = {
   key: keyof Project;
+  head?: string;
   format?: (value: unknown) => string;
 };
 
@@ -19,27 +20,32 @@ const columns: Column[] = [
   },
   {
     key: "Billable Rate",
-    format: (v) => `$${v}`,
+    head: "Rate",
+    format: (v) => `$${Number(v)}`,
   },
   {
     key: "Effective Rate",
-    format: (v) => `$${v}`,
+    head: "Eff Rate",
+    format: (v) => `$${Number(v)}`,
   },
   {
     key: "Estimated",
+    head: "Est",
   },
   {
     key: "Used",
   },
   {
     key: "Remaining",
+    head: "Left",
   },
   {
     key: "Price",
-    format: (v) => `$${v}`,
+    format: (v) => `$${Number(v)}`,
   },
   {
     key: "Task Count",
+    head: "Tasks",
   },
 ];
 
@@ -62,7 +68,7 @@ const command: Command = cmd("report", async () => {
           return v;
         })
       );
-      const h = columns.map((c) => c.key);
+      const h = columns.map((c) => c.head ?? c.key);
       const t = d && table([h, ...d]);
       return `${status}:\n\n\`\`\`\n${t}\n\`\`\``;
     })
