@@ -34,6 +34,14 @@ export type Project = {
     value: string;
   };
   Snoozed: boolean;
+  "Last Tracked": string;
+  "Billable Rate": number;
+  "Effective Rate": number;
+  Estimated: number;
+  Used: number;
+  Remaining: number;
+  Price: number;
+  "Task Count": number;
 };
 
 export async function getProjects(): Promise<Project[]> {

@@ -1,48 +1,60 @@
-import { getProjects } from "src/services/narthbugz/index.js";
+import { getProjects, type Project } from "src/services/narthbugz/index.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import ppdReport from "./ppdReport.js";
 
 const run = () => ppdReport.action("report", []);
 
+const p = (d: Partial<Project>): Project => {
+  return {
+    Name: "Project",
+    Status: {
+      value: "Proposal",
+    },
+    Snoozed: false,
+    "Last Tracked": "2021-01-01",
+    "Billable Rate": 0,
+    "Effective Rate": 0,
+    Estimated: 0,
+    Used: 0,
+    Remaining: 0,
+    Price: 0,
+    "Task Count": 0,
+    ...d,
+  };
+};
+
 describe("ppdReport", () => {
   beforeEach(() => {
     vi.mocked(getProjects).mockResolvedValue([
-      {
+      p({
         Name: "Project 0",
         Status: {
           value: "Proposal",
         },
-        Snoozed: false,
-      },
-      {
+      }),
+      p({
         Name: "Project 1",
         Status: {
           value: "Execution",
         },
-        Snoozed: false,
-      },
-      {
+      }),
+      p({
         Name: "Project 2",
         Status: {
           value: "Complete",
         },
-        Snoozed: false,
-      },
-      {
+      }),
+      p({
         Name: "Project 3",
         Status: {
           value: "Never",
         },
-        Snoozed: false,
-      },
-      {
+      }),
+      p({
         Name: "Project 4",
-        Status: {
-          value: "Proposal",
-        },
         Snoozed: true,
-      },
+      }),
     ]);
   });
 

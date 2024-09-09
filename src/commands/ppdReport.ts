@@ -1,6 +1,7 @@
-import { getProjects } from "src/services/narthbugz/index.js";
+import { getProjects, type Project } from "src/services/narthbugz/index.js";
 
 import cmd, { type Command } from "../lib/cmd.js";
+import table from "text-table";
 
 const command: Command = cmd("report", async () => {
   const projects = await getProjects();
@@ -10,10 +11,23 @@ const command: Command = cmd("report", async () => {
     );
   });
   const groups = Object.groupBy(pending, (p) => p.Status.value);
+  const columns: (keyof Project)[] = [
+    "Name",
+    "Last Tracked",
+    "Billable Rate",
+    "Effective Rate",
+    "Estimated",
+    "Used",
+    "Remaining",
+    "Price",
+    "Task Count",
+  ];
 
   return Object.entries(groups)
     .map(([status, projects]) => {
-      return `${status}:\n${projects?.map((p) => `  - ${p.Name}`).join("\n")}`;
+      const d = projects?.map((p) => columns.map((c) => p[c]));
+      const t = d && table([columns, ...d]);
+      return `${status}:\n<pre>${t}</pre>`;
     })
     .join("\n\n");
 });
