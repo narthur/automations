@@ -1,7 +1,11 @@
+import { getProjects } from "src/services/narthbugz/index.js";
+
 import cmd, { type Command } from "../lib/cmd.js";
 
 const command: Command = cmd("report", async () => {
-  return Promise.resolve("PPD report not implemented");
+  const projects = await getProjects();
+
+  return JSON.stringify(projects);
 });
 
 export default command;
