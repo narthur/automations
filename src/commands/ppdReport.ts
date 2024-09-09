@@ -32,6 +32,7 @@ const columns: Column[] = [
   {
     key: "Estimated",
     head: "Est",
+    format: (v) => String(Number(v)),
   },
   {
     key: "Used",
