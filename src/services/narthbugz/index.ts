@@ -28,38 +28,8 @@ const client = axios.create({
 | /users/:id/entries     | ✅  |  ?   |   -    |  -  |
 */
 
-export function getProjects() {
-  return client.get("/projects");
-}
+export async function getProjects(): Promise<unknown> {
+  const repsonse = await client.get("/projects");
 
-export function getTasks() {
-  return client.get("/tasks");
-}
-
-export function getEntries() {
-  return client.get("/entries");
-}
-
-export function getEntriesForTask(taskId: string) {
-  return client.get(`/tasks/${taskId}/entries`);
-}
-
-export function getEntriesForProject(projectId: string) {
-  return client.get(`/projects/${projectId}/entries`);
-}
-
-export function getForecastForProject(projectId: string) {
-  return client.get(`/projects/${projectId}/forecast`);
-}
-
-export function getTasksForProject(projectId: string) {
-  return client.get(`/projects/${projectId}/tasks`);
-}
-
-export function getProjectsForClient(clientId: string) {
-  return client.get(`/clients/${clientId}/projects`);
-}
-
-export function getEntriesForUser(userId: string) {
-  return client.get(`/users/${userId}/entries`);
+  return repsonse.data as unknown;
 }
