@@ -53,7 +53,14 @@ const command: Command = cmd("report", async () => {
 
   return Object.entries(groups)
     .map(([status, projects]) => {
-      const d = projects?.map((p) => columns.map((c) => p[c.key] || "-"));
+      const d = projects?.map((p) =>
+        columns.map((c) => {
+          const v = p[c.key];
+          if (!v) return "-";
+          if (c.format) return c.format(v);
+          return v;
+        })
+      );
       const h = columns.map((c) => c.key);
       const t = d && table([h, ...d]);
       return `${status}:\n\n\`\`\`\n${t}\n\`\`\``;
