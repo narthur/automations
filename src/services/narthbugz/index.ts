@@ -28,8 +28,15 @@ const client = axios.create({
 | /users/:id/entries     | ✅  |  ?   |   -    |  -  |
 */
 
-export async function getProjects(): Promise<unknown> {
+type Project = {
+  Name: string;
+  Status: {
+    value: string;
+  };
+};
+
+export async function getProjects(): Promise<Project[]> {
   const repsonse = await client.get("/projects");
 
-  return repsonse.data as unknown;
+  return repsonse.data as Project[];
 }
