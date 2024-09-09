@@ -5,6 +5,7 @@ import waitForExpect from "wait-for-expect";
 
 import { getPendingTasks } from "../services/taskratchet.js";
 import runCommand from "./runCommand.js";
+import { addMessage } from "src/services/openai/addMessage.js";
 
 describe("runCommand", () => {
   beforeEach(() => {
@@ -61,5 +62,11 @@ describe("runCommand", () => {
     await waitForExpect(() => {
       expect(sendMessage).toBeCalled();
     });
+  });
+
+  it("adds messages to gpt thread", async () => {
+    await runCommand("/time");
+
+    expect(addMessage).toBeCalled();
   });
 });

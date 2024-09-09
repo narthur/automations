@@ -22,6 +22,7 @@ vi.mock("./src/services/mailgun");
 vi.mock("./src/services/narthbugz");
 vi.mock("./src/services/notion");
 vi.mock("./src/services/openai");
+vi.mock("./src/services/openai/addMessage");
 vi.mock("./src/services/openai/getGptResponse");
 vi.mock("./src/services/taskratchet");
 vi.mock("./src/services/telegram");

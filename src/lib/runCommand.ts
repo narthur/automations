@@ -15,6 +15,7 @@ import time from "../commands/time.js";
 import today from "../commands/today.js";
 import uptime from "../commands/uptime.js";
 import { type Command } from "./cmd.js";
+import { addMessage } from "src/services/openai/addMessage.js";
 
 const commands: Command[] = [
   alarm,
@@ -42,5 +43,11 @@ export default async function runCommand(
     .find((c) => c.match.test(message));
   if (!m) return false;
   const r = await m.action(message, commands);
-  return [r].flat();
+  const l = [r].flat();
+
+  await Promise.all(
+    l.map((m) => addMessage({ role: "assistant", content: m }))
+  );
+
+  return l;
 }
