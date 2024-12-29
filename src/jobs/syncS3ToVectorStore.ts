@@ -1,4 +1,8 @@
-import { GetObjectCommand, ListObjectsV2Command, S3Client } from "@aws-sdk/client-s3";
+import {
+  GetObjectCommand,
+  ListObjectsV2Command,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import { toFile } from "openai/uploads.mjs";
 
 import env from "../lib/env.js";
@@ -21,7 +25,7 @@ async function downloadS3File(client: S3Client, bucket: string, key: string) {
   return toFile(buffer, key);
 }
 
-async function* batchFiles(files: { Key: string }[], batchSize: number) {
+async function* batchFiles(files: { Key?: string }[], batchSize: number) {
   for (let i = 0; i < files.length; i += batchSize) {
     yield files.slice(i, i + batchSize);
   }
@@ -29,10 +33,10 @@ async function* batchFiles(files: { Key: string }[], batchSize: number) {
 
 export async function syncS3ToVectorStore() {
   console.log("Starting S3 to vector store sync");
-  
+
   const bucketName = env("S3_BUCKET_NAME");
   const storeName = env("OPENAI_VECTOR_STORE_NAME");
-  
+
   if (!bucketName || !storeName) {
     throw new Error("Missing required environment variables");
   }
@@ -46,7 +50,7 @@ export async function syncS3ToVectorStore() {
     region: env("S3_REGION") || "us-west-000",
     forcePathStyle: true,
   });
-  
+
   // List all objects in the bucket
   const listCommand = new ListObjectsV2Command({
     Bucket: bucketName,
@@ -64,8 +68,12 @@ export async function syncS3ToVectorStore() {
   let batchNumber = 0;
   for await (const batch of batchFiles(response.Contents, BATCH_SIZE)) {
     batchNumber++;
-    console.log(`Processing batch ${batchNumber}/${Math.ceil(response.Contents.length / BATCH_SIZE)}`);
-    
+    console.log(
+      `Processing batch ${batchNumber}/${Math.ceil(
+        response.Contents.length / BATCH_SIZE
+      )}`
+    );
+
     // Download batch of files
     const files = await Promise.all(
       batch.map(async (object) => {
@@ -78,9 +86,11 @@ export async function syncS3ToVectorStore() {
 
     // Update vector store with this batch
     await replaceVectorStore(storeName, files);
-    
+
     console.log(`Completed batch ${batchNumber}`);
   }
-  
-  console.log(`Successfully synced ${response.Contents.length} files to vector store`);
+
+  console.log(
+    `Successfully synced ${response.Contents.length} files to vector store`
+  );
 }
