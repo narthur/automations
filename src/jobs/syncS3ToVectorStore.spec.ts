@@ -138,7 +138,7 @@ describe("syncS3ToVectorStore", () => {
     );
   });
 
-  it.only("should retry failed uploads", async () => {
+  it("should retry failed uploads", async () => {
     // Mock S3Service
     const s3Mock = {
       listFiles: vi.fn().mockResolvedValue(["file1.md"]),
@@ -157,17 +157,22 @@ describe("syncS3ToVectorStore", () => {
       .mockRejectedValueOnce(new Error("Upload failed"))
       .mockResolvedValueOnce(undefined);
 
-    // Run sync and wait for completion
-    await syncS3ToVectorStore();
+    // Start sync
+    const syncPromise = syncS3ToVectorStore();
 
-    // Use vi.waitFor to wait for the condition to be met
-    await vi.waitFor(() => {
-      expect(replaceVectorStoreMock).toHaveBeenCalledTimes(3);
-      expect(replaceVectorStoreMock).toHaveBeenCalledWith(
-        "test-store",
-        expect.arrayContaining([expect.any(Object)])
-      );
-    });
+    // Advance timers for each retry
+    await vi.advanceTimersByTimeAsync(100);
+    await vi.advanceTimersByTimeAsync(100);
+
+    // Wait for sync to complete
+    await syncPromise;
+
+    // Verify all retries occurred
+    expect(replaceVectorStoreMock).toHaveBeenCalledTimes(3);
+    expect(replaceVectorStoreMock).toHaveBeenCalledWith(
+      "test-store",
+      expect.arrayContaining([expect.any(Object)])
+    );
   });
 
   it("should track sync duration and statistics", async () => {
@@ -187,18 +192,27 @@ describe("syncS3ToVectorStore", () => {
     // Mock replaceVectorStore to succeed immediately
     vi.mocked(replaceVectorStore).mockResolvedValueOnce(undefined);
 
-    // Run sync and wait for completion
-    await syncS3ToVectorStore();
+    // Start sync
+    const syncPromise = syncS3ToVectorStore();
 
-    // Use vi.waitFor to wait for the condition to be met
-    await vi.waitFor(() => {
-      const completionLog = consoleSpy.mock.calls.find((call) =>
-        call[0]?.includes?.("Sync completed in")
-      );
-      expect(completionLog).toBeDefined();
-      expect(completionLog?.[0]).toContain("Successfully processed: 1 files");
-      expect(completionLog?.[0]).toContain("Skipped: 0 files");
-      expect(completionLog?.[0]).toContain("Errors: 0 files");
-    });
+    // Advance timers to complete any timeouts
+    await vi.advanceTimersByTimeAsync(100);
+
+    // Wait for sync to complete
+    await syncPromise;
+
+    // Wait for all console output
+    await vi.advanceTimersByTimeAsync(100);
+
+    // Get all logs after completion
+    const allLogs = consoleSpy.mock.calls
+      .map((call) => JSON.stringify(call))
+      .filter((log) => typeof log === "string");
+    const logText = allLogs.join("\n");
+
+    // Verify statistics were logged
+    expect(logText).toContain("Successfully processed: 1 files");
+    expect(logText).toContain("Skipped: 0 files");
+    expect(logText).toContain("Errors: 0 files");
   });
 });
