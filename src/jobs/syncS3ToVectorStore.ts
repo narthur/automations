@@ -1,7 +1,8 @@
 import { GetObjectCommand, ListObjectsV2Command, S3Client } from "@aws-sdk/client-s3";
 import { toFile } from "openai/uploads.mjs";
-import replaceVectorStore from "../services/openai/replaceVectorStore.js";
+
 import env from "../lib/env.js";
+import replaceVectorStore from "../services/openai/replaceVectorStore.js";
 
 async function downloadS3File(client: S3Client, bucket: string, key: string) {
   const command = new GetObjectCommand({

@@ -1,12 +1,13 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   GetObjectCommand,
   ListObjectsV2Command,
   S3Client,
 } from "@aws-sdk/client-s3";
-import { syncS3ToVectorStore } from "./syncS3ToVectorStore";
-import replaceVectorStore from "../services/openai/replaceVectorStore";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import env from "../lib/env";
+import replaceVectorStore from "../services/openai/replaceVectorStore";
+import { syncS3ToVectorStore } from "./syncS3ToVectorStore";
 
 // Mock environment variables
 vi.mock("../lib/env", () => ({
