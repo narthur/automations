@@ -4,6 +4,8 @@ import { toFile } from "openai/uploads.mjs";
 import env from "../lib/env.js";
 import replaceVectorStore from "../services/openai/replaceVectorStore.js";
 
+const BATCH_SIZE = 20; // OpenAI's recommended batch size
+
 async function downloadS3File(client: S3Client, bucket: string, key: string) {
   const command = new GetObjectCommand({
     Bucket: bucket,
@@ -17,6 +19,12 @@ async function downloadS3File(client: S3Client, bucket: string, key: string) {
 
   const buffer = await response.Body.transformToByteArray();
   return toFile(buffer, key);
+}
+
+async function* batchFiles(files: { Key: string }[], batchSize: number) {
+  for (let i = 0; i < files.length; i += batchSize) {
+    yield files.slice(i, i + batchSize);
+  }
 }
 
 export async function syncS3ToVectorStore() {
@@ -36,7 +44,7 @@ export async function syncS3ToVectorStore() {
       secretAccessKey: env("S3_SECRET_ACCESS_KEY") || "",
     },
     region: env("S3_REGION") || "us-west-000",
-    forcePathStyle: true, // Required for B2
+    forcePathStyle: true,
   });
   
   // List all objects in the bucket
@@ -50,18 +58,29 @@ export async function syncS3ToVectorStore() {
     return;
   }
 
-  // Download all files
-  const files = await Promise.all(
-    response.Contents.map(async (object) => {
-      if (!object.Key) {
-        throw new Error("Object key is undefined");
-      }
-      return downloadS3File(s3Client, bucketName, object.Key);
-    })
-  );
+  console.log(`Found ${response.Contents.length} files to sync`);
 
-  // Replace vector store with new files
-  await replaceVectorStore(storeName, files);
+  // Process files in batches
+  let batchNumber = 0;
+  for await (const batch of batchFiles(response.Contents, BATCH_SIZE)) {
+    batchNumber++;
+    console.log(`Processing batch ${batchNumber}/${Math.ceil(response.Contents.length / BATCH_SIZE)}`);
+    
+    // Download batch of files
+    const files = await Promise.all(
+      batch.map(async (object) => {
+        if (!object.Key) {
+          throw new Error("Object key is undefined");
+        }
+        return downloadS3File(s3Client, bucketName, object.Key);
+      })
+    );
+
+    // Update vector store with this batch
+    await replaceVectorStore(storeName, files);
+    
+    console.log(`Completed batch ${batchNumber}`);
+  }
   
-  console.log(`Successfully synced ${files.length} files to vector store`);
+  console.log(`Successfully synced ${response.Contents.length} files to vector store`);
 }

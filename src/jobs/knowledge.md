@@ -12,9 +12,14 @@ Syncs files from Backblaze B2 (using S3 compatibility) to OpenAI vector store.
 - **Purpose**: Keeps OpenAI's vector store in sync with B2 storage
 - **Process**:
   1. Lists all files in configured B2 bucket
-  2. Downloads each file
-  3. Replaces entire vector store with new files
-  4. Preserves file names from B2 in vector store
+  2. Processes files in batches of 20 (OpenAI's recommended batch size)
+  3. Downloads each batch of files
+  4. Updates vector store with each batch
+  5. Preserves file names from B2 in vector store
+- **Performance**:
+  - Handles large numbers of files through batching
+  - Memory efficient by processing files in chunks
+  - Progress logging for monitoring long-running syncs
 
 Required environment variables:
 - `S3_BUCKET_NAME`: B2 bucket name

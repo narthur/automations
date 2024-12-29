@@ -1,13 +1,12 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   GetObjectCommand,
   ListObjectsV2Command,
   S3Client,
 } from "@aws-sdk/client-s3";
-import { beforeEach, describe, expect, it, vi } from "vitest";
-
-import env from "../lib/env";
-import replaceVectorStore from "../services/openai/replaceVectorStore";
 import { syncS3ToVectorStore } from "./syncS3ToVectorStore";
+import replaceVectorStore from "../services/openai/replaceVectorStore";
+import env from "../lib/env";
 
 // Mock environment variables
 vi.mock("../lib/env", () => ({
@@ -46,6 +45,19 @@ describe("syncS3ToVectorStore", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+
+    // Reset env mock to default values
+    vi.mocked(env).mockImplementation((key: string) => {
+      const vars: Record<string, string> = {
+        S3_BUCKET_NAME: "test-bucket",
+        S3_ENDPOINT: "test.endpoint.com",
+        S3_ACCESS_KEY_ID: "test-key",
+        S3_SECRET_ACCESS_KEY: "test-secret",
+        S3_REGION: "test-region",
+        OPENAI_VECTOR_STORE_NAME: "test-store",
+      };
+      return vars[key];
+    });
 
     // Mock successful list response
     vi.mocked(S3Client).mockImplementation(
@@ -108,7 +120,7 @@ describe("syncS3ToVectorStore", () => {
 
   it("should handle empty bucket", async () => {
     // Mock empty bucket response
-    (S3Client as unknown as ReturnType<typeof vi.fn>).mockImplementation(
+    vi.mocked(S3Client).mockImplementation(
       () => ({
         send: vi.fn().mockResolvedValue({ Contents: null }),
       })
@@ -126,6 +138,53 @@ describe("syncS3ToVectorStore", () => {
 
     await expect(syncS3ToVectorStore()).rejects.toThrow(
       "Missing required environment variables"
+    );
+  });
+
+  it("should process files in batches", async () => {
+    // Create mock files array with more than one batch
+    const largeFileSet = Array.from({ length: 25 }, (_, i) => ({
+      Key: `file${i + 1}.txt`,
+    }));
+
+    // Mock list response with large file set
+    vi.mocked(S3Client).mockImplementation(
+      () =>
+        ({
+          send: vi.fn().mockImplementation((command) => {
+            if (command instanceof ListObjectsV2Command) {
+              return Promise.resolve({ Contents: largeFileSet });
+            }
+            if (command instanceof GetObjectCommand) {
+              return Promise.resolve({
+                Body: {
+                  transformToByteArray: () =>
+                    Promise.resolve(new Uint8Array([1, 2, 3])),
+                },
+              });
+            }
+            throw new Error("Unexpected command");
+          }),
+        } as any)
+    );
+
+    await syncS3ToVectorStore();
+
+    // Should have called replaceVectorStore twice (20 files + 5 files)
+    expect(replaceVectorStore).toHaveBeenCalledTimes(2);
+
+    // First batch should have 20 files
+    expect(replaceVectorStore).toHaveBeenNthCalledWith(
+      1,
+      "test-store",
+      expect.arrayContaining(Array(20).fill(expect.any(Object)))
+    );
+
+    // Second batch should have 5 files
+    expect(replaceVectorStore).toHaveBeenNthCalledWith(
+      2,
+      "test-store",
+      expect.arrayContaining(Array(5).fill(expect.any(Object)))
     );
   });
 });
