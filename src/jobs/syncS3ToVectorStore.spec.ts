@@ -121,9 +121,10 @@ describe("syncS3ToVectorStore", () => {
   it("should handle empty bucket", async () => {
     // Mock empty bucket response
     vi.mocked(S3Client).mockImplementation(
-      () => ({
-        send: vi.fn().mockResolvedValue({ Contents: null }),
-      })
+      () =>
+        ({
+          send: vi.fn().mockResolvedValue({ Contents: null }),
+        } as any)
     );
 
     await syncS3ToVectorStore();
