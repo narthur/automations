@@ -17,6 +17,10 @@ Syncs files from Backblaze B2 (using S3 compatibility) to OpenAI vector store.
   4. Downloads each batch of files
   5. Updates vector store with each batch
   6. Preserves file names from B2 in vector store
+- **Error Handling**:
+  - Retries failed uploads up to 3 times with 100ms delay between attempts
+  - Skips files larger than 10MB
+  - Tracks statistics for successful, skipped, and failed files
 - **Performance**:
   - Handles large numbers of files through batching
   - Memory efficient by processing files in chunks
