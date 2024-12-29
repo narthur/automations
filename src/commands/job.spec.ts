@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
-import jobCommand from "./job";
+
 import { syncS3ToVectorStore } from "../jobs/syncS3ToVectorStore";
+import jobCommand from "./job";
 
 vi.mock("../jobs/syncS3ToVectorStore", () => ({
   syncS3ToVectorStore: vi.fn(),

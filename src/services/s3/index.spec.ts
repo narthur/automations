@@ -1,5 +1,6 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import { S3Client } from "@aws-sdk/client-s3";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import { S3Service } from "./index";
 
 vi.mock("@aws-sdk/client-s3", () => ({

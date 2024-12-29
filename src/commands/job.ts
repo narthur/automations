@@ -1,5 +1,5 @@
-import cmd, { type Command } from "../lib/cmd.js";
 import { syncS3ToVectorStore } from "../jobs/syncS3ToVectorStore.js";
+import cmd from "../lib/cmd.js";
 
 const jobs = {
   "sync-s3": {
@@ -29,9 +29,7 @@ async function jobHandler(message: string): Promise<string[]> {
   }
 
   if (!isValidJobId(jobId)) {
-    return [
-      `Invalid job ID: ${jobId}\n\nAvailable jobs:\n${getJobList()}`,
-    ];
+    return [`Invalid job ID: ${jobId}\n\nAvailable jobs:\n${getJobList()}`];
   }
 
   try {
@@ -39,13 +37,12 @@ async function jobHandler(message: string): Promise<string[]> {
     return [`Successfully ran job: ${jobs[jobId].name}`];
   } catch (error) {
     console.error(`Failed to run job ${jobId}:`, error);
-    return [`Failed to run job ${jobId}: ${error instanceof Error ? error.message : "Unknown error"}`];
+    return [
+      `Failed to run job ${jobId}: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`,
+    ];
   }
 }
 
-const jobCommand: Command = {
-  match: /^\/job/,
-  action: jobHandler
-};
-
-export default jobCommand;
+export default cmd("job", jobHandler);

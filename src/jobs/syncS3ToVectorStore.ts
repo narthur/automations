@@ -1,14 +1,14 @@
 import { toFile, type Uploadable } from "openai/uploads.mjs";
 
 import env from "../lib/env.js";
-import { S3Service } from "../services/s3/index.js";
 import replaceVectorStore from "../services/openai/replaceVectorStore.js";
+import { S3Service } from "../services/s3/index.js";
 
 const BATCH_SIZE = 20; // OpenAI's recommended batch size
 const MAX_RETRIES = 3;
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB limit
 
-async function* batchArray<T>(items: T[], batchSize: number) {
+function* batchArray<T>(items: T[], batchSize: number) {
   for (let i = 0; i < items.length; i += batchSize) {
     yield items.slice(i, i + batchSize);
   }
@@ -28,7 +28,9 @@ async function processBatchWithRetry(
       lastError = error as Error;
       if (attempt < retries) {
         console.warn(
-          `Batch upload failed, retrying... (${retries - attempt} attempts left)`
+          `Batch upload failed, retrying... (${
+            retries - attempt
+          } attempts left)`
         );
         await new Promise((resolve) => setTimeout(resolve, 100)); // Reduced wait time for tests
       }

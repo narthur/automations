@@ -1,8 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+import env from "../lib/env";
+import replaceVectorStore from "../services/openai/replaceVectorStore";
 import { S3Service } from "../services/s3/index.js";
 import { syncS3ToVectorStore } from "./syncS3ToVectorStore";
-import replaceVectorStore from "../services/openai/replaceVectorStore";
-import env from "../lib/env";
 
 vi.mock("../services/s3/index.js", () => ({
   S3Service: vi.fn(),

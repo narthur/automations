@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
-import { POST } from "../jobs/sync-s3-to-vector-store";
+
 import { syncS3ToVectorStore } from "../../jobs/syncS3ToVectorStore";
 import env from "../../lib/env";
+import { POST } from "../jobs/sync-s3-to-vector-store";
 
 vi.mock("../../jobs/syncS3ToVectorStore", () => ({
   syncS3ToVectorStore: vi.fn(),
