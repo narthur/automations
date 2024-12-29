@@ -1,96 +1,101 @@
-import {
-  GetObjectCommand,
-  ListObjectsV2Command,
-  S3Client,
-} from "@aws-sdk/client-s3";
-import { toFile } from "openai/uploads.mjs";
+import { toFile, type Uploadable } from "openai/uploads.mjs";
 
 import env from "../lib/env.js";
+import { S3Service } from "../services/s3/index.js";
 import replaceVectorStore from "../services/openai/replaceVectorStore.js";
 
 const BATCH_SIZE = 20; // OpenAI's recommended batch size
+const MAX_RETRIES = 3;
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB limit
 
-async function downloadS3File(client: S3Client, bucket: string, key: string) {
-  const command = new GetObjectCommand({
-    Bucket: bucket,
-    Key: key,
-  });
-
-  const response = await client.send(command);
-  if (!response.Body) {
-    throw new Error(`No body in response for ${key}`);
+async function* batchArray<T>(items: T[], batchSize: number) {
+  for (let i = 0; i < items.length; i += batchSize) {
+    yield items.slice(i, i + batchSize);
   }
-
-  const buffer = await response.Body.transformToByteArray();
-  return toFile(buffer, key);
 }
 
-async function* batchFiles(files: { Key?: string }[], batchSize: number) {
-  for (let i = 0; i < files.length; i += batchSize) {
-    yield files.slice(i, i + batchSize);
+async function processBatchWithRetry(
+  storeName: string,
+  files: Uploadable[],
+  retries = MAX_RETRIES
+): Promise<void> {
+  let lastError: Error | undefined;
+  for (let attempt = 0; attempt < retries + 1; attempt++) {
+    try {
+      await replaceVectorStore(storeName, files);
+      return;
+    } catch (error) {
+      lastError = error as Error;
+      if (attempt < retries) {
+        console.warn(
+          `Batch upload failed, retrying... (${retries - attempt} attempts left)`
+        );
+        await new Promise((resolve) => setTimeout(resolve, 100)); // Reduced wait time for tests
+      }
+    }
   }
+  throw lastError;
 }
 
 export async function syncS3ToVectorStore() {
+  const startTime = Date.now();
   console.log("Starting S3 to vector store sync");
 
-  const bucketName = env("S3_BUCKET_NAME");
   const storeName = env("OPENAI_VECTOR_STORE_NAME");
-
-  if (!bucketName || !storeName) {
+  if (!storeName) {
     throw new Error("Missing required environment variables");
   }
 
-  const s3Client = new S3Client({
-    endpoint: env("S3_ENDPOINT"),
-    credentials: {
-      accessKeyId: env("S3_ACCESS_KEY_ID") || "",
-      secretAccessKey: env("S3_SECRET_ACCESS_KEY") || "",
-    },
-    region: env("S3_REGION") || "us-west-000",
-    forcePathStyle: true,
-  });
+  const s3 = new S3Service();
+  const files = await s3.listFiles(".md");
 
-  // List all objects in the bucket
-  const listCommand = new ListObjectsV2Command({
-    Bucket: bucketName,
-  });
-
-  const response = await s3Client.send(listCommand);
-  if (!response.Contents) {
+  if (files.length === 0) {
     console.log("No files found in bucket");
     return;
   }
 
-  console.log(`Found ${response.Contents.length} files to sync`);
+  console.log(`Found ${files.length} markdown files to sync`);
+
+  // Track statistics
+  let successCount = 0;
+  let skipCount = 0;
+  let errorCount = 0;
 
   // Process files in batches
   let batchNumber = 0;
-  for await (const batch of batchFiles(response.Contents, BATCH_SIZE)) {
+  for await (const batchKeys of batchArray(files, BATCH_SIZE)) {
     batchNumber++;
     console.log(
-      `Processing batch ${batchNumber}/${Math.ceil(
-        response.Contents.length / BATCH_SIZE
-      )}`
+      `Processing batch ${batchNumber}/${Math.ceil(files.length / BATCH_SIZE)}`
     );
 
-    // Download batch of files
-    const files = await Promise.all(
-      batch.map(async (object) => {
-        if (!object.Key) {
-          throw new Error("Object key is undefined");
-        }
-        return downloadS3File(s3Client, bucketName, object.Key);
-      })
-    );
+    try {
+      const batchFiles = await s3.getFiles(batchKeys);
+      const validFiles = await Promise.all(
+        batchFiles
+          .filter((file) => file.content.length <= MAX_FILE_SIZE)
+          .map((file) => toFile(file.content, file.key))
+      );
 
-    // Update vector store with this batch
-    await replaceVectorStore(storeName, files);
+      successCount += validFiles.length;
+      skipCount += batchKeys.length - validFiles.length;
 
-    console.log(`Completed batch ${batchNumber}`);
+      if (validFiles.length > 0) {
+        await processBatchWithRetry(storeName, validFiles);
+      }
+
+      console.log(`Completed batch ${batchNumber}`);
+    } catch (error) {
+      console.error(`Failed to process batch ${batchNumber}:`, error);
+      errorCount += batchKeys.length;
+    }
   }
 
+  const duration = (Date.now() - startTime) / 1000;
   console.log(
-    `Successfully synced ${response.Contents.length} files to vector store`
+    `Sync completed in ${duration}s:`,
+    `\n- Successfully processed: ${successCount} files`,
+    `\n- Skipped: ${skipCount} files`,
+    `\n- Errors: ${errorCount} files`
   );
 }

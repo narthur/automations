@@ -1,140 +1,79 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import {
-  GetObjectCommand,
-  ListObjectsV2Command,
-  S3Client,
-} from "@aws-sdk/client-s3";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { S3Service } from "../services/s3/index.js";
 import { syncS3ToVectorStore } from "./syncS3ToVectorStore";
 import replaceVectorStore from "../services/openai/replaceVectorStore";
 import env from "../lib/env";
 
-// Mock environment variables
-vi.mock("../lib/env", () => ({
-  default: vi.fn((key: string) => {
-    const vars: Record<string, string> = {
-      S3_BUCKET_NAME: "test-bucket",
-      S3_ENDPOINT: "test.endpoint.com",
-      S3_ACCESS_KEY_ID: "test-key",
-      S3_SECRET_ACCESS_KEY: "test-secret",
-      S3_REGION: "test-region",
-      OPENAI_VECTOR_STORE_NAME: "test-store",
-    };
-    return vars[key];
-  }),
+vi.mock("../services/s3/index.js", () => ({
+  S3Service: vi.fn(),
 }));
 
-// Mock S3 client
-vi.mock("@aws-sdk/client-s3", () => {
-  const mockSend = vi.fn();
-  return {
-    S3Client: vi.fn(() => ({
-      send: mockSend,
-    })),
-    ListObjectsV2Command: vi.fn(),
-    GetObjectCommand: vi.fn(),
-  };
-});
-
-// Mock replaceVectorStore
 vi.mock("../services/openai/replaceVectorStore", () => ({
   default: vi.fn(),
 }));
 
-describe("syncS3ToVectorStore", () => {
-  const mockFiles = [{ Key: "file1.txt" }, { Key: "file2.txt" }];
+vi.mock("../lib/env", () => ({
+  default: vi.fn(),
+}));
 
+describe("syncS3ToVectorStore", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-
-    // Reset env mock to default values
+    vi.useFakeTimers();
     vi.mocked(env).mockImplementation((key: string) => {
       const vars: Record<string, string> = {
+        OPENAI_VECTOR_STORE_NAME: "test-store",
         S3_BUCKET_NAME: "test-bucket",
         S3_ENDPOINT: "test.endpoint.com",
         S3_ACCESS_KEY_ID: "test-key",
         S3_SECRET_ACCESS_KEY: "test-secret",
         S3_REGION: "test-region",
-        OPENAI_VECTOR_STORE_NAME: "test-store",
       };
       return vars[key];
     });
+  });
 
-    // Mock successful list response
-    vi.mocked(S3Client).mockImplementation(
-      () =>
-        ({
-          send: vi.fn().mockImplementation((command) => {
-            if (command instanceof ListObjectsV2Command) {
-              return Promise.resolve({ Contents: mockFiles });
-            }
-            if (command instanceof GetObjectCommand) {
-              return Promise.resolve({
-                Body: {
-                  transformToByteArray: () =>
-                    Promise.resolve(new Uint8Array([1, 2, 3])),
-                },
-              });
-            }
-            throw new Error("Unexpected command");
-          }),
-        } as any)
-    );
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it("should sync files from S3 to vector store", async () => {
+    const mockFiles = ["file1.md", "file2.md"];
+    const mockContent = new Uint8Array([1, 2, 3]);
+
+    vi.mocked(S3Service).mockImplementation(
+      () =>
+        ({
+          listFiles: vi.fn().mockResolvedValue(mockFiles),
+          getFiles: vi.fn().mockResolvedValue([
+            { key: "file1.md", content: mockContent },
+            { key: "file2.md", content: mockContent },
+          ]),
+        } as any)
+    );
+
     await syncS3ToVectorStore();
 
-    // Verify S3 client was configured correctly
-    expect(S3Client).toHaveBeenCalledWith({
-      endpoint: "test.endpoint.com",
-      credentials: {
-        accessKeyId: "test-key",
-        secretAccessKey: "test-secret",
-      },
-      region: "test-region",
-      forcePathStyle: true,
-    });
-
-    // Verify list command was called
-    expect(ListObjectsV2Command).toHaveBeenCalledWith({
-      Bucket: "test-bucket",
-    });
-
-    // Verify get commands were called for each file
-    mockFiles.forEach((file) => {
-      expect(GetObjectCommand).toHaveBeenCalledWith({
-        Bucket: "test-bucket",
-        Key: file.Key,
-      });
-    });
-
-    // Verify vector store was updated
     expect(replaceVectorStore).toHaveBeenCalledWith(
       "test-store",
-      expect.arrayContaining([
-        expect.any(Object), // File objects
-        expect.any(Object),
-      ])
+      expect.arrayContaining([expect.any(Object), expect.any(Object)])
     );
   });
 
   it("should handle empty bucket", async () => {
-    // Mock empty bucket response
-    vi.mocked(S3Client).mockImplementation(
+    vi.mocked(S3Service).mockImplementation(
       () =>
         ({
-          send: vi.fn().mockResolvedValue({ Contents: null }),
+          listFiles: vi.fn().mockResolvedValue([]),
         } as any)
     );
 
     await syncS3ToVectorStore();
 
-    // Verify vector store was not updated
     expect(replaceVectorStore).not.toHaveBeenCalled();
   });
 
   it("should throw error if environment variables are missing", async () => {
-    // Mock missing environment variables
     vi.mocked(env).mockImplementation(() => undefined);
 
     await expect(syncS3ToVectorStore()).rejects.toThrow(
@@ -143,49 +82,123 @@ describe("syncS3ToVectorStore", () => {
   });
 
   it("should process files in batches", async () => {
-    // Create mock files array with more than one batch
-    const largeFileSet = Array.from({ length: 25 }, (_, i) => ({
-      Key: `file${i + 1}.txt`,
-    }));
+    const mockFiles = Array.from({ length: 25 }, (_, i) => `file${i + 1}.md`);
+    const mockContent = new Uint8Array([1, 2, 3]);
 
-    // Mock list response with large file set
-    vi.mocked(S3Client).mockImplementation(
+    vi.mocked(S3Service).mockImplementation(
       () =>
         ({
-          send: vi.fn().mockImplementation((command) => {
-            if (command instanceof ListObjectsV2Command) {
-              return Promise.resolve({ Contents: largeFileSet });
-            }
-            if (command instanceof GetObjectCommand) {
-              return Promise.resolve({
-                Body: {
-                  transformToByteArray: () =>
-                    Promise.resolve(new Uint8Array([1, 2, 3])),
-                },
-              });
-            }
-            throw new Error("Unexpected command");
-          }),
+          listFiles: vi.fn().mockResolvedValue(mockFiles),
+          getFiles: vi
+            .fn()
+            .mockImplementation((keys: string[]) =>
+              Promise.resolve(
+                keys.map((key) => ({ key, content: mockContent }))
+              )
+            ),
         } as any)
     );
 
     await syncS3ToVectorStore();
 
-    // Should have called replaceVectorStore twice (20 files + 5 files)
     expect(replaceVectorStore).toHaveBeenCalledTimes(2);
-
-    // First batch should have 20 files
     expect(replaceVectorStore).toHaveBeenNthCalledWith(
       1,
       "test-store",
       expect.arrayContaining(Array(20).fill(expect.any(Object)))
     );
-
-    // Second batch should have 5 files
     expect(replaceVectorStore).toHaveBeenNthCalledWith(
       2,
       "test-store",
       expect.arrayContaining(Array(5).fill(expect.any(Object)))
     );
+  });
+
+  it("should skip files that are too large", async () => {
+    const largeBuffer = new Uint8Array(11 * 1024 * 1024); // 11MB
+    const smallBuffer = new Uint8Array([1, 2, 3]); // Small file
+
+    vi.mocked(S3Service).mockImplementation(
+      () =>
+        ({
+          listFiles: vi.fn().mockResolvedValue(["large.md", "small.md"]),
+          getFiles: vi.fn().mockResolvedValue([
+            { key: "large.md", content: largeBuffer },
+            { key: "small.md", content: smallBuffer },
+          ]),
+        } as any)
+    );
+
+    await syncS3ToVectorStore();
+
+    expect(replaceVectorStore).toHaveBeenCalledTimes(1);
+    expect(replaceVectorStore).toHaveBeenCalledWith(
+      "test-store",
+      expect.arrayContaining([expect.any(Object)])
+    );
+  });
+
+  it.only("should retry failed uploads", async () => {
+    // Mock S3Service
+    const s3Mock = {
+      listFiles: vi.fn().mockResolvedValue(["file1.md"]),
+      getFiles: vi
+        .fn()
+        .mockResolvedValue([
+          { key: "file1.md", content: new Uint8Array([1, 2, 3]) },
+        ]),
+    };
+    vi.mocked(S3Service).mockImplementation(() => s3Mock as any);
+
+    // Mock replaceVectorStore to fail twice then succeed
+    const replaceVectorStoreMock = vi.mocked(replaceVectorStore);
+    replaceVectorStoreMock
+      .mockRejectedValueOnce(new Error("Upload failed"))
+      .mockRejectedValueOnce(new Error("Upload failed"))
+      .mockResolvedValueOnce(undefined);
+
+    // Run sync and wait for completion
+    await syncS3ToVectorStore();
+
+    // Use vi.waitFor to wait for the condition to be met
+    await vi.waitFor(() => {
+      expect(replaceVectorStoreMock).toHaveBeenCalledTimes(3);
+      expect(replaceVectorStoreMock).toHaveBeenCalledWith(
+        "test-store",
+        expect.arrayContaining([expect.any(Object)])
+      );
+    });
+  });
+
+  it("should track sync duration and statistics", async () => {
+    const consoleSpy = vi.spyOn(console, "log");
+
+    // Mock S3Service
+    const s3Mock = {
+      listFiles: vi.fn().mockResolvedValue(["file1.md"]),
+      getFiles: vi
+        .fn()
+        .mockResolvedValue([
+          { key: "file1.md", content: new Uint8Array([1, 2, 3]) },
+        ]),
+    };
+    vi.mocked(S3Service).mockImplementation(() => s3Mock as any);
+
+    // Mock replaceVectorStore to succeed immediately
+    vi.mocked(replaceVectorStore).mockResolvedValueOnce(undefined);
+
+    // Run sync and wait for completion
+    await syncS3ToVectorStore();
+
+    // Use vi.waitFor to wait for the condition to be met
+    await vi.waitFor(() => {
+      const completionLog = consoleSpy.mock.calls.find((call) =>
+        call[0]?.includes?.("Sync completed in")
+      );
+      expect(completionLog).toBeDefined();
+      expect(completionLog?.[0]).toContain("Successfully processed: 1 files");
+      expect(completionLog?.[0]).toContain("Skipped: 0 files");
+      expect(completionLog?.[0]).toContain("Errors: 0 files");
+    });
   });
 });

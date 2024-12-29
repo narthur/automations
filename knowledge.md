@@ -12,8 +12,12 @@ This is an automation project built with Astro that provides various automation 
 - Telegram for messaging
 
 ## Development Guidelines
+- Use Test-Driven Development (TDD)
+  - Write tests first
+  - Run tests to see them fail
+  - Implement the feature
+  - Run tests to verify
 - Use TypeScript for all new code
-- Add tests for new functionality
 - Keep code modular and focused
 - Follow existing patterns in the codebase
 
@@ -25,11 +29,9 @@ This is an automation project built with Astro that provides various automation 
 - TaskRatchet: Task management integration
 
 ## Common Tasks
-- Running tests: `pnpm test`
+- Running tests: `pnpm verify` (runs tests, type checking, and linting)
 - Starting dev server: `pnpm dev`
 - Building: `pnpm build`
-- Checking types: `pnpm checkTs`
-- Linting: `pnpm lint`
 
 ## Project Structure
 - `/src/commands/` - Command implementations
