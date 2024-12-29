@@ -20,6 +20,9 @@ This is an automation project built with Astro that provides various automation 
 - Use TypeScript for all new code
 - Keep code modular and focused
 - Follow existing patterns in the codebase
+- Commands use Command pattern
+  - Export Command object with match and action
+  - Test the action function directly
 
 ## External Services
 - OpenAI: Used for AI assistance and chat functionality

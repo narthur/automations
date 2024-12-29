@@ -10,6 +10,7 @@ Syncs files from Backblaze B2 (using S3 compatibility) to OpenAI vector store.
 
 - **Schedule**: Daily at midnight
 - **Purpose**: Keeps OpenAI's vector store in sync with B2 storage
+- **Manual Trigger**: Use `/job sync-s3` command in Telegram
 - **Process**:
   1. Lists all files in configured B2 bucket
   2. Filters for markdown files only
