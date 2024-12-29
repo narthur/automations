@@ -1,8 +1,8 @@
 import type { AssistantStreamEvents } from "openai/lib/AssistantStream";
 
+import { addMessage } from "./addMessage.js";
 import getClient from "./getClient.js";
 import { getThread } from "./getThread.js";
-import { addMessage } from "./addMessage.js";
 
 export default async function getGptResponse(message: string): Promise<string> {
   const c = getClient();

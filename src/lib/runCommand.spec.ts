@@ -1,11 +1,11 @@
 import getGoals from "src/services/beeminder/getGoals.js";
+import { addMessage } from "src/services/openai/addMessage.js";
 import { sendMessage } from "src/services/telegram/index.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import waitForExpect from "wait-for-expect";
 
 import { getPendingTasks } from "../services/taskratchet.js";
 import runCommand from "./runCommand.js";
-import { addMessage } from "src/services/openai/addMessage.js";
 
 describe("runCommand", () => {
   beforeEach(() => {
