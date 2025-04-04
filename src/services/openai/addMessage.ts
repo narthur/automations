@@ -1,4 +1,5 @@
 import type OpenAI from "openai";
+
 import getClient from "./getClient";
 import { getThread } from "./getThread";
 

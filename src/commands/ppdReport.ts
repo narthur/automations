@@ -1,7 +1,7 @@
 import { getProjects, type Project } from "src/services/narthbugz/index.js";
+import table from "text-table";
 
 import cmd, { type Command } from "../lib/cmd.js";
-import table from "text-table";
 
 type Column = {
   key: keyof Project;
