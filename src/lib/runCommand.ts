@@ -1,4 +1,5 @@
 import ppdReport from "src/commands/ppdReport.js";
+import { addMessage } from "src/services/openai/addMessage.js";
 
 import alarm from "../commands/alarm.js";
 import beemergencies from "../commands/beemergencies.js";
@@ -15,7 +16,6 @@ import time from "../commands/time.js";
 import today from "../commands/today.js";
 import uptime from "../commands/uptime.js";
 import { type Command } from "./cmd.js";
-import { addMessage } from "src/services/openai/addMessage.js";
 
 const commands: Command[] = [
   alarm,

@@ -18,7 +18,10 @@ export function createAlarmTrigger(options: Options) {
 
   return async () => {
     const items = await options.getItems();
-    const sorted = items.sort((a: Item, b: Item) => a.timestamp - b.timestamp);
+    const now = Date.now() / 1000;
+    const sorted = items
+      .filter((i) => i.timestamp >= now)
+      .sort((a: Item, b: Item) => a.timestamp - b.timestamp);
     const next = sorted[0];
 
     if (!next) {
