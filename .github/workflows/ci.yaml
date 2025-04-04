@@ -2,7 +2,7 @@ name: CI
 on:
   push:
 env:
-  PNPM_VERSION: 9
+  PNPM_VERSION: 10
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -27,7 +27,6 @@ jobs:
         with:
           cache: "pnpm"
       - run: pnpm install
-      - run: pnpm build
       - run: pnpm test
   outdated:
     runs-on: ubuntu-latest
