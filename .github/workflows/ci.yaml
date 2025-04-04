@@ -14,10 +14,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           cache: "pnpm"
-      - name: Install dependencies
-        run: pnpm install
-      - name: Lint
-        run: pnpm run lint
+      - run: pnpm install
+      - run: pnpm run lint
   test:
     runs-on: ubuntu-latest
     steps:
@@ -28,10 +26,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           cache: "pnpm"
-      - name: Install dependencies
-        run: pnpm install
-      - name: Test
-        run: pnpm run test
+      - run: pnpm install
+      - run: pnpm build
+      - run: pnpm test
   outdated:
     runs-on: ubuntu-latest
     steps:
@@ -42,7 +39,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           cache: "pnpm"
-      - name: Install dependencies
-        run: pnpm install
-      - name: Outdated
-        run: pnpm outdated
+      - run: pnpm install
+      - run: pnpm outdated
