@@ -9,7 +9,7 @@
     "checkTs": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "checkAll": "vitest run && pnpm checkTs && pnpm lint",
+    "verify": "vitest run && pnpm checkTs && pnpm lint",
     "dev": "export $(cat .env) && astro dev",
     "start": "tsx run-server.mjs",
     "build": "astro check && astro build",
@@ -29,6 +29,7 @@
   "dependencies": {
     "@astrojs/check": "^0.5.5",
     "@astrojs/node": "^8.2.0",
+    "@aws-sdk/client-s3": "^3.717.0",
     "@graphql-tools/merge": "^9.0.2",
     "@graphql-tools/schema": "^10.0.2",
     "@notionhq/client": "^2.2.14",

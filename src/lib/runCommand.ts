@@ -1,3 +1,4 @@
+import job from "src/commands/job.js";
 import ppdReport from "src/commands/ppdReport.js";
 import { addMessage } from "src/services/openai/addMessage.js";
 
@@ -24,6 +25,7 @@ const commands: Command[] = [
   date,
   foo,
   help,
+  job,
   memory,
   ppdReport,
   reset,
