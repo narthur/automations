@@ -9,7 +9,7 @@ const ONE_DAY = 24 * 60 * 60 * 1000;
 function getClient() {
   if (!client) {
     client = axios.create({
-      baseURL: "https://api.taskratchet.com/api1",
+      baseURL: "https://api.taskratchet.com/api2",
     });
 
     client.defaults.headers.common["X-Taskratchet-Userid"] = env(
@@ -24,14 +24,14 @@ function getClient() {
 }
 
 type Task = {
+  status: "complete" | "pending" | "expired";
   id: string;
   task: string;
-  due: string;
-  due_timestamp: number;
+  due: number;
   cents: number;
   complete: boolean;
-  status: "complete" | "expired" | "pending";
-  timezone: string;
+  chargeStatus?: "notified" | "authorized" | "captured" | undefined;
+  contested?: boolean | undefined;
 };
 
 export function getTasks(): Promise<Task[]> {
@@ -46,7 +46,7 @@ export function getPendingTasks(): Promise<Task[]> {
 
 export function getDueTasks() {
   return getPendingTasks().then((r) =>
-    r.filter((t) => t.due_timestamp * 1000 < Date.now() + ONE_DAY)
+    r.filter((t) => t.due * 1000 < Date.now() + ONE_DAY)
   );
 }
 
