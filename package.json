@@ -14,7 +14,8 @@
     "start": "tsx run-server.mjs",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "knip": "knip"
   },
   "repository": {
     "type": "git",
@@ -53,7 +54,6 @@
     "telegramify-markdown": "^1.1.0",
     "text-table": "^0.2.0",
     "tsx": "^4.7.1",
-    "typescript": "^5.5.4",
     "vite": "^5.1.4",
     "zod": "^3.23.8",
     "zod-to-json-schema": "^3.22.4"
@@ -70,6 +70,8 @@
     "eslint-plugin-check-file": "^2.7.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-simple-import-sort": "^12.0.0",
+    "knip": "^5.63.1",
+    "typescript": "^5.5.4",
     "vitest": "^2.0.5",
     "wait-for-expect": "^3.0.2",
     "zod-fixture": "^2.5.1"
