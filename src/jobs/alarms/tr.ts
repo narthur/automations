@@ -8,7 +8,7 @@ export const send = createAlarmTrigger({
     const tasks = await getPendingTasks();
     return tasks.map((t) => ({
       name: t.task,
-      timestamp: t.due_timestamp,
+      timestamp: t.due,
     }));
   },
 });

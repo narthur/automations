@@ -11,7 +11,7 @@ describe("tr", () => {
     vi.setSystemTime(0);
     vi.mocked(getPendingTasks).mockResolvedValue([
       {
-        due_timestamp: 0,
+        due: 0,
       },
     ] as any);
   });
@@ -39,7 +39,7 @@ describe("tr", () => {
   it("does not send notification if not due", async () => {
     vi.mocked(getPendingTasks).mockResolvedValue([
       {
-        due_timestamp: 600,
+        due: 600,
       },
     ] as any);
 
@@ -52,11 +52,11 @@ describe("tr", () => {
     vi.mocked(getPendingTasks).mockResolvedValue([
       {
         task: "later",
-        due_timestamp: 1,
+        due: 1,
       },
       {
         task: "sooner",
-        due_timestamp: 0,
+        due: 0,
       },
     ] as any);
 
@@ -73,7 +73,7 @@ describe("tr", () => {
     vi.mocked(getPendingTasks).mockResolvedValue([
       {
         task: "sooner",
-        due_timestamp: 0,
+        due: 0,
       },
     ] as any);
 
@@ -115,7 +115,7 @@ describe("tr", () => {
   it("does not send notifications if not due today", async () => {
     vi.mocked(getPendingTasks).mockResolvedValue([
       {
-        due_timestamp: 60 * 2 ** 27,
+        due: 60 * 2 ** 27,
       },
     ] as any);
 
