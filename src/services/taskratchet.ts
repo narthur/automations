@@ -49,20 +49,3 @@ export function getDueTasks() {
     r.filter((t) => t.due * 1000 < Date.now() + ONE_DAY)
   );
 }
-
-/**
- * Create a TaskRatchet task.
- * Docs: https://taskratchet.com/help/api.html#schema
- *
- * @param task - Task title
- * @param due - Due date and time in string of format 3/25/2020, 11:59 PM
- * @param cents - Stakes in cents
- * @returns Task
- */
-export function createTask(task: string, due: string, cents: number) {
-  return getClient().post<Task>("/me/tasks", {
-    task,
-    due,
-    cents,
-  });
-}
