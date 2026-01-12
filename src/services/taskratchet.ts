@@ -12,12 +12,10 @@ function getClient() {
       baseURL: "https://api.taskratchet.com/api2",
     });
 
-    client.defaults.headers.common["X-Taskratchet-Userid"] = env(
-      "TASKRATCHET_USER_ID"
-    );
-    client.defaults.headers.common["X-Taskratchet-Token"] = env(
-      "TASKRATCHET_API_TOKEN"
-    );
+    const apiToken = env("TASKRATCHET_API_TOKEN");
+    if (apiToken) {
+      client.defaults.headers.common["Authorization"] = `ApiKey-v2 ${apiToken}`;
+    }
   }
 
   return client;
